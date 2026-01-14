@@ -153,6 +153,194 @@
       100% { transform: translate(80px, 80px); }
     }
 
+    /* Aurora Background Animation */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .aurora-wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(244, 114, 182, 0.15) 20%,
+        rgba(168, 85, 247, 0.1) 40%,
+        transparent 60%,
+        rgba(236, 72, 153, 0.12) 80%,
+        transparent 100%
+      );
+      animation: auroraFlow 15s ease-in-out infinite;
+    }
+    .aurora-wave:nth-child(2) {
+      animation-delay: -5s;
+      animation-duration: 18s;
+      opacity: 0.7;
+    }
+    .aurora-wave:nth-child(3) {
+      animation-delay: -10s;
+      animation-duration: 22s;
+      opacity: 0.5;
+    }
+    @keyframes auroraFlow {
+      0%, 100% { transform: translate(-25%, -25%) rotate(0deg); }
+      33% { transform: translate(-15%, -35%) rotate(5deg); }
+      66% { transform: translate(-35%, -15%) rotate(-5deg); }
+    }
+
+    /* Floating Decorative Elements */
+    .floating-decor {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
+      font-size: 24px;
+    }
+    @keyframes floatDecor1 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(20px, -30px) rotate(10deg); }
+      50% { transform: translate(-10px, -50px) rotate(-5deg); }
+      75% { transform: translate(15px, -20px) rotate(15deg); }
+    }
+    @keyframes floatDecor2 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-30px, 20px) rotate(-15deg); }
+      66% { transform: translate(20px, 40px) rotate(10deg); }
+    }
+    @keyframes floatDecor3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.2); }
+    }
+
+    /* Text Shimmer Animation */
+    .shimmer-text {
+      background: linear-gradient(
+        90deg,
+        var(--pink-600) 0%,
+        var(--pink-400) 25%,
+        var(--pink-200) 50%,
+        var(--pink-400) 75%,
+        var(--pink-600) 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmerText 3s ease-in-out infinite;
+    }
+    @keyframes shimmerText {
+      0% { background-position: 100% 50%; }
+      100% { background-position: -100% 50%; }
+    }
+
+    /* Animated Gradient Border */
+    .gradient-border {
+      position: relative;
+      background: transparent;
+    }
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(
+        var(--border-angle, 0deg),
+        var(--pink-400),
+        var(--pink-200),
+        rgba(168, 85, 247, 0.5),
+        var(--pink-300),
+        var(--pink-500)
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: rotateBorder 4s linear infinite;
+    }
+    @keyframes rotateBorder {
+      0% { --border-angle: 0deg; }
+      100% { --border-angle: 360deg; }
+    }
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* Morphing Blob */
+    .morph-blob {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(168, 85, 247, 0.15));
+      filter: blur(60px);
+      z-index: -3;
+      animation: morphBlob 20s ease-in-out infinite;
+    }
+    @keyframes morphBlob {
+      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0, 0) rotate(0deg); }
+      25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translate(20px, -30px) rotate(5deg); }
+      50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; transform: translate(-20px, 20px) rotate(-5deg); }
+      75% { border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%; transform: translate(10px, 10px) rotate(3deg); }
+    }
+
+    /* Breathing Glow Effect */
+    .breathing-glow {
+      animation: breathingGlow 4s ease-in-out infinite;
+    }
+    @keyframes breathingGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px var(--theme-glow), 0 10px 40px rgba(131,24,67,0.1);
+      }
+      50% {
+        box-shadow: 0 0 40px var(--theme-glow), 0 0 60px var(--theme-glow), 0 15px 50px rgba(131,24,67,0.15);
+      }
+    }
+
+    /* Pulsing Ring */
+    .pulse-ring {
+      position: relative;
+    }
+    .pulse-ring::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      border: 2px solid var(--pink-300);
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+
+    /* Wave Underline */
+    .wave-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .wave-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink-400), var(--pink-500), var(--pink-400));
+      border-radius: 2px;
+      animation: waveUnderline 2s ease-in-out infinite;
+    }
+    @keyframes waveUnderline {
+      0%, 100% { transform: scaleX(1) translateX(0); }
+      50% { transform: scaleX(1.1) translateX(2px); }
+    }
+
     .orb {
       position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1;
       animation: orb 25s ease-in-out infinite;
@@ -474,12 +662,24 @@
   </style>
 </head>
 <body>
+  <div class="aurora">
+    <div class="aurora-wave"></div>
+    <div class="aurora-wave"></div>
+    <div class="aurora-wave"></div>
+  </div>
   <div class="bg-mesh"></div>
   <div class="pattern"></div>
+  <div class="morph-blob" style="top: 20%; left: -5%;"></div>
+  <div class="morph-blob" style="bottom: 10%; right: -10%; animation-delay: -10s;"></div>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
   <div class="particles" id="particles"></div>
+  <div class="floating-decor" style="top: 15%; left: 10%; animation: floatDecor1 12s ease-in-out infinite;">☪</div>
+  <div class="floating-decor" style="top: 25%; right: 15%; animation: floatDecor2 15s ease-in-out infinite;">✦</div>
+  <div class="floating-decor" style="bottom: 30%; left: 8%; animation: floatDecor3 10s ease-in-out infinite;">❋</div>
+  <div class="floating-decor" style="top: 60%; right: 5%; animation: floatDecor1 14s ease-in-out infinite; animation-delay: -5s;">✧</div>
+  <div class="floating-decor" style="bottom: 45%; left: 20%; animation: floatDecor2 18s ease-in-out infinite; animation-delay: -8s;">☆</div>
   <div id="root"></div>
 
   <script type="text/babel">
@@ -914,19 +1114,19 @@
             <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span style={{ fontSize: 20 }}>{gr.icon}</span>
-                  <p style={{ color: 'var(--pink-400)', fontSize: 14, fontWeight: 500, margin: 0 }}>{gr.en}</p>
+                  <span style={{ fontSize: 20 }} className="a-pulse">{gr.icon}</span>
+                  <p className="shimmer-text" style={{ fontSize: 14, fontWeight: 600, margin: 0 }}>{gr.en}</p>
                 </div>
-                <h1 className="font-d tg" style={{ fontSize: 28, margin: '4px 0' }}>{state.name || 'Sister'}</h1>
+                <h1 className="font-d wave-underline" style={{ fontSize: 28, margin: '4px 0', background: 'linear-gradient(135deg, var(--pink-600), var(--pink-800))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{state.name || 'Sister'}</h1>
                 <p className="font-ar" style={{ color: 'var(--pink-400)', fontSize: 20, margin: 0 }}>{gr.ar}</p>
               </div>
-              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass shadow-c" style={{ color: 'var(--pink-400)' }}>{I.eye}</RippleButton>
+              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass shadow-c pulse-ring" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
             </div>
 
-            <TiltCard ref={heroRef} className="glass-p shadow-glow a-slide d1" style={{ borderRadius: 28, padding: 28, marginBottom: 24 }}>
+            <TiltCard ref={heroRef} className="glass-p breathing-glow gradient-border a-slide d1" style={{ borderRadius: 28, padding: 28, marginBottom: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <span style={{ fontSize: 26 }} className="a-pulse">{daily.icon}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink-500)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today's Reflection</span>
+                <span style={{ fontSize: 26 }} className="a-bounce">{daily.icon}</span>
+                <span className="shimmer-text" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today's Reflection</span>
               </div>
               <p className="font-ar" style={{ fontSize: 26, color: 'var(--pink-800)', marginBottom: 16 }}>{daily.ar}</p>
               <p style={{ color: 'var(--pink-700)', fontStyle: 'italic', lineHeight: 1.7, marginBottom: 12 }}>"{daily.text}"</p>
@@ -958,8 +1158,13 @@
               </RippleButton>
             ))}
 
-            <div className="a-fade d6" style={{ textAlign: 'center', marginTop: 36 }}>
-              <p className="font-ar a-float" style={{ fontSize: 28, color: 'var(--pink-300)' }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <div className="a-fade d6" style={{ textAlign: 'center', marginTop: 36, position: 'relative' }}>
+              <p className="font-ar a-float shimmer-text" style={{ fontSize: 28 }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+              <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: -20, display: 'flex', gap: 8, opacity: 0.4 }}>
+                <span className="a-pulse" style={{ animationDelay: '0s' }}>✦</span>
+                <span className="a-pulse" style={{ animationDelay: '0.3s' }}>❋</span>
+                <span className="a-pulse" style={{ animationDelay: '0.6s' }}>✦</span>
+              </div>
             </div>
           </div>
         </div>
