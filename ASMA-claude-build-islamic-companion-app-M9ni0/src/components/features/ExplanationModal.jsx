@@ -52,7 +52,7 @@ Keep it conversational and supportive, like an older sister explaining over tea.
       <div className="p-5">
         {loading ? (
           <div className="flex flex-col items-center py-8">
-            <div className="w-10 h-10 border-2 border-neutral-200 dark:border-neutral-600 border-t-emerald-600 dark:border-t-emerald-400 rounded-full animate-spin mb-4" />
+            <div className="w-10 h-10 border-2 border-neutral-200 dark:border-neutral-600 border-t-pink-600 dark:border-t-pink-400 rounded-full animate-spin mb-4" />
             <p className="text-neutral-400 dark:text-neutral-500 text-sm">
               Preparing a thoughtful response...
             </p>

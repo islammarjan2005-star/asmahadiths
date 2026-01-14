@@ -33,8 +33,8 @@ export function Modal({ isOpen, onClose, title, subtitle, icon: Icon, children }
         <div className="sticky top-0 z-10 p-5 border-b border-neutral-100 dark:border-neutral-700 flex items-center justify-between bg-white dark:bg-neutral-800">
           <div className="flex items-center gap-3">
             {Icon && (
-              <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/50 rounded-xl flex items-center justify-center">
-                <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <div className="w-10 h-10 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center">
+                <Icon className="w-5 h-5 text-pink-600 dark:text-pink-400" />
               </div>
             )}
             <div>

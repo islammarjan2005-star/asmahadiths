@@ -82,7 +82,7 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
             {results.hadith.length > 0 && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <BookOpen className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                   <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
                     Hadith ({results.hadith.length})
                   </p>

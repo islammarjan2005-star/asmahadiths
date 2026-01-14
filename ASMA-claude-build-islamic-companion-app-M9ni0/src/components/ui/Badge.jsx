@@ -3,7 +3,7 @@ import React from 'react';
 export function Badge({ children, variant = 'default', icon: Icon }) {
   const variants = {
     default: 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300',
-    emerald: 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300',
+    pink: 'bg-pink-50 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300',
     amber: 'bg-amber-50 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300',
     rose: 'bg-rose-50 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300',
     violet: 'bg-violet-50 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300',

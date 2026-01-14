@@ -116,7 +116,7 @@ export function HomeScreen({
 
         {/* Daily Hadith */}
         <Card className="p-5 mb-6">
-          <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wide mb-3">
+          <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase tracking-wide mb-3">
             Today's Reflection
           </p>
           <p className="text-neutral-600 dark:text-neutral-300 italic leading-relaxed mb-3">
@@ -128,8 +128,8 @@ export function HomeScreen({
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <Card className="p-4" onClick={onAskSafely}>
-            <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/50 rounded-xl flex items-center justify-center mb-3">
-              <Lock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <div className="w-10 h-10 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center mb-3">
+              <Lock className="w-5 h-5 text-pink-600 dark:text-pink-400" />
             </div>
             <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-sm">
               Ask Safely

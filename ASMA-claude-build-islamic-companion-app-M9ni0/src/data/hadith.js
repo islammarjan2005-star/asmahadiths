@@ -340,5 +340,5 @@ export const topics = [
   { id: 'divorce', name: 'Divorce & Rights', icon: 'Scale', description: 'Permission to leave', color: 'orange' },
   { id: 'grief', name: 'Grief & Loss', icon: 'CloudRain', description: 'Feel without guilt', color: 'sky' },
   { id: 'motherhood', name: 'Motherhood', icon: 'Heart', description: 'Honor without burden', color: 'pink' },
-  { id: 'dignity', name: 'Modesty & Dignity', icon: 'Shield', description: 'Inner strength', color: 'emerald' },
+  { id: 'dignity', name: 'Modesty & Dignity', icon: 'Shield', description: 'Inner strength', color: 'pink' },
 ];

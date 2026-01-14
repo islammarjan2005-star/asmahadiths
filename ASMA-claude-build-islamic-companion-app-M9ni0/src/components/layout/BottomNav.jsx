@@ -23,7 +23,7 @@ export function BottomNav({ activeTab, onTabChange }) {
               onClick={() => onTabChange(item.id)}
               className={`flex flex-col items-center py-2 px-4 transition-colors ${
                 isActive
-                  ? 'text-emerald-600 dark:text-emerald-400'
+                  ? 'text-pink-600 dark:text-pink-400'
                   : 'text-neutral-400 dark:text-neutral-500'
               }`}
             >

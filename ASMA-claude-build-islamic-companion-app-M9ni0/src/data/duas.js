@@ -214,7 +214,7 @@ export const duaCategories = [
   { id: 'morning', name: 'Morning Adhkar', icon: 'Sun', color: 'amber' },
   { id: 'evening', name: 'Evening Adhkar', icon: 'Moon', color: 'indigo' },
   { id: 'anxiety', name: 'Anxiety & Stress', icon: 'Heart', color: 'rose' },
-  { id: 'guidance', name: 'Guidance', icon: 'Compass', color: 'emerald' },
+  { id: 'guidance', name: 'Guidance', icon: 'Compass', color: 'pink' },
   { id: 'protection', name: 'Protection', icon: 'Shield', color: 'blue' },
   { id: 'gratitude', name: 'Gratitude', icon: 'Sparkles', color: 'yellow' },
   { id: 'forgiveness', name: 'Forgiveness', icon: 'RefreshCw', color: 'violet' },

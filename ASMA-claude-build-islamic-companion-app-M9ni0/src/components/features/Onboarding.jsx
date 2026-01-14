@@ -29,8 +29,8 @@ export function Onboarding({ onComplete }) {
       <div className="w-full max-w-sm animate-fade-in">
         {step === 0 ? (
           <div className="text-center">
-            <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-emerald-50 dark:bg-emerald-900/50 flex items-center justify-center">
-              <Feather className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
+            <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-pink-50 dark:bg-pink-900/50 flex items-center justify-center">
+              <Feather className="w-8 h-8 text-pink-700 dark:text-pink-400" />
             </div>
             <h1 className="text-3xl font-light text-neutral-800 dark:text-neutral-100 mb-2 tracking-tight">
               {currentStep.title}
@@ -52,7 +52,7 @@ export function Onboarding({ onComplete }) {
                   className="flex items-start gap-4 p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 animate-slide-up"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
-                  <point.icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <point.icon className="w-5 h-5 text-pink-600 dark:text-pink-400 flex-shrink-0 mt-0.5" />
                   <p className="text-neutral-600 dark:text-neutral-300">{point.text}</p>
                 </div>
               ))}
@@ -73,7 +73,7 @@ export function Onboarding({ onComplete }) {
               key={i}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === step
-                  ? 'w-8 bg-emerald-600'
+                  ? 'w-8 bg-pink-600'
                   : 'w-1.5 bg-neutral-300 dark:bg-neutral-600'
               }`}
             />

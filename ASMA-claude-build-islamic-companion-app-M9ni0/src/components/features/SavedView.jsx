@@ -57,7 +57,7 @@ export function SavedView({ onBack, onSelectHadith }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-neutral-800 dark:bg-emerald-600 text-white'
+                    ? 'bg-neutral-800 dark:bg-pink-600 text-white'
                     : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
                 }`}
               >
@@ -80,7 +80,7 @@ export function SavedView({ onBack, onSelectHadith }) {
               savedHadithItems.map((h) => (
                 <Card key={h.id} className="p-4" onClick={() => onSelectHadith(h)}>
                   <Badge
-                    variant={h.authenticity === 'Sahih' ? 'emerald' : 'amber'}
+                    variant={h.authenticity === 'Sahih' ? 'pink' : 'amber'}
                     className="mb-2"
                   >
                     {h.authenticity}

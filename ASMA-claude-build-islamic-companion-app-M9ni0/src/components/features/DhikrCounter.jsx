@@ -77,7 +77,7 @@ export function DhikrCounter({ onBack }) {
                     onClick={() => dispatch({ type: 'SET_DHIKR_GOAL', payload: goal })}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       state.dhikrGoal === goal
-                        ? 'bg-emerald-600 text-white'
+                        ? 'bg-pink-600 text-white'
                         : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
                     }`}
                   >
@@ -97,7 +97,7 @@ export function DhikrCounter({ onBack }) {
                     onClick={() => setSelectedDhikr(dhikr)}
                     className={`w-full p-3 rounded-xl text-left transition-colors ${
                       selectedDhikr.name === dhikr.name
-                        ? 'bg-emerald-50 dark:bg-emerald-900/30 border-2 border-emerald-500'
+                        ? 'bg-pink-50 dark:bg-pink-900/30 border-2 border-pink-500'
                         : 'bg-neutral-50 dark:bg-neutral-800 border-2 border-transparent'
                     }`}
                   >
@@ -118,7 +118,7 @@ export function DhikrCounter({ onBack }) {
         {/* Completion Animation */}
         {showComplete && (
           <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center animate-pulse">
+            <div className="w-24 h-24 bg-pink-500 rounded-full flex items-center justify-center animate-pulse">
               <Check className="w-12 h-12 text-white" />
             </div>
           </div>
@@ -156,7 +156,7 @@ export function DhikrCounter({ onBack }) {
               strokeLinecap="round"
               strokeDasharray={2 * Math.PI * 100}
               strokeDashoffset={2 * Math.PI * 100 * (1 - progress / 100)}
-              className="text-emerald-500 transition-all duration-200"
+              className="text-pink-500 transition-all duration-200"
             />
           </svg>
 
@@ -190,9 +190,9 @@ export function DhikrCounter({ onBack }) {
               {state.dhikrHistory.slice(-10).map((entry, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center"
                 >
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <Check className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                 </div>
               ))}
             </div>

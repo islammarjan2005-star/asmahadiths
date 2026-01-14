@@ -72,7 +72,7 @@ export function Journal({ onBack }) {
                   onClick={() => setSelectedPrompt(prompt)}
                   className={`px-3 py-1.5 rounded-full text-xs transition-colors ${
                     selectedPrompt === prompt
-                      ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'
+                      ? 'bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300'
                       : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
                   }`}
                 >
@@ -84,8 +84,8 @@ export function Journal({ onBack }) {
 
           {/* Selected Prompt Display */}
           {selectedPrompt && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl mb-4">
-              <p className="text-sm text-emerald-700 dark:text-emerald-300 italic">
+            <div className="p-3 bg-pink-50 dark:bg-pink-900/30 rounded-xl mb-4">
+              <p className="text-sm text-pink-700 dark:text-pink-300 italic">
                 {selectedPrompt}
               </p>
             </div>
@@ -164,7 +164,7 @@ export function Journal({ onBack }) {
                   </button>
                 </div>
                 {entry.prompt && (
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400 italic mb-2">
+                  <p className="text-xs text-pink-600 dark:text-pink-400 italic mb-2">
                     {entry.prompt}
                   </p>
                 )}

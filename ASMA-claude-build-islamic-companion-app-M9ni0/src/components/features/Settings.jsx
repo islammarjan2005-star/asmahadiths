@@ -57,7 +57,7 @@ export function Settings({ onBack }) {
               <button
                 onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
                 className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                  state.darkMode ? 'bg-emerald-600' : 'bg-neutral-200 dark:bg-neutral-600'
+                  state.darkMode ? 'bg-pink-600' : 'bg-neutral-200 dark:bg-neutral-600'
                 }`}
               >
                 <div
@@ -84,7 +84,7 @@ export function Settings({ onBack }) {
               <button
                 onClick={() => dispatch({ type: 'TOGGLE_NOTIFICATIONS' })}
                 className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                  state.notifications ? 'bg-emerald-600' : 'bg-neutral-200 dark:bg-neutral-600'
+                  state.notifications ? 'bg-pink-600' : 'bg-neutral-200 dark:bg-neutral-600'
                 }`}
               >
                 <div
@@ -102,7 +102,7 @@ export function Settings({ onBack }) {
               <button
                 onClick={() => dispatch({ type: 'TOGGLE_HAPTIC' })}
                 className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                  state.hapticFeedback ? 'bg-emerald-600' : 'bg-neutral-200 dark:bg-neutral-600'
+                  state.hapticFeedback ? 'bg-pink-600' : 'bg-neutral-200 dark:bg-neutral-600'
                 }`}
               >
                 <div
@@ -179,8 +179,8 @@ export function Settings({ onBack }) {
 
         {/* About */}
         <Card className="p-5 text-center">
-          <div className="w-12 h-12 mx-auto bg-emerald-50 dark:bg-emerald-900/50 rounded-full flex items-center justify-center mb-3">
-            <Heart className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+          <div className="w-12 h-12 mx-auto bg-pink-50 dark:bg-pink-900/50 rounded-full flex items-center justify-center mb-3">
+            <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
           </div>
           <h3 className="font-medium text-neutral-800 dark:text-neutral-100 mb-1">Asma</h3>
           <p className="text-sm text-neutral-400 mb-3">Version 1.0.0</p>

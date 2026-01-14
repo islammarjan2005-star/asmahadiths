@@ -17,7 +17,7 @@ export function Input({
     rounded-xl text-sm
     text-neutral-800 dark:text-neutral-100
     placeholder:text-neutral-400 dark:placeholder:text-neutral-500
-    focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400
+    focus:outline-none focus:border-pink-500 dark:focus:border-pink-400
     transition-colors
   `;
 

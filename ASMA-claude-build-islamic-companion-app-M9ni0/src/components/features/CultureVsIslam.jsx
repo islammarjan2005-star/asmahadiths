@@ -98,11 +98,11 @@ export function CultureVsIslam({ onBack }) {
               {expanded === item.id && (
                 <div className="px-4 pb-4 border-t border-neutral-100 dark:border-neutral-700 pt-4 animate-fade-in">
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-6 h-6 bg-emerald-50 dark:bg-emerald-900/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <CheckCircle className="w-3 h-3 text-emerald-500" />
+                    <div className="w-6 h-6 bg-pink-50 dark:bg-pink-900/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <CheckCircle className="w-3 h-3 text-pink-500" />
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mb-1">
+                      <p className="text-xs font-medium text-pink-600 dark:text-pink-400 mb-1">
                         What Islam Says
                       </p>
                       <p className="text-neutral-600 dark:text-neutral-300 text-sm">

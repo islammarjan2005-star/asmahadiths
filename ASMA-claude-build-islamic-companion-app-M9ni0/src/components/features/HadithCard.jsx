@@ -42,7 +42,7 @@ export function HadithCard({ hadith, onExplain }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <Badge
-            variant={hadith.authenticity === 'Sahih' ? 'emerald' : 'amber'}
+            variant={hadith.authenticity === 'Sahih' ? 'pink' : 'amber'}
             icon={CheckCircle}
           >
             {hadith.authenticity}
@@ -52,7 +52,7 @@ export function HadithCard({ hadith, onExplain }) {
               onClick={() => setPlaying(!playing)}
               className={`p-2 rounded-lg transition-colors ${
                 playing
-                  ? 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400'
+                  ? 'bg-pink-50 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400'
                   : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
               }`}
             >
@@ -62,7 +62,7 @@ export function HadithCard({ hadith, onExplain }) {
               onClick={handleSave}
               className={`p-2 rounded-lg transition-colors ${
                 isSaved
-                  ? 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400'
+                  ? 'bg-pink-50 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400'
                   : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
               }`}
             >
@@ -128,8 +128,8 @@ export function HadithCard({ hadith, onExplain }) {
             </div>
 
             {/* What This Means */}
-            <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
-              <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wide mb-2 flex items-center gap-1">
+            <div className="p-4 bg-pink-50 dark:bg-pink-900/30 rounded-xl">
+              <p className="text-xs font-medium text-pink-700 dark:text-pink-400 uppercase tracking-wide mb-2 flex items-center gap-1">
                 <CheckCircle className="w-3 h-3" /> What This Means
               </p>
               <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">

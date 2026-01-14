@@ -11,13 +11,13 @@ export function Button({
 }) {
   const variants = {
     primary:
-      'bg-neutral-800 dark:bg-emerald-600 text-white active:bg-neutral-700 dark:active:bg-emerald-700',
+      'bg-neutral-800 dark:bg-pink-600 text-white active:bg-neutral-700 dark:active:bg-pink-700',
     secondary:
       'bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 active:bg-neutral-200 dark:active:bg-neutral-600',
     ghost:
       'bg-transparent text-neutral-600 dark:text-neutral-300 active:bg-neutral-100 dark:active:bg-neutral-700',
-    emerald:
-      'bg-emerald-600 text-white active:bg-emerald-700',
+    pink:
+      'bg-pink-600 text-white active:bg-pink-700',
     danger:
       'bg-rose-600 text-white active:bg-rose-700',
   };

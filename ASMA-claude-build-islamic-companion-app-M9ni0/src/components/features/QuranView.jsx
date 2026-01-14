@@ -49,7 +49,7 @@ export function QuranView({ onBack }) {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               !selectedCategory
-                ? 'bg-emerald-600 text-white'
+                ? 'bg-pink-600 text-white'
                 : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
             }`}
           >
@@ -61,7 +61,7 @@ export function QuranView({ onBack }) {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-emerald-600 text-white'
+                  ? 'bg-pink-600 text-white'
                   : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
               }`}
             >

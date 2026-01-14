@@ -141,8 +141,8 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
 
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/50 rounded-xl flex items-center justify-center">
-              <Lock className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <div className="w-12 h-12 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center">
+              <Lock className="w-6 h-6 text-pink-600 dark:text-pink-400" />
             </div>
             <div>
               <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
@@ -184,7 +184,7 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
             <div
               className={`max-w-[85%] p-4 rounded-2xl ${
                 msg.role === 'user'
-                  ? 'bg-neutral-800 dark:bg-emerald-600 text-white rounded-br-md'
+                  ? 'bg-neutral-800 dark:bg-pink-600 text-white rounded-br-md'
                   : 'bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-bl-md'
               }`}
             >
@@ -205,13 +205,13 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
           <div className="mb-4">
             <div className="max-w-[85%] p-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl rounded-bl-md">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-pink-500 rounded-full animate-pulse" />
                 <div
-                  className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
+                  className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"
                   style={{ animationDelay: '0.2s' }}
                 />
                 <div
-                  className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
+                  className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"
                   style={{ animationDelay: '0.4s' }}
                 />
               </div>

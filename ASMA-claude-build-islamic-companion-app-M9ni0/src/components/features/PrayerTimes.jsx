@@ -74,15 +74,15 @@ export function PrayerTimes({ onBack }) {
 
         {/* Next Prayer Highlight */}
         {nextPrayer && (
-          <Card variant="emerald" className="p-5 mb-6">
-            <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wide mb-1">
+          <Card variant="pink" className="p-5 mb-6">
+            <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase tracking-wide mb-1">
               Next Prayer
             </p>
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-medium text-neutral-800 dark:text-neutral-100">
                 {nextPrayer.name}
               </h2>
-              <p className="text-2xl font-light text-emerald-600 dark:text-emerald-400">
+              <p className="text-2xl font-light text-pink-600 dark:text-pink-400">
                 {nextPrayer.time}
               </p>
             </div>
@@ -92,14 +92,14 @@ export function PrayerTimes({ onBack }) {
         {/* Prayer Times List */}
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="w-8 h-8 border-2 border-neutral-200 dark:border-neutral-600 border-t-emerald-600 rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-neutral-200 dark:border-neutral-600 border-t-pink-600 rounded-full animate-spin" />
           </div>
         ) : error ? (
           <Card className="p-6 text-center">
             <p className="text-neutral-500 dark:text-neutral-400">{error}</p>
             <button
               onClick={refresh}
-              className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm font-medium"
+              className="mt-4 text-pink-600 dark:text-pink-400 text-sm font-medium"
             >
               Try Again
             </button>
@@ -113,7 +113,7 @@ export function PrayerTimes({ onBack }) {
                   key={prayer.key}
                   className={`p-4 ${
                     prayer.isNext
-                      ? 'ring-2 ring-emerald-500 dark:ring-emerald-400'
+                      ? 'ring-2 ring-pink-500 dark:ring-pink-400'
                       : ''
                   }`}
                 >
@@ -122,14 +122,14 @@ export function PrayerTimes({ onBack }) {
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                           prayer.isNext
-                            ? 'bg-emerald-100 dark:bg-emerald-900/50'
+                            ? 'bg-pink-100 dark:bg-pink-900/50'
                             : 'bg-neutral-100 dark:bg-neutral-700'
                         }`}
                       >
                         <Icon
                           className={`w-5 h-5 ${
                             prayer.isNext
-                              ? 'text-emerald-600 dark:text-emerald-400'
+                              ? 'text-pink-600 dark:text-pink-400'
                               : 'text-neutral-500 dark:text-neutral-400'
                           }`}
                         />
@@ -137,7 +137,7 @@ export function PrayerTimes({ onBack }) {
                       <span
                         className={`font-medium ${
                           prayer.isNext
-                            ? 'text-emerald-600 dark:text-emerald-400'
+                            ? 'text-pink-600 dark:text-pink-400'
                             : 'text-neutral-700 dark:text-neutral-200'
                         }`}
                       >
@@ -147,7 +147,7 @@ export function PrayerTimes({ onBack }) {
                     <span
                       className={`text-lg ${
                         prayer.isNext
-                          ? 'font-medium text-emerald-600 dark:text-emerald-400'
+                          ? 'font-medium text-pink-600 dark:text-pink-400'
                           : 'text-neutral-600 dark:text-neutral-300'
                       }`}
                     >
