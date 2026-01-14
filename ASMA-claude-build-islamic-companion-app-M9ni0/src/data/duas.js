@@ -212,12 +212,12 @@ export const duasDatabase = [
 
 export const duaCategories = [
   { id: 'morning', name: 'Morning Adhkar', icon: 'Sun', color: 'amber' },
-  { id: 'evening', name: 'Evening Adhkar', icon: 'Moon', color: 'indigo' },
+  { id: 'evening', name: 'Evening Adhkar', icon: 'Moon', color: 'pink' },
   { id: 'anxiety', name: 'Anxiety & Stress', icon: 'Heart', color: 'rose' },
   { id: 'guidance', name: 'Guidance', icon: 'Compass', color: 'pink' },
   { id: 'protection', name: 'Protection', icon: 'Shield', color: 'blue' },
-  { id: 'gratitude', name: 'Gratitude', icon: 'Sparkles', color: 'yellow' },
-  { id: 'forgiveness', name: 'Forgiveness', icon: 'RefreshCw', color: 'violet' },
+  { id: 'gratitude', name: 'Gratitude', icon: 'Sparkles', color: 'amber' },
+  { id: 'forgiveness', name: 'Forgiveness', icon: 'RefreshCw', color: 'pink' },
   { id: 'hardship', name: 'Hardship', icon: 'CloudRain', color: 'slate' },
   { id: 'relationships', name: 'Relationships', icon: 'Users', color: 'pink' },
 ];

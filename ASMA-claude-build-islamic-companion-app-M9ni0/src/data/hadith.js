@@ -334,7 +334,7 @@ export const hadithDatabase = [
 
 export const topics = [
   { id: 'marriage', name: 'Marriage & Consent', icon: 'Circle', description: 'Your voice matters', color: 'rose' },
-  { id: 'worship', name: 'Body & Worship', icon: 'Moon', description: 'Natural, not shameful', color: 'violet' },
+  { id: 'worship', name: 'Body & Worship', icon: 'Moon', description: 'Natural, not shameful', color: 'pink' },
   { id: 'self-worth', name: 'Self-Worth', icon: 'Star', description: 'You are enough', color: 'amber' },
   { id: 'balance', name: 'Rest & Balance', icon: 'Coffee', description: 'Self-care is faith', color: 'cyan' },
   { id: 'divorce', name: 'Divorce & Rights', icon: 'Scale', description: 'Permission to leave', color: 'orange' },

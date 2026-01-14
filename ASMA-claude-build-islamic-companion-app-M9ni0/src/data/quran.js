@@ -167,7 +167,7 @@ export const quranicVerses = [
 export const verseCategories = [
   { id: 'comfort', name: 'Comfort & Hope', icon: 'Heart', color: 'rose' },
   { id: 'strength', name: 'Strength & Patience', icon: 'Shield', color: 'amber' },
-  { id: 'mercy', name: 'Mercy & Forgiveness', icon: 'Sparkles', color: 'violet' },
+  { id: 'mercy', name: 'Mercy & Forgiveness', icon: 'Sparkles', color: 'pink' },
   { id: 'women', name: 'Women in Quran', icon: 'Crown', color: 'pink' },
   { id: 'love', name: 'Love & Relationships', icon: 'Heart', color: 'red' },
 ];
