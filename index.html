@@ -470,19 +470,17 @@
       100% { opacity: 1; filter: blur(0); letter-spacing: normal; }
     }
 
-    /* Ink transition overlay */
-    .ink-transition {
+    /* Soft blur + fade transition */
+    .soft-transition {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at var(--origin-x, 50%) var(--origin-y, 50%), var(--pink-800) 0%, var(--pink-900) 100%);
+      background: linear-gradient(180deg, rgba(253, 242, 248, 0.98) 0%, rgba(252, 231, 243, 0.99) 100%);
       z-index: 1000;
-      transform: scale(0);
-      border-radius: 50%;
-      animation: inkTransition 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: softFadeIn 0.45s ease-out forwards;
     }
-    @keyframes inkTransition {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(3); opacity: 1; }
+    @keyframes softFadeIn {
+      0% { opacity: 0; backdrop-filter: blur(0px); }
+      100% { opacity: 1; backdrop-filter: blur(12px); }
     }
 
     .a-fade { animation: fadeIn 0.5s var(--ease-expo) both; }
@@ -1229,14 +1227,11 @@
         d.cat === 'Guidance'
       ) || duasData[0];
 
-      // Navigate with ink transition effect
-      const navigateWithInk = (e, view) => {
+      // Navigate with soft transition
+      const navigate = (view) => {
         haptic.med();
-        const rect = e.currentTarget.getBoundingClientRect();
-        const originX = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
-        const originY = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
-        setTransitioning({ originX, originY });
-        setTimeout(() => setView(view), 500);
+        setTransitioning(true);
+        setTimeout(() => setView(view), 400);
       };
 
       if (panic) return <Calc close={() => setPanic(false)} />;
@@ -1245,7 +1240,7 @@
         <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
           {/* Floating Dhikr Button */}
           <RippleButton
-            onClick={(e) => navigateWithInk(e, 'dhikr')}
+            onClick={() => navigate('dhikr')}
             className="shadow-glow a-scale"
             style={{
               position: 'fixed',
@@ -1295,7 +1290,7 @@
               {/* Hero Card - Spans 4 columns */}
               <TiltCard
                 ref={heroRef}
-                onClick={(e) => navigateWithInk(e, 'hadith')}
+                onClick={() => navigate('hadith')}
                 className="glass-p breathing-glow a-slide d2"
                 style={{
                   gridColumn: 'span 4',
@@ -1331,7 +1326,7 @@
 
               {/* Prayer Times - 2 columns, tall */}
               <RippleButton
-                onClick={(e) => navigateWithInk(e, 'prayer')}
+                onClick={() => navigate('prayer')}
                 className="glass shadow-c a-slide d3"
                 style={{
                   gridColumn: 'span 2',
@@ -1362,7 +1357,7 @@
 
               {/* Hadith - 2 columns */}
               <RippleButton
-                onClick={(e) => navigateWithInk(e, 'hadith')}
+                onClick={() => navigate('hadith')}
                 className="glass shadow-c a-slide d4"
                 style={{
                   gridColumn: 'span 2',
@@ -1387,7 +1382,7 @@
 
               {/* Sahabiyat - 2 columns */}
               <RippleButton
-                onClick={(e) => navigateWithInk(e, 'sahabiyat')}
+                onClick={() => navigate('sahabiyat')}
                 className="glass shadow-c a-slide d5"
                 style={{
                   gridColumn: 'span 2',
@@ -1416,7 +1411,7 @@
             <div className="a-slide d6" style={{ marginBottom: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
                 <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
-                <RippleButton onClick={(e) => navigateWithInk(e, 'duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
+                <RippleButton onClick={() => navigate('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
                   See all <Icon name="chevron" size={14} color="var(--pink-500)" />
                 </RippleButton>
               </div>
@@ -1437,7 +1432,7 @@
                 {duasData.map((dua, i) => (
                   <TiltCard
                     key={dua.id}
-                    onClick={(e) => navigateWithInk(e, 'duas')}
+                    onClick={() => navigate('duas')}
                     className="glass shadow-c"
                     style={{
                       minWidth: 260,
@@ -1460,7 +1455,7 @@
 
             {/* Bottom Section - Saved */}
             <RippleButton
-              onClick={(e) => navigateWithInk(e, 'saved')}
+              onClick={() => navigate('saved')}
               className="glass shadow-c a-slide d7"
               style={{
                 display: 'flex',
@@ -1492,16 +1487,8 @@
 
           </div>
 
-          {/* Ink Transition Overlay */}
-          {transitioning && (
-            <div
-              className="ink-transition"
-              style={{
-                '--origin-x': `${transitioning.originX}%`,
-                '--origin-y': `${transitioning.originY}%`
-              }}
-            />
-          )}
+          {/* Soft Transition Overlay */}
+          {transitioning && <div className="soft-transition" />}
         </div>
       );
     };
