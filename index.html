@@ -1097,9 +1097,7 @@
       return (
         <div className="splash">
           <BismillahCalligraphy />
-          <div className="splash-logo a-float" style={{ animationDelay: '0.5s' }}>
-            <Icon name="lotus" size={80} color="var(--pink-500)" />
-          </div>
+          <div className="splash-logo a-float" style={{ animationDelay: '0.5s', fontSize: 80 }}>🌸</div>
           <h1 className="splash-t font-d tg">Asma</h1>
           <p className="splash-ar font-ar">أسماء</p>
           <p className="splash-subtitle">Your Islamic Companion</p>
@@ -1119,9 +1117,9 @@
       useTilt(cardRef, { max: 8 });
 
       const steps = [
-        { icon: 'lotus', t: 'Welcome to Asma', s: 'Your beautiful Islamic companion' },
-        { icon: 'book', t: 'Authentic Sources', s: 'Verified hadith with context and meaning' },
-        { icon: 'shield', t: 'Your Safe Space', s: 'Private. Secure. Just for you.' },
+        { icon: '🌸', t: 'Welcome to Asma', s: 'Your beautiful Islamic companion' },
+        { icon: '📖', t: 'Authentic Sources', s: 'Verified hadith with context and meaning' },
+        { icon: '💜', t: 'Your Safe Space', s: 'Private. Secure. Just for you.' },
       ];
       const finish = () => { haptic.ok(); setState(p => ({ ...p, done: true, name: name || 'Sister' })); setView('home'); };
       return (
@@ -1133,7 +1131,7 @@
             <div ref={cardRef} key={step} className="tilt-card a-scale-bounce glass shadow-glow" style={{ padding: 40, borderRadius: 32, textAlign: 'center', marginBottom: 32 }}>
               <div className="tilt-card-shine" style={{ borderRadius: 32 }}></div>
               <div className="tilt-card-inner">
-                <div style={{ marginBottom: 24 }} className="a-float"><Icon name={steps[step].icon} size={80} color="var(--pink-500)" /></div>
+                <div style={{ fontSize: 80, marginBottom: 24 }} className="a-float">{steps[step].icon}</div>
                 <h1 className="tg font-d" style={{ fontSize: 28, marginBottom: 8 }}>{steps[step].t}</h1>
                 <p style={{ color: 'var(--pink-500)', fontSize: 16, marginBottom: step === 2 ? 24 : 0 }}>{steps[step].s}</p>
                 {step === 2 && <input type="text" placeholder="What should we call you?" value={name} onChange={e => setName(e.target.value)} className="input a-slide" style={{ textAlign: 'center' }} />}
