@@ -454,6 +454,37 @@
       50% { filter: drop-shadow(0 0 20px var(--theme-glow)) drop-shadow(0 0 40px var(--theme-glow)); }
     }
 
+    /* Bismillah draw animation */
+    .bismillah-draw {
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      background: linear-gradient(135deg, var(--pink-700), var(--pink-500), var(--pink-600));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: bismillahReveal 2s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes bismillahReveal {
+      0% { opacity: 0; filter: blur(10px); letter-spacing: 0.3em; }
+      50% { opacity: 0.7; filter: blur(3px); letter-spacing: 0.1em; }
+      100% { opacity: 1; filter: blur(0); letter-spacing: normal; }
+    }
+
+    /* Ink transition overlay */
+    .ink-transition {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at var(--origin-x, 50%) var(--origin-y, 50%), var(--pink-800) 0%, var(--pink-900) 100%);
+      z-index: 1000;
+      transform: scale(0);
+      border-radius: 50%;
+      animation: inkTransition 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes inkTransition {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(3); opacity: 1; }
+    }
+
     .a-fade { animation: fadeIn 0.5s var(--ease-expo) both; }
     .a-slide { animation: slideUp 0.55s var(--ease-expo) both; }
     .a-scale { animation: scaleIn 0.5s var(--ease-expo) both; }
@@ -1177,6 +1208,7 @@
     const Home = () => {
       const { state, setView, theme, showToast } = useApp();
       const [panic, setPanic] = useState(false);
+      const [transitioning, setTransitioning] = useState(null);
       const heroRef = useRef(null);
       const carouselRef = useRef(null);
       useTilt(heroRef, { max: 6, scale: 1.01 });
@@ -1197,13 +1229,23 @@
         d.cat === 'Guidance'
       ) || duasData[0];
 
+      // Navigate with ink transition effect
+      const navigateWithInk = (e, view) => {
+        haptic.med();
+        const rect = e.currentTarget.getBoundingClientRect();
+        const originX = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+        const originY = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+        setTransitioning({ originX, originY });
+        setTimeout(() => setView(view), 500);
+      };
+
       if (panic) return <Calc close={() => setPanic(false)} />;
 
       return (
         <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
           {/* Floating Dhikr Button */}
           <RippleButton
-            onClick={() => setView('dhikr')}
+            onClick={(e) => navigateWithInk(e, 'dhikr')}
             className="shadow-glow a-scale"
             style={{
               position: 'fixed',
@@ -1253,7 +1295,7 @@
               {/* Hero Card - Spans 4 columns */}
               <TiltCard
                 ref={heroRef}
-                onClick={() => setView('hadith')}
+                onClick={(e) => navigateWithInk(e, 'hadith')}
                 className="glass-p breathing-glow a-slide d2"
                 style={{
                   gridColumn: 'span 4',
@@ -1289,7 +1331,7 @@
 
               {/* Prayer Times - 2 columns, tall */}
               <RippleButton
-                onClick={() => setView('prayer')}
+                onClick={(e) => navigateWithInk(e, 'prayer')}
                 className="glass shadow-c a-slide d3"
                 style={{
                   gridColumn: 'span 2',
@@ -1320,7 +1362,7 @@
 
               {/* Hadith - 2 columns */}
               <RippleButton
-                onClick={() => setView('hadith')}
+                onClick={(e) => navigateWithInk(e, 'hadith')}
                 className="glass shadow-c a-slide d4"
                 style={{
                   gridColumn: 'span 2',
@@ -1345,7 +1387,7 @@
 
               {/* Sahabiyat - 2 columns */}
               <RippleButton
-                onClick={() => setView('sahabiyat')}
+                onClick={(e) => navigateWithInk(e, 'sahabiyat')}
                 className="glass shadow-c a-slide d5"
                 style={{
                   gridColumn: 'span 2',
@@ -1374,7 +1416,7 @@
             <div className="a-slide d6" style={{ marginBottom: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
                 <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
-                <RippleButton onClick={() => setView('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
+                <RippleButton onClick={(e) => navigateWithInk(e, 'duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
                   See all <Icon name="chevron" size={14} color="var(--pink-500)" />
                 </RippleButton>
               </div>
@@ -1395,7 +1437,7 @@
                 {duasData.map((dua, i) => (
                   <TiltCard
                     key={dua.id}
-                    onClick={() => setView('duas')}
+                    onClick={(e) => navigateWithInk(e, 'duas')}
                     className="glass shadow-c"
                     style={{
                       minWidth: 260,
@@ -1418,7 +1460,7 @@
 
             {/* Bottom Section - Saved */}
             <RippleButton
-              onClick={() => setView('saved')}
+              onClick={(e) => navigateWithInk(e, 'saved')}
               className="glass shadow-c a-slide d7"
               style={{
                 display: 'flex',
@@ -1443,12 +1485,23 @@
               <Icon name="chevron" size={18} color="var(--pink-400)" />
             </RippleButton>
 
-            {/* Footer Bismillah */}
-            <div className="a-fade d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
-              <p className="font-ar shimmer-text" style={{ fontSize: 22, margin: 0 }}>بِسْمِ اللَّهِ</p>
+            {/* Footer Bismillah - Draws itself */}
+            <div className="d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
+              <p className="font-ar bismillah-draw" style={{ fontSize: 26, margin: 0 }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
             </div>
 
           </div>
+
+          {/* Ink Transition Overlay */}
+          {transitioning && (
+            <div
+              className="ink-transition"
+              style={{
+                '--origin-x': `${transitioning.originX}%`,
+                '--origin-y': `${transitioning.originY}%`
+              }}
+            />
+          )}
         </div>
       );
     };
