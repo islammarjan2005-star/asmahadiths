@@ -1,0 +1,223 @@
+// ============================================
+// DUAS DATABASE
+// ============================================
+
+export const duasDatabase = [
+  // MORNING & EVENING
+  {
+    id: 1,
+    category: 'morning',
+    arabic: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ',
+    transliteration: 'Asbahna wa asbahal mulku lillah, walhamdulillah, la ilaha illallahu wahdahu la shareeka lah',
+    translation: 'We have reached the morning and the kingdom has reached the morning, belonging to Allah. Praise is to Allah. There is no god but Allah alone, without partner.',
+    source: 'Abu Dawud',
+    benefit: 'A beautiful way to surrender your day to Allah from its first moments.',
+    time: 'After Fajr',
+  },
+  {
+    id: 2,
+    category: 'morning',
+    arabic: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ',
+    transliteration: 'Allahumma bika asbahna, wa bika amsayna, wa bika nahya, wa bika namootu, wa ilaykan nushoor',
+    translation: 'O Allah, by Your will we have reached the morning, by Your will we reach the evening, by Your will we live, by Your will we die, and unto You is the resurrection.',
+    source: 'Tirmidhi',
+    benefit: 'Acknowledges that every aspect of existence is by Allah\'s will.',
+    time: 'After Fajr',
+  },
+  {
+    id: 3,
+    category: 'evening',
+    arabic: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ',
+    transliteration: 'Amsayna wa amsal mulku lillah, walhamdulillah, la ilaha illallahu wahdahu la shareeka lah',
+    translation: 'We have reached the evening and the kingdom has reached the evening, belonging to Allah. Praise is to Allah. There is no god but Allah alone, without partner.',
+    source: 'Abu Dawud',
+    benefit: 'End your day remembering who truly holds all power.',
+    time: 'After Maghrib',
+  },
+
+  // ANXIETY & STRESS
+  {
+    id: 4,
+    category: 'anxiety',
+    arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ',
+    transliteration: 'Allahumma inni a\'oodhu bika minal hammi wal hazan, wa a\'oodhu bika minal \'ajzi wal kasal',
+    translation: 'O Allah, I seek refuge in You from worry and grief, and I seek refuge in You from incapacity and laziness.',
+    source: 'Bukhari',
+    benefit: 'The Prophet ﷺ made this dua frequently. It addresses both emotional and practical struggles.',
+    time: 'Anytime',
+  },
+  {
+    id: 5,
+    category: 'anxiety',
+    arabic: 'لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',
+    transliteration: 'La ilaha illa anta subhanaka inni kuntu minaz zalimeen',
+    translation: 'There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.',
+    source: 'Quran 21:87 - Dua of Yunus',
+    benefit: 'Prophet Yunus made this dua from the depths of the whale. No matter how trapped you feel, this dua reaches Allah.',
+    time: 'In moments of distress',
+  },
+  {
+    id: 6,
+    category: 'anxiety',
+    arabic: 'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ',
+    transliteration: 'Hasbunallahu wa ni\'mal wakeel',
+    translation: 'Allah is sufficient for us, and He is the best Disposer of affairs.',
+    source: 'Quran 3:173',
+    benefit: 'Said by Ibrahim when thrown into fire, and by the Companions when faced with overwhelming odds.',
+    time: 'When facing the impossible',
+  },
+
+  // GUIDANCE
+  {
+    id: 7,
+    category: 'guidance',
+    arabic: 'اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي',
+    transliteration: 'Allahumma-hdini wa saddidni',
+    translation: 'O Allah, guide me and make me steadfast.',
+    source: 'Muslim',
+    benefit: 'A simple, powerful dua for direction in life\'s decisions.',
+    time: 'When making decisions',
+  },
+  {
+    id: 8,
+    category: 'guidance',
+    arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي',
+    transliteration: 'Rabbish-rahli sadri, wa yassir li amri',
+    translation: 'My Lord, expand for me my chest [with assurance] and ease for me my task.',
+    source: 'Quran 20:25-26 - Dua of Musa',
+    benefit: 'Musa made this dua before confronting Pharaoh. For any task that feels too big.',
+    time: 'Before difficult tasks',
+  },
+  {
+    id: 9,
+    category: 'guidance',
+    arabic: 'اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ',
+    transliteration: 'Allahumma inni astakheeruka bi \'ilmika wa astaqdiruka bi qudratika...',
+    translation: 'O Allah, I seek Your guidance by Your knowledge, and I seek ability by Your power...',
+    source: 'Bukhari - Salat al-Istikhara',
+    benefit: 'The beginning of Istikhara. When you don\'t know which path to take, ask the One who knows.',
+    time: 'When making important decisions',
+  },
+
+  // PROTECTION
+  {
+    id: 10,
+    category: 'protection',
+    arabic: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+    transliteration: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un fil-ardi wa la fis-sama\'i wa huwas-Sami\'ul-\'Aleem',
+    translation: 'In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing.',
+    source: 'Abu Dawud',
+    benefit: 'Said three times morning and evening for protection from all harm.',
+    time: 'Morning and evening',
+  },
+  {
+    id: 11,
+    category: 'protection',
+    arabic: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+    transliteration: 'A\'oodhu bi kalimatil-lahit-tammati min sharri ma khalaq',
+    translation: 'I seek refuge in the perfect words of Allah from the evil of that which He has created.',
+    source: 'Muslim',
+    benefit: 'Protection from all created harm—physical and spiritual.',
+    time: 'When feeling unsafe',
+  },
+
+  // GRATITUDE
+  {
+    id: 12,
+    category: 'gratitude',
+    arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ',
+    transliteration: 'Alhamdulillahil-ladhi ahyana ba\'da ma amatana wa ilayhin-nushoor',
+    translation: 'Praise is to Allah Who gives us life after He has caused us to die, and unto Him is the resurrection.',
+    source: 'Bukhari',
+    benefit: 'Upon waking—acknowledging that even sleep is a small death, and waking is a gift.',
+    time: 'Upon waking',
+  },
+  {
+    id: 13,
+    category: 'gratitude',
+    arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا',
+    transliteration: 'Allahumma inni as\'aluka \'ilman nafi\'an, wa rizqan tayyiban, wa \'amalan mutaqabbalan',
+    translation: 'O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.',
+    source: 'Ibn Majah',
+    benefit: 'A comprehensive dua for what truly matters in life.',
+    time: 'After Fajr',
+  },
+
+  // FORGIVENESS
+  {
+    id: 14,
+    category: 'forgiveness',
+    arabic: 'أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',
+    transliteration: 'Astaghfirullaha alladhi la ilaha illa huwal Hayyul Qayyumu wa atubu ilayh',
+    translation: 'I seek forgiveness from Allah, besides Whom there is no deity, the Ever-Living, the Sustainer, and I repent to Him.',
+    source: 'Abu Dawud',
+    benefit: 'The Prophet ﷺ said this erases sins even if one fled from battle.',
+    time: 'For sincere repentance',
+  },
+  {
+    id: 15,
+    category: 'forgiveness',
+    arabic: 'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ',
+    transliteration: 'Allahumma anta Rabbi la ilaha illa ant, khalaqtani wa ana \'abduka, wa ana \'ala \'ahdika wa wa\'dika mastata\'t',
+    translation: 'O Allah, You are my Lord. There is no god but You. You created me and I am Your servant. I uphold Your covenant and promise to the best of my ability.',
+    source: 'Bukhari - Sayyid al-Istighfar',
+    benefit: 'The master supplication for forgiveness. The Prophet ﷺ said whoever says it with conviction will enter Paradise.',
+    time: 'Morning and evening',
+  },
+
+  // HARDSHIP
+  {
+    id: 16,
+    category: 'hardship',
+    arabic: 'إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أَجِرْنِي فِي مُصِيبَتِي، وَاخْلُفْ لِي خَيْرًا مِنْهَا',
+    transliteration: 'Inna lillahi wa inna ilayhi raji\'un, Allahumma-jurni fi museebati, wakhluf li khayran minha',
+    translation: 'Indeed we belong to Allah and to Him we return. O Allah, reward me in my calamity and replace it with something better.',
+    source: 'Muslim',
+    benefit: 'Umm Salamah made this dua when her husband died. Allah replaced him with the Prophet ﷺ.',
+    time: 'During any loss or hardship',
+  },
+  {
+    id: 17,
+    category: 'hardship',
+    arabic: 'اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا',
+    transliteration: 'Allahumma la sahla illa ma ja\'altahu sahla, wa anta taj\'alul hazna idha shi\'ta sahla',
+    translation: 'O Allah, there is no ease except what You make easy, and You make the difficult easy if You wish.',
+    source: 'Ibn Hibban',
+    benefit: 'When something feels impossible, this dua reminds us who holds the keys to ease.',
+    time: 'When facing difficulties',
+  },
+
+  // RELATIONSHIPS
+  {
+    id: 18,
+    category: 'relationships',
+    arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
+    transliteration: 'Rabbana hab lana min azwajina wa dhurriyyatina qurrata a\'yunin waj\'alna lil-muttaqeena imama',
+    translation: 'Our Lord, grant us from among our spouses and offspring comfort to our eyes, and make us leaders for the righteous.',
+    source: 'Quran 25:74',
+    benefit: 'A beautiful dua for those seeking a righteous spouse or praying for their family.',
+    time: 'For family and marriage',
+  },
+  {
+    id: 19,
+    category: 'relationships',
+    arabic: 'اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا',
+    transliteration: 'Allahumma allif bayna quloobina, wa aslih dhata baynina',
+    translation: 'O Allah, unite our hearts and rectify our mutual relations.',
+    source: 'Abu Dawud',
+    benefit: 'For healing relationships, family conflicts, or community division.',
+    time: 'For relationship healing',
+  },
+];
+
+export const duaCategories = [
+  { id: 'morning', name: 'Morning Adhkar', icon: 'Sun', color: 'amber' },
+  { id: 'evening', name: 'Evening Adhkar', icon: 'Moon', color: 'indigo' },
+  { id: 'anxiety', name: 'Anxiety & Stress', icon: 'Heart', color: 'rose' },
+  { id: 'guidance', name: 'Guidance', icon: 'Compass', color: 'emerald' },
+  { id: 'protection', name: 'Protection', icon: 'Shield', color: 'blue' },
+  { id: 'gratitude', name: 'Gratitude', icon: 'Sparkles', color: 'yellow' },
+  { id: 'forgiveness', name: 'Forgiveness', icon: 'RefreshCw', color: 'violet' },
+  { id: 'hardship', name: 'Hardship', icon: 'CloudRain', color: 'slate' },
+  { id: 'relationships', name: 'Relationships', icon: 'Users', color: 'pink' },
+];
