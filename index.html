@@ -1175,79 +1175,279 @@
 
     // Home
     const Home = () => {
-      const { state, setView, theme } = useApp();
+      const { state, setView, theme, showToast } = useApp();
       const [panic, setPanic] = useState(false);
       const heroRef = useRef(null);
-      useTilt(heroRef, { max: 8, scale: 1.01 });
+      const carouselRef = useRef(null);
+      useTilt(heroRef, { max: 6, scale: 1.01 });
 
       const gr = useMemo(() => {
         const h = new Date().getHours();
-        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise' };
-        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun' };
-        return { en: 'Good Evening', ar: 'مساء النور', icon: 'moon' };
+        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل', icon: 'moon', period: 'night', tip: 'The last third of the night is blessed' };
+        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise', period: 'morning', tip: 'Start with Bismillah' };
+        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun', period: 'day', tip: 'Remember Allah in your work' };
+        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور', icon: 'sunset', period: 'evening', tip: 'Reflect on your day' };
+        return { en: 'Peace be upon you', ar: 'السلام عليكم', icon: 'moon', period: 'night', tip: 'End your day with gratitude' };
       }, []);
+
       const daily = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
+      const contextualDua = duasData.find(d =>
+        (gr.period === 'morning' && d.cat === 'Morning') ||
+        (gr.period === 'night' && d.cat === 'Protection') ||
+        d.cat === 'Guidance'
+      ) || duasData[0];
 
       if (panic) return <Calc close={() => setPanic(false)} />;
 
       return (
         <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
-          <div style={{ padding: 20, paddingTop: 'max(var(--safe-top),20px)', maxWidth: 480, margin: '0 auto' }}>
-            <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span className="a-pulse"><Icon name={gr.icon} size={20} color="var(--pink-500)" /></span>
-                  <p className="shimmer-text" style={{ fontSize: 14, fontWeight: 600, margin: 0 }}>{gr.en}</p>
+          {/* Floating Dhikr Button */}
+          <RippleButton
+            onClick={() => setView('dhikr')}
+            className="shadow-glow a-scale"
+            style={{
+              position: 'fixed',
+              bottom: 100,
+              right: 20,
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))',
+              border: 'none',
+              zIndex: 40,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+          >
+            <Icon name="beads" size={26} color="white" />
+          </RippleButton>
+
+          <div style={{ padding: '0 16px', paddingTop: 'max(var(--safe-top),16px)', maxWidth: 500, margin: '0 auto' }}>
+
+            {/* Header - Compact */}
+            <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: '0 4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 16, background: 'linear-gradient(135deg, var(--pink-100), var(--pink-200))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon name={gr.icon} size={24} color="var(--pink-500)" className="a-pulse" />
                 </div>
-                <h1 className="font-d wave-underline" style={{ fontSize: 28, margin: '4px 0', background: 'linear-gradient(135deg, var(--pink-600), var(--pink-800))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{state.name || 'Sister'}</h1>
-                <p className="font-ar" style={{ color: 'var(--pink-400)', fontSize: 20, margin: 0 }}>{gr.ar}</p>
+                <div>
+                  <p style={{ fontSize: 13, color: 'var(--pink-400)', margin: 0, fontWeight: 500 }}>{gr.en}</p>
+                  <h1 className="font-d" style={{ fontSize: 22, margin: 0, color: 'var(--pink-900)' }}>{state.name || 'Sister'}</h1>
+                </div>
               </div>
-              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass shadow-c pulse-ring" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
+              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
             </div>
 
-            <TiltCard ref={heroRef} className="glass-p breathing-glow gradient-border a-slide d1" style={{ borderRadius: 28, padding: 28, marginBottom: 24 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <span className="a-bounce"><Icon name={daily.icon} size={26} color="var(--pink-500)" /></span>
-                <span className="shimmer-text" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today's Reflection</span>
-              </div>
-              <p className="font-ar" style={{ fontSize: 26, color: 'var(--pink-800)', marginBottom: 16 }}>{daily.ar}</p>
-              <p style={{ color: 'var(--pink-700)', fontStyle: 'italic', lineHeight: 1.7, marginBottom: 12 }}>"{daily.text}"</p>
-              <p style={{ fontSize: 12, color: 'var(--pink-500)', marginBottom: 16 }}>{daily.src}</p>
-              <div style={{ padding: 14, background: 'rgba(255,255,255,0.6)', borderRadius: 14 }}>
-                <p style={{ fontSize: 14, color: 'var(--pink-700)', fontWeight: 500, margin: 0 }}><Icon name="sparkle" size={14} color="var(--pink-500)" style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />{daily.yes}</p>
-              </div>
-            </TiltCard>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12, marginBottom: 24 }}>
-              {[{ i: 'book', t: 'Hadith', s: 'Authentic teachings', v: 'hadith', d: 'd2', g: 'linear-gradient(140deg,#fce7f3,#fbcfe8)', c: 'var(--pink-500)' },
-                { i: 'hands', t: 'Duas', s: 'Beautiful prayers', v: 'duas', d: 'd3', g: 'linear-gradient(140deg,#fae8ff,#f5d0fe)', c: '#a855f7' },
-                { i: 'mosque', t: 'Prayer', s: "Today's times", v: 'prayer', d: 'd4', g: 'linear-gradient(140deg,#fef3c7,#fde68a)', c: '#f59e0b' },
-                { i: 'crown', t: 'Sahabiyat', s: 'Inspiring women', v: 'sahabiyat', d: 'd5', g: 'linear-gradient(140deg,#ede9fe,#ddd6fe)', c: '#8b5cf6' }].map(x => (
-                <RippleButton key={x.v} onClick={() => setView(x.v)} className={`glass shadow-c a-slide ${x.d}`} style={{ padding: 20, borderRadius: 20, border: 'none', textAlign: 'left', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ width: 50, height: 50, borderRadius: 14, background: x.g, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }} className="a-float"><Icon name={x.i} size={24} color={x.c} /></div>
-                  <h3 className="font-d" style={{ fontSize: 16, color: 'var(--pink-900)', margin: '0 0 4px' }}>{x.t}</h3>
-                  <p style={{ fontSize: 12, color: 'var(--pink-500)', margin: 0 }}>{x.s}</p>
-                </RippleButton>
-              ))}
+            {/* Contextual Tip Banner */}
+            <div className="a-slide d1" style={{ background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))', borderRadius: 16, padding: '14px 18px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Icon name="sparkle" size={18} color="rgba(255,255,255,0.9)" className="a-pulse" />
+              <p style={{ color: 'white', fontSize: 14, margin: 0, fontWeight: 500, flex: 1 }}>{gr.tip}</p>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 20 }}>→</span>
             </div>
 
-            {[{ i: 'beads', t: 'Dhikr Counter', s: 'Beautiful digital tasbeeh', v: 'dhikr', g: 'linear-gradient(135deg,var(--pink-500),var(--pink-600))' },
-              { i: 'saved', t: 'Saved Items', s: `${state.saved.length} items saved`, v: 'saved', g: 'linear-gradient(135deg,#a855f7,#7c3aed)' }].map((x, i) => (
-              <RippleButton key={x.v} onClick={() => setView(x.v)} className={`glass shadow-c a-slide d${5 + i}`} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', borderRadius: 18, border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', marginBottom: 12 }}>
-                <div style={{ width: 50, height: 50, borderRadius: 14, background: x.g, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}><Icon name={x.i} size={22} color="white" /></div>
-                <div style={{ flex: 1 }}><h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-900)', margin: 0 }}>{x.t}</h3><p style={{ fontSize: 12, color: 'var(--pink-500)', margin: '2px 0 0' }}>{x.s}</p></div>
-                {I.chev}
+            {/* Bento Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'auto', gap: 12, marginBottom: 20 }}>
+
+              {/* Hero Card - Spans 4 columns */}
+              <TiltCard
+                ref={heroRef}
+                onClick={() => setView('hadith')}
+                className="glass-p breathing-glow a-slide d2"
+                style={{
+                  gridColumn: 'span 4',
+                  borderRadius: 24,
+                  padding: 24,
+                  cursor: 'pointer',
+                  minHeight: 180,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.08 }}>
+                  <Icon name={daily.icon} size={140} color="var(--pink-600)" />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 10, background: 'linear-gradient(135deg, var(--pink-400), var(--pink-500))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name={daily.icon} size={16} color="white" />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Reflection</span>
+                  </div>
+                  <p className="font-ar" style={{ fontSize: 24, color: 'var(--pink-800)', marginBottom: 10, lineHeight: 1.6 }}>{daily.ar}</p>
+                  <p style={{ color: 'var(--pink-600)', fontSize: 14, lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{daily.text}"</p>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                  <span style={{ fontSize: 11, color: 'var(--pink-400)' }}>{daily.src}</span>
+                  <span style={{ fontSize: 12, color: 'var(--pink-500)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Read more <Icon name="chevron" size={14} color="var(--pink-500)" /></span>
+                </div>
+              </TiltCard>
+
+              {/* Prayer Times - 2 columns, tall */}
+              <RippleButton
+                onClick={() => setView('prayer')}
+                className="glass shadow-c a-slide d3"
+                style={{
+                  gridColumn: 'span 2',
+                  gridRow: 'span 2',
+                  borderRadius: 20,
+                  padding: 18,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'linear-gradient(160deg, #fef3c7, #fde68a)',
+                  minHeight: 160
+                }}
+              >
+                <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(245,158,11,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                  <Icon name="mosque" size={22} color="#d97706" className="a-float" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-d" style={{ fontSize: 17, color: '#92400e', margin: '0 0 4px' }}>Prayer Times</h3>
+                  <p style={{ fontSize: 12, color: '#b45309', margin: 0 }}>Stay connected</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                  <span className="font-d" style={{ fontSize: 24, color: '#92400e' }}>🕌</span>
+                  <Icon name="chevron" size={18} color="#b45309" />
+                </div>
               </RippleButton>
-            ))}
 
-            <div className="a-fade d6" style={{ textAlign: 'center', marginTop: 36, position: 'relative' }}>
-              <p className="font-ar a-float shimmer-text" style={{ fontSize: 28 }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-              <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: -20, display: 'flex', gap: 8, opacity: 0.4 }}>
-                <span className="a-pulse" style={{ animationDelay: '0s' }}><Icon name="starSmall" size={12} color="var(--pink-400)" /></span>
-                <span className="a-pulse" style={{ animationDelay: '0.3s' }}><Icon name="octagram" size={14} color="var(--pink-400)" /></span>
-                <span className="a-pulse" style={{ animationDelay: '0.6s' }}><Icon name="starSmall" size={12} color="var(--pink-400)" /></span>
+              {/* Hadith - 2 columns */}
+              <RippleButton
+                onClick={() => setView('hadith')}
+                className="glass shadow-c a-slide d4"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #fce7f3, #fbcfe8)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(236,72,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="book" size={20} color="var(--pink-500)" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-800)', margin: 0 }}>Hadith</h3>
+                    <p style={{ fontSize: 11, color: 'var(--pink-500)', margin: 0 }}>{hadithData.length} teachings</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+              {/* Sahabiyat - 2 columns */}
+              <RippleButton
+                onClick={() => setView('sahabiyat')}
+                className="glass shadow-c a-slide d5"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #ede9fe, #ddd6fe)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="crown" size={20} color="#7c3aed" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: '#5b21b6', margin: 0 }}>Sahabiyat</h3>
+                    <p style={{ fontSize: 11, color: '#7c3aed', margin: 0 }}>Inspiring women</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+            </div>
+
+            {/* Horizontal Scroll - Duas */}
+            <div className="a-slide d6" style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
+                <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
+                <RippleButton onClick={() => setView('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
+                  See all <Icon name="chevron" size={14} color="var(--pink-500)" />
+                </RippleButton>
+              </div>
+              <div
+                ref={carouselRef}
+                className="scroll"
+                style={{
+                  display: 'flex',
+                  gap: 12,
+                  overflowX: 'auto',
+                  paddingBottom: 8,
+                  marginLeft: -16,
+                  marginRight: -16,
+                  paddingLeft: 16,
+                  paddingRight: 16
+                }}
+              >
+                {duasData.map((dua, i) => (
+                  <TiltCard
+                    key={dua.id}
+                    onClick={() => setView('duas')}
+                    className="glass shadow-c"
+                    style={{
+                      minWidth: 260,
+                      borderRadius: 20,
+                      padding: 18,
+                      cursor: 'pointer',
+                      background: i === 0 ? 'linear-gradient(135deg, var(--pink-500), var(--pink-600))' : undefined
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                      <Icon name={dua.icon} size={18} color={i === 0 ? 'white' : 'var(--pink-500)'} />
+                      <span style={{ fontSize: 11, fontWeight: 700, color: i === 0 ? 'rgba(255,255,255,0.8)' : 'var(--pink-500)', textTransform: 'uppercase' }}>{dua.cat}</span>
+                    </div>
+                    <p className="font-ar" style={{ fontSize: 20, color: i === 0 ? 'white' : 'var(--pink-800)', marginBottom: 8, lineHeight: 1.5 }}>{dua.ar}</p>
+                    <p style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.85)' : 'var(--pink-600)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{dua.en}"</p>
+                  </TiltCard>
+                ))}
               </div>
             </div>
+
+            {/* Bottom Section - Saved */}
+            <RippleButton
+              onClick={() => setView('saved')}
+              className="glass shadow-c a-slide d7"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                padding: 16,
+                borderRadius: 18,
+                border: 'none',
+                cursor: 'pointer',
+                textAlign: 'left',
+                width: '100%',
+                marginBottom: 20
+              }}
+            >
+              <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg, #a855f7, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="heart" size={20} color="white" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-900)', margin: 0 }}>Your Collection</h3>
+                <p style={{ fontSize: 12, color: 'var(--pink-500)', margin: '2px 0 0' }}>{state.saved.length} saved items</p>
+              </div>
+              <Icon name="chevron" size={18} color="var(--pink-400)" />
+            </RippleButton>
+
+            {/* Footer Bismillah */}
+            <div className="a-fade d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
+              <p className="font-ar shimmer-text" style={{ fontSize: 22, margin: 0 }}>بِسْمِ اللَّهِ</p>
+            </div>
+
           </div>
         </div>
       );
