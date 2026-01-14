@@ -1,0 +1,173 @@
+// ============================================
+// QURANIC VERSES DATABASE
+// ============================================
+
+export const quranicVerses = [
+  // COMFORT & HOPE
+  {
+    id: 1,
+    category: 'comfort',
+    arabic: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+    translation: 'For indeed, with hardship comes ease. Indeed, with hardship comes ease.',
+    reference: 'Surah Ash-Sharh (94:5-6)',
+    theme: 'Hope in Hardship',
+    tafsir: 'Allah repeats this promise twice for emphasis. Notice it says "with" hardship, not "after"—ease is present even in the midst of struggle. The Arabic uses different definite articles, suggesting that one hardship is accompanied by multiple forms of ease.',
+    reflection: 'When you feel overwhelmed, remember that relief is already on its way. Allah doesn\'t wait until the end to send help—ease is woven into every difficulty.',
+  },
+  {
+    id: 2,
+    category: 'comfort',
+    arabic: 'وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ',
+    translation: 'And your Lord will give you, and you will be satisfied.',
+    reference: 'Surah Ad-Duha (93:5)',
+    theme: 'Divine Promise',
+    tafsir: 'This verse was revealed when revelation paused, and the Prophet ﷺ felt abandoned. Allah promised complete satisfaction—not partial, but فَتَرْضَىٰ (you will be satisfied). If Allah promises to satisfy you, He knows exactly what you need.',
+    reflection: 'Whatever you\'re waiting for—healing, provision, love, peace—Allah has promised satisfaction. Trust His timing.',
+  },
+  {
+    id: 3,
+    category: 'comfort',
+    arabic: 'وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ',
+    translation: 'Perhaps you hate a thing and it is good for you.',
+    reference: 'Surah Al-Baqarah (2:216)',
+    theme: 'Hidden Blessings',
+    tafsir: 'Our limited vision cannot see what Allah sees. What feels like loss may be protection. What feels like delay may be preparation. What feels like "no" may be redirection to something better.',
+    reflection: 'That closed door, that heartbreak, that disappointment—it may be protecting you from something you cannot see.',
+  },
+  {
+    id: 4,
+    category: 'comfort',
+    arabic: 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ۝ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ',
+    translation: 'Whoever fears Allah—He will make for them a way out. And will provide for them from where they do not expect.',
+    reference: 'Surah At-Talaq (65:2-3)',
+    theme: 'Trust & Provision',
+    tafsir: 'This verse came in the context of divorce, promising that even in the most difficult life transitions, Allah provides an exit and unexpected provision. The word مَخْرَجًا (way out) appears when things seem impossible.',
+    reflection: 'When you feel trapped, remember this promise. There is always a way out—even if you cannot see it yet.',
+  },
+
+  // STRENGTH & PATIENCE
+  {
+    id: 5,
+    category: 'strength',
+    arabic: 'لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا',
+    translation: 'Allah does not burden a soul beyond that it can bear.',
+    reference: 'Surah Al-Baqarah (2:286)',
+    theme: 'Divine Understanding',
+    tafsir: 'This is not just comfort—it is a statement about Allah\'s knowledge. He knows your capacity better than you do. Every test is calibrated perfectly for your soul.',
+    reflection: 'If you\'re facing it, you can bear it. Not alone, not without struggle—but you have the capacity.',
+  },
+  {
+    id: 6,
+    category: 'strength',
+    arabic: 'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ',
+    translation: 'Do not weaken and do not grieve, and you will be superior if you are believers.',
+    reference: 'Surah Aal-Imran (3:139)',
+    theme: 'Resilience',
+    tafsir: 'Revealed after the Battle of Uhud, when Muslims were devastated. Allah acknowledges grief but calls them to rise. Your faith is your strength.',
+    reflection: 'Feel the grief, but don\'t let it define you. Your belief is your source of rising.',
+  },
+  {
+    id: 7,
+    category: 'strength',
+    arabic: 'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ',
+    translation: 'O you who believe, seek help through patience and prayer.',
+    reference: 'Surah Al-Baqarah (2:153)',
+    theme: 'Seeking Help',
+    tafsir: 'Allah gives us the prescription: sabr (patient perseverance) and salah (prayer). Not passive waiting, but active engagement with difficulty through connection with Him.',
+    reflection: 'When everything feels out of control, these two things are always within your power.',
+  },
+
+  // FORGIVENESS & MERCY
+  {
+    id: 8,
+    category: 'mercy',
+    arabic: 'قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا',
+    translation: 'Say, "O My servants who have transgressed against themselves, do not despair of the mercy of Allah. Indeed, Allah forgives all sins."',
+    reference: 'Surah Az-Zumar (39:53)',
+    theme: 'Infinite Mercy',
+    tafsir: 'Allah calls us "My servants"—even those who have sinned greatly. The word أَسْرَفُوا means "gone to excess." Even for those who have gone to excess in sin, despair is prohibited. جَمِيعًا means "all"—no exception.',
+    reflection: 'Whatever you\'ve done, this verse is for you. Despair itself is prohibited. Turn back—He is waiting.',
+  },
+  {
+    id: 9,
+    category: 'mercy',
+    arabic: 'وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ',
+    translation: 'My mercy encompasses all things.',
+    reference: 'Surah Al-A\'raf (7:156)',
+    theme: 'All-Encompassing Mercy',
+    tafsir: 'Allah\'s mercy is not limited, conditional, or reserved for the "worthy." It encompasses كُلَّ شَيْءٍ—everything. You are included in that "everything."',
+    reflection: 'You cannot fall outside of Allah\'s mercy. It is wider than your mistakes.',
+  },
+  {
+    id: 10,
+    category: 'mercy',
+    arabic: 'وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ',
+    translation: 'And when My servants ask you about Me—indeed I am near. I respond to the call of the caller when they call upon Me.',
+    reference: 'Surah Al-Baqarah (2:186)',
+    theme: 'Divine Nearness',
+    tafsir: 'Uniquely, Allah answers directly without the Prophet ﷺ as intermediary. The usual pattern is "Say: ..." but here Allah speaks immediately: "Indeed I am near." No distance between you and your Creator.',
+    reflection: 'You don\'t need anyone to reach Allah. He is already close. Just call.',
+  },
+
+  // WOMEN IN QURAN
+  {
+    id: 11,
+    category: 'women',
+    arabic: 'إِنَّ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ',
+    translation: 'Indeed, the Muslim men and Muslim women, the believing men and believing women...',
+    reference: 'Surah Al-Ahzab (33:35)',
+    theme: 'Equal Spiritual Standing',
+    tafsir: 'This verse was revealed after Umm Salamah asked why the Quran mostly addressed men. Allah responded by explicitly naming women alongside men in every spiritual quality. This verse lists ten qualities, naming both genders for each.',
+    reflection: 'You are seen. You are addressed. Your spiritual journey is your own, not secondary to anyone\'s.',
+  },
+  {
+    id: 12,
+    category: 'women',
+    arabic: 'وَضَرَبَ اللَّهُ مَثَلًا لِّلَّذِينَ آمَنُوا امْرَأَتَ فِرْعَوْنَ',
+    translation: 'And Allah presents an example of those who believed: the wife of Pharaoh...',
+    reference: 'Surah At-Tahrim (66:11)',
+    theme: 'Women as Role Models',
+    tafsir: 'Allah chooses a woman—Asiyah—as the example of faith for ALL believers, men and women. She maintained faith while married to the worst tyrant in history. Her example transcends gender.',
+    reflection: 'Your circumstances don\'t determine your faith. Asiyah found Allah in the house of Pharaoh.',
+  },
+  {
+    id: 13,
+    category: 'women',
+    arabic: 'وَمَرْيَمَ ابْنَتَ عِمْرَانَ الَّتِي أَحْصَنَتْ فَرْجَهَا',
+    translation: 'And Maryam, the daughter of Imran, who guarded her chastity...',
+    reference: 'Surah At-Tahrim (66:12)',
+    theme: 'Maryam\'s Honor',
+    tafsir: 'Maryam is the only woman mentioned by name in the Quran, and an entire surah is named after her. She is held as a sign (ayah) for all of humanity.',
+    reflection: 'A woman\'s story is preserved for eternity in the Quran. Your story matters too.',
+  },
+
+  // LOVE & RELATIONSHIPS
+  {
+    id: 14,
+    category: 'love',
+    arabic: 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً',
+    translation: 'And of His signs is that He created for you from yourselves mates that you may find tranquility in them, and He placed between you affection and mercy.',
+    reference: 'Surah Ar-Rum (30:21)',
+    theme: 'Marriage as Mercy',
+    tafsir: 'The purpose of marriage is سَكَن (tranquility, peace)—not just companionship but deep rest. If a marriage does not provide peace, it is not fulfilling its Quranic purpose.',
+    reflection: 'You deserve peace in your relationships. That is not a luxury—it is what Allah designed.',
+  },
+  {
+    id: 15,
+    category: 'love',
+    arabic: 'هُنَّ لِبَاسٌ لَّكُمْ وَأَنتُمْ لِبَاسٌ لَّهُنَّ',
+    translation: 'They are a garment for you and you are a garment for them.',
+    reference: 'Surah Al-Baqarah (2:187)',
+    theme: 'Mutual Protection',
+    tafsir: 'Clothing provides warmth, beauty, protection, and intimacy. This metaphor describes the mutual nature of marriage—both partners clothe and protect each other equally.',
+    reflection: 'Marriage is mutual covering—not one-sided. You are meant to be protected, not exposed.',
+  },
+];
+
+export const verseCategories = [
+  { id: 'comfort', name: 'Comfort & Hope', icon: 'Heart', color: 'rose' },
+  { id: 'strength', name: 'Strength & Patience', icon: 'Shield', color: 'amber' },
+  { id: 'mercy', name: 'Mercy & Forgiveness', icon: 'Sparkles', color: 'violet' },
+  { id: 'women', name: 'Women in Quran', icon: 'Crown', color: 'pink' },
+  { id: 'love', name: 'Love & Relationships', icon: 'Heart', color: 'red' },
+];
