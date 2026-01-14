@@ -1173,281 +1173,264 @@
       </div>
     );
 
-    // Home
+    // Home - Stacked Cards Design
     const Home = () => {
       const { state, setView, theme, showToast } = useApp();
       const [panic, setPanic] = useState(false);
-      const heroRef = useRef(null);
-      const carouselRef = useRef(null);
-      useTilt(heroRef, { max: 6, scale: 1.01 });
+      const [fanned, setFanned] = useState(false);
+      const [activeCard, setActiveCard] = useState(null);
+      const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+      const [isDragging, setIsDragging] = useState(false);
+      const dragStart = useRef({ x: 0, y: 0 });
+      const stackRef = useRef(null);
 
       const gr = useMemo(() => {
         const h = new Date().getHours();
-        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل', icon: 'moon', period: 'night', tip: 'The last third of the night is blessed' };
-        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise', period: 'morning', tip: 'Start with Bismillah' };
-        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun', period: 'day', tip: 'Remember Allah in your work' };
-        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور', icon: 'sunset', period: 'evening', tip: 'Reflect on your day' };
-        return { en: 'Peace be upon you', ar: 'السلام عليكم', icon: 'moon', period: 'night', tip: 'End your day with gratitude' };
+        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل', icon: 'moon' };
+        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise' };
+        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun' };
+        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور', icon: 'sunset' };
+        return { en: 'Salaam', ar: 'السلام عليكم', icon: 'moon' };
       }, []);
 
       const daily = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
-      const contextualDua = duasData.find(d =>
-        (gr.period === 'morning' && d.cat === 'Morning') ||
-        (gr.period === 'night' && d.cat === 'Protection') ||
-        d.cat === 'Guidance'
-      ) || duasData[0];
+
+      // Card stack data
+      const cards = [
+        { id: 'hadith', icon: 'book', title: 'Daily Hadith', subtitle: daily.ar, desc: daily.text, color: 'linear-gradient(135deg, #ec4899, #be185d)', view: 'hadith' },
+        { id: 'prayer', icon: 'mosque', title: 'Prayer Times', subtitle: 'أوقات الصلاة', desc: 'Stay connected to your prayers', color: 'linear-gradient(135deg, #f59e0b, #d97706)', view: 'prayer' },
+        { id: 'duas', icon: 'hands', title: 'Duas', subtitle: 'الأدعية', desc: 'Beautiful prayers for every moment', color: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', view: 'duas' },
+        { id: 'sahabiyat', icon: 'crown', title: 'Sahabiyat', subtitle: 'الصحابيات', desc: 'Stories of inspiring women', color: 'linear-gradient(135deg, #06b6d4, #0891b2)', view: 'sahabiyat' },
+        { id: 'saved', icon: 'heart', title: 'Saved', subtitle: 'المحفوظات', desc: `${state.saved.length} items in your collection`, color: 'linear-gradient(135deg, #f43f5e, #e11d48)', view: 'saved' },
+      ];
+
+      // Drag handlers
+      const handleDragStart = (e, cardId) => {
+        if (fanned) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        dragStart.current = { x: clientX, y: clientY };
+        setIsDragging(true);
+        setActiveCard(cardId);
+        haptic.light();
+      };
+
+      const handleDragMove = (e) => {
+        if (!isDragging || fanned) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const deltaX = clientX - dragStart.current.x;
+        const deltaY = clientY - dragStart.current.y;
+        setDragOffset({ x: deltaX, y: deltaY });
+      };
+
+      const handleDragEnd = () => {
+        if (!isDragging) return;
+        const threshold = 100;
+        if (Math.abs(dragOffset.x) > threshold || Math.abs(dragOffset.y) > threshold) {
+          // Swipe detected - navigate to that card's view
+          const card = cards.find(c => c.id === activeCard);
+          if (card) {
+            haptic.med();
+            setView(card.view);
+          }
+        }
+        setIsDragging(false);
+        setDragOffset({ x: 0, y: 0 });
+        setActiveCard(null);
+      };
+
+      const toggleFan = () => {
+        haptic.med();
+        setFanned(!fanned);
+      };
+
+      const getCardStyle = (index, total) => {
+        const baseRotation = -3 + (index * 1.5);
+        const baseOffsetX = index * 3;
+        const baseOffsetY = index * -4;
+        const baseScale = 1 - (index * 0.02);
+
+        if (fanned) {
+          // Fan out in an arc
+          const fanAngle = -30 + (index * 15);
+          const fanRadius = 120;
+          const fanX = Math.sin(fanAngle * Math.PI / 180) * fanRadius;
+          const fanY = Math.cos(fanAngle * Math.PI / 180) * fanRadius - fanRadius;
+          return {
+            transform: `translate(${fanX}px, ${fanY}px) rotate(${fanAngle}deg) scale(0.85)`,
+            zIndex: total - index,
+            transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          };
+        }
+
+        if (activeCard === cards[index]?.id && isDragging) {
+          return {
+            transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${baseRotation + dragOffset.x * 0.05}deg) scale(1.05)`,
+            zIndex: 100,
+            transition: 'none',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+          };
+        }
+
+        return {
+          transform: `translate(${baseOffsetX}px, ${baseOffsetY}px) rotate(${baseRotation}deg) scale(${baseScale})`,
+          zIndex: total - index,
+          transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        };
+      };
 
       if (panic) return <Calc close={() => setPanic(false)} />;
 
       return (
-        <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
-          {/* Floating Dhikr Button */}
-          <RippleButton
-            onClick={() => setView('dhikr')}
-            className="shadow-glow a-scale"
-            style={{
-              position: 'fixed',
-              bottom: 100,
-              right: 20,
-              width: 60,
-              height: 60,
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))',
-              border: 'none',
-              zIndex: 40,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
-          >
-            <Icon name="beads" size={26} color="white" />
-          </RippleButton>
-
-          <div style={{ padding: '0 16px', paddingTop: 'max(var(--safe-top),16px)', maxWidth: 500, margin: '0 auto' }}>
-
-            {/* Header - Compact */}
-            <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: '0 4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 16, background: 'linear-gradient(135deg, var(--pink-100), var(--pink-200))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon name={gr.icon} size={24} color="var(--pink-500)" className="a-pulse" />
-                </div>
-                <div>
-                  <p style={{ fontSize: 13, color: 'var(--pink-400)', margin: 0, fontWeight: 500 }}>{gr.en}</p>
-                  <h1 className="font-d" style={{ fontSize: 22, margin: 0, color: 'var(--pink-900)' }}>{state.name || 'Sister'}</h1>
-                </div>
-              </div>
+        <div
+          style={{ height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchMove={handleDragMove}
+          onTouchEnd={handleDragEnd}
+        >
+          {/* Minimal Header */}
+          <div className="a-fade" style={{ padding: '16px 20px', paddingTop: 'max(var(--safe-top), 16px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <p className="font-ar" style={{ fontSize: 16, color: 'var(--pink-400)', margin: 0 }}>{gr.ar}</p>
+              <h1 className="font-d" style={{ fontSize: 28, margin: 0, color: 'var(--pink-900)' }}>{state.name || 'Sister'}</h1>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
               <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
             </div>
+          </div>
 
-            {/* Contextual Tip Banner */}
-            <div className="a-slide d1" style={{ background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))', borderRadius: 16, padding: '14px 18px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-              <Icon name="sparkle" size={18} color="rgba(255,255,255,0.9)" className="a-pulse" />
-              <p style={{ color: 'white', fontSize: 14, margin: 0, fontWeight: 500, flex: 1 }}>{gr.tip}</p>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 20 }}>→</span>
-            </div>
+          {/* Card Stack Area */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', padding: 20 }}>
 
-            {/* Bento Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'auto', gap: 12, marginBottom: 20 }}>
+            {/* Instruction Text */}
+            <p className="a-fade" style={{ position: 'absolute', top: 20, color: 'var(--pink-400)', fontSize: 13, fontWeight: 500, textAlign: 'center' }}>
+              {fanned ? 'Tap a card to explore' : 'Swipe a card or tap to fan'}
+            </p>
 
-              {/* Hero Card - Spans 4 columns */}
-              <TiltCard
-                ref={heroRef}
-                onClick={() => setView('hadith')}
-                className="glass-p breathing-glow a-slide d2"
-                style={{
-                  gridColumn: 'span 4',
-                  borderRadius: 24,
-                  padding: 24,
-                  cursor: 'pointer',
-                  minHeight: 180,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.08 }}>
-                  <Icon name={daily.icon} size={140} color="var(--pink-600)" />
-                </div>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 10, background: 'linear-gradient(135deg, var(--pink-400), var(--pink-500))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Icon name={daily.icon} size={16} color="white" />
-                    </div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Reflection</span>
-                  </div>
-                  <p className="font-ar" style={{ fontSize: 24, color: 'var(--pink-800)', marginBottom: 10, lineHeight: 1.6 }}>{daily.ar}</p>
-                  <p style={{ color: 'var(--pink-600)', fontSize: 14, lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{daily.text}"</p>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
-                  <span style={{ fontSize: 11, color: 'var(--pink-400)' }}>{daily.src}</span>
-                  <span style={{ fontSize: 12, color: 'var(--pink-500)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Read more <Icon name="chevron" size={14} color="var(--pink-500)" /></span>
-                </div>
-              </TiltCard>
-
-              {/* Prayer Times - 2 columns, tall */}
-              <RippleButton
-                onClick={() => setView('prayer')}
-                className="glass shadow-c a-slide d3"
-                style={{
-                  gridColumn: 'span 2',
-                  gridRow: 'span 2',
-                  borderRadius: 20,
-                  padding: 18,
-                  border: 'none',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: 'linear-gradient(160deg, #fef3c7, #fde68a)',
-                  minHeight: 160
-                }}
-              >
-                <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(245,158,11,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-                  <Icon name="mosque" size={22} color="#d97706" className="a-float" />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-d" style={{ fontSize: 17, color: '#92400e', margin: '0 0 4px' }}>Prayer Times</h3>
-                  <p style={{ fontSize: 12, color: '#b45309', margin: 0 }}>Stay connected</p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-                  <span className="font-d" style={{ fontSize: 24, color: '#92400e' }}>🕌</span>
-                  <Icon name="chevron" size={18} color="#b45309" />
-                </div>
-              </RippleButton>
-
-              {/* Hadith - 2 columns */}
-              <RippleButton
-                onClick={() => setView('hadith')}
-                className="glass shadow-c a-slide d4"
-                style={{
-                  gridColumn: 'span 2',
-                  borderRadius: 20,
-                  padding: 16,
-                  border: 'none',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  background: 'linear-gradient(160deg, #fce7f3, #fbcfe8)'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(236,72,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon name="book" size={20} color="var(--pink-500)" />
-                  </div>
-                  <div>
-                    <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-800)', margin: 0 }}>Hadith</h3>
-                    <p style={{ fontSize: 11, color: 'var(--pink-500)', margin: 0 }}>{hadithData.length} teachings</p>
-                  </div>
-                </div>
-              </RippleButton>
-
-              {/* Sahabiyat - 2 columns */}
-              <RippleButton
-                onClick={() => setView('sahabiyat')}
-                className="glass shadow-c a-slide d5"
-                style={{
-                  gridColumn: 'span 2',
-                  borderRadius: 20,
-                  padding: 16,
-                  border: 'none',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  background: 'linear-gradient(160deg, #ede9fe, #ddd6fe)'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon name="crown" size={20} color="#7c3aed" />
-                  </div>
-                  <div>
-                    <h3 className="font-d" style={{ fontSize: 15, color: '#5b21b6', margin: 0 }}>Sahabiyat</h3>
-                    <p style={{ fontSize: 11, color: '#7c3aed', margin: 0 }}>Inspiring women</p>
-                  </div>
-                </div>
-              </RippleButton>
-
-            </div>
-
-            {/* Horizontal Scroll - Duas */}
-            <div className="a-slide d6" style={{ marginBottom: 20 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
-                <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
-                <RippleButton onClick={() => setView('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
-                  See all <Icon name="chevron" size={14} color="var(--pink-500)" />
-                </RippleButton>
-              </div>
-              <div
-                ref={carouselRef}
-                className="scroll"
-                style={{
-                  display: 'flex',
-                  gap: 12,
-                  overflowX: 'auto',
-                  paddingBottom: 8,
-                  marginLeft: -16,
-                  marginRight: -16,
-                  paddingLeft: 16,
-                  paddingRight: 16
-                }}
-              >
-                {duasData.map((dua, i) => (
-                  <TiltCard
-                    key={dua.id}
-                    onClick={() => setView('duas')}
-                    className="glass shadow-c"
-                    style={{
-                      minWidth: 260,
-                      borderRadius: 20,
-                      padding: 18,
-                      cursor: 'pointer',
-                      background: i === 0 ? 'linear-gradient(135deg, var(--pink-500), var(--pink-600))' : undefined
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                      <Icon name={dua.icon} size={18} color={i === 0 ? 'white' : 'var(--pink-500)'} />
-                      <span style={{ fontSize: 11, fontWeight: 700, color: i === 0 ? 'rgba(255,255,255,0.8)' : 'var(--pink-500)', textTransform: 'uppercase' }}>{dua.cat}</span>
-                    </div>
-                    <p className="font-ar" style={{ fontSize: 20, color: i === 0 ? 'white' : 'var(--pink-800)', marginBottom: 8, lineHeight: 1.5 }}>{dua.ar}</p>
-                    <p style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.85)' : 'var(--pink-600)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{dua.en}"</p>
-                  </TiltCard>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Section - Saved */}
-            <RippleButton
-              onClick={() => setView('saved')}
-              className="glass shadow-c a-slide d7"
+            {/* The Card Stack */}
+            <div
+              ref={stackRef}
+              onClick={!isDragging ? toggleFan : undefined}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 14,
-                padding: 16,
-                borderRadius: 18,
-                border: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                width: '100%',
-                marginBottom: 20
+                position: 'relative',
+                width: 300,
+                height: 400,
+                perspective: '1000px',
+                cursor: fanned ? 'default' : 'pointer',
               }}
             >
-              <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg, #a855f7, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Icon name="heart" size={20} color="white" />
-              </div>
-              <div style={{ flex: 1 }}>
-                <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-900)', margin: 0 }}>Your Collection</h3>
-                <p style={{ fontSize: 12, color: 'var(--pink-500)', margin: '2px 0 0' }}>{state.saved.length} saved items</p>
-              </div>
-              <Icon name="chevron" size={18} color="var(--pink-400)" />
-            </RippleButton>
+              {cards.map((card, i) => (
+                <div
+                  key={card.id}
+                  className="shadow-f"
+                  onMouseDown={(e) => !fanned && handleDragStart(e, card.id)}
+                  onTouchStart={(e) => !fanned && handleDragStart(e, card.id)}
+                  onClick={(e) => {
+                    if (fanned) {
+                      e.stopPropagation();
+                      haptic.med();
+                      setView(card.view);
+                    }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 28,
+                    padding: 28,
+                    background: card.color,
+                    color: 'white',
+                    cursor: fanned ? 'pointer' : 'grab',
+                    userSelect: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    ...getCardStyle(i, cards.length),
+                  }}
+                >
+                  {/* Card Inner Content */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 16, background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name={card.icon} size={24} color="white" />
+                    </div>
+                    <div>
+                      <h2 className="font-d" style={{ fontSize: 20, margin: 0 }}>{card.title}</h2>
+                      <p className="font-ar" style={{ fontSize: 14, margin: 0, opacity: 0.85 }}>{card.subtitle}</p>
+                    </div>
+                  </div>
 
-            {/* Footer Bismillah */}
-            <div className="a-fade d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
-              <p className="font-ar shimmer-text" style={{ fontSize: 22, margin: 0 }}>بِسْمِ اللَّهِ</p>
+                  <div style={{ flex: 1 }} />
+
+                  {/* Card specific content */}
+                  {card.id === 'hadith' ? (
+                    <div>
+                      <p className="font-ar" style={{ fontSize: 22, marginBottom: 12, lineHeight: 1.6, opacity: 0.95 }}>{daily.ar}</p>
+                      <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{daily.text}"</p>
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: 15, opacity: 0.85, lineHeight: 1.5 }}>{card.desc}</p>
+                  )}
+
+                  {/* Bottom indicator */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                    <span style={{ fontSize: 12, opacity: 0.7 }}>Tap to explore</span>
+                    <Icon name="chevron" size={18} color="rgba(255,255,255,0.8)" />
+                  </div>
+                </div>
+              ))}
             </div>
 
+            {/* Fan indicator dots */}
+            <div className="a-fade d2" style={{ display: 'flex', gap: 6, marginTop: 30 }}>
+              {cards.map((card, i) => (
+                <div
+                  key={card.id}
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    background: i === 0 ? 'var(--pink-500)' : 'var(--pink-200)',
+                    transition: 'all 0.3s ease',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Quick Actions */}
+          <div className="a-slide d3 glass" style={{ margin: '0 16px 16px', marginBottom: 'max(16px, var(--safe-bottom))', borderRadius: 20, padding: 12, display: 'flex', justifyContent: 'space-around' }}>
+            <RippleButton
+              onClick={() => setView('dhikr')}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '12px 20px', background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))', borderRadius: 16, border: 'none', cursor: 'pointer' }}
+            >
+              <Icon name="beads" size={24} color="white" />
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'white' }}>Dhikr</span>
+            </RippleButton>
+            <RippleButton
+              onClick={() => setView('prayer')}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '12px 20px', background: 'none', borderRadius: 16, border: 'none', cursor: 'pointer' }}
+            >
+              <Icon name="mosque" size={24} color="var(--pink-500)" />
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pink-600)' }}>Prayer</span>
+            </RippleButton>
+            <RippleButton
+              onClick={() => setView('duas')}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '12px 20px', background: 'none', borderRadius: 16, border: 'none', cursor: 'pointer' }}
+            >
+              <Icon name="hands" size={24} color="var(--pink-500)" />
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pink-600)' }}>Duas</span>
+            </RippleButton>
+            <RippleButton
+              onClick={() => setView('saved')}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '12px 20px', background: 'none', borderRadius: 16, border: 'none', cursor: 'pointer' }}
+            >
+              <Icon name="heart" size={24} color="var(--pink-500)" />
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pink-600)' }}>Saved</span>
+            </RippleButton>
           </div>
         </div>
       );
