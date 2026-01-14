@@ -148,8 +148,8 @@ export function HadithCard({ hadith, onExplain }) {
             </div>
 
             {/* Scholarly Perspective */}
-            <div className="p-4 bg-violet-50 dark:bg-violet-900/30 rounded-xl">
-              <p className="text-xs font-medium text-violet-700 dark:text-violet-400 uppercase tracking-wide mb-2">
+            <div className="p-4 bg-pink-50 dark:bg-pink-900/30 rounded-xl">
+              <p className="text-xs font-medium text-pink-700 dark:text-pink-400 uppercase tracking-wide mb-2">
                 Scholarly Perspective
               </p>
               <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">

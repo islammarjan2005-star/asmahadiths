@@ -134,7 +134,7 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
             {results.duas.length > 0 && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Heart className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <Heart className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                   <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
                     Duas ({results.duas.length})
                   </p>

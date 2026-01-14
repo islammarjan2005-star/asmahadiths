@@ -31,8 +31,8 @@ export function DuasView({ onBack }) {
 
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center">
-              <Heart className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+            <div className="w-12 h-12 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center">
+              <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
             </div>
             <div>
               <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
@@ -49,7 +49,7 @@ export function DuasView({ onBack }) {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               !selectedCategory
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-pink-600 text-white'
                 : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
             }`}
           >
@@ -61,7 +61,7 @@ export function DuasView({ onBack }) {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-pink-600 text-white'
                   : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
               }`}
             >
@@ -90,7 +90,7 @@ export function DuasView({ onBack }) {
                         onClick={() => handleSave(dua.id)}
                         className={`p-2 rounded-lg transition-colors ${
                           isSaved
-                            ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+                            ? 'bg-pink-50 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400'
                             : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
                         }`}
                       >
@@ -137,8 +137,8 @@ export function DuasView({ onBack }) {
 
                   {isExpanded && (
                     <div className="px-5 pb-5 animate-fade-in">
-                      <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl">
-                        <p className="text-xs font-medium text-indigo-700 dark:text-indigo-400 uppercase tracking-wide mb-2">
+                      <div className="p-4 bg-pink-50 dark:bg-pink-900/30 rounded-xl">
+                        <p className="text-xs font-medium text-pink-700 dark:text-pink-400 uppercase tracking-wide mb-2">
                           Why This Dua
                         </p>
                         <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">

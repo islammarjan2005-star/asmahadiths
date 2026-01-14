@@ -97,8 +97,8 @@ export function HomeScreen({
           <Card className="p-4 mb-4" onClick={onPrayerTimes}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-violet-50 dark:bg-violet-900/50 rounded-xl flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                <div className="w-10 h-10 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-pink-600 dark:text-pink-400" />
                 </div>
                 <div>
                   <p className="text-xs text-neutral-400">Next Prayer</p>
@@ -107,7 +107,7 @@ export function HomeScreen({
                   </p>
                 </div>
               </div>
-              <p className="text-lg font-medium text-violet-600 dark:text-violet-400">
+              <p className="text-lg font-medium text-pink-600 dark:text-pink-400">
                 {nextPrayer.time}
               </p>
             </div>
@@ -158,8 +158,8 @@ export function HomeScreen({
           </Card>
 
           <Card className="p-4 text-center" onClick={onDuas}>
-            <div className="w-10 h-10 mx-auto bg-indigo-50 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center mb-2">
-              <Heart className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <div className="w-10 h-10 mx-auto bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center mb-2">
+              <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
             </div>
             <p className="text-xs font-medium text-neutral-600 dark:text-neutral-300">Duas</p>
           </Card>

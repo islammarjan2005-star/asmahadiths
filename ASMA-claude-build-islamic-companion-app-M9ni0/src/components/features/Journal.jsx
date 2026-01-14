@@ -120,8 +120,8 @@ export function Journal({ onBack }) {
 
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-violet-50 dark:bg-violet-900/50 rounded-xl flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+            <div className="w-12 h-12 bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-pink-600 dark:text-pink-400" />
             </div>
             <div>
               <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
