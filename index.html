@@ -454,250 +454,6 @@
       50% { filter: drop-shadow(0 0 20px var(--theme-glow)) drop-shadow(0 0 40px var(--theme-glow)); }
     }
 
-    /* ========== CELESTIAL ORBIT SYSTEM ========== */
-
-    /* Deep Space Background */
-    .cosmic-void {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse at 30% 20%, #1a1035 0%, #0d0015 50%, #050008 100%);
-      z-index: -10;
-    }
-
-    /* Nebula Clouds */
-    .nebula {
-      position: fixed;
-      inset: 0;
-      z-index: -9;
-      pointer-events: none;
-    }
-    .nebula-cloud {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-      animation: nebulaFloat 30s ease-in-out infinite;
-    }
-    .nebula-cloud:nth-child(1) {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 70%);
-      top: -10%; left: -10%;
-      animation-duration: 25s;
-    }
-    .nebula-cloud:nth-child(2) {
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%);
-      top: 60%; right: -15%;
-      animation-delay: -8s;
-      animation-duration: 32s;
-    }
-    .nebula-cloud:nth-child(3) {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.35) 0%, transparent 70%);
-      bottom: -5%; left: 20%;
-      animation-delay: -15s;
-      animation-duration: 28s;
-    }
-    @keyframes nebulaFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -40px) scale(1.1); }
-      66% { transform: translate(-20px, 30px) scale(0.95); }
-    }
-
-    /* Star Field */
-    .starfield {
-      position: fixed;
-      inset: 0;
-      z-index: -8;
-      pointer-events: none;
-    }
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: starTwinkle var(--twinkle-duration, 3s) ease-in-out infinite;
-      animation-delay: var(--twinkle-delay, 0s);
-    }
-    .star.bright {
-      box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.6);
-    }
-    @keyframes starTwinkle {
-      0%, 100% { opacity: var(--star-opacity, 0.5); transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.3); }
-    }
-
-    /* Shooting Stars */
-    .shooting-star {
-      position: absolute;
-      width: 100px;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
-      border-radius: 50%;
-      opacity: 0;
-      animation: shootingStar 8s ease-in-out infinite;
-    }
-    @keyframes shootingStar {
-      0%, 90%, 100% { opacity: 0; transform: translateX(0) translateY(0); }
-      92% { opacity: 1; }
-      95% { opacity: 1; transform: translateX(200px) translateY(100px); }
-      96% { opacity: 0; transform: translateX(250px) translateY(125px); }
-    }
-
-    /* Central Sun (Dhikr) */
-    .celestial-sun {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fef3c7, #fbbf24, #f59e0b, #d97706);
-      box-shadow:
-        0 0 60px rgba(251, 191, 36, 0.8),
-        0 0 120px rgba(245, 158, 11, 0.5),
-        0 0 180px rgba(217, 119, 6, 0.3),
-        inset 0 0 30px rgba(255, 255, 255, 0.3);
-      animation: sunPulse 4s ease-in-out infinite, sunRotate 60s linear infinite;
-      cursor: pointer;
-      z-index: 10;
-    }
-    .celestial-sun::before {
-      content: '';
-      position: absolute;
-      inset: -20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
-      animation: sunCorona 3s ease-in-out infinite;
-    }
-    .celestial-sun::after {
-      content: '';
-      position: absolute;
-      inset: -40px;
-      border-radius: 50%;
-      border: 1px solid rgba(251, 191, 36, 0.2);
-      animation: sunRing 4s ease-in-out infinite;
-    }
-    @keyframes sunPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    @keyframes sunCorona {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.2); opacity: 0.5; }
-    }
-    @keyframes sunRing {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.3); opacity: 0.2; }
-    }
-    @keyframes sunRotate {
-      from { filter: hue-rotate(0deg); }
-      to { filter: hue-rotate(360deg); }
-    }
-
-    /* Orbital Paths */
-    .orbit-path {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px dashed rgba(255, 255, 255, 0.1);
-      pointer-events: none;
-    }
-
-    /* Planet Base */
-    .planet {
-      position: absolute;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: planetOrbit var(--orbit-duration, 20s) linear infinite;
-      animation-delay: var(--orbit-delay, 0s);
-    }
-    .planet:hover {
-      transform: scale(1.2) !important;
-      z-index: 100 !important;
-    }
-    .planet-glow {
-      position: absolute;
-      inset: -10px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--planet-glow) 0%, transparent 70%);
-      opacity: 0.6;
-      animation: planetGlow 3s ease-in-out infinite;
-    }
-    .planet-label {
-      position: absolute;
-      bottom: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .planet:hover .planet-label {
-      opacity: 1;
-    }
-    @keyframes planetGlow {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 0.7; transform: scale(1.1); }
-    }
-    @keyframes planetOrbit {
-      from { transform: rotate(var(--start-angle, 0deg)) translateX(var(--orbit-radius)) rotate(calc(-1 * var(--start-angle, 0deg))); }
-      to { transform: rotate(calc(var(--start-angle, 0deg) + 360deg)) translateX(var(--orbit-radius)) rotate(calc(-1 * (var(--start-angle, 0deg) + 360deg))); }
-    }
-
-    /* Fly-in Zoom Transition */
-    .fly-transition {
-      animation: flyIntoSpace 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes flyIntoSpace {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.5); opacity: 0.8; }
-      100% { transform: scale(3); opacity: 0; }
-    }
-
-    /* Planet Specific Colors */
-    .planet-hadith {
-      background: linear-gradient(135deg, #f9a8d4, #ec4899, #be185d);
-      box-shadow: 0 0 30px rgba(236, 72, 153, 0.6), inset -5px -5px 20px rgba(0,0,0,0.2);
-      --planet-glow: rgba(236, 72, 153, 0.5);
-    }
-    .planet-prayer {
-      background: linear-gradient(135deg, #fde68a, #fbbf24, #d97706);
-      box-shadow: 0 0 30px rgba(251, 191, 36, 0.6), inset -5px -5px 20px rgba(0,0,0,0.2);
-      --planet-glow: rgba(251, 191, 36, 0.5);
-    }
-    .planet-duas {
-      background: linear-gradient(135deg, #c4b5fd, #8b5cf6, #6d28d9);
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), inset -5px -5px 20px rgba(0,0,0,0.2);
-      --planet-glow: rgba(139, 92, 246, 0.5);
-    }
-    .planet-sahabiyat {
-      background: linear-gradient(135deg, #99f6e4, #2dd4bf, #0d9488);
-      box-shadow: 0 0 30px rgba(45, 212, 191, 0.6), inset -5px -5px 20px rgba(0,0,0,0.2);
-      --planet-glow: rgba(45, 212, 191, 0.5);
-    }
-    .planet-saved {
-      background: linear-gradient(135deg, #fda4af, #f43f5e, #be123c);
-      box-shadow: 0 0 30px rgba(244, 63, 94, 0.6), inset -5px -5px 20px rgba(0,0,0,0.2);
-      --planet-glow: rgba(244, 63, 94, 0.5);
-    }
-
-    /* Celestial Text Styles */
-    .cosmic-title {
-      color: white;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(139, 92, 246, 0.3);
-    }
-    .cosmic-subtitle {
-      color: rgba(255, 255, 255, 0.7);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    /* ========== END CELESTIAL SYSTEM ========== */
-
     .a-fade { animation: fadeIn 0.5s var(--ease-expo) both; }
     .a-slide { animation: slideUp 0.55s var(--ease-expo) both; }
     .a-scale { animation: scaleIn 0.5s var(--ease-expo) both; }
@@ -1417,273 +1173,282 @@
       </div>
     );
 
-    // Home - Celestial Orbit Design
+    // Home
     const Home = () => {
       const { state, setView, theme, showToast } = useApp();
       const [panic, setPanic] = useState(false);
-      const [flyingTo, setFlyingTo] = useState(null);
-      const [showInfo, setShowInfo] = useState(null);
-
-      // Generate stars once
-      const stars = useMemo(() => {
-        return Array.from({ length: 80 }, (_, i) => ({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.5 + 0.3,
-          duration: Math.random() * 3 + 2,
-          delay: Math.random() * 3,
-          bright: Math.random() > 0.85
-        }));
-      }, []);
-
-      // Shooting stars
-      const shootingStars = useMemo(() => {
-        return Array.from({ length: 3 }, (_, i) => ({
-          id: i,
-          top: Math.random() * 40 + 5,
-          left: Math.random() * 30 + 10,
-          delay: i * 6 + Math.random() * 4,
-          rotation: Math.random() * 20 + 25
-        }));
-      }, []);
+      const heroRef = useRef(null);
+      const carouselRef = useRef(null);
+      useTilt(heroRef, { max: 6, scale: 1.01 });
 
       const gr = useMemo(() => {
         const h = new Date().getHours();
-        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل' };
-        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير' };
-        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير' };
-        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور' };
-        return { en: 'Peace be upon you', ar: 'السلام عليكم' };
+        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل', icon: 'moon', period: 'night', tip: 'The last third of the night is blessed' };
+        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise', period: 'morning', tip: 'Start with Bismillah' };
+        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun', period: 'day', tip: 'Remember Allah in your work' };
+        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور', icon: 'sunset', period: 'evening', tip: 'Reflect on your day' };
+        return { en: 'Peace be upon you', ar: 'السلام عليكم', icon: 'moon', period: 'night', tip: 'End your day with gratitude' };
       }, []);
 
-      // Planets configuration
-      const planets = [
-        { id: 'hadith', name: 'Hadith', ar: 'الأحاديث', icon: 'book', view: 'hadith', class: 'planet-hadith', size: 70, orbit: 130, duration: 35, startAngle: 0 },
-        { id: 'prayer', name: 'Prayer', ar: 'الصلاة', icon: 'mosque', view: 'prayer', class: 'planet-prayer', size: 60, orbit: 130, duration: 40, startAngle: 72 },
-        { id: 'duas', name: 'Duas', ar: 'الأدعية', icon: 'hands', view: 'duas', class: 'planet-duas', size: 55, orbit: 130, duration: 45, startAngle: 144 },
-        { id: 'sahabiyat', name: 'Sahabiyat', ar: 'الصحابيات', icon: 'crown', view: 'sahabiyat', class: 'planet-sahabiyat', size: 50, orbit: 130, duration: 50, startAngle: 216 },
-        { id: 'saved', name: 'Saved', ar: 'المحفوظات', icon: 'heart', view: 'saved', class: 'planet-saved', size: 45, orbit: 130, duration: 55, startAngle: 288 },
-      ];
-
-      const handlePlanetClick = (planet) => {
-        haptic.med();
-        setFlyingTo(planet.id);
-        setTimeout(() => {
-          setView(planet.view);
-        }, 600);
-      };
-
-      const handleSunClick = () => {
-        haptic.heavy();
-        setFlyingTo('sun');
-        setTimeout(() => {
-          setView('dhikr');
-        }, 600);
-      };
+      const daily = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
+      const contextualDua = duasData.find(d =>
+        (gr.period === 'morning' && d.cat === 'Morning') ||
+        (gr.period === 'night' && d.cat === 'Protection') ||
+        d.cat === 'Guidance'
+      ) || duasData[0];
 
       if (panic) return <Calc close={() => setPanic(false)} />;
 
       return (
-        <div style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
-
-          {/* Deep Space Background */}
-          <div className="cosmic-void" />
-
-          {/* Nebula Clouds */}
-          <div className="nebula">
-            <div className="nebula-cloud" />
-            <div className="nebula-cloud" />
-            <div className="nebula-cloud" />
-          </div>
-
-          {/* Star Field */}
-          <div className="starfield">
-            {stars.map(star => (
-              <div
-                key={star.id}
-                className={`star ${star.bright ? 'bright' : ''}`}
-                style={{
-                  left: `${star.x}%`,
-                  top: `${star.y}%`,
-                  width: star.size,
-                  height: star.size,
-                  '--star-opacity': star.opacity,
-                  '--twinkle-duration': `${star.duration}s`,
-                  '--twinkle-delay': `${star.delay}s`,
-                }}
-              />
-            ))}
-            {/* Shooting Stars */}
-            {shootingStars.map(ss => (
-              <div
-                key={ss.id}
-                className="shooting-star"
-                style={{
-                  top: `${ss.top}%`,
-                  left: `${ss.left}%`,
-                  animationDelay: `${ss.delay}s`,
-                  transform: `rotate(${ss.rotation}deg)`,
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Header */}
-          <div className="a-fade" style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            padding: '16px 20px',
-            paddingTop: 'max(var(--safe-top), 16px)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            zIndex: 50
-          }}>
-            <div>
-              <p className="cosmic-subtitle" style={{ fontSize: 13, margin: 0, fontWeight: 500 }}>{gr.en}</p>
-              <h1 className="font-d cosmic-title" style={{ fontSize: 24, margin: 0 }}>{state.name || 'Sister'}</h1>
-            </div>
-            <RippleButton
-              onClick={() => { haptic.heavy(); setPanic(true); }}
-              style={{
-                background: 'rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: 14,
-                padding: '10px 12px',
-                color: 'rgba(255,255,255,0.8)'
-              }}
-            >
-              {I.eye}
-            </RippleButton>
-          </div>
-
-          {/* Solar System Container */}
-          <div
-            className={flyingTo ? 'fly-transition' : ''}
+        <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
+          {/* Floating Dhikr Button */}
+          <RippleButton
+            onClick={() => setView('dhikr')}
+            className="shadow-glow a-scale"
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 320,
-              height: 320,
+              position: 'fixed',
+              bottom: 100,
+              right: 20,
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))',
+              border: 'none',
+              zIndex: 40,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
             }}
           >
-            {/* Orbital Path */}
-            <div
-              className="orbit-path"
-              style={{
-                width: 260,
-                height: 260,
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            />
+            <Icon name="beads" size={26} color="white" />
+          </RippleButton>
 
-            {/* Central Sun (Dhikr) */}
-            <div
-              onClick={handleSunClick}
-              className="celestial-sun a-scale"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              <Icon name="beads" size={40} color="rgba(120, 53, 15, 0.9)" style={{ position: 'relative', zIndex: 2 }} />
-            </div>
+          <div style={{ padding: '0 16px', paddingTop: 'max(var(--safe-top),16px)', maxWidth: 500, margin: '0 auto' }}>
 
-            {/* Sun Label */}
-            <div style={{
-              position: 'absolute',
-              top: 'calc(50% + 75px)',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              textAlign: 'center',
-              zIndex: 20
-            }}>
-              <p className="font-d" style={{ color: '#fbbf24', fontSize: 14, margin: 0, textShadow: '0 0 20px rgba(251, 191, 36, 0.8)' }}>Dhikr</p>
-              <p className="font-ar" style={{ color: 'rgba(251, 191, 36, 0.7)', fontSize: 12, margin: 0 }}>الذكر</p>
-            </div>
-
-            {/* Orbiting Planets */}
-            {planets.map((planet, i) => (
-              <div
-                key={planet.id}
-                onClick={() => handlePlanetClick(planet)}
-                onMouseEnter={() => setShowInfo(planet.id)}
-                onMouseLeave={() => setShowInfo(null)}
-                className={`planet ${planet.class}`}
-                style={{
-                  width: planet.size,
-                  height: planet.size,
-                  top: '50%',
-                  left: '50%',
-                  marginTop: -planet.size / 2,
-                  marginLeft: -planet.size / 2,
-                  '--orbit-radius': `${planet.orbit}px`,
-                  '--orbit-duration': `${planet.duration}s`,
-                  '--start-angle': `${planet.startAngle}deg`,
-                  animationPlayState: flyingTo ? 'paused' : 'running',
-                }}
-              >
-                <div className="planet-glow" />
-                <Icon name={planet.icon} size={planet.size * 0.4} color="rgba(255,255,255,0.95)" />
-                <div className="planet-label">
-                  <span className="font-d">{planet.name}</span>
-                  <span className="font-ar" style={{ display: 'block', fontSize: 10, opacity: 0.8 }}>{planet.ar}</span>
+            {/* Header - Compact */}
+            <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: '0 4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 16, background: 'linear-gradient(135deg, var(--pink-100), var(--pink-200))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon name={gr.icon} size={24} color="var(--pink-500)" className="a-pulse" />
+                </div>
+                <div>
+                  <p style={{ fontSize: 13, color: 'var(--pink-400)', margin: 0, fontWeight: 500 }}>{gr.en}</p>
+                  <h1 className="font-d" style={{ fontSize: 22, margin: 0, color: 'var(--pink-900)' }}>{state.name || 'Sister'}</h1>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Bottom Instruction */}
-          <div className="a-fade d2" style={{
-            position: 'absolute',
-            bottom: 'max(var(--safe-bottom), 20px)',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            padding: '0 20px'
-          }}>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 8px' }}>
-              Tap a celestial body to explore
-            </p>
-            <p className="font-ar" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 18, margin: 0 }}>
-              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-            </p>
-          </div>
-
-          {/* Planet Info Tooltip */}
-          {showInfo && (
-            <div className="a-scale" style={{
-              position: 'absolute',
-              bottom: 120,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'rgba(0,0,0,0.7)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 16,
-              padding: '12px 20px',
-              textAlign: 'center',
-              zIndex: 100
-            }}>
-              <p className="font-d" style={{ color: 'white', fontSize: 14, margin: 0 }}>
-                {planets.find(p => p.id === showInfo)?.name}
-              </p>
-              <p className="font-ar" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, margin: '4px 0 0' }}>
-                {planets.find(p => p.id === showInfo)?.ar}
-              </p>
+              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
             </div>
-          )}
+
+            {/* Contextual Tip Banner */}
+            <div className="a-slide d1" style={{ background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))', borderRadius: 16, padding: '14px 18px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Icon name="sparkle" size={18} color="rgba(255,255,255,0.9)" className="a-pulse" />
+              <p style={{ color: 'white', fontSize: 14, margin: 0, fontWeight: 500, flex: 1 }}>{gr.tip}</p>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 20 }}>→</span>
+            </div>
+
+            {/* Bento Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'auto', gap: 12, marginBottom: 20 }}>
+
+              {/* Hero Card - Spans 4 columns */}
+              <TiltCard
+                ref={heroRef}
+                onClick={() => setView('hadith')}
+                className="glass-p breathing-glow a-slide d2"
+                style={{
+                  gridColumn: 'span 4',
+                  borderRadius: 24,
+                  padding: 24,
+                  cursor: 'pointer',
+                  minHeight: 180,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.08 }}>
+                  <Icon name={daily.icon} size={140} color="var(--pink-600)" />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 10, background: 'linear-gradient(135deg, var(--pink-400), var(--pink-500))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name={daily.icon} size={16} color="white" />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Reflection</span>
+                  </div>
+                  <p className="font-ar" style={{ fontSize: 24, color: 'var(--pink-800)', marginBottom: 10, lineHeight: 1.6 }}>{daily.ar}</p>
+                  <p style={{ color: 'var(--pink-600)', fontSize: 14, lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{daily.text}"</p>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                  <span style={{ fontSize: 11, color: 'var(--pink-400)' }}>{daily.src}</span>
+                  <span style={{ fontSize: 12, color: 'var(--pink-500)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Read more <Icon name="chevron" size={14} color="var(--pink-500)" /></span>
+                </div>
+              </TiltCard>
+
+              {/* Prayer Times - 2 columns, tall */}
+              <RippleButton
+                onClick={() => setView('prayer')}
+                className="glass shadow-c a-slide d3"
+                style={{
+                  gridColumn: 'span 2',
+                  gridRow: 'span 2',
+                  borderRadius: 20,
+                  padding: 18,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'linear-gradient(160deg, #fef3c7, #fde68a)',
+                  minHeight: 160
+                }}
+              >
+                <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(245,158,11,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                  <Icon name="mosque" size={22} color="#d97706" className="a-float" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-d" style={{ fontSize: 17, color: '#92400e', margin: '0 0 4px' }}>Prayer Times</h3>
+                  <p style={{ fontSize: 12, color: '#b45309', margin: 0 }}>Stay connected</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                  <span className="font-d" style={{ fontSize: 24, color: '#92400e' }}>🕌</span>
+                  <Icon name="chevron" size={18} color="#b45309" />
+                </div>
+              </RippleButton>
+
+              {/* Hadith - 2 columns */}
+              <RippleButton
+                onClick={() => setView('hadith')}
+                className="glass shadow-c a-slide d4"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #fce7f3, #fbcfe8)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(236,72,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="book" size={20} color="var(--pink-500)" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-800)', margin: 0 }}>Hadith</h3>
+                    <p style={{ fontSize: 11, color: 'var(--pink-500)', margin: 0 }}>{hadithData.length} teachings</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+              {/* Sahabiyat - 2 columns */}
+              <RippleButton
+                onClick={() => setView('sahabiyat')}
+                className="glass shadow-c a-slide d5"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #ede9fe, #ddd6fe)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="crown" size={20} color="#7c3aed" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: '#5b21b6', margin: 0 }}>Sahabiyat</h3>
+                    <p style={{ fontSize: 11, color: '#7c3aed', margin: 0 }}>Inspiring women</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+            </div>
+
+            {/* Horizontal Scroll - Duas */}
+            <div className="a-slide d6" style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
+                <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
+                <RippleButton onClick={() => setView('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
+                  See all <Icon name="chevron" size={14} color="var(--pink-500)" />
+                </RippleButton>
+              </div>
+              <div
+                ref={carouselRef}
+                className="scroll"
+                style={{
+                  display: 'flex',
+                  gap: 12,
+                  overflowX: 'auto',
+                  paddingBottom: 8,
+                  marginLeft: -16,
+                  marginRight: -16,
+                  paddingLeft: 16,
+                  paddingRight: 16
+                }}
+              >
+                {duasData.map((dua, i) => (
+                  <TiltCard
+                    key={dua.id}
+                    onClick={() => setView('duas')}
+                    className="glass shadow-c"
+                    style={{
+                      minWidth: 260,
+                      borderRadius: 20,
+                      padding: 18,
+                      cursor: 'pointer',
+                      background: i === 0 ? 'linear-gradient(135deg, var(--pink-500), var(--pink-600))' : undefined
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                      <Icon name={dua.icon} size={18} color={i === 0 ? 'white' : 'var(--pink-500)'} />
+                      <span style={{ fontSize: 11, fontWeight: 700, color: i === 0 ? 'rgba(255,255,255,0.8)' : 'var(--pink-500)', textTransform: 'uppercase' }}>{dua.cat}</span>
+                    </div>
+                    <p className="font-ar" style={{ fontSize: 20, color: i === 0 ? 'white' : 'var(--pink-800)', marginBottom: 8, lineHeight: 1.5 }}>{dua.ar}</p>
+                    <p style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.85)' : 'var(--pink-600)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{dua.en}"</p>
+                  </TiltCard>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Section - Saved */}
+            <RippleButton
+              onClick={() => setView('saved')}
+              className="glass shadow-c a-slide d7"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                padding: 16,
+                borderRadius: 18,
+                border: 'none',
+                cursor: 'pointer',
+                textAlign: 'left',
+                width: '100%',
+                marginBottom: 20
+              }}
+            >
+              <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg, #a855f7, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="heart" size={20} color="white" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-900)', margin: 0 }}>Your Collection</h3>
+                <p style={{ fontSize: 12, color: 'var(--pink-500)', margin: '2px 0 0' }}>{state.saved.length} saved items</p>
+              </div>
+              <Icon name="chevron" size={18} color="var(--pink-400)" />
+            </RippleButton>
+
+            {/* Footer Bismillah */}
+            <div className="a-fade d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
+              <p className="font-ar shimmer-text" style={{ fontSize: 22, margin: 0 }}>بِسْمِ اللَّهِ</p>
+            </div>
+
+          </div>
         </div>
       );
     };
