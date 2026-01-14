@@ -454,229 +454,6 @@
       50% { filter: drop-shadow(0 0 20px var(--theme-glow)) drop-shadow(0 0 40px var(--theme-glow)); }
     }
 
-    /* ========== LIVING CALLIGRAPHY GARDEN ========== */
-
-    /* Garden Background - Warm parchment feel */
-    .garden-bg {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(253, 242, 248, 0.9) 0%, transparent 50%),
-        radial-gradient(ellipse 100% 100% at 20% 80%, rgba(252, 231, 243, 0.6) 0%, transparent 40%),
-        radial-gradient(ellipse 80% 80% at 80% 70%, rgba(251, 207, 232, 0.5) 0%, transparent 40%),
-        linear-gradient(180deg, #fdfaf7 0%, #fef7f0 50%, #fdf2f8 100%);
-      z-index: -1;
-    }
-
-    /* Subtle paper texture overlay */
-    .garden-texture {
-      position: fixed;
-      inset: 0;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Calligraphic Word Base */
-    .cal-word {
-      position: absolute;
-      font-family: 'Scheherazade New', 'Amiri', serif;
-      color: var(--pink-800);
-      cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      user-select: none;
-      direction: rtl;
-      transform-origin: center center;
-      z-index: 10;
-    }
-
-    /* Breathing animation - subtle scale pulse */
-    .cal-word.breathing {
-      animation: calBreathe var(--breathe-duration, 4s) ease-in-out infinite;
-      animation-delay: var(--breathe-delay, 0s);
-    }
-    @keyframes calBreathe {
-      0%, 100% { transform: scale(1) rotate(var(--rotation, 0deg)); }
-      50% { transform: scale(1.03) rotate(var(--rotation, 0deg)); }
-    }
-
-    /* Swaying animation - gentle rotation */
-    .cal-word.swaying {
-      animation: calSway var(--sway-duration, 6s) ease-in-out infinite;
-      animation-delay: var(--sway-delay, 0s);
-    }
-    @keyframes calSway {
-      0%, 100% { transform: rotate(calc(var(--rotation, 0deg) - 1deg)) translateY(0); }
-      33% { transform: rotate(calc(var(--rotation, 0deg) + 1.5deg)) translateY(-3px); }
-      66% { transform: rotate(calc(var(--rotation, 0deg) - 0.5deg)) translateY(2px); }
-    }
-
-    /* Combined breathing + swaying */
-    .cal-word.living {
-      animation:
-        calLiving var(--living-duration, 5s) ease-in-out infinite;
-      animation-delay: var(--living-delay, 0s);
-    }
-    @keyframes calLiving {
-      0%, 100% {
-        transform: scale(1) rotate(var(--rotation, 0deg)) translateY(0);
-        filter: drop-shadow(0 4px 8px rgba(157, 23, 77, 0.1));
-      }
-      25% {
-        transform: scale(1.02) rotate(calc(var(--rotation, 0deg) + 1deg)) translateY(-4px);
-        filter: drop-shadow(0 8px 16px rgba(157, 23, 77, 0.15));
-      }
-      50% {
-        transform: scale(1.04) rotate(var(--rotation, 0deg)) translateY(-2px);
-        filter: drop-shadow(0 12px 24px rgba(157, 23, 77, 0.12));
-      }
-      75% {
-        transform: scale(1.01) rotate(calc(var(--rotation, 0deg) - 1deg)) translateY(-5px);
-        filter: drop-shadow(0 6px 12px rgba(157, 23, 77, 0.14));
-      }
-    }
-
-    /* Hover/Active glow effect */
-    .cal-word:hover, .cal-word.active {
-      color: var(--pink-700);
-      filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.4))
-              drop-shadow(0 0 60px rgba(236, 72, 153, 0.2));
-      transform: scale(1.08) rotate(var(--rotation, 0deg)) translateY(-8px) !important;
-      z-index: 50;
-    }
-
-    /* Ink ripple effect container */
-    .ink-ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(157, 23, 77, 0.3) 0%, rgba(157, 23, 77, 0.1) 40%, transparent 70%);
-      pointer-events: none;
-      transform: scale(0);
-      animation: inkSpread 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-    }
-    @keyframes inkSpread {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(3); opacity: 0; }
-    }
-
-    /* Secondary ink rings */
-    .ink-ripple::before, .ink-ripple::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 2px solid rgba(157, 23, 77, 0.2);
-      animation: inkRing 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-    }
-    .ink-ripple::after {
-      animation-delay: 0.1s;
-    }
-    @keyframes inkRing {
-      0% { transform: scale(0.5); opacity: 0.8; }
-      100% { transform: scale(2.5); opacity: 0; }
-    }
-
-    /* Ink particle */
-    .ink-particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--pink-400);
-      pointer-events: none;
-      opacity: 0;
-      animation: inkFloat var(--float-duration, 8s) ease-out infinite;
-      animation-delay: var(--float-delay, 0s);
-    }
-    @keyframes inkFloat {
-      0% {
-        transform: translateY(0) translateX(0) scale(0);
-        opacity: 0;
-      }
-      10% {
-        transform: translateY(-20px) translateX(var(--drift-x, 5px)) scale(1);
-        opacity: 0.6;
-      }
-      90% {
-        transform: translateY(-120px) translateX(calc(var(--drift-x, 5px) * 3)) scale(0.5);
-        opacity: 0.3;
-      }
-      100% {
-        transform: translateY(-150px) translateX(calc(var(--drift-x, 5px) * 4)) scale(0);
-        opacity: 0;
-      }
-    }
-
-    /* Bismillah header - draws itself */
-    .bismillah-draw {
-      font-family: 'Scheherazade New', 'Amiri', serif;
-      font-size: clamp(28px, 7vw, 42px);
-      background: linear-gradient(135deg, var(--pink-700), var(--pink-500), var(--pink-600));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: bismillahReveal 2s ease-out forwards;
-      opacity: 0;
-    }
-    @keyframes bismillahReveal {
-      0% {
-        opacity: 0;
-        filter: blur(10px);
-        letter-spacing: 0.3em;
-      }
-      50% {
-        opacity: 0.7;
-        filter: blur(3px);
-        letter-spacing: 0.1em;
-      }
-      100% {
-        opacity: 1;
-        filter: blur(0);
-        letter-spacing: normal;
-      }
-    }
-
-    /* English label under Arabic word */
-    .cal-label {
-      position: absolute;
-      bottom: -24px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--pink-400);
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      white-space: nowrap;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .cal-word:hover .cal-label, .cal-word.active .cal-label {
-      opacity: 1;
-      transform: translateX(-50%) translateY(4px);
-    }
-
-    /* Transition overlay for navigation */
-    .ink-transition {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at var(--origin-x, 50%) var(--origin-y, 50%),
-        var(--pink-800) 0%,
-        var(--pink-900) 100%);
-      z-index: 1000;
-      transform: scale(0);
-      border-radius: 50%;
-      animation: inkTransition 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    @keyframes inkTransition {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(3); opacity: 1; }
-    }
-
-    /* ========== END CALLIGRAPHY GARDEN ========== */
-
     .a-fade { animation: fadeIn 0.5s var(--ease-expo) both; }
     .a-slide { animation: slideUp 0.55s var(--ease-expo) both; }
     .a-scale { animation: scaleIn 0.5s var(--ease-expo) both; }
@@ -1396,288 +1173,282 @@
       </div>
     );
 
-    // Home - Living Calligraphy Garden
+    // Home
     const Home = () => {
-      const { state, setView } = useApp();
+      const { state, setView, theme, showToast } = useApp();
       const [panic, setPanic] = useState(false);
-      const [ripples, setRipples] = useState([]);
-      const [transitioning, setTransitioning] = useState(null);
-      const [activeWord, setActiveWord] = useState(null);
-      const gardenRef = useRef(null);
+      const heroRef = useRef(null);
+      const carouselRef = useRef(null);
+      useTilt(heroRef, { max: 6, scale: 1.01 });
 
-      // Ink particles - floating specs of ink
-      const inkParticles = useMemo(() => {
-        return Array.from({ length: 20 }, (_, i) => ({
-          id: i,
-          x: 15 + Math.random() * 70,
-          y: 30 + Math.random() * 50,
-          size: Math.random() * 4 + 2,
-          duration: 6 + Math.random() * 6,
-          delay: Math.random() * 8,
-          driftX: (Math.random() - 0.5) * 30,
-          color: Math.random() > 0.7 ? 'var(--pink-300)' : 'var(--pink-400)'
-        }));
+      const gr = useMemo(() => {
+        const h = new Date().getHours();
+        if (h < 5) return { en: 'Night Prayers', ar: 'قيام الليل', icon: 'moon', period: 'night', tip: 'The last third of the night is blessed' };
+        if (h < 12) return { en: 'Good Morning', ar: 'صباح الخير', icon: 'sunrise', period: 'morning', tip: 'Start with Bismillah' };
+        if (h < 17) return { en: 'Good Afternoon', ar: 'مساء الخير', icon: 'sun', period: 'day', tip: 'Remember Allah in your work' };
+        if (h < 20) return { en: 'Good Evening', ar: 'مساء النور', icon: 'sunset', period: 'evening', tip: 'Reflect on your day' };
+        return { en: 'Peace be upon you', ar: 'السلام عليكم', icon: 'moon', period: 'night', tip: 'End your day with gratitude' };
       }, []);
 
-      // The garden words - each is a section
-      const gardenWords = [
-        {
-          id: 'hadith',
-          ar: 'الأحاديث',
-          en: 'Hadith',
-          view: 'hadith',
-          x: '50%', y: '32%',
-          size: 'clamp(42px, 11vw, 58px)',
-          rotation: -3,
-          delay: 0.2,
-          duration: 5.5
-        },
-        {
-          id: 'prayer',
-          ar: 'الصلاة',
-          en: 'Prayer',
-          view: 'prayer',
-          x: '22%', y: '48%',
-          size: 'clamp(36px, 9vw, 48px)',
-          rotation: 5,
-          delay: 0.8,
-          duration: 6.2
-        },
-        {
-          id: 'duas',
-          ar: 'الأدعية',
-          en: 'Duas',
-          view: 'duas',
-          x: '75%', y: '45%',
-          size: 'clamp(38px, 9.5vw, 50px)',
-          rotation: -6,
-          delay: 0.5,
-          duration: 5.8
-        },
-        {
-          id: 'dhikr',
-          ar: 'الذِّكر',
-          en: 'Dhikr',
-          view: 'dhikr',
-          x: '50%', y: '58%',
-          size: 'clamp(44px, 10vw, 54px)',
-          rotation: 2,
-          delay: 0,
-          duration: 5
-        },
-        {
-          id: 'sahabiyat',
-          ar: 'الصحابيات',
-          en: 'Sahabiyat',
-          view: 'sahabiyat',
-          x: '28%', y: '72%',
-          size: 'clamp(32px, 8vw, 42px)',
-          rotation: -4,
-          delay: 1.2,
-          duration: 6.5
-        },
-        {
-          id: 'saved',
-          ar: 'المحفوظات',
-          en: 'Saved',
-          view: 'saved',
-          x: '72%', y: '70%',
-          size: 'clamp(30px, 7.5vw, 40px)',
-          rotation: 7,
-          delay: 1.5,
-          duration: 7
-        }
-      ];
-
-      const createRipple = (e, word) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const size = Math.max(rect.width, rect.height) * 2;
-
-        const newRipple = {
-          id: Date.now(),
-          x: x - size / 2,
-          y: y - size / 2,
-          size
-        };
-
-        setRipples(prev => [...prev, newRipple]);
-        setTimeout(() => {
-          setRipples(prev => prev.filter(r => r.id !== newRipple.id));
-        }, 800);
-      };
-
-      const handleWordClick = (e, word) => {
-        haptic.med();
-        createRipple(e, word);
-        setActiveWord(word.id);
-
-        // Calculate position for ink transition
-        const rect = e.currentTarget.getBoundingClientRect();
-        const originX = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
-        const originY = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
-
-        setTimeout(() => {
-          setTransitioning({ view: word.view, originX, originY });
-          setTimeout(() => {
-            setView(word.view);
-          }, 500);
-        }, 200);
-      };
+      const daily = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
+      const contextualDua = duasData.find(d =>
+        (gr.period === 'morning' && d.cat === 'Morning') ||
+        (gr.period === 'night' && d.cat === 'Protection') ||
+        d.cat === 'Guidance'
+      ) || duasData[0];
 
       if (panic) return <Calc close={() => setPanic(false)} />;
 
       return (
-        <div style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
-
-          {/* Garden Background */}
-          <div className="garden-bg" />
-          <div className="garden-texture" />
-
-          {/* Floating Ink Particles */}
-          {inkParticles.map(p => (
-            <div
-              key={p.id}
-              className="ink-particle"
-              style={{
-                left: `${p.x}%`,
-                top: `${p.y}%`,
-                width: p.size,
-                height: p.size,
-                background: p.color,
-                '--float-duration': `${p.duration}s`,
-                '--float-delay': `${p.delay}s`,
-                '--drift-x': `${p.driftX}px`
-              }}
-            />
-          ))}
-
-          {/* Header */}
-          <div className="a-fade" style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            padding: '16px 20px',
-            paddingTop: 'max(var(--safe-top), 16px)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            zIndex: 50
-          }}>
-            <div>
-              <p style={{ fontSize: 13, color: 'var(--pink-400)', margin: 0, fontWeight: 500 }}>
-                {new Date().getHours() < 12 ? 'صباح الخير' : 'مساء النور'}
-              </p>
-              <h1 className="font-d" style={{ fontSize: 24, margin: 0, color: 'var(--pink-900)' }}>
-                {state.name || 'Sister'}
-              </h1>
-            </div>
-            <button
-              onClick={() => { haptic.heavy(); setPanic(true); }}
-              style={{
-                background: 'rgba(255,255,255,0.6)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(157, 23, 77, 0.1)',
-                borderRadius: 14,
-                padding: '10px 12px',
-                color: 'var(--pink-400)',
-                cursor: 'pointer'
-              }}
-            >
-              {I.eye}
-            </button>
-          </div>
-
-          {/* Bismillah Header - Draws itself */}
-          <div className="a-fade" style={{
-            position: 'absolute',
-            top: '15%',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zIndex: 10
-          }}>
-            <p className="bismillah-draw" style={{ margin: 0 }}>
-              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-            </p>
-          </div>
-
-          {/* The Living Garden of Words */}
-          <div
-            ref={gardenRef}
+        <div className="scroll" style={{ height: '100vh', paddingBottom: 130 }}>
+          {/* Floating Dhikr Button */}
+          <RippleButton
+            onClick={() => setView('dhikr')}
+            className="shadow-glow a-scale"
             style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden'
+              position: 'fixed',
+              bottom: 100,
+              right: 20,
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))',
+              border: 'none',
+              zIndex: 40,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
             }}
           >
-            {gardenWords.map((word) => (
-              <div
-                key={word.id}
-                className={`cal-word living ${activeWord === word.id ? 'active' : ''}`}
-                onClick={(e) => handleWordClick(e, word)}
+            <Icon name="beads" size={26} color="white" />
+          </RippleButton>
+
+          <div style={{ padding: '0 16px', paddingTop: 'max(var(--safe-top),16px)', maxWidth: 500, margin: '0 auto' }}>
+
+            {/* Header - Compact */}
+            <div className="a-fade" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: '0 4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 16, background: 'linear-gradient(135deg, var(--pink-100), var(--pink-200))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon name={gr.icon} size={24} color="var(--pink-500)" className="a-pulse" />
+                </div>
+                <div>
+                  <p style={{ fontSize: 13, color: 'var(--pink-400)', margin: 0, fontWeight: 500 }}>{gr.en}</p>
+                  <h1 className="font-d" style={{ fontSize: 22, margin: 0, color: 'var(--pink-900)' }}>{state.name || 'Sister'}</h1>
+                </div>
+              </div>
+              <RippleButton onClick={() => { haptic.heavy(); setPanic(true); }} className="ib glass" style={{ color: 'var(--pink-400)', borderRadius: 14 }}>{I.eye}</RippleButton>
+            </div>
+
+            {/* Contextual Tip Banner */}
+            <div className="a-slide d1" style={{ background: 'linear-gradient(135deg, var(--pink-500), var(--pink-600))', borderRadius: 16, padding: '14px 18px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Icon name="sparkle" size={18} color="rgba(255,255,255,0.9)" className="a-pulse" />
+              <p style={{ color: 'white', fontSize: 14, margin: 0, fontWeight: 500, flex: 1 }}>{gr.tip}</p>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 20 }}>→</span>
+            </div>
+
+            {/* Bento Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'auto', gap: 12, marginBottom: 20 }}>
+
+              {/* Hero Card - Spans 4 columns */}
+              <TiltCard
+                ref={heroRef}
+                onClick={() => setView('hadith')}
+                className="glass-p breathing-glow a-slide d2"
                 style={{
-                  left: word.x,
-                  top: word.y,
-                  fontSize: word.size,
-                  transform: `translate(-50%, -50%)`,
-                  '--rotation': `${word.rotation}deg`,
-                  '--living-delay': `${word.delay}s`,
-                  '--living-duration': `${word.duration}s`
+                  gridColumn: 'span 4',
+                  borderRadius: 24,
+                  padding: 24,
+                  cursor: 'pointer',
+                  minHeight: 180,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
-                {word.ar}
-                <span className="cal-label">{word.en}</span>
+                <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.08 }}>
+                  <Icon name={daily.icon} size={140} color="var(--pink-600)" />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 10, background: 'linear-gradient(135deg, var(--pink-400), var(--pink-500))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name={daily.icon} size={16} color="white" />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Daily Reflection</span>
+                  </div>
+                  <p className="font-ar" style={{ fontSize: 24, color: 'var(--pink-800)', marginBottom: 10, lineHeight: 1.6 }}>{daily.ar}</p>
+                  <p style={{ color: 'var(--pink-600)', fontSize: 14, lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{daily.text}"</p>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                  <span style={{ fontSize: 11, color: 'var(--pink-400)' }}>{daily.src}</span>
+                  <span style={{ fontSize: 12, color: 'var(--pink-500)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Read more <Icon name="chevron" size={14} color="var(--pink-500)" /></span>
+                </div>
+              </TiltCard>
 
-                {/* Ink ripples for this word */}
-                {ripples.map(ripple => (
-                  <div
-                    key={ripple.id}
-                    className="ink-ripple"
+              {/* Prayer Times - 2 columns, tall */}
+              <RippleButton
+                onClick={() => setView('prayer')}
+                className="glass shadow-c a-slide d3"
+                style={{
+                  gridColumn: 'span 2',
+                  gridRow: 'span 2',
+                  borderRadius: 20,
+                  padding: 18,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'linear-gradient(160deg, #fef3c7, #fde68a)',
+                  minHeight: 160
+                }}
+              >
+                <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(245,158,11,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                  <Icon name="mosque" size={22} color="#d97706" className="a-float" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-d" style={{ fontSize: 17, color: '#92400e', margin: '0 0 4px' }}>Prayer Times</h3>
+                  <p style={{ fontSize: 12, color: '#b45309', margin: 0 }}>Stay connected</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                  <span className="font-d" style={{ fontSize: 24, color: '#92400e' }}>🕌</span>
+                  <Icon name="chevron" size={18} color="#b45309" />
+                </div>
+              </RippleButton>
+
+              {/* Hadith - 2 columns */}
+              <RippleButton
+                onClick={() => setView('hadith')}
+                className="glass shadow-c a-slide d4"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #fce7f3, #fbcfe8)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(236,72,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="book" size={20} color="var(--pink-500)" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-800)', margin: 0 }}>Hadith</h3>
+                    <p style={{ fontSize: 11, color: 'var(--pink-500)', margin: 0 }}>{hadithData.length} teachings</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+              {/* Sahabiyat - 2 columns */}
+              <RippleButton
+                onClick={() => setView('sahabiyat')}
+                className="glass shadow-c a-slide d5"
+                style={{
+                  gridColumn: 'span 2',
+                  borderRadius: 20,
+                  padding: 16,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: 'linear-gradient(160deg, #ede9fe, #ddd6fe)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="crown" size={20} color="#7c3aed" />
+                  </div>
+                  <div>
+                    <h3 className="font-d" style={{ fontSize: 15, color: '#5b21b6', margin: 0 }}>Sahabiyat</h3>
+                    <p style={{ fontSize: 11, color: '#7c3aed', margin: 0 }}>Inspiring women</p>
+                  </div>
+                </div>
+              </RippleButton>
+
+            </div>
+
+            {/* Horizontal Scroll - Duas */}
+            <div className="a-slide d6" style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, padding: '0 4px' }}>
+                <h2 className="font-d" style={{ fontSize: 16, color: 'var(--pink-800)', margin: 0 }}>Duas for You</h2>
+                <RippleButton onClick={() => setView('duas')} style={{ background: 'none', border: 'none', color: 'var(--pink-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}>
+                  See all <Icon name="chevron" size={14} color="var(--pink-500)" />
+                </RippleButton>
+              </div>
+              <div
+                ref={carouselRef}
+                className="scroll"
+                style={{
+                  display: 'flex',
+                  gap: 12,
+                  overflowX: 'auto',
+                  paddingBottom: 8,
+                  marginLeft: -16,
+                  marginRight: -16,
+                  paddingLeft: 16,
+                  paddingRight: 16
+                }}
+              >
+                {duasData.map((dua, i) => (
+                  <TiltCard
+                    key={dua.id}
+                    onClick={() => setView('duas')}
+                    className="glass shadow-c"
                     style={{
-                      left: ripple.x,
-                      top: ripple.y,
-                      width: ripple.size,
-                      height: ripple.size
+                      minWidth: 260,
+                      borderRadius: 20,
+                      padding: 18,
+                      cursor: 'pointer',
+                      background: i === 0 ? 'linear-gradient(135deg, var(--pink-500), var(--pink-600))' : undefined
                     }}
-                  />
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                      <Icon name={dua.icon} size={18} color={i === 0 ? 'white' : 'var(--pink-500)'} />
+                      <span style={{ fontSize: 11, fontWeight: 700, color: i === 0 ? 'rgba(255,255,255,0.8)' : 'var(--pink-500)', textTransform: 'uppercase' }}>{dua.cat}</span>
+                    </div>
+                    <p className="font-ar" style={{ fontSize: 20, color: i === 0 ? 'white' : 'var(--pink-800)', marginBottom: 8, lineHeight: 1.5 }}>{dua.ar}</p>
+                    <p style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.85)' : 'var(--pink-600)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>"{dua.en}"</p>
+                  </TiltCard>
                 ))}
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Bottom hint */}
-          <div className="a-fade d3" style={{
-            position: 'absolute',
-            bottom: 'max(var(--safe-bottom), 24px)',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            padding: '0 20px'
-          }}>
-            <p style={{
-              color: 'var(--pink-300)',
-              fontSize: 12,
-              margin: 0,
-              fontWeight: 500,
-              letterSpacing: '0.05em'
-            }}>
-              Touch the words to begin your journey
-            </p>
-          </div>
-
-          {/* Ink Transition Overlay */}
-          {transitioning && (
-            <div
-              className="ink-transition"
+            {/* Bottom Section - Saved */}
+            <RippleButton
+              onClick={() => setView('saved')}
+              className="glass shadow-c a-slide d7"
               style={{
-                '--origin-x': `${transitioning.originX}%`,
-                '--origin-y': `${transitioning.originY}%`
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                padding: 16,
+                borderRadius: 18,
+                border: 'none',
+                cursor: 'pointer',
+                textAlign: 'left',
+                width: '100%',
+                marginBottom: 20
               }}
-            />
-          )}
+            >
+              <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg, #a855f7, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="heart" size={20} color="white" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 className="font-d" style={{ fontSize: 15, color: 'var(--pink-900)', margin: 0 }}>Your Collection</h3>
+                <p style={{ fontSize: 12, color: 'var(--pink-500)', margin: '2px 0 0' }}>{state.saved.length} saved items</p>
+              </div>
+              <Icon name="chevron" size={18} color="var(--pink-400)" />
+            </RippleButton>
+
+            {/* Footer Bismillah */}
+            <div className="a-fade d8" style={{ textAlign: 'center', paddingBottom: 20 }}>
+              <p className="font-ar shimmer-text" style={{ fontSize: 22, margin: 0 }}>بِسْمِ اللَّهِ</p>
+            </div>
+
+          </div>
         </div>
       );
     };
