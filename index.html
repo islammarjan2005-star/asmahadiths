@@ -1642,93 +1642,16 @@
     // SAHABIYAT VIEW
     // ============================================
 
-    // Hijabi Silhouette SVG Component
-    const HijabiSilhouette = ({ variant = 1, className = "" }) => {
-      const silhouettes = {
-        1: ( // Khadijah - confident businesswoman pose
-          <svg className={className} viewBox="0 0 100 120" fill="currentColor">
-            <defs>
-              <linearGradient id="hijabGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.9"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0.7"/>
-              </linearGradient>
-            </defs>
-            {/* Head with hijab */}
-            <ellipse cx="50" cy="35" rx="22" ry="25" fill="url(#hijabGrad1)"/>
-            {/* Face area (lighter) */}
-            <ellipse cx="50" cy="38" rx="14" ry="16" fill="currentColor" opacity="0.3"/>
-            {/* Hijab draping left */}
-            <path d="M28 35 Q20 50 25 75 Q30 85 35 90 L40 85 Q32 70 35 50 Q38 40 28 35Z" fill="url(#hijabGrad1)"/>
-            {/* Hijab draping right */}
-            <path d="M72 35 Q80 50 75 75 Q70 85 65 90 L60 85 Q68 70 65 50 Q62 40 72 35Z" fill="url(#hijabGrad1)"/>
-            {/* Shoulders/dress */}
-            <path d="M25 90 Q20 95 15 120 L85 120 Q80 95 75 90 Q65 85 50 85 Q35 85 25 90Z" fill="url(#hijabGrad1)"/>
-            {/* Subtle neck area */}
-            <path d="M40 58 Q50 62 60 58 L60 70 Q50 75 40 70 Z" fill="currentColor" opacity="0.4"/>
-          </svg>
-        ),
-        2: ( // Aisha - scholarly pose with slight tilt
-          <svg className={className} viewBox="0 0 100 120" fill="currentColor">
-            <defs>
-              <linearGradient id="hijabGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.85"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0.65"/>
-              </linearGradient>
-            </defs>
-            {/* Head with hijab - slight tilt */}
-            <ellipse cx="52" cy="34" rx="21" ry="24" fill="url(#hijabGrad2)" transform="rotate(5 52 34)"/>
-            {/* Face */}
-            <ellipse cx="52" cy="37" rx="13" ry="15" fill="currentColor" opacity="0.3" transform="rotate(5 52 37)"/>
-            {/* Hijab flowing gracefully */}
-            <path d="M31 32 Q22 48 20 70 Q22 85 28 95 L38 90 Q30 75 32 55 Q35 42 31 32Z" fill="url(#hijabGrad2)"/>
-            <path d="M73 32 Q78 55 85 80 Q82 95 75 100 L65 92 Q72 78 70 55 Q68 40 73 32Z" fill="url(#hijabGrad2)"/>
-            {/* Shoulders */}
-            <path d="M28 95 Q18 100 10 120 L90 120 Q82 100 72 95 Q62 88 52 88 Q38 88 28 95Z" fill="url(#hijabGrad2)"/>
-          </svg>
-        ),
-        3: ( // Nusaybah - strong warrior pose
-          <svg className={className} viewBox="0 0 100 120" fill="currentColor">
-            <defs>
-              <linearGradient id="hijabGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.95"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0.7"/>
-              </linearGradient>
-            </defs>
-            {/* Head - upright, confident */}
-            <ellipse cx="50" cy="32" rx="20" ry="23" fill="url(#hijabGrad3)"/>
-            {/* Face */}
-            <ellipse cx="50" cy="35" rx="12" ry="14" fill="currentColor" opacity="0.3"/>
-            {/* Hijab - more structured, warrior-like */}
-            <path d="M30 30 Q18 45 20 65 Q22 80 30 88 L38 82 Q28 68 30 50 Q33 38 30 30Z" fill="url(#hijabGrad3)"/>
-            <path d="M70 30 Q82 45 80 65 Q78 80 70 88 L62 82 Q72 68 70 50 Q67 38 70 30Z" fill="url(#hijabGrad3)"/>
-            {/* Strong shoulders */}
-            <path d="M30 88 Q15 92 5 120 L95 120 Q85 92 70 88 Q60 82 50 82 Q40 82 30 88Z" fill="url(#hijabGrad3)"/>
-          </svg>
-        ),
-        4: ( // Fatimah al-Fihri - elegant educator
-          <svg className={className} viewBox="0 0 100 120" fill="currentColor">
-            <defs>
-              <linearGradient id="hijabGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.9"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0.6"/>
-              </linearGradient>
-            </defs>
-            {/* Elegant head position */}
-            <ellipse cx="50" cy="33" rx="21" ry="24" fill="url(#hijabGrad4)"/>
-            {/* Face */}
-            <ellipse cx="50" cy="36" rx="13" ry="15" fill="currentColor" opacity="0.3"/>
-            {/* Flowing elegant hijab */}
-            <path d="M29 33 Q15 50 18 75 Q20 90 30 100 L42 92 Q28 78 30 55 Q34 42 29 33Z" fill="url(#hijabGrad4)"/>
-            <path d="M71 33 Q85 50 82 75 Q80 90 70 100 L58 92 Q72 78 70 55 Q66 42 71 33Z" fill="url(#hijabGrad4)"/>
-            {/* Graceful shoulders */}
-            <path d="M30 100 Q20 105 12 120 L88 120 Q80 105 70 100 Q60 92 50 92 Q40 92 30 100Z" fill="url(#hijabGrad4)"/>
-            {/* Decorative element suggesting knowledge/books */}
-            <rect x="20" y="108" width="25" height="4" rx="1" fill="currentColor" opacity="0.3"/>
-          </svg>
-        ),
-      };
-      return silhouettes[variant] || silhouettes[1];
-    };
+    // Hijabi Silhouette Image Component
+    const HijabiSilhouette = ({ className = "" }) => (
+      <img
+        src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/hijab-icon.png"
+        alt=""
+        className={className}
+        style={{ filter: 'brightness(0) invert(1)' }}
+        draggable="false"
+      />
+    );
 
     const SahabiyatView = () => {
       const { updateState } = useApp();
@@ -1743,8 +1666,8 @@
               {/* Hero Section with Silhouette */}
               <div className={`relative rounded-3xl p-8 mb-6 bg-gradient-to-br ${selected.color} text-white overflow-hidden`}>
                 {/* Background silhouette */}
-                <div className="absolute -right-8 -bottom-4 opacity-20">
-                  <HijabiSilhouette variant={selected.id} className="w-40 h-48 text-white" />
+                <div className="absolute -right-4 -bottom-4 opacity-20">
+                  <HijabiSilhouette className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
                   <p className="font-ruqaa text-3xl mb-2 opacity-90">{selected.nameArabic}</p>
@@ -1813,8 +1736,8 @@
                   <div className={`absolute inset-0 bg-gradient-to-br ${woman.color}`}></div>
 
                   {/* Silhouette */}
-                  <div className="absolute -right-4 -bottom-2 opacity-15 group-active:opacity-25 transition-opacity">
-                    <HijabiSilhouette variant={woman.id} className="w-32 h-40 text-white" />
+                  <div className="absolute -right-2 -bottom-2 opacity-15 group-active:opacity-25 transition-opacity">
+                    <HijabiSilhouette className="w-28 h-28" />
                   </div>
 
                   {/* Decorative circles */}
