@@ -450,6 +450,350 @@
     .star-8 {
       clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     }
+
+    /* ========================================== */
+    /* INCREDIBLE UI ENHANCEMENTS                 */
+    /* ========================================== */
+
+    /* Floating Particles */
+    @keyframes particle-float {
+      0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes particle-float-reverse {
+      0%, 100% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% {
+        transform: translateY(100vh) rotate(-720deg);
+        opacity: 0;
+      }
+    }
+
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Sparkle burst animation */
+    @keyframes sparkle-burst {
+      0% { transform: scale(0) rotate(0deg); opacity: 1; }
+      50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+      100% { transform: scale(0) rotate(360deg); opacity: 0; }
+    }
+
+    .sparkle-particle {
+      position: absolute;
+      animation: sparkle-burst 0.8s ease-out forwards;
+    }
+
+    /* Typewriter Effect */
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--pink-500); }
+    }
+
+    .typewriter-text {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typewriter 2s steps(30) forwards;
+    }
+
+    /* 3D Tilt Card */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.1s ease-out;
+    }
+
+    .tilt-card-inner {
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease-out;
+    }
+
+    .tilt-card:active .tilt-card-inner {
+      transform: translateZ(20px);
+    }
+
+    /* Enhanced Glass with multiple layers */
+    .glass-ultra {
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(253, 242, 248, 0.8) 100%);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow:
+        0 25px 50px -12px rgba(219, 39, 119, 0.15),
+        0 12px 24px -8px rgba(219, 39, 119, 0.1),
+        0 4px 8px -2px rgba(219, 39, 119, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        inset 0 -1px 0 rgba(244, 114, 182, 0.1);
+    }
+
+    /* Progress Ring */
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring-circle {
+      transition: stroke-dashoffset 0.5s ease-out;
+    }
+
+    /* Shimmer overlay */
+    .shimmer-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* Glow pulse for icons */
+    @keyframes icon-glow {
+      0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.4));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.8));
+      }
+    }
+
+    .icon-glow {
+      animation: icon-glow 2s ease-in-out infinite;
+    }
+
+    /* Countdown timer animation */
+    @keyframes countdown-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .countdown-active {
+      animation: countdown-pulse 1s ease-in-out infinite;
+    }
+
+    /* Enhanced Arabic calligraphy */
+    .arabic-elegant {
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      text-shadow:
+        0 2px 4px rgba(157, 23, 77, 0.1),
+        0 0 40px rgba(244, 114, 182, 0.2);
+      letter-spacing: 0.05em;
+    }
+
+    /* Streak fire animation */
+    @keyframes flame-flicker {
+      0%, 100% {
+        transform: scaleY(1) scaleX(1);
+        filter: brightness(1);
+      }
+      25% {
+        transform: scaleY(1.1) scaleX(0.95);
+        filter: brightness(1.1);
+      }
+      50% {
+        transform: scaleY(0.95) scaleX(1.05);
+        filter: brightness(0.95);
+      }
+      75% {
+        transform: scaleY(1.05) scaleX(0.98);
+        filter: brightness(1.05);
+      }
+    }
+
+    .flame {
+      animation: flame-flicker 0.5s ease-in-out infinite;
+    }
+
+    /* Carousel animations */
+    @keyframes slide-in-right {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slide-out-left {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(-100%); opacity: 0; }
+    }
+
+    /* Mood emoji bounce */
+    @keyframes emoji-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-5px) scale(1.1); }
+    }
+
+    .mood-emoji:active {
+      animation: emoji-bounce 0.3s ease-out;
+    }
+
+    /* Geometric pattern animation */
+    @keyframes pattern-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .geometric-pattern {
+      animation: pattern-rotate 120s linear infinite;
+    }
+
+    /* Spring bounce effect */
+    @keyframes spring-bounce {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .animate-spring {
+      animation: spring-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    /* Page transitions */
+    @keyframes page-enter {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes page-exit {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.98);
+      }
+    }
+
+    .page-transition-enter {
+      animation: page-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Multi-layered shadow mixin */
+    .shadow-multi {
+      box-shadow:
+        0 1px 2px rgba(219, 39, 119, 0.05),
+        0 2px 4px rgba(219, 39, 119, 0.05),
+        0 4px 8px rgba(219, 39, 119, 0.05),
+        0 8px 16px rgba(219, 39, 119, 0.05),
+        0 16px 32px rgba(219, 39, 119, 0.05),
+        0 32px 64px rgba(219, 39, 119, 0.1);
+    }
+
+    /* Rainbow gradient animation */
+    @keyframes rainbow-shift {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(30deg); }
+    }
+
+    /* Number counter animation */
+    @keyframes count-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .count-animate {
+      animation: count-up 0.3s ease-out;
+    }
+
+    /* Morphing blob background */
+    @keyframes blob-morph {
+      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+      75% { border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%; }
+    }
+
+    .blob {
+      animation: blob-morph 8s ease-in-out infinite;
+    }
+
+    /* Verse carousel dots */
+    .carousel-dot {
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* Journal entry card */
+    .journal-card {
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(253, 242, 248, 0.9) 100%);
+      border-left: 4px solid var(--pink-400);
+    }
+
+    /* Floating action button */
+    .fab {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink-500) 0%, var(--pink-600) 100%);
+      box-shadow:
+        0 6px 20px rgba(219, 39, 119, 0.4),
+        0 2px 8px rgba(219, 39, 119, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+
+    .fab:active {
+      transform: scale(0.9);
+    }
+
+    /* Notification badge pulse */
+    @keyframes badge-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .badge-pulse {
+      animation: badge-pulse 2s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="gradient-bg">
@@ -706,12 +1050,540 @@
     const useApp = () => useContext(AppContext);
 
     // ============================================
+    // INCREDIBLE UI COMPONENTS
+    // ============================================
+
+    // Floating Particles System - Magical sparkles
+    const FloatingParticles = () => {
+      const particles = useMemo(() => {
+        return [...Array(20)].map((_, i) => ({
+          id: i,
+          left: `${Math.random() * 100}%`,
+          size: Math.random() * 8 + 4,
+          duration: Math.random() * 20 + 15,
+          delay: Math.random() * 10,
+          opacity: Math.random() * 0.3 + 0.1,
+          type: Math.random() > 0.5 ? 'star' : 'circle'
+        }));
+      }, []);
+
+      return (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+          {particles.map(p => (
+            <div
+              key={p.id}
+              className="particle"
+              style={{
+                left: p.left,
+                width: p.size,
+                height: p.size,
+                opacity: p.opacity,
+                animation: `particle-float ${p.duration}s ease-in-out infinite`,
+                animationDelay: `${p.delay}s`
+              }}
+            >
+              {p.type === 'star' ? (
+                <svg viewBox="0 0 24 24" fill="#f472b6">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              ) : (
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-300 to-pink-400" />
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Animated Geometric Arabesque Pattern
+    const GeometricArabesque = () => (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden opacity-[0.02]">
+        <svg className="absolute top-1/4 -left-20 w-80 h-80 geometric-pattern" viewBox="0 0 100 100">
+          <defs>
+            <pattern id="arabesque" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M10 0L20 10L10 20L0 10Z" fill="none" stroke="#be185d" strokeWidth="0.5"/>
+              <circle cx="10" cy="10" r="3" fill="none" stroke="#be185d" strokeWidth="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#arabesque)"/>
+        </svg>
+        <svg className="absolute bottom-1/4 -right-20 w-96 h-96 geometric-pattern" style={{animationDirection: 'reverse', animationDuration: '150s'}} viewBox="0 0 100 100">
+          <defs>
+            <pattern id="arabesque2" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
+              <path d="M12.5 0L25 12.5L12.5 25L0 12.5Z" fill="none" stroke="#db2777" strokeWidth="0.3"/>
+              <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="none" stroke="#db2777" strokeWidth="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#arabesque2)"/>
+        </svg>
+      </div>
+    );
+
+    // Hijri Date Calculator & Display
+    const HijriDate = () => {
+      const [hijriDate, setHijriDate] = useState({ day: '', month: '', year: '' });
+
+      useEffect(() => {
+        // Islamic calendar calculation (simplified approximation)
+        const today = new Date();
+        const gregorianYear = today.getFullYear();
+        const gregorianMonth = today.getMonth();
+        const gregorianDay = today.getDate();
+
+        // Julian day number calculation
+        const a = Math.floor((14 - (gregorianMonth + 1)) / 12);
+        const y = gregorianYear + 4800 - a;
+        const m = (gregorianMonth + 1) + 12 * a - 3;
+        const jd = gregorianDay + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+
+        // Convert to Hijri
+        const l = jd - 1948440 + 10632;
+        const n = Math.floor((l - 1) / 10631);
+        const lPrime = l - 10631 * n + 354;
+        const j = Math.floor((10985 - lPrime) / 5316) * Math.floor((50 * lPrime) / 17719) + Math.floor(lPrime / 5670) * Math.floor((43 * lPrime) / 15238);
+        const lDoublePrime = lPrime - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+        const hijriMonth = Math.floor((24 * lDoublePrime) / 709);
+        const hijriDay = lDoublePrime - Math.floor((709 * hijriMonth) / 24);
+        const hijriYear = 30 * n + j - 30;
+
+        const hijriMonths = ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'];
+
+        setHijriDate({
+          day: hijriDay,
+          month: hijriMonths[hijriMonth - 1] || hijriMonths[0],
+          year: hijriYear
+        });
+      }, []);
+
+      return (
+        <div className="flex items-center gap-2 text-pink-600">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+          <span className="text-xs font-medium">{hijriDate.day} {hijriDate.month} {hijriDate.year} AH</span>
+        </div>
+      );
+    };
+
+    // Daily Streak Counter with Fire Animation
+    const StreakCounter = () => {
+      const [streak, setStreak] = useState(0);
+
+      useEffect(() => {
+        const stored = localStorage.getItem('asma_streak');
+        const lastVisit = localStorage.getItem('asma_last_visit');
+        const today = new Date().toDateString();
+
+        if (lastVisit === today) {
+          setStreak(parseInt(stored) || 1);
+        } else {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          if (lastVisit === yesterday.toDateString()) {
+            const newStreak = (parseInt(stored) || 0) + 1;
+            setStreak(newStreak);
+            localStorage.setItem('asma_streak', newStreak);
+          } else {
+            setStreak(1);
+            localStorage.setItem('asma_streak', 1);
+          }
+          localStorage.setItem('asma_last_visit', today);
+        }
+      }, []);
+
+      return (
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-100 to-amber-100 border border-orange-200">
+          <span className="flame text-lg">🔥</span>
+          <span className="text-sm font-bold text-orange-600">{streak}</span>
+          <span className="text-xs text-orange-500">day streak</span>
+        </div>
+      );
+    };
+
+    // Progress Ring Component
+    const ProgressRing = ({ progress, size = 60, strokeWidth = 4, color = "#ec4899", children }) => {
+      const radius = (size - strokeWidth) / 2;
+      const circumference = radius * 2 * Math.PI;
+      const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+      return (
+        <div className="relative inline-flex items-center justify-center">
+          <svg className="progress-ring" width={size} height={size}>
+            <circle
+              className="text-pink-100"
+              strokeWidth={strokeWidth}
+              stroke="currentColor"
+              fill="transparent"
+              r={radius}
+              cx={size / 2}
+              cy={size / 2}
+            />
+            <circle
+              className="progress-ring-circle"
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              stroke={color}
+              fill="transparent"
+              r={radius}
+              cx={size / 2}
+              cy={size / 2}
+              style={{ strokeDasharray: circumference, strokeDashoffset }}
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            {children}
+          </div>
+        </div>
+      );
+    };
+
+    // Next Prayer Countdown Timer
+    const PrayerCountdown = () => {
+      const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+      const [nextPrayer, setNextPrayer] = useState('');
+
+      useEffect(() => {
+        const prayers = [
+          { name: 'Fajr', hour: 5, minute: 30 },
+          { name: 'Dhuhr', hour: 12, minute: 30 },
+          { name: 'Asr', hour: 15, minute: 45 },
+          { name: 'Maghrib', hour: 18, minute: 15 },
+          { name: 'Isha', hour: 20, minute: 0 }
+        ];
+
+        const updateCountdown = () => {
+          const now = new Date();
+          const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+          let next = prayers.find(p => p.hour * 60 + p.minute > currentMinutes);
+          if (!next) next = prayers[0]; // Next Fajr
+
+          setNextPrayer(next.name);
+
+          let nextTime = new Date();
+          nextTime.setHours(next.hour, next.minute, 0, 0);
+          if (nextTime <= now) nextTime.setDate(nextTime.getDate() + 1);
+
+          const diff = nextTime - now;
+          const hours = Math.floor(diff / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          setTimeLeft({ hours, minutes, seconds });
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div className="glass-ultra rounded-2xl p-4 shadow-multi">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-medium text-pink-500 uppercase tracking-wide">Next Prayer</span>
+            <span className="text-sm font-bold text-pink-700">{nextPrayer}</span>
+          </div>
+          <div className="flex items-center justify-center gap-1 countdown-active">
+            <div className="flex flex-col items-center px-3 py-2 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white">
+              <span className="text-2xl font-bold">{String(timeLeft.hours).padStart(2, '0')}</span>
+              <span className="text-[8px] uppercase opacity-80">hrs</span>
+            </div>
+            <span className="text-2xl font-bold text-pink-400">:</span>
+            <div className="flex flex-col items-center px-3 py-2 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white">
+              <span className="text-2xl font-bold">{String(timeLeft.minutes).padStart(2, '0')}</span>
+              <span className="text-[8px] uppercase opacity-80">min</span>
+            </div>
+            <span className="text-2xl font-bold text-pink-400">:</span>
+            <div className="flex flex-col items-center px-3 py-2 rounded-xl bg-gradient-to-br from-pink-400 to-pink-500 text-white">
+              <span className="text-2xl font-bold">{String(timeLeft.seconds).padStart(2, '0')}</span>
+              <span className="text-[8px] uppercase opacity-80">sec</span>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Daily Quran Verse Carousel
+    const VerseCarousel = () => {
+      const [currentIndex, setCurrentIndex] = useState(0);
+
+      const verses = [
+        { arabic: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', translation: 'Indeed, with hardship comes ease.', reference: 'Ash-Sharh 94:6' },
+        { arabic: 'وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ', translation: 'Put your trust in the Ever-Living who never dies.', reference: 'Al-Furqan 25:58' },
+        { arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي', translation: 'My Lord, expand for me my chest.', reference: 'Ta-Ha 20:25' },
+        { arabic: 'فَاذْكُرُونِي أَذْكُرْكُمْ', translation: 'Remember Me; I will remember you.', reference: 'Al-Baqarah 2:152' },
+        { arabic: 'وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ', translation: 'He is with you wherever you are.', reference: 'Al-Hadid 57:4' }
+      ];
+
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentIndex(i => (i + 1) % verses.length);
+        }, 8000);
+        return () => clearInterval(timer);
+      }, []);
+
+      return (
+        <div className="relative glass-ultra rounded-2xl p-5 overflow-hidden shadow-multi">
+          <div className="shimmer-overlay"></div>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
+              </svg>
+            </div>
+            <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide">Verse of the Day</span>
+          </div>
+
+          <div className="relative h-32">
+            {verses.map((verse, i) => (
+              <div
+                key={i}
+                className={`absolute inset-0 transition-all duration-500 ${
+                  i === currentIndex ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                }`}
+              >
+                <p className="font-arabic text-xl text-pink-800 text-right mb-2 arabic-elegant">{verse.arabic}</p>
+                <p className="text-sm text-pink-600 italic mb-1">"{verse.translation}"</p>
+                <p className="text-xs text-pink-400">{verse.reference}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-2 mt-4">
+            {verses.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`carousel-dot h-2 rounded-full transition-all ${
+                  i === currentIndex ? 'w-6 bg-pink-500' : 'w-2 bg-pink-200'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // Mood/Reflection Journal Widget
+    const MoodJournal = () => {
+      const [selectedMood, setSelectedMood] = useState(null);
+      const [showJournal, setShowJournal] = useState(false);
+
+      const moods = [
+        { emoji: '😊', label: 'Grateful', color: 'from-green-400 to-emerald-500' },
+        { emoji: '🤲', label: 'Hopeful', color: 'from-blue-400 to-cyan-500' },
+        { emoji: '😌', label: 'Peaceful', color: 'from-purple-400 to-violet-500' },
+        { emoji: '💪', label: 'Strong', color: 'from-orange-400 to-amber-500' },
+        { emoji: '🥺', label: 'Struggling', color: 'from-pink-400 to-rose-500' }
+      ];
+
+      const todaysMood = localStorage.getItem('asma_mood_' + new Date().toDateString());
+
+      if (todaysMood && !showJournal) {
+        const mood = moods[parseInt(todaysMood)];
+        return (
+          <div className="glass-ultra rounded-2xl p-4 shadow-multi">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{mood?.emoji}</span>
+                <div>
+                  <p className="text-xs text-pink-500">Today's feeling</p>
+                  <p className="font-bold text-pink-700">{mood?.label}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowJournal(true)}
+                className="text-xs text-pink-500 underline"
+              >
+                Change
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="glass-ultra rounded-2xl p-4 shadow-multi">
+          <p className="text-sm font-medium text-pink-700 mb-3">How are you feeling today?</p>
+          <div className="flex justify-between gap-2">
+            {moods.map((mood, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setSelectedMood(i);
+                  localStorage.setItem('asma_mood_' + new Date().toDateString(), i);
+                  haptic.light();
+                }}
+                className={`mood-emoji flex-1 p-3 rounded-xl transition-all ${
+                  selectedMood === i
+                    ? `bg-gradient-to-br ${mood.color} text-white shadow-lg`
+                    : 'bg-pink-50 hover:bg-pink-100'
+                }`}
+              >
+                <span className="text-2xl block">{mood.emoji}</span>
+                <span className={`text-[10px] block mt-1 ${selectedMood === i ? 'text-white' : 'text-pink-500'}`}>{mood.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // Daily Progress Stats
+    const DailyProgress = () => {
+      const [stats, setStats] = useState({ hadith: 0, dhikr: 0, duas: 0 });
+
+      useEffect(() => {
+        const today = new Date().toDateString();
+        const stored = JSON.parse(localStorage.getItem('asma_daily_' + today) || '{}');
+        setStats({
+          hadith: stored.hadith || 0,
+          dhikr: stored.dhikr || 0,
+          duas: stored.duas || 0
+        });
+      }, []);
+
+      const goals = { hadith: 3, dhikr: 100, duas: 5 };
+
+      return (
+        <div className="glass-ultra rounded-2xl p-4 shadow-multi">
+          <p className="text-xs font-bold text-pink-600 uppercase tracking-wide mb-4">Daily Goals</p>
+          <div className="flex justify-around">
+            <div className="flex flex-col items-center">
+              <ProgressRing progress={(stats.hadith / goals.hadith) * 100} size={50} strokeWidth={4}>
+                <span className="text-xs font-bold text-pink-600">{stats.hadith}</span>
+              </ProgressRing>
+              <span className="text-[10px] text-pink-500 mt-2">Hadith</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <ProgressRing progress={(stats.dhikr / goals.dhikr) * 100} size={50} strokeWidth={4} color="#10b981">
+                <span className="text-xs font-bold text-emerald-600">{stats.dhikr}</span>
+              </ProgressRing>
+              <span className="text-[10px] text-pink-500 mt-2">Dhikr</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <ProgressRing progress={(stats.duas / goals.duas) * 100} size={50} strokeWidth={4} color="#8b5cf6">
+                <span className="text-xs font-bold text-violet-600">{stats.duas}</span>
+              </ProgressRing>
+              <span className="text-[10px] text-pink-500 mt-2">Duas</span>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Typewriter Greeting Component
+    const TypewriterGreeting = ({ text }) => {
+      const [displayText, setDisplayText] = useState('');
+      const [showCursor, setShowCursor] = useState(true);
+
+      useEffect(() => {
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            setDisplayText(text.substring(0, i + 1));
+            i++;
+          } else {
+            clearInterval(timer);
+            setTimeout(() => setShowCursor(false), 1000);
+          }
+        }, 80);
+        return () => clearInterval(timer);
+      }, [text]);
+
+      return (
+        <span className="inline-block">
+          {displayText}
+          {showCursor && <span className="animate-pulse text-pink-400">|</span>}
+        </span>
+      );
+    };
+
+    // 3D Tilt Card Wrapper
+    const TiltCard = ({ children, className = '' }) => {
+      const cardRef = useRef(null);
+      const [transform, setTransform] = useState('');
+
+      const handleMove = useCallback((e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX || e.touches?.[0]?.clientX;
+        const y = e.clientY || e.touches?.[0]?.clientY;
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+      }, []);
+
+      const handleLeave = useCallback(() => {
+        setTransform('');
+      }, []);
+
+      return (
+        <div
+          ref={cardRef}
+          className={`tilt-card ${className}`}
+          onMouseMove={handleMove}
+          onMouseLeave={handleLeave}
+          onTouchMove={handleMove}
+          onTouchEnd={handleLeave}
+          style={{ transform, transition: 'transform 0.1s ease-out' }}
+        >
+          {children}
+        </div>
+      );
+    };
+
+    // Animated Sparkle Burst on Tap
+    const SparkleButton = ({ children, onClick, className = '' }) => {
+      const [sparkles, setSparkles] = useState([]);
+
+      const handleClick = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const newSparkles = [...Array(8)].map((_, i) => ({
+          id: Date.now() + i,
+          x,
+          y,
+          angle: (360 / 8) * i
+        }));
+
+        setSparkles(prev => [...prev, ...newSparkles]);
+        setTimeout(() => {
+          setSparkles(prev => prev.filter(s => !newSparkles.find(n => n.id === s.id)));
+        }, 800);
+
+        onClick?.(e);
+      };
+
+      return (
+        <button onClick={handleClick} className={`relative overflow-hidden ${className}`}>
+          {children}
+          {sparkles.map(sparkle => (
+            <span
+              key={sparkle.id}
+              className="sparkle-particle w-2 h-2 bg-yellow-400 rounded-full"
+              style={{
+                left: sparkle.x,
+                top: sparkle.y,
+                transform: `rotate(${sparkle.angle}deg) translateY(-20px)`
+              }}
+            />
+          ))}
+        </button>
+      );
+    };
+
+    // ============================================
     // REUSABLE COMPONENTS
     // ============================================
 
-    // Animated Page Wrapper
+    // Animated Page Wrapper with Spring Transition
     const PageWrapper = ({ children, className = '' }) => (
-      <div className={`min-h-screen pb-28 ${className}`}>
+      <div className={`min-h-screen pb-28 page-transition-enter ${className}`}>
         {children}
       </div>
     );
@@ -737,26 +1609,29 @@
       </div>
     );
 
-    // Feature Card - INCREDIBLE VERSION
+    // Feature Card - INCREDIBLE VERSION with shimmer & glow
     const FeatureCard = ({ icon, title, subtitle, onClick, delay = 0, gradient }) => (
       <button
         onClick={() => { haptic.light(); onClick(); }}
-        className="group relative p-5 rounded-3xl text-left w-full animate-fade-in-up overflow-hidden"
+        className="group relative p-5 rounded-3xl text-left w-full animate-fade-in-up overflow-hidden shadow-multi"
         style={{ animationDelay: `${delay}s`, animationFillMode: 'both' }}
       >
         {/* Glass background with gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${gradient || 'from-pink-50 to-pink-100'} opacity-90`}></div>
         <div className="absolute inset-0 backdrop-blur-sm bg-white/40"></div>
 
-        {/* Shimmer effect on hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-700"></div>
+        {/* Continuous shimmer overlay */}
+        <div className="shimmer-overlay opacity-50"></div>
+
+        {/* Active shimmer sweep */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
 
         {/* Glowing border */}
-        <div className={`absolute inset-0 rounded-3xl border border-white/50 shadow-lg shadow-pink-200/50`}></div>
+        <div className="absolute inset-0 rounded-3xl border border-white/60"></div>
 
         <div className="relative z-10">
-          <div className={`w-14 h-14 mb-4 rounded-2xl bg-gradient-to-br ${gradient || 'from-pink-200 to-pink-300'} flex items-center justify-center shadow-lg shadow-pink-300/30 group-active:scale-95 transition-transform`}>
-            <Icon name={icon} className="w-7 h-7 text-pink-600" />
+          <div className={`w-14 h-14 mb-4 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50 group-active:scale-95 transition-transform`}>
+            <Icon name={icon} className="w-7 h-7 text-white icon-glow" />
           </div>
           <h3 className="font-bold text-pink-900 mb-1">{title}</h3>
           <p className="text-xs text-pink-500 font-medium">{subtitle}</p>
@@ -1092,18 +1967,28 @@
 
       return (
         <PageWrapper>
-          <div className="p-5 pt-8 max-w-lg mx-auto safe-top">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8 animate-fade-in">
+          {/* Floating Particles & Geometric Patterns */}
+          <FloatingParticles />
+          <GeometricArabesque />
+
+          <div className="p-5 pt-8 max-w-lg mx-auto safe-top relative z-10">
+            {/* Top Bar - Date & Streak */}
+            <div className="flex items-center justify-between mb-4 animate-fade-in">
+              <HijriDate />
+              <StreakCounter />
+            </div>
+
+            {/* Header with Typewriter */}
+            <div className="flex items-center justify-between mb-6 animate-fade-in" style={{animationDelay: '0.1s'}}>
               <div>
                 <p className="text-sm text-pink-400 font-medium">{greeting.text}</p>
                 <h1 className="text-2xl font-bold gradient-text">
-                  {state.userName || 'Sister'} <span className="font-ruqaa text-pink-400">{greeting.arabic}</span>
+                  <TypewriterGreeting text={state.userName || 'Sister'} /> <span className="font-ruqaa text-pink-400">{greeting.arabic}</span>
                 </h1>
               </div>
               <button
                 onClick={() => { haptic.heavy(); setShowPanic(true); }}
-                className="w-11 h-11 glass-card rounded-xl flex items-center justify-center active:scale-90 transition-transform"
+                className="w-11 h-11 glass-ultra rounded-xl flex items-center justify-center active:scale-90 transition-transform shadow-multi"
                 title="Panic button"
               >
                 <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1112,11 +1997,18 @@
               </button>
             </div>
 
-            {/* Daily Hadith Card - INCREDIBLE */}
-            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden" style={{ animationDelay: '0.1s' }}>
+            {/* Prayer Countdown - Live Timer */}
+            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
+              <PrayerCountdown />
+            </div>
+
+            {/* Daily Hadith Card - INCREDIBLE with Shimmer */}
+            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden shadow-multi" style={{ animationDelay: '0.18s' }}>
               {/* Animated gradient background */}
               <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100 animate-pulse" style={{animationDuration: '4s'}}></div>
               <div className="absolute inset-0 backdrop-blur-xl bg-white/60"></div>
+              {/* Shimmer overlay */}
+              <div className="shimmer-overlay"></div>
 
               {/* Decorative glow */}
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl"></div>
@@ -1143,40 +2035,48 @@
               </div>
             </div>
 
-            {/* Quick Actions Grid - INCREDIBLE CARDS */}
+            {/* Quick Actions Grid - INCREDIBLE 3D TILT CARDS */}
             <div className="grid grid-cols-2 gap-4 mb-8">
-              <FeatureCard
-                icon="book"
-                title="Hadith"
-                subtitle="Authentic teachings"
-                gradient="from-pink-100 to-rose-200"
-                onClick={() => updateState({ view: 'hadith' })}
-                delay={0.15}
-              />
-              <FeatureCard
-                icon="hands"
-                title="Duas"
-                subtitle="Beautiful prayers"
-                gradient="from-pink-50 to-pink-200"
-                onClick={() => updateState({ view: 'duas' })}
-                delay={0.2}
-              />
-              <FeatureCard
-                icon="moon"
-                title="Prayer Times"
-                subtitle="Today's schedule"
-                gradient="from-amber-50 to-pink-200"
-                onClick={() => updateState({ view: 'prayer' })}
-                delay={0.25}
-              />
-              <FeatureCard
-                icon="star"
-                title="Sahabiyat"
-                subtitle="Inspiring women"
-                gradient="from-pink-100 to-rose-200"
-                onClick={() => updateState({ view: 'sahabiyat' })}
-                delay={0.3}
-              />
+              <TiltCard>
+                <FeatureCard
+                  icon="book"
+                  title="Hadith"
+                  subtitle="Authentic teachings"
+                  gradient="from-pink-100 to-rose-200"
+                  onClick={() => updateState({ view: 'hadith' })}
+                  delay={0.2}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="hands"
+                  title="Duas"
+                  subtitle="Beautiful prayers"
+                  gradient="from-pink-50 to-pink-200"
+                  onClick={() => updateState({ view: 'duas' })}
+                  delay={0.25}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="moon"
+                  title="Prayer Times"
+                  subtitle="Today's schedule"
+                  gradient="from-amber-50 to-pink-200"
+                  onClick={() => updateState({ view: 'prayer' })}
+                  delay={0.3}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="star"
+                  title="Sahabiyat"
+                  subtitle="Inspiring women"
+                  gradient="from-pink-100 to-rose-200"
+                  onClick={() => updateState({ view: 'sahabiyat' })}
+                  delay={0.35}
+                />
+              </TiltCard>
             </div>
 
             {/* More Features */}
@@ -1247,9 +2147,24 @@
               </button>
             </div>
 
+            {/* Verse Carousel - Auto-rotating Quran verses */}
+            <div className="mt-8 animate-fade-in-up" style={{animationDelay: '0.5s'}}>
+              <VerseCarousel />
+            </div>
+
+            {/* Mood Journal - Daily check-in */}
+            <div className="mt-6 animate-fade-in-up" style={{animationDelay: '0.55s'}}>
+              <MoodJournal />
+            </div>
+
+            {/* Daily Progress - Goals tracking */}
+            <div className="mt-6 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+              <DailyProgress />
+            </div>
+
             {/* Bismillah Footer */}
-            <div className="text-center mt-10 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-              <p className="font-arabic text-3xl text-pink-300">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <div className="text-center mt-10 animate-fade-in" style={{ animationDelay: '0.65s' }}>
+              <p className="font-arabic text-3xl text-pink-300 arabic-elegant">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
             </div>
           </div>
         </PageWrapper>
