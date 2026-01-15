@@ -803,6 +803,24 @@
         ring: <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6M12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>,
         sunrise: <path d="M3 12H7M12 3V7M17 12H21M5.6 5.6L8.5 8.5M18.4 5.6L15.5 8.5M12 18C8.69 18 6 15.31 6 12H18C18 15.31 15.31 18 12 18M4 21H20"/>,
         sparkle: <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>,
+        // Compass icon for Qibla
+        compass: (
+          <>
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            <path d="M12 5L14 12L12 14L10 12L12 5Z" />
+            <path d="M12 19L10 12L12 10L14 12L12 19Z" fill="currentColor" opacity="0.4" />
+          </>
+        ),
+        // Kaaba icon for Qibla
+        kaaba: (
+          <>
+            <rect x="4" y="6" width="16" height="14" rx="1" />
+            <path d="M4 10h16M10 6v14M14 6v14" stroke="white" strokeWidth="0.5" opacity="0.3" />
+            <ellipse cx="12" cy="13" rx="2" ry="3" fill="none" stroke="#FFD700" strokeWidth="1.5" />
+          </>
+        ),
       };
 
       return (
@@ -1200,6 +1218,27 @@
                   <div className="flex-1 text-left">
                     <h3 className="font-bold text-pink-900">Saved Items</h3>
                     <p className="text-xs text-pink-500 font-medium">{state.savedItems?.length || 0} items saved</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+
+              <button
+                onClick={() => { haptic.light(); updateState({ view: 'qibla' }); }}
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: '0.45s', animationFillMode: 'both' }}
+              >
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="compass" className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Qibla Compass</h3>
+                    <p className="text-xs text-pink-500 font-medium">Find the direction to pray</p>
                   </div>
                   <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -2233,6 +2272,294 @@
     };
 
     // ============================================
+    // QIBLA COMPASS VIEW - INCREDIBLE 3D COMPASS
+    // ============================================
+
+    const QiblaView = () => {
+      const { updateState } = useApp();
+      const [qiblaDirection, setQiblaDirection] = useState(null);
+      const [deviceHeading, setDeviceHeading] = useState(0);
+      const [userLocation, setUserLocation] = useState(null);
+      const [error, setError] = useState(null);
+      const [permissionState, setPermissionState] = useState('prompt');
+      const [distance, setDistance] = useState(null);
+
+      // Kaaba coordinates
+      const KAABA_LAT = 21.4225;
+      const KAABA_LNG = 39.8262;
+
+      // Calculate bearing to Qibla from user's location
+      const calculateQiblaDirection = (lat, lng) => {
+        const lat1 = lat * Math.PI / 180;
+        const lat2 = KAABA_LAT * Math.PI / 180;
+        const deltaLng = (KAABA_LNG - lng) * Math.PI / 180;
+
+        const y = Math.sin(deltaLng) * Math.cos(lat2);
+        const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(deltaLng);
+        let bearing = Math.atan2(y, x) * 180 / Math.PI;
+        bearing = (bearing + 360) % 360;
+        return bearing;
+      };
+
+      // Calculate distance to Kaaba
+      const calculateDistance = (lat, lng) => {
+        const R = 6371; // Earth's radius in km
+        const lat1 = lat * Math.PI / 180;
+        const lat2 = KAABA_LAT * Math.PI / 180;
+        const deltaLat = (KAABA_LAT - lat) * Math.PI / 180;
+        const deltaLng = (KAABA_LNG - lng) * Math.PI / 180;
+
+        const a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+                  Math.cos(lat1) * Math.cos(lat2) *
+                  Math.sin(deltaLng/2) * Math.sin(deltaLng/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return Math.round(R * c);
+      };
+
+      // Get user location
+      useEffect(() => {
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              setUserLocation({ lat: latitude, lng: longitude });
+              setQiblaDirection(calculateQiblaDirection(latitude, longitude));
+              setDistance(calculateDistance(latitude, longitude));
+            },
+            (err) => {
+              console.error('Geolocation error:', err);
+              // Default to a location for demo purposes
+              setUserLocation({ lat: 40.7128, lng: -74.0060 }); // New York
+              setQiblaDirection(calculateQiblaDirection(40.7128, -74.0060));
+              setDistance(calculateDistance(40.7128, -74.0060));
+              setError('Location access needed for accurate Qibla direction');
+            }
+          );
+        } else {
+          setError('Geolocation not supported');
+        }
+      }, []);
+
+      // Handle device orientation
+      useEffect(() => {
+        const handleOrientation = (event) => {
+          let heading;
+          if (event.webkitCompassHeading !== undefined) {
+            // iOS
+            heading = event.webkitCompassHeading;
+          } else if (event.alpha !== null) {
+            // Android - alpha is compass heading when device is flat
+            heading = 360 - event.alpha;
+          }
+          if (heading !== undefined) {
+            setDeviceHeading(heading);
+          }
+        };
+
+        const requestPermission = async () => {
+          if (typeof DeviceOrientationEvent !== 'undefined' &&
+              typeof DeviceOrientationEvent.requestPermission === 'function') {
+            try {
+              const response = await DeviceOrientationEvent.requestPermission();
+              setPermissionState(response);
+              if (response === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation, true);
+              }
+            } catch (err) {
+              console.error('Permission error:', err);
+            }
+          } else {
+            // Non-iOS or older devices
+            window.addEventListener('deviceorientation', handleOrientation, true);
+            setPermissionState('granted');
+          }
+        };
+
+        requestPermission();
+
+        return () => {
+          window.removeEventListener('deviceorientation', handleOrientation, true);
+        };
+      }, []);
+
+      const needleRotation = qiblaDirection !== null ? qiblaDirection - deviceHeading : 0;
+
+      return (
+        <PageWrapper>
+          <div className="p-5 pt-8 max-w-lg mx-auto safe-top min-h-screen flex flex-col">
+            <BackButton onClick={() => updateState({ view: 'home' })} label="Home" />
+
+            <div className="text-center mb-6 animate-fade-in">
+              <h1 className="text-3xl font-bold gradient-text mb-2">Qibla Compass</h1>
+              <p className="font-ruqaa text-2xl text-pink-400">القِبلة</p>
+            </div>
+
+            {/* Main Compass Container */}
+            <div className="flex-1 flex flex-col items-center justify-center animate-fade-in-up">
+              {/* Compass Outer Ring */}
+              <div className="relative">
+                {/* Decorative glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-400/30 to-rose-400/30 rounded-full blur-3xl scale-110"></div>
+
+                {/* Compass Background */}
+                <div className="relative w-72 h-72 rounded-full bg-gradient-to-br from-white/90 to-pink-50/90 backdrop-blur-xl shadow-2xl shadow-pink-300/50 border-4 border-white/50">
+                  {/* Compass Rose - Cardinal Directions */}
+                  <div className="absolute inset-4 rounded-full border-2 border-pink-200/50">
+                    {/* Cardinal direction markers */}
+                    {['N', 'E', 'S', 'W'].map((dir, i) => (
+                      <div
+                        key={dir}
+                        className="absolute w-8 h-8 flex items-center justify-center font-bold text-pink-400"
+                        style={{
+                          top: i === 0 ? '4px' : i === 2 ? 'auto' : '50%',
+                          bottom: i === 2 ? '4px' : 'auto',
+                          left: i === 3 ? '4px' : i === 1 ? 'auto' : '50%',
+                          right: i === 1 ? '4px' : 'auto',
+                          transform: i % 2 === 0 ? 'translateX(-50%)' : 'translateY(-50%)',
+                        }}
+                      >
+                        {dir}
+                      </div>
+                    ))}
+
+                    {/* Degree markers */}
+                    {[...Array(72)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="absolute top-1/2 left-1/2 origin-center"
+                        style={{
+                          transform: `translate(-50%, -50%) rotate(${i * 5}deg)`,
+                          width: '100%',
+                          height: '100%'
+                        }}
+                      >
+                        <div
+                          className={`absolute top-0 left-1/2 -translate-x-1/2 ${
+                            i % 18 === 0 ? 'w-0.5 h-4 bg-pink-400' :
+                            i % 6 === 0 ? 'w-0.5 h-3 bg-pink-300' :
+                            'w-px h-2 bg-pink-200'
+                          }`}
+                        />
+                      </div>
+                    ))}
+
+                    {/* Compass Needle - Points to Qibla */}
+                    <div
+                      className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out"
+                      style={{ transform: `rotate(${needleRotation}deg)` }}
+                    >
+                      {/* Needle */}
+                      <svg className="w-full h-full" viewBox="0 0 200 200">
+                        <defs>
+                          <linearGradient id="needleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#ec4899"/>
+                            <stop offset="50%" stopColor="#db2777"/>
+                            <stop offset="100%" stopColor="#be185d"/>
+                          </linearGradient>
+                          <linearGradient id="needleShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#fce7f3"/>
+                            <stop offset="100%" stopColor="#fbcfe8"/>
+                          </linearGradient>
+                          <filter id="needleGlow">
+                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                            <feMerge>
+                              <feMergeNode in="coloredBlur"/>
+                              <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                          </filter>
+                        </defs>
+                        {/* North (Qibla) pointing needle */}
+                        <path
+                          d="M100 20 L108 100 L100 115 L92 100 Z"
+                          fill="url(#needleGradient)"
+                          filter="url(#needleGlow)"
+                        />
+                        {/* South needle */}
+                        <path
+                          d="M100 180 L108 100 L100 85 L92 100 Z"
+                          fill="url(#needleShadow)"
+                        />
+                        {/* Center circle */}
+                        <circle cx="100" cy="100" r="12" fill="url(#needleGradient)" stroke="white" strokeWidth="2"/>
+                        {/* Kaaba symbol at tip */}
+                        <rect x="94" y="24" width="12" height="12" rx="1" fill="#1f2937"/>
+                        <ellipse cx="100" cy="30" rx="3" ry="4" fill="none" stroke="#ffd700" strokeWidth="1"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Center overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 shadow-lg"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Qibla Direction Info */}
+              <div className="mt-8 text-center space-y-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="glass-card px-6 py-4 rounded-2xl inline-block">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center">
+                      <Icon name="kaaba" className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-xs text-pink-500 font-medium">Direction to Kaaba</p>
+                      <p className="text-2xl font-bold gradient-text">
+                        {qiblaDirection !== null ? `${Math.round(qiblaDirection)}°` : '---°'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {distance && (
+                  <div className="glass-card px-6 py-3 rounded-xl">
+                    <p className="text-sm text-pink-600">
+                      <span className="font-bold">{distance.toLocaleString()}</span> km to Makkah
+                    </p>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl">
+                    <p className="text-sm text-amber-700">{error}</p>
+                  </div>
+                )}
+
+                {permissionState === 'prompt' && (
+                  <button
+                    onClick={() => {
+                      if (typeof DeviceOrientationEvent !== 'undefined' &&
+                          typeof DeviceOrientationEvent.requestPermission === 'function') {
+                        DeviceOrientationEvent.requestPermission();
+                      }
+                    }}
+                    className="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-medium shadow-lg shadow-pink-300/50 active:scale-95 transition-transform"
+                  >
+                    Enable Compass
+                  </button>
+                )}
+              </div>
+
+              {/* Instructions */}
+              <div className="mt-6 text-center text-pink-400 text-sm animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                <p>Hold your device flat and rotate</p>
+                <p>The needle points to the Qibla</p>
+              </div>
+            </div>
+
+            {/* Beautiful Kaaba illustration at bottom */}
+            <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
+              <div className="inline-block p-4 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50">
+                <p className="font-arabic text-xl text-pink-400 mb-1">وَحَيْثُ مَا كُنتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ</p>
+                <p className="text-xs text-pink-500">"Turn your faces toward it" - Al-Baqarah 2:144</p>
+              </div>
+            </div>
+          </div>
+        </PageWrapper>
+      );
+    };
+
+    // ============================================
     // BOTTOM NAVIGATION
     // ============================================
 
@@ -2286,6 +2613,7 @@
           case 'sahabiyat': return <SahabiyatView />;
           case 'dhikr': return <DhikrView />;
           case 'saved': return <SavedView />;
+          case 'qibla': return <QiblaView />;
           default: return <HomeScreen />;
         }
       };
