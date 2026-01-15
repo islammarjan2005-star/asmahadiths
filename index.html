@@ -3868,12 +3868,125 @@
     // DHIKR COUNTER - INCREDIBLE 3D TASBEEH
     // ============================================
 
-    // 3D Tasbeeh Component
+    // 3D Tasbeeh Component with SVG Fallback
     const Tasbeeh3D = ({ count, target, onTap }) => {
       const containerRef = useRef(null);
       const sceneRef = useRef(null);
       const beadsRef = useRef([]);
       const animatingRef = useRef(false);
+      const [isLoaded, setIsLoaded] = useState(false);
+
+      // Beautiful SVG Fallback Tasbeeh
+      const SVGTasbeeh = ({ count, target }) => {
+        const beadCount = 33;
+        const radius = 85;
+        const centerX = 120;
+        const centerY = 110;
+
+        return (
+          <svg viewBox="0 0 240 260" className="w-full h-full">
+            <defs>
+              {/* Pearl gradient */}
+              <radialGradient id="pearlGrad" cx="30%" cy="30%">
+                <stop offset="0%" stopColor="#ffffff"/>
+                <stop offset="50%" stopColor="#fdf2f8"/>
+                <stop offset="100%" stopColor="#f9a8d4"/>
+              </radialGradient>
+              {/* Counted bead gradient */}
+              <radialGradient id="countedGrad" cx="30%" cy="30%">
+                <stop offset="0%" stopColor="#f9a8d4"/>
+                <stop offset="50%" stopColor="#ec4899"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </radialGradient>
+              {/* Gold gradient */}
+              <radialGradient id="goldGrad" cx="30%" cy="30%">
+                <stop offset="0%" stopColor="#fef3c7"/>
+                <stop offset="50%" stopColor="#fbbf24"/>
+                <stop offset="100%" stopColor="#d97706"/>
+              </radialGradient>
+              {/* Glow filter */}
+              <filter id="beadGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              {/* Shadow */}
+              <filter id="tasbeehShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#f9a8d4" floodOpacity="0.4"/>
+              </filter>
+            </defs>
+
+            {/* Background glow */}
+            <circle cx={centerX} cy={centerY} r={radius + 20} fill="url(#countedGrad)" opacity="0.1"/>
+
+            {/* String */}
+            <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="url(#goldGrad)" strokeWidth="3" filter="url(#tasbeehShadow)"/>
+
+            {/* Beads */}
+            {[...Array(beadCount)].map((_, i) => {
+              const angle = (i / beadCount) * Math.PI * 2 - Math.PI / 2;
+              const x = centerX + Math.cos(angle) * radius;
+              const y = centerY + Math.sin(angle) * radius;
+              const isCounted = i < (count % 33 || (count > 0 && count % 33 === 0 ? 33 : 0));
+              const isGold = i % 11 === 10;
+              const beadRadius = isCounted ? 10 : 8;
+
+              return (
+                <g key={i}>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={beadRadius}
+                    fill={isGold ? "url(#goldGrad)" : isCounted ? "url(#countedGrad)" : "url(#pearlGrad)"}
+                    filter={isCounted ? "url(#beadGlow)" : undefined}
+                    className={isCounted ? "animate-pulse" : ""}
+                  />
+                  {/* Highlight */}
+                  <circle cx={x - 2} cy={y - 2} r={beadRadius * 0.3} fill="white" opacity="0.6"/>
+                </g>
+              );
+            })}
+
+            {/* Tassel cap */}
+            <ellipse cx={centerX} cy={centerY + radius + 12} rx="12" ry="8" fill="url(#goldGrad)"/>
+            <rect x={centerX - 10} y={centerY + radius + 8} width="20" height="12" fill="url(#goldGrad)" rx="2"/>
+
+            {/* Tassel threads */}
+            {[...Array(8)].map((_, i) => {
+              const spread = (i - 3.5) * 3;
+              return (
+                <line
+                  key={i}
+                  x1={centerX + spread * 0.3}
+                  y1={centerY + radius + 18}
+                  x2={centerX + spread}
+                  y2={centerY + radius + 55}
+                  stroke="#ec4899"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  opacity={0.8 + (i % 2) * 0.2}
+                />
+              );
+            })}
+
+            {/* Tassel end beads */}
+            {[...Array(8)].map((_, i) => {
+              const spread = (i - 3.5) * 3;
+              return (
+                <circle
+                  key={i}
+                  cx={centerX + spread}
+                  cy={centerY + radius + 57}
+                  r="3"
+                  fill="url(#countedGrad)"
+                />
+              );
+            })}
+          </svg>
+        );
+      };
 
       useEffect(() => {
         if (!containerRef.current || sceneRef.current) return;
@@ -4054,6 +4167,9 @@
 
         sceneRef.current.setTargetRotation = (r) => { targetRotation = r; };
 
+        // Mark as loaded after a small delay to ensure smooth transition
+        setTimeout(() => setIsLoaded(true), 100);
+
         // Handle resize
         const handleResize = () => {
           const w = container.clientWidth;
@@ -4115,11 +4231,33 @@
 
       return (
         <div
-          ref={containerRef}
-          onClick={handleClick}
-          className="w-full h-72 cursor-pointer rounded-3xl overflow-hidden"
+          className="w-full h-72 cursor-pointer rounded-3xl overflow-hidden relative"
           style={{ touchAction: 'manipulation' }}
-        />
+          onClick={handleClick}
+        >
+          {/* SVG Fallback - shows immediately */}
+          <div
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
+              isLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            }`}
+          >
+            <div className="w-full h-full p-4">
+              <SVGTasbeeh count={count} target={target} />
+            </div>
+            {/* Loading shimmer */}
+            {!isLoaded && (
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+            )}
+          </div>
+
+          {/* 3D Canvas - fades in when ready */}
+          <div
+            ref={containerRef}
+            className={`absolute inset-0 transition-opacity duration-700 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        </div>
       );
     };
 
