@@ -782,8 +782,70 @@
     };
 
     // ============================================
-    // ONBOARDING
+    // ONBOARDING - INCREDIBLE EXPERIENCE
     // ============================================
+
+    const OnboardingIcon = ({ type, className = "" }) => {
+      const icons = {
+        flower: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="flowerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f472b6"/>
+                <stop offset="50%" stopColor="#ec4899"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#glow)">
+              <circle cx="50" cy="50" r="12" fill="url(#flowerGrad)"/>
+              <ellipse cx="50" cy="25" rx="12" ry="18" fill="url(#flowerGrad)" opacity="0.9"/>
+              <ellipse cx="50" cy="75" rx="12" ry="18" fill="url(#flowerGrad)" opacity="0.9"/>
+              <ellipse cx="25" cy="50" rx="18" ry="12" fill="url(#flowerGrad)" opacity="0.9"/>
+              <ellipse cx="75" cy="50" rx="18" ry="12" fill="url(#flowerGrad)" opacity="0.9"/>
+              <ellipse cx="32" cy="32" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(-45 32 32)"/>
+              <ellipse cx="68" cy="32" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(45 68 32)"/>
+              <ellipse cx="32" cy="68" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(45 32 68)"/>
+              <ellipse cx="68" cy="68" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(-45 68 68)"/>
+            </g>
+          </svg>
+        ),
+        book: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f9a8d4"/>
+                <stop offset="100%" stopColor="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <path d="M20 20C20 15 25 12 35 12C45 12 50 18 50 18C50 18 55 12 65 12C75 12 80 15 80 20V75C80 78 77 80 74 80H26C23 80 20 78 20 75V20Z" fill="url(#bookGrad)" filter="url(#glow)"/>
+            <path d="M50 18V80" stroke="white" strokeWidth="2" opacity="0.5"/>
+            <path d="M30 30H45M30 40H42M30 50H45M55 30H70M58 40H70M55 50H70" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
+            <circle cx="50" cy="65" r="8" fill="white" opacity="0.3"/>
+            <path d="M47 65L49 67L53 63" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
+        shield: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fbcfe8"/>
+                <stop offset="50%" stopColor="#f472b6"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </linearGradient>
+            </defs>
+            <path d="M50 10L15 25V50C15 72 30 85 50 92C70 85 85 72 85 50V25L50 10Z" fill="url(#shieldGrad)" filter="url(#glow)"/>
+            <path d="M50 20L25 32V50C25 67 37 77 50 82C63 77 75 67 75 50V32L50 20Z" fill="white" opacity="0.2"/>
+            <circle cx="50" cy="50" r="15" fill="white" opacity="0.3"/>
+            <path d="M42 50L48 56L58 44" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
+      };
+      return icons[type] || icons.flower;
+    };
 
     const Onboarding = () => {
       const { updateState } = useApp();
@@ -792,23 +854,26 @@
 
       const steps = [
         {
-          icon: '🌸',
+          icon: 'flower',
           title: 'Welcome to Asma',
           titleArabic: 'أسماء',
           subtitle: 'Your safe Islamic companion',
           content: 'A beautiful space designed for Muslim women, by Muslim women. Find authentic hadith, duas, and inspiration.',
+          gradient: 'from-pink-400 via-rose-400 to-pink-500',
         },
         {
-          icon: '📖',
+          icon: 'book',
           title: 'Authentic Sources',
           subtitle: 'Verified Islamic knowledge',
           content: 'Every hadith is sourced from authentic collections like Bukhari, Muslim, and Abu Dawud. We explain what they mean—and what they don\'t.',
+          gradient: 'from-rose-400 via-pink-500 to-rose-500',
         },
         {
-          icon: '💜',
+          icon: 'shield',
           title: 'Your Safe Space',
           subtitle: 'Privacy first, always',
           content: 'Your data stays on your device. There\'s even a panic button that instantly shows a calculator. Your privacy matters.',
+          gradient: 'from-pink-500 via-rose-500 to-pink-600',
         },
       ];
 
@@ -822,49 +887,84 @@
       };
 
       return (
-        <div className="min-h-screen flex flex-col justify-center p-6 safe-top safe-bottom">
-          <div className="max-w-sm mx-auto w-full">
-            {/* Progress */}
-            <div className="flex gap-2 mb-8 justify-center">
+        <div className="min-h-screen flex flex-col justify-center p-6 safe-top safe-bottom relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-pink-300/20 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-20 right-10 w-40 h-40 bg-rose-300/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-200/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
+          </div>
+
+          <div className="max-w-sm mx-auto w-full relative z-10">
+            {/* Progress indicators */}
+            <div className="flex gap-3 mb-10 justify-center">
               {steps.map((_, i) => (
                 <div
                   key={i}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === step ? 'w-8 bg-pink-500' : i < step ? 'w-4 bg-pink-400' : 'w-4 bg-pink-200'
+                  className={`h-2 rounded-full transition-all duration-500 ease-out ${
+                    i === step
+                      ? 'w-10 bg-gradient-to-r from-pink-500 to-rose-500 shadow-lg shadow-pink-500/50'
+                      : i < step
+                        ? 'w-6 bg-pink-400'
+                        : 'w-6 bg-pink-200'
                   }`}
                 />
               ))}
             </div>
 
-            {/* Content */}
-            <div key={step} className="text-center animate-fade-in">
-              <div className="text-6xl mb-6 animate-float">{steps[step].icon}</div>
-              <h1 className="text-3xl font-bold gradient-text mb-2">{steps[step].title}</h1>
-              {steps[step].titleArabic && (
-                <p className="text-2xl font-ruqaa text-pink-400 mb-3">{steps[step].titleArabic}</p>
-              )}
-              <p className="text-pink-600 font-medium mb-4">{steps[step].subtitle}</p>
-              <p className="text-pink-700 leading-relaxed mb-8">{steps[step].content}</p>
+            {/* Main content card */}
+            <div
+              key={step}
+              className="text-center"
+              style={{animation: 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)'}}
+            >
+              {/* Icon container with glow */}
+              <div className="relative mb-8">
+                <div className={`absolute inset-0 bg-gradient-to-r ${steps[step].gradient} rounded-full blur-2xl opacity-40 scale-75`}></div>
+                <div className="relative w-28 h-28 mx-auto" style={{animation: 'float 4s ease-in-out infinite'}}>
+                  <OnboardingIcon type={steps[step].icon} className="w-full h-full drop-shadow-2xl" />
+                </div>
+              </div>
 
+              {/* Title with gradient */}
+              <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 bg-clip-text text-transparent">
+                {steps[step].title}
+              </h1>
+
+              {steps[step].titleArabic && (
+                <p className="text-3xl font-ruqaa text-pink-400 mb-4 opacity-90">{steps[step].titleArabic}</p>
+              )}
+
+              <p className="text-lg text-pink-600 font-semibold mb-4">{steps[step].subtitle}</p>
+
+              {/* Content card */}
+              <div className="glass-card rounded-2xl p-6 mb-8 shadow-xl shadow-pink-500/10">
+                <p className="text-pink-700 leading-relaxed">{steps[step].content}</p>
+              </div>
+
+              {/* Name input on last step */}
               {step === steps.length - 1 && (
-                <div className="mb-8 animate-fade-in">
-                  <input
-                    type="text"
-                    placeholder="What should we call you?"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full p-4 rounded-xl bg-white/80 border border-pink-200 text-pink-900 placeholder-pink-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition-all"
-                  />
+                <div className="mb-8" style={{animation: 'fadeInUp 0.5s ease-out 0.2s both'}}>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="What should we call you?"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full p-5 rounded-2xl bg-white/90 backdrop-blur-sm border-2 border-pink-200 text-pink-900 placeholder-pink-300 focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-200/50 transition-all text-center text-lg font-medium shadow-lg shadow-pink-500/10"
+                    />
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-500/10 to-rose-500/10 pointer-events-none"></div>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Navigation */}
+            {/* Navigation buttons */}
             <div className="flex gap-4">
               {step > 0 && (
                 <button
                   onClick={() => { haptic.light(); setStep(s => s - 1); }}
-                  className="flex-1 py-4 rounded-xl bg-white/60 text-pink-600 font-medium active:scale-95 transition-transform"
+                  className="flex-1 py-4 rounded-2xl bg-white/80 backdrop-blur-sm text-pink-600 font-semibold active:scale-95 transition-all duration-200 shadow-lg shadow-pink-500/5 border border-pink-100"
                 >
                   Back
                 </button>
@@ -875,9 +975,9 @@
                   if (step < steps.length - 1) setStep(s => s + 1);
                   else handleComplete();
                 }}
-                className="flex-1 btn-primary"
+                className={`flex-1 py-4 rounded-2xl font-semibold text-white active:scale-95 transition-all duration-200 shadow-xl shadow-pink-500/30 bg-gradient-to-r ${steps[step].gradient}`}
               >
-                {step < steps.length - 1 ? 'Continue' : 'Begin Journey'}
+                {step < steps.length - 1 ? 'Continue' : '✨ Begin Journey'}
               </button>
             </div>
           </div>
