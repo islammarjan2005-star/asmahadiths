@@ -2534,64 +2534,184 @@
 
     const OnboardingIcon = ({ type, className = "" }) => {
       const icons = {
-        flower: (
+        // Glowing heart for welcome
+        heart: (
           <svg className={className} viewBox="0 0 100 100" fill="none">
             <defs>
-              <linearGradient id="flowerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f472b6"/>
-                <stop offset="50%" stopColor="#ec4899"/>
-                <stop offset="100%" stopColor="#db2777"/>
+              <linearGradient id="obHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fdf2f8"/>
+                <stop offset="30%" stopColor="#fbcfe8"/>
+                <stop offset="60%" stopColor="#f9a8d4"/>
+                <stop offset="100%" stopColor="#f472b6"/>
               </linearGradient>
-              <filter id="glow">
+              <filter id="obHeartGlow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path filter="url(#obHeartGlow)" d="M50 88C50 88 12 60 12 35C12 20 24 10 37 10C44 10 50 15 50 15C50 15 56 10 63 10C76 10 88 20 88 35C88 60 50 88 50 88Z" fill="url(#obHeartGrad)"/>
+            <path d="M50 78C50 78 22 55 22 35C22 24 31 17 40 17C46 17 50 22 50 22" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.5" fill="none"/>
+            <circle cx="35" cy="32" r="6" fill="white" opacity="0.4"/>
+          </svg>
+        ),
+        // Beautiful blossom for name step
+        blossom: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="obBlossomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fce7f3"/>
+                <stop offset="50%" stopColor="#f9a8d4"/>
+                <stop offset="100%" stopColor="#ec4899"/>
+              </linearGradient>
+              <filter id="obBlossomGlow">
                 <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                 <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
             </defs>
-            <g filter="url(#glow)">
-              <circle cx="50" cy="50" r="12" fill="url(#flowerGrad)"/>
-              <ellipse cx="50" cy="25" rx="12" ry="18" fill="url(#flowerGrad)" opacity="0.9"/>
-              <ellipse cx="50" cy="75" rx="12" ry="18" fill="url(#flowerGrad)" opacity="0.9"/>
-              <ellipse cx="25" cy="50" rx="18" ry="12" fill="url(#flowerGrad)" opacity="0.9"/>
-              <ellipse cx="75" cy="50" rx="18" ry="12" fill="url(#flowerGrad)" opacity="0.9"/>
-              <ellipse cx="32" cy="32" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(-45 32 32)"/>
-              <ellipse cx="68" cy="32" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(45 68 32)"/>
-              <ellipse cx="32" cy="68" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(45 32 68)"/>
-              <ellipse cx="68" cy="68" rx="12" ry="16" fill="url(#flowerGrad)" opacity="0.8" transform="rotate(-45 68 68)"/>
+            <g filter="url(#obBlossomGlow)">
+              <circle cx="50" cy="50" r="14" fill="#fbbf24"/>
+              <circle cx="50" cy="50" r="8" fill="#fcd34d"/>
+              <ellipse cx="50" cy="22" rx="14" ry="20" fill="url(#obBlossomGrad)"/>
+              <ellipse cx="50" cy="78" rx="14" ry="20" fill="url(#obBlossomGrad)"/>
+              <ellipse cx="22" cy="50" rx="20" ry="14" fill="url(#obBlossomGrad)"/>
+              <ellipse cx="78" cy="50" rx="20" ry="14" fill="url(#obBlossomGrad)"/>
+              <ellipse cx="28" cy="28" rx="14" ry="18" fill="url(#obBlossomGrad)" transform="rotate(-45 28 28)"/>
+              <ellipse cx="72" cy="28" rx="14" ry="18" fill="url(#obBlossomGrad)" transform="rotate(45 72 28)"/>
+              <ellipse cx="28" cy="72" rx="14" ry="18" fill="url(#obBlossomGrad)" transform="rotate(45 28 72)"/>
+              <ellipse cx="72" cy="72" rx="14" ry="18" fill="url(#obBlossomGrad)" transform="rotate(-45 72 72)"/>
+            </g>
+            <circle cx="30" cy="20" r="2" fill="white" opacity="0.8"/>
+            <circle cx="75" cy="35" r="1.5" fill="white" opacity="0.6"/>
+          </svg>
+        ),
+        // Gift/love for purpose step
+        gift: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="obGiftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fda4af"/>
+                <stop offset="50%" stopColor="#f472b6"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </linearGradient>
+              <linearGradient id="obRibbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#fcd34d"/>
+                <stop offset="50%" stopColor="#fbbf24"/>
+                <stop offset="100%" stopColor="#f59e0b"/>
+              </linearGradient>
+              <filter id="obGiftGlow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#obGiftGlow)">
+              <rect x="15" y="45" width="70" height="45" rx="8" fill="url(#obGiftGrad)"/>
+              <rect x="10" y="35" width="80" height="15" rx="5" fill="url(#obGiftGrad)"/>
+              <rect x="44" y="35" width="12" height="55" fill="url(#obRibbonGrad)"/>
+              <rect x="10" y="38" width="80" height="10" fill="url(#obRibbonGrad)"/>
+              <ellipse cx="35" cy="28" rx="15" ry="12" fill="url(#obRibbonGrad)"/>
+              <ellipse cx="65" cy="28" rx="15" ry="12" fill="url(#obRibbonGrad)"/>
+              <circle cx="50" cy="30" r="8" fill="#fbbf24"/>
+              <circle cx="50" cy="30" r="5" fill="#fcd34d"/>
+            </g>
+            <circle cx="25" cy="20" r="2" fill="white" opacity="0.9"/>
+            <circle cx="78" cy="25" r="2.5" fill="white" opacity="0.8"/>
+            <circle cx="85" cy="55" r="1.5" fill="white" opacity="0.7"/>
+          </svg>
+        ),
+        // Shield for privacy
+        shield: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="obShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fbcfe8"/>
+                <stop offset="50%" stopColor="#f472b6"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </linearGradient>
+              <filter id="obShieldGlow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path filter="url(#obShieldGlow)" d="M50 10L15 25V50C15 72 30 85 50 92C70 85 85 72 85 50V25L50 10Z" fill="url(#obShieldGrad)"/>
+            <path d="M50 20L25 32V50C25 67 37 77 50 82C63 77 75 67 75 50V32L50 20Z" fill="white" opacity="0.2"/>
+            <circle cx="50" cy="50" r="15" fill="white" opacity="0.3"/>
+            <path d="M42 50L48 56L58 44" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ),
+        // Sparkles/stars for ready step
+        sparkle: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="obSparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fef3c7"/>
+                <stop offset="50%" stopColor="#fcd34d"/>
+                <stop offset="100%" stopColor="#f59e0b"/>
+              </linearGradient>
+              <linearGradient id="obSparkleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fce7f3"/>
+                <stop offset="100%" stopColor="#f9a8d4"/>
+              </linearGradient>
+              <filter id="obSparkleGlow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#obSparkleGlow)">
+              <path d="M50 5L56 40L90 50L56 60L50 95L44 60L10 50L44 40Z" fill="url(#obSparkleGrad)"/>
+              <path d="M50 20L53 42L75 50L53 58L50 80L47 58L25 50L47 42Z" fill="white" opacity="0.5"/>
+              <path d="M20 20L23 28L30 30L23 32L20 40L17 32L10 30L17 28Z" fill="url(#obSparkleGrad2)"/>
+              <path d="M80 15L82 21L88 23L82 25L80 31L78 25L72 23L78 21Z" fill="url(#obSparkleGrad2)"/>
+              <path d="M75 75L77 80L82 82L77 84L75 89L73 84L68 82L73 80Z" fill="url(#obSparkleGrad2)"/>
+              <path d="M22 70L24 76L30 78L24 80L22 86L20 80L14 78L20 76Z" fill="url(#obSparkleGrad2)"/>
+            </g>
+            <circle cx="50" cy="50" r="5" fill="white" opacity="0.9"/>
+            <circle cx="35" cy="55" r="2" fill="white" opacity="0.6"/>
+            <circle cx="65" cy="45" r="2" fill="white" opacity="0.6"/>
+          </svg>
+        ),
+        flower: (
+          <svg className={className} viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="obFlowerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f472b6"/>
+                <stop offset="50%" stopColor="#ec4899"/>
+                <stop offset="100%" stopColor="#db2777"/>
+              </linearGradient>
+              <filter id="obFlowerGlow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#obFlowerGlow)">
+              <circle cx="50" cy="50" r="12" fill="url(#obFlowerGrad)"/>
+              <ellipse cx="50" cy="25" rx="12" ry="18" fill="url(#obFlowerGrad)" opacity="0.9"/>
+              <ellipse cx="50" cy="75" rx="12" ry="18" fill="url(#obFlowerGrad)" opacity="0.9"/>
+              <ellipse cx="25" cy="50" rx="18" ry="12" fill="url(#obFlowerGrad)" opacity="0.9"/>
+              <ellipse cx="75" cy="50" rx="18" ry="12" fill="url(#obFlowerGrad)" opacity="0.9"/>
+              <ellipse cx="32" cy="32" rx="12" ry="16" fill="url(#obFlowerGrad)" opacity="0.8" transform="rotate(-45 32 32)"/>
+              <ellipse cx="68" cy="32" rx="12" ry="16" fill="url(#obFlowerGrad)" opacity="0.8" transform="rotate(45 68 32)"/>
+              <ellipse cx="32" cy="68" rx="12" ry="16" fill="url(#obFlowerGrad)" opacity="0.8" transform="rotate(45 32 68)"/>
+              <ellipse cx="68" cy="68" rx="12" ry="16" fill="url(#obFlowerGrad)" opacity="0.8" transform="rotate(-45 68 68)"/>
             </g>
           </svg>
         ),
         book: (
           <svg className={className} viewBox="0 0 100 100" fill="none">
             <defs>
-              <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="obBookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#f9a8d4"/>
                 <stop offset="100%" stopColor="#ec4899"/>
               </linearGradient>
             </defs>
-            <path d="M20 20C20 15 25 12 35 12C45 12 50 18 50 18C50 18 55 12 65 12C75 12 80 15 80 20V75C80 78 77 80 74 80H26C23 80 20 78 20 75V20Z" fill="url(#bookGrad)" filter="url(#glow)"/>
+            <path d="M20 20C20 15 25 12 35 12C45 12 50 18 50 18C50 18 55 12 65 12C75 12 80 15 80 20V75C80 78 77 80 74 80H26C23 80 20 78 20 75V20Z" fill="url(#obBookGrad)" filter="url(#obFlowerGlow)"/>
             <path d="M50 18V80" stroke="white" strokeWidth="2" opacity="0.5"/>
             <path d="M30 30H45M30 40H42M30 50H45M55 30H70M58 40H70M55 50H70" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
             <circle cx="50" cy="65" r="8" fill="white" opacity="0.3"/>
             <path d="M47 65L49 67L53 63" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         ),
-        shield: (
-          <svg className={className} viewBox="0 0 100 100" fill="none">
-            <defs>
-              <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fbcfe8"/>
-                <stop offset="50%" stopColor="#f472b6"/>
-                <stop offset="100%" stopColor="#db2777"/>
-              </linearGradient>
-            </defs>
-            <path d="M50 10L15 25V50C15 72 30 85 50 92C70 85 85 72 85 50V25L50 10Z" fill="url(#shieldGrad)" filter="url(#glow)"/>
-            <path d="M50 20L25 32V50C25 67 37 77 50 82C63 77 75 67 75 50V32L50 20Z" fill="white" opacity="0.2"/>
-            <circle cx="50" cy="50" r="15" fill="white" opacity="0.3"/>
-            <path d="M42 50L48 56L58 44" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        ),
       };
-      return icons[type] || icons.flower;
+      return icons[type] || icons.heart;
     };
 
     const Onboarding = () => {
@@ -2604,7 +2724,7 @@
       const steps = [
         {
           type: 'welcome',
-          emoji: '🤍',
+          icon: 'heart',
           bismillah: true,
           title: 'Bismillah',
           titleArabic: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
@@ -2613,7 +2733,7 @@
         },
         {
           type: 'name',
-          emoji: '🌸',
+          icon: 'blossom',
           title: "What's your name, sister?",
           subtitle: "So we can make this space feel like yours",
           placeholder: "Your beautiful name...",
@@ -2621,7 +2741,7 @@
         },
         {
           type: 'purpose',
-          emoji: '💝',
+          icon: 'gift',
           title: `Welcome, ${name || 'beautiful soul'}`,
           subtitle: "Here's what we've prepared for you",
           features: [
@@ -2633,7 +2753,7 @@
         },
         {
           type: 'safety',
-          emoji: '🛡️',
+          icon: 'shield',
           title: "Your privacy matters",
           subtitle: "We've got you covered, always",
           content: "Everything stays on your device — we don't collect anything. There's even a panic button that shows a calculator if you ever need privacy quickly.",
@@ -2641,7 +2761,7 @@
         },
         {
           type: 'ready',
-          emoji: '✨',
+          icon: 'sparkle',
           title: `You're all set, ${name || 'sister'}!`,
           titleArabic: 'ما شاء الله',
           subtitle: "May Allah bless your journey",
@@ -2696,28 +2816,56 @@
             <div className="absolute bottom-20 right-10 w-48 h-48 bg-rose-300/25 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
             <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-amber-200/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
 
-            {/* Floating hearts */}
-            <div className="absolute top-20 right-16 text-2xl floating-heart" style={{animationDelay: '0s'}}>🤍</div>
-            <div className="absolute top-40 left-12 text-xl floating-heart" style={{animationDelay: '0.5s'}}>💕</div>
-            <div className="absolute bottom-32 right-20 text-lg floating-heart" style={{animationDelay: '1s'}}>🌸</div>
-            <div className="absolute bottom-48 left-16 text-xl floating-heart" style={{animationDelay: '1.5s'}}>✨</div>
+            {/* Floating SVG decorations */}
+            <div className="absolute top-20 right-16 w-8 h-8 floating-heart" style={{animationDelay: '0s'}}>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 21C12 21 4 14 4 8.5C4 5.5 6.5 3 9 3C10.5 3 12 4 12 4C12 4 13.5 3 15 3C17.5 3 20 5.5 20 8.5C20 14 12 21 12 21Z" fill="#fbcfe8" stroke="#f9a8d4" strokeWidth="1"/>
+              </svg>
+            </div>
+            <div className="absolute top-40 left-12 w-7 h-7 floating-heart" style={{animationDelay: '0.5s'}}>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 21C12 21 4 14 4 8.5C4 5.5 6.5 3 9 3C10.5 3 12 4 12 4C12 4 13.5 3 15 3C17.5 3 20 5.5 20 8.5C20 14 12 21 12 21Z" fill="#f9a8d4" stroke="#f472b6" strokeWidth="1"/>
+                <path d="M12 19C12 19 6 13 6 8.5C6 6.5 7.5 5 9 5" stroke="white" strokeWidth="1" opacity="0.5" strokeLinecap="round" fill="none"/>
+              </svg>
+            </div>
+            <div className="absolute bottom-32 right-20 w-6 h-6 floating-heart" style={{animationDelay: '1s'}}>
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" fill="#fbbf24"/>
+                <ellipse cx="12" cy="6" rx="3" ry="4" fill="#f9a8d4"/>
+                <ellipse cx="12" cy="18" rx="3" ry="4" fill="#f9a8d4"/>
+                <ellipse cx="6" cy="12" rx="4" ry="3" fill="#f9a8d4"/>
+                <ellipse cx="18" cy="12" rx="4" ry="3" fill="#f9a8d4"/>
+              </svg>
+            </div>
+            <div className="absolute bottom-48 left-16 w-7 h-7 floating-heart" style={{animationDelay: '1.5s'}}>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L13.5 9L20 12L13.5 15L12 22L10.5 15L4 12L10.5 9Z" fill="#fcd34d"/>
+                <circle cx="12" cy="12" r="2" fill="white" opacity="0.8"/>
+              </svg>
+            </div>
           </div>
 
           <div className="max-w-sm mx-auto w-full relative z-10">
-            {/* Progress hearts */}
+            {/* Progress indicators */}
             <div className="flex gap-3 mb-8 justify-center">
               {steps.map((_, i) => (
                 <div
                   key={i}
                   className={`transition-all duration-500 ease-out ${
                     i === step
-                      ? 'text-2xl transform scale-110'
+                      ? 'w-8 h-8 transform scale-110'
                       : i < step
-                        ? 'text-lg opacity-60'
-                        : 'text-lg opacity-30'
+                        ? 'w-6 h-6 opacity-70'
+                        : 'w-6 h-6 opacity-30'
                   }`}
                 >
-                  {i <= step ? '💗' : '🤍'}
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 21C12 21 4 14 4 8.5C4 5.5 6.5 3 9 3C10.5 3 12 4 12 4C12 4 13.5 3 15 3C17.5 3 20 5.5 20 8.5C20 14 12 21 12 21Z"
+                      fill={i <= step ? '#f472b6' : '#fce7f3'}
+                      stroke={i <= step ? '#ec4899' : '#fbcfe8'}
+                      strokeWidth="1.5"/>
+                    {i <= step && <circle cx="9" cy="8" r="2" fill="white" opacity="0.4"/>}
+                  </svg>
                 </div>
               ))}
             </div>
@@ -2725,12 +2873,14 @@
             {/* Main content */}
             <div key={step} className="text-center animate-warm-embrace">
 
-              {/* Emoji with glow */}
+              {/* SVG Icon with glow */}
               <div className="relative mb-6">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-24 h-24 bg-pink-300/40 rounded-full blur-2xl"></div>
                 </div>
-                <div className="relative text-6xl gentle-hug">{currentStep.emoji}</div>
+                <div className="relative w-20 h-20 mx-auto gentle-hug">
+                  <OnboardingIcon type={currentStep.icon} className="w-full h-full" />
+                </div>
               </div>
 
               {/* Bismillah for welcome */}
