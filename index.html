@@ -205,6 +205,7 @@
     .animate-float { animation: float 3s ease-in-out infinite; }
     .animate-glow { animation: glow 2s ease-in-out infinite; }
     .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+    .animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
 
     /* Staggered animations */
     .stagger-1 { animation-delay: 0.1s; }
@@ -603,7 +604,7 @@
         lesson: 'A woman can be successful, propose marriage, and be remembered as the best of women.',
       },
       {
-        id: 2, color: 'from-violet-400 to-purple-500',
+        id: 2, color: 'from-pink-400 to-rose-500',
         name: 'Aisha bint Abi Bakr',
         nameArabic: 'عائشة بنت أبي بكر',
         title: 'The Scholar of Islam',
@@ -733,20 +734,30 @@
       </div>
     );
 
-    // Feature Card
+    // Feature Card - INCREDIBLE VERSION
     const FeatureCard = ({ icon, title, subtitle, onClick, delay = 0, gradient }) => (
       <button
         onClick={() => { haptic.light(); onClick(); }}
-        className={`feature-card p-5 rounded-2xl text-left w-full animate-fade-in-up ripple`}
+        className="group relative p-5 rounded-3xl text-left w-full animate-fade-in-up overflow-hidden"
         style={{ animationDelay: `${delay}s`, animationFillMode: 'both' }}
       >
-        <div
-          className={`icon-container mb-4 bg-gradient-to-br ${gradient || 'from-pink-100 to-pink-200'}`}
-        >
-          {icon}
+        {/* Glass background with gradient */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient || 'from-pink-50 to-pink-100'} opacity-90`}></div>
+        <div className="absolute inset-0 backdrop-blur-sm bg-white/40"></div>
+
+        {/* Shimmer effect on hover */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-700"></div>
+
+        {/* Glowing border */}
+        <div className={`absolute inset-0 rounded-3xl border border-white/50 shadow-lg shadow-pink-200/50`}></div>
+
+        <div className="relative z-10">
+          <div className={`w-14 h-14 mb-4 rounded-2xl bg-gradient-to-br ${gradient || 'from-pink-200 to-pink-300'} flex items-center justify-center shadow-lg shadow-pink-300/30 group-active:scale-95 transition-transform`}>
+            <Icon name={icon} className="w-7 h-7 text-pink-600" />
+          </div>
+          <h3 className="font-bold text-pink-900 mb-1">{title}</h3>
+          <p className="text-xs text-pink-500 font-medium">{subtitle}</p>
         </div>
-        <h3 className="font-semibold text-pink-900 mb-1">{title}</h3>
-        <p className="text-xs text-pink-500">{subtitle}</p>
       </button>
     );
 
@@ -977,7 +988,7 @@
                 }}
                 className={`flex-1 py-4 rounded-2xl font-semibold text-white active:scale-95 transition-all duration-200 shadow-xl shadow-pink-500/30 bg-gradient-to-r ${steps[step].gradient}`}
               >
-                {step < steps.length - 1 ? 'Continue' : '✨ Begin Journey'}
+                {step < steps.length - 1 ? 'Continue' : 'Begin Journey'}
               </button>
             </div>
           </div>
@@ -1063,28 +1074,41 @@
               </button>
             </div>
 
-            {/* Daily Hadith Card */}
-            <div className="glass-card-pink p-6 rounded-3xl mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">{dailyHadith.icon}</span>
-                <span className="text-xs font-semibold text-pink-500 uppercase tracking-wider">Today's Reflection</span>
-              </div>
-              <p className="arabic-verse mb-4 text-xl">{dailyHadith.arabic}</p>
-              <p className="text-pink-800 leading-relaxed mb-3 italic">
-                "{dailyHadith.text}"
-              </p>
-              <p className="text-xs text-pink-500 mb-4">{dailyHadith.source}</p>
-              <div className="pt-4 border-t border-pink-200/50">
-                <p className="text-sm font-medium text-pink-700">
-                  ✨ {dailyHadith.doesMean}
+            {/* Daily Hadith Card - INCREDIBLE */}
+            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden" style={{ animationDelay: '0.1s' }}>
+              {/* Animated gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100 animate-pulse" style={{animationDuration: '4s'}}></div>
+              <div className="absolute inset-0 backdrop-blur-xl bg-white/60"></div>
+
+              {/* Decorative glow */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-300/30 rounded-full blur-3xl"></div>
+
+              <div className="relative p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50">
+                    <Icon name={dailyHadith.icon} className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-xs font-bold text-pink-600 uppercase tracking-wider">Today's Reflection</span>
+                </div>
+                <p className="arabic-verse mb-4 text-xl">{dailyHadith.arabic}</p>
+                <p className="text-pink-800 leading-relaxed mb-3 italic">
+                  "{dailyHadith.text}"
                 </p>
+                <p className="text-xs text-pink-500 mb-4">{dailyHadith.source}</p>
+                <div className="pt-4 border-t border-pink-200/50">
+                  <div className="flex items-start gap-2">
+                    <Icon name="sparkle" className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm font-medium text-pink-700">{dailyHadith.doesMean}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Quick Actions Grid */}
+            {/* Quick Actions Grid - INCREDIBLE CARDS */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <FeatureCard
-                icon="📖"
+                icon="book"
                 title="Hadith"
                 subtitle="Authentic teachings"
                 gradient="from-pink-100 to-rose-200"
@@ -1092,26 +1116,26 @@
                 delay={0.15}
               />
               <FeatureCard
-                icon="🤲"
+                icon="hands"
                 title="Duas"
                 subtitle="Beautiful prayers"
-                gradient="from-purple-100 to-pink-200"
+                gradient="from-pink-50 to-pink-200"
                 onClick={() => updateState({ view: 'duas' })}
                 delay={0.2}
               />
               <FeatureCard
-                icon="🕌"
+                icon="moon"
                 title="Prayer Times"
                 subtitle="Today's schedule"
-                gradient="from-amber-100 to-pink-200"
+                gradient="from-amber-50 to-pink-200"
                 onClick={() => updateState({ view: 'prayer' })}
                 delay={0.25}
               />
               <FeatureCard
-                icon="👑"
+                icon="star"
                 title="Sahabiyat"
                 subtitle="Inspiring women"
-                gradient="from-pink-100 to-fuchsia-200"
+                gradient="from-pink-100 to-rose-200"
                 onClick={() => updateState({ view: 'sahabiyat' })}
                 delay={0.3}
               />
@@ -1123,36 +1147,44 @@
             <div className="space-y-3">
               <button
                 onClick={() => { haptic.light(); updateState({ view: 'dhikr' }); }}
-                className="glass-card p-5 rounded-2xl w-full flex items-center gap-4 active:scale-[0.98] transition-transform animate-fade-in-up"
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
                 style={{ animationDelay: '0.35s', animationFillMode: 'both' }}
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white text-xl">
-                  📿
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="beads" className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Dhikr Counter</h3>
+                    <p className="text-xs text-pink-500 font-medium">Beautiful digital tasbeeh</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
-                <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-pink-900">Dhikr Counter</h3>
-                  <p className="text-xs text-pink-500">Beautiful digital tasbeeh</p>
-                </div>
-                <svg className="w-5 h-5 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
               </button>
 
               <button
                 onClick={() => { haptic.light(); updateState({ view: 'saved' }); }}
-                className="glass-card p-5 rounded-2xl w-full flex items-center gap-4 active:scale-[0.98] transition-transform animate-fade-in-up"
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
                 style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-xl">
-                  💖
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="heart" className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Saved Items</h3>
+                    <p className="text-xs text-pink-500 font-medium">{state.savedItems?.length || 0} items saved</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
-                <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-pink-900">Saved Items</h3>
-                  <p className="text-xs text-pink-500">{state.savedItems?.length || 0} items saved</p>
-                </div>
-                <svg className="w-5 h-5 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
               </button>
             </div>
 
@@ -1183,43 +1215,68 @@
             <div className="p-5 pt-8 max-w-lg mx-auto safe-top animate-fade-in">
               <BackButton onClick={() => setSelected(null)} />
 
-              <div className="glass-card-pink p-6 rounded-3xl mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-3xl">{selected.icon}</span>
-                  <button
-                    onClick={() => toggleSave({ ...selected, type: 'hadith' })}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                      isSaved(selected.id, 'hadith')
-                        ? 'bg-pink-500 text-white'
-                        : 'bg-pink-100 text-pink-400'
-                    }`}
-                  >
-                    <svg className="w-5 h-5" fill={isSaved(selected.id, 'hadith') ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </button>
-                </div>
+              {/* INCREDIBLE Hadith Detail Card */}
+              <div className="relative rounded-3xl mb-6 overflow-hidden">
+                {/* Background effects */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100"></div>
+                <div className="absolute inset-0 backdrop-blur-xl bg-white/50"></div>
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-pink-300/20 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-rose-300/20 rounded-full blur-3xl"></div>
 
-                <p className="arabic-verse mb-6">{selected.arabic}</p>
-
-                <p className="text-lg text-pink-800 leading-relaxed mb-4 italic">
-                  "{selected.text}"
-                </p>
-
-                <p className="text-sm text-pink-500 mb-6">{selected.source}</p>
-
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
-                    <p className="text-xs font-semibold text-green-600 uppercase tracking-wide mb-2">✓ What this means</p>
-                    <p className="text-green-800 leading-relaxed">{selected.doesMean}</p>
+                <div className="relative p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50">
+                      <Icon name={selected.icon} className="w-7 h-7 text-white" />
+                    </div>
+                    <button
+                      onClick={() => toggleSave({ ...selected, type: 'hadith' })}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg ${
+                        isSaved(selected.id, 'hadith')
+                          ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-pink-300/50'
+                          : 'bg-white text-pink-400 shadow-pink-200/50'
+                      }`}
+                    >
+                      <svg className="w-6 h-6" fill={isSaved(selected.id, 'hadith') ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </button>
                   </div>
 
-                  {selected.doesNotMean && (
-                    <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200">
-                      <p className="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-2">✗ What this doesn't mean</p>
-                      <p className="text-amber-800 leading-relaxed">{selected.doesNotMean}</p>
+                  <p className="arabic-verse mb-6">{selected.arabic}</p>
+
+                  <p className="text-lg text-pink-800 leading-relaxed mb-4 italic">
+                    "{selected.text}"
+                  </p>
+
+                  <p className="text-sm text-pink-500 font-medium mb-6">{selected.source}</p>
+
+                  <div className="space-y-4">
+                    <div className="relative p-5 rounded-2xl overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-100 to-pink-50"></div>
+                      <div className="absolute inset-0 border border-pink-200 rounded-2xl"></div>
+                      <div className="relative">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Icon name="sparkle" className="w-4 h-4 text-pink-500" />
+                          <p className="text-xs font-bold text-pink-600 uppercase tracking-wide">What this means</p>
+                        </div>
+                        <p className="text-pink-800 leading-relaxed">{selected.doesMean}</p>
+                      </div>
                     </div>
-                  )}
+
+                    {selected.doesNotMean && (
+                      <div className="relative p-5 rounded-2xl overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-50 to-orange-50"></div>
+                        <div className="absolute inset-0 border border-amber-200 rounded-2xl"></div>
+                        <div className="relative">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Icon name="shield" className="w-4 h-4 text-amber-600" />
+                            <p className="text-xs font-bold text-amber-600 uppercase tracking-wide">What this doesn't mean</p>
+                          </div>
+                          <p className="text-amber-800 leading-relaxed">{selected.doesNotMean}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1357,8 +1414,11 @@
                           <p className="text-xs font-semibold text-pink-500 uppercase mb-1">Source</p>
                           <p className="text-pink-700">{dua.source}</p>
                         </div>
-                        <div className="p-3 rounded-xl bg-pink-100/50">
-                          <p className="text-sm text-pink-700">💫 {dua.benefit}</p>
+                        <div className="p-3 rounded-xl bg-gradient-to-r from-pink-100/80 to-rose-100/80 border border-pink-200/50">
+                          <div className="flex items-start gap-2">
+                            <Icon name="sparkle" className="w-4 h-4 text-pink-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-sm text-pink-700 font-medium">{dua.benefit}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1375,6 +1435,60 @@
     // PRAYER TIMES VIEW
     // ============================================
 
+    // Prayer SVG Icons
+    const PrayerIcon = ({ prayer, isActive = false }) => {
+      const icons = {
+        Fajr: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="fajrGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor={isActive ? "#fff" : "#f472b6"}/>
+                <stop offset="100%" stopColor={isActive ? "#fce7f3" : "#db2777"}/>
+              </linearGradient>
+            </defs>
+            <path d="M12 2L12 6M4 12L2 12M6.34 6.34L4.93 4.93M17.66 6.34L19.07 4.93M20 12L22 12" stroke="url(#fajrGrad)" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M5 16H19" stroke="url(#fajrGrad)" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12" stroke="url(#fajrGrad)" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        ),
+        Sunrise: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="14" r="4" fill={isActive ? "#fff" : "#f472b6"}/>
+            <path d="M12 2V6M4 14H2M6.34 8.34L4.93 6.93M17.66 8.34L19.07 6.93M22 14H20M5 20H19" stroke={isActive ? "#fff" : "#db2777"} strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        ),
+        Dhuhr: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="5" fill={isActive ? "#fff" : "#f472b6"}/>
+            <path d="M12 2V4M12 20V22M4 12H2M6 6L4.5 4.5M18 6L19.5 4.5M22 12H20M18 18L19.5 19.5M6 18L4.5 19.5" stroke={isActive ? "#fff" : "#db2777"} strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        ),
+        Asr: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <circle cx="10" cy="12" r="4" fill={isActive ? "#fff" : "#f472b6"}/>
+            <path d="M10 4V6M4 12H2M5.17 7.17L3.76 5.76M14.83 7.17L16.24 5.76M16 12H18" stroke={isActive ? "#fff" : "#db2777"} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M16 18L20 22M20 18L16 22" stroke={isActive ? "#fff" : "#ec4899"} strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+          </svg>
+        ),
+        Maghrib: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <path d="M5 16H19" stroke={isActive ? "#fff" : "#db2777"} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12" stroke={isActive ? "#fff" : "#f472b6"} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M12 7V4" stroke={isActive ? "#fff" : "#ec4899"} strokeWidth="2" strokeLinecap="round"/>
+            <circle cx="18" cy="8" r="1.5" fill={isActive ? "#fce7f3" : "#f9a8d4"}/>
+          </svg>
+        ),
+        Isha: (
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C12.83 21 13.63 20.88 14.39 20.67C13.53 19.72 13 18.44 13 17C13 13.69 15.69 11 19 11C19.34 11 19.67 11.03 20 11.08C19.67 6.59 16.22 3 12 3Z" fill={isActive ? "#fff" : "#f472b6"}/>
+            <circle cx="17" cy="6" r="1" fill={isActive ? "#fce7f3" : "#f9a8d4"}/>
+            <circle cx="20" cy="9" r="0.5" fill={isActive ? "#fce7f3" : "#fbcfe8"}/>
+          </svg>
+        ),
+      };
+      return icons[prayer] || icons.Fajr;
+    };
+
     const PrayerView = () => {
       const { updateState } = useApp();
       const [times, setTimes] = useState(null);
@@ -1382,14 +1496,6 @@
       const [error, setError] = useState(null);
 
       const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-      const prayerIcons = {
-        Fajr: '🌅',
-        Sunrise: '☀️',
-        Dhuhr: '🌤️',
-        Asr: '⛅',
-        Maghrib: '🌇',
-        Isha: '🌙'
-      };
 
       useEffect(() => {
         if (navigator.geolocation) {
@@ -1462,25 +1568,40 @@
                 {prayers.map((prayer, i) => (
                   <div
                     key={prayer}
-                    className={`p-5 rounded-2xl flex items-center justify-between animate-fade-in-up ${
+                    className={`group relative p-5 rounded-2xl flex items-center justify-between animate-fade-in-up overflow-hidden ${
                       currentPrayer === prayer
-                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-200'
-                        : 'glass-card'
+                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xl shadow-pink-300/50'
+                        : ''
                     }`}
                     style={{ animationDelay: `${i * 0.1}s`, animationFillMode: 'both' }}
                   >
-                    <div className="flex items-center gap-4">
-                      <span className="text-2xl">{prayerIcons[prayer]}</span>
+                    {currentPrayer !== prayer && (
+                      <>
+                        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-pink-50/50 to-rose-50/50"></div>
+                      </>
+                    )}
+                    {currentPrayer === prayer && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" style={{backgroundSize: '200% 100%'}}></div>
+                    )}
+                    <div className="relative flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        currentPrayer === prayer
+                          ? 'bg-white/20'
+                          : 'bg-gradient-to-br from-pink-100 to-pink-200'
+                      }`}>
+                        <PrayerIcon prayer={prayer} isActive={currentPrayer === prayer} />
+                      </div>
                       <div>
-                        <p className={`font-semibold ${currentPrayer === prayer ? 'text-white' : 'text-pink-800'}`}>
+                        <p className={`font-bold ${currentPrayer === prayer ? 'text-white' : 'text-pink-800'}`}>
                           {prayer}
                         </p>
                         {currentPrayer === prayer && (
-                          <p className="text-xs text-pink-100">Current prayer</p>
+                          <p className="text-xs text-pink-100 font-medium">Current prayer</p>
                         )}
                       </div>
                     </div>
-                    <p className={`text-xl font-semibold ${currentPrayer === prayer ? 'text-white' : 'text-pink-600'}`}>
+                    <p className={`relative text-xl font-bold ${currentPrayer === prayer ? 'text-white' : 'text-pink-600'}`}>
                       {times[prayer]}
                     </p>
                   </div>
@@ -1541,9 +1662,17 @@
               </div>
 
               {/* Lesson */}
-              <div className="glass-card-pink p-6 rounded-3xl">
-                <h3 className="font-semibold text-pink-800 mb-3">✨ Lesson</h3>
-                <p className="text-pink-700 leading-relaxed">{selected.lesson}</p>
+              <div className="relative rounded-3xl overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100"></div>
+                <div className="absolute inset-0 backdrop-blur-sm bg-white/50"></div>
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-pink-300/30 rounded-full blur-2xl"></div>
+                <div className="relative p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon name="sparkle" className="w-5 h-5 text-pink-500" />
+                    <h3 className="font-bold text-pink-800">Lesson</h3>
+                  </div>
+                  <p className="text-pink-700 leading-relaxed">{selected.lesson}</p>
+                </div>
               </div>
             </div>
           </PageWrapper>
@@ -1718,7 +1847,7 @@
             </div>
 
             {/* Completion Toast */}
-            <Toast message="✨ Completed! MashaAllah!" show={showComplete} />
+            <Toast message="Completed! MashaAllah!" show={showComplete} />
           </div>
         </PageWrapper>
       );
@@ -1742,10 +1871,17 @@
             </div>
 
             {state.savedItems?.length === 0 ? (
-              <div className="glass-card p-12 rounded-3xl text-center animate-fade-in">
-                <p className="text-5xl mb-4">💖</p>
-                <h3 className="text-lg font-semibold text-pink-800 mb-2">No saved items yet</h3>
-                <p className="text-pink-500">Tap the heart icon on hadith or duas to save them here</p>
+              <div className="relative rounded-3xl text-center animate-fade-in overflow-hidden">
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-50 to-rose-50 opacity-50"></div>
+                <div className="absolute top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-pink-300/20 rounded-full blur-3xl"></div>
+                <div className="relative p-12">
+                  <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-xl shadow-pink-300/50 animate-float">
+                    <Icon name="heart" className="w-10 h-10 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold gradient-text mb-2">No saved items yet</h3>
+                  <p className="text-pink-500 font-medium">Tap the heart icon on hadith or duas to save them here</p>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
