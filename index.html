@@ -794,6 +794,320 @@
     .badge-pulse {
       animation: badge-pulse 2s ease-in-out infinite;
     }
+
+    /* ========================================== */
+    /* PREMIUM APP STORE QUALITY ENHANCEMENTS    */
+    /* ========================================== */
+
+    /* Dark Mode / Moon Mode Variables */
+    .dark-mode {
+      --pink-50: #1a1625;
+      --pink-100: #2d2640;
+      --pink-200: #3d3555;
+      --pink-300: #6b5b8a;
+      --pink-400: #9b7bc4;
+      --pink-500: #b794d4;
+      --pink-600: #d4a5e8;
+      --pink-700: #e9c5f5;
+      --pink-800: #f5e1fc;
+      --pink-900: #fdf2ff;
+      --gold: #ffd700;
+      --gold-light: #fff4cc;
+    }
+
+    .dark-mode body,
+    .dark-mode .gradient-bg {
+      background: linear-gradient(135deg, #1a1625 0%, #2d2640 25%, #3d3555 50%, #2d2640 75%, #1a1625 100%);
+    }
+
+    .dark-mode .glass-card,
+    .dark-mode .glass-ultra {
+      background: linear-gradient(135deg, rgba(45, 38, 64, 0.9) 0%, rgba(61, 53, 85, 0.8) 100%);
+      border-color: rgba(155, 123, 196, 0.3);
+    }
+
+    .dark-mode .gradient-text {
+      background: linear-gradient(135deg, #d4a5e8 0%, #b794d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .dark-mode .bottom-nav {
+      background: rgba(26, 22, 37, 0.95);
+      border-top-color: rgba(155, 123, 196, 0.2);
+    }
+
+    /* Enhanced Navigation with Pill */
+    .nav-pill {
+      position: absolute;
+      bottom: 8px;
+      height: 4px;
+      background: linear-gradient(90deg, #ec4899, #db2777);
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+    }
+
+    .nav-item-premium {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-item-premium.active {
+      color: #db2777;
+    }
+
+    .nav-item-premium.active::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 32px;
+      background: linear-gradient(180deg, rgba(236, 72, 153, 0.2) 0%, transparent 100%);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .nav-item-premium .nav-icon-wrapper {
+      position: relative;
+      padding: 6px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item-premium.active .nav-icon-wrapper {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(219, 39, 119, 0.1) 100%);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+    }
+
+    /* Floating Action Button Premium */
+    .fab-premium {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%);
+      box-shadow:
+        0 8px 32px rgba(219, 39, 119, 0.4),
+        0 4px 16px rgba(219, 39, 119, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 90;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fab-breathe 3s ease-in-out infinite;
+    }
+
+    @keyframes fab-breathe {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 8px 32px rgba(219, 39, 119, 0.4),
+          0 4px 16px rgba(219, 39, 119, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow:
+          0 12px 40px rgba(219, 39, 119, 0.5),
+          0 6px 20px rgba(219, 39, 119, 0.4);
+      }
+    }
+
+    .fab-premium:active {
+      transform: scale(0.92);
+    }
+
+    .fab-premium::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .fab-premium:hover::after {
+      opacity: 1;
+    }
+
+    /* Share Card Styling */
+    .share-card-container {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .share-card {
+      width: 320px;
+      padding: 32px;
+      background: linear-gradient(145deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+      border-radius: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .share-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ec4899, #d4af37, #ec4899);
+    }
+
+    .share-card-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30 30 0zm0 10L10 30l20 20 20-20-20-20z' fill='%23be185d'/%3E%3C/svg%3E");
+    }
+
+    /* Crescent Moon Fill Animation for Streaks */
+    @keyframes crescent-fill {
+      0% { clip-path: inset(100% 0 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
+
+    .crescent-streak {
+      position: relative;
+      width: 24px;
+      height: 24px;
+    }
+
+    .crescent-streak-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.3;
+    }
+
+    .crescent-streak-fill {
+      position: absolute;
+      inset: 0;
+      animation: crescent-fill 2s ease-out forwards;
+    }
+
+    /* Mini Reminder Cards */
+    .mini-reminder {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(253, 242, 248, 0.8) 100%);
+      border-left: 3px solid;
+      border-image: linear-gradient(180deg, #ec4899, #d4af37) 1;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Parallax Container */
+    .parallax-header {
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .parallax-bg {
+      position: absolute;
+      inset: -20%;
+      transform: translateZ(-1px) scale(1.2);
+      pointer-events: none;
+    }
+
+    /* Voice/Audio Button */
+    .audio-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.1) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .audio-btn:active {
+      transform: scale(0.9);
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(219, 39, 119, 0.2) 100%);
+    }
+
+    .audio-btn.playing {
+      animation: audio-pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes audio-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(236, 72, 153, 0); }
+    }
+
+    /* Bookmark Animation */
+    @keyframes bookmark-save {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .bookmark-saved {
+      animation: bookmark-save 0.4s ease-out;
+    }
+
+    /* Premium Gradient Border */
+    .gradient-border {
+      position: relative;
+    }
+
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, #ec4899, #d4af37, #ec4899);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Inner Glow Effect */
+    .inner-glow {
+      box-shadow:
+        inset 0 0 30px rgba(236, 72, 153, 0.1),
+        inset 0 0 60px rgba(236, 72, 153, 0.05);
+    }
+
+    /* Ripple Effect for Navigation */
+    @keyframes nav-ripple {
+      0% {
+        transform: scale(0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .nav-ripple {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: nav-ripple 0.6s ease-out forwards;
+    }
   </style>
 </head>
 <body class="gradient-bg">
@@ -1578,6 +1892,369 @@
     };
 
     // ============================================
+    // PREMIUM APP STORE QUALITY COMPONENTS
+    // ============================================
+
+    // Dark Mode Toggle - Moon Mode
+    const DarkModeToggle = () => {
+      const [isDark, setIsDark] = useState(false);
+
+      useEffect(() => {
+        const stored = localStorage.getItem('asma_dark_mode');
+        if (stored === 'true') {
+          setIsDark(true);
+          document.documentElement.classList.add('dark-mode');
+        }
+      }, []);
+
+      const toggle = () => {
+        haptic.medium();
+        setIsDark(!isDark);
+        document.documentElement.classList.toggle('dark-mode');
+        localStorage.setItem('asma_dark_mode', !isDark);
+      };
+
+      return (
+        <button
+          onClick={toggle}
+          className="relative w-14 h-7 rounded-full bg-gradient-to-r from-pink-200 to-pink-300 p-1 transition-all duration-300 shadow-inner"
+        >
+          <div
+            className={`absolute top-1 w-5 h-5 rounded-full transition-all duration-300 flex items-center justify-center ${
+              isDark
+                ? 'left-8 bg-gradient-to-br from-indigo-500 to-purple-600'
+                : 'left-1 bg-gradient-to-br from-amber-300 to-orange-400'
+            }`}
+          >
+            {isDark ? (
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+              </svg>
+            ) : (
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
+              </svg>
+            )}
+          </div>
+        </button>
+      );
+    };
+
+    // Floating Action Button - Quick Dhikr
+    const FloatingActionButton = ({ onClick }) => {
+      const [expanded, setExpanded] = useState(false);
+
+      return (
+        <div className="fixed bottom-24 right-5 z-50">
+          {expanded && (
+            <div className="absolute bottom-16 right-0 flex flex-col gap-3 animate-fade-in-up">
+              <button
+                onClick={() => { haptic.light(); onClick?.('dhikr'); setExpanded(false); }}
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg"
+              >
+                <span className="text-sm font-medium text-pink-600">Quick Dhikr</span>
+                <Icon name="beads" className="w-5 h-5 text-pink-500" />
+              </button>
+              <button
+                onClick={() => { haptic.light(); onClick?.('dua'); setExpanded(false); }}
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg"
+              >
+                <span className="text-sm font-medium text-pink-600">Add Dua</span>
+                <Icon name="hands" className="w-5 h-5 text-pink-500" />
+              </button>
+            </div>
+          )}
+          <button
+            onClick={() => { haptic.medium(); setExpanded(!expanded); }}
+            className={`fab-premium ${expanded ? 'rotate-45' : ''}`}
+            style={{ transition: 'transform 0.3s ease' }}
+          >
+            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+      );
+    };
+
+    // Share Card Modal
+    const ShareCardModal = ({ show, onClose, content }) => {
+      const canvasRef = useRef(null);
+
+      if (!show || !content) return null;
+
+      const handleShare = async () => {
+        haptic.success();
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'Islamic Reflection',
+              text: `${content.arabic}\n\n"${content.text}"\n\n— ${content.source}`,
+            });
+          } catch (err) {
+            console.log('Share cancelled');
+          }
+        } else {
+          // Fallback - copy to clipboard
+          navigator.clipboard?.writeText(`${content.arabic}\n\n"${content.text}"\n\n— ${content.source}`);
+        }
+        onClose();
+      };
+
+      return (
+        <div className="share-card-container" onClick={onClose}>
+          <div className="share-card animate-scale-in" onClick={e => e.stopPropagation()}>
+            <div className="share-card-pattern"></div>
+            <div className="relative z-10">
+              <p className="font-arabic text-xl text-pink-800 mb-4">{content.arabic}</p>
+              <p className="text-pink-700 italic mb-3">"{content.text}"</p>
+              <p className="text-sm text-pink-500 mb-6">— {content.source}</p>
+
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-medium shadow-lg"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                  </svg>
+                  Share
+                </button>
+                <button
+                  onClick={onClose}
+                  className="px-6 py-3 bg-pink-100 text-pink-600 rounded-xl font-medium"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Mini Reminders Widget
+    const MiniReminders = () => {
+      const [currentReminder, setCurrentReminder] = useState(0);
+
+      const reminders = [
+        { type: 'dua', title: "Today's Dua", text: 'رَبِّ زِدْنِي عِلْمًا', translation: 'My Lord, increase me in knowledge' },
+        { type: 'trait', title: 'Daily Trait', text: 'Sabr (Patience)', translation: 'Practice patience in one difficulty today' },
+        { type: 'challenge', title: 'Reflection Challenge', text: 'Gratitude', translation: 'Name 3 blessings you often overlook' },
+      ];
+
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentReminder(i => (i + 1) % reminders.length);
+        }, 10000);
+        return () => clearInterval(timer);
+      }, []);
+
+      const reminder = reminders[currentReminder];
+
+      return (
+        <div className="mini-reminder rounded-xl p-4 animate-fade-in">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-bold text-pink-500 uppercase tracking-wide">{reminder.title}</span>
+            <div className="flex gap-1 ml-auto">
+              {reminders.map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${
+                    i === currentReminder ? 'bg-pink-500 w-3' : 'bg-pink-200'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          {reminder.type === 'dua' ? (
+            <p className="font-arabic text-lg text-pink-700 mb-1">{reminder.text}</p>
+          ) : (
+            <p className="font-bold text-pink-700">{reminder.text}</p>
+          )}
+          <p className="text-sm text-pink-500">{reminder.translation}</p>
+        </div>
+      );
+    };
+
+    // Crescent Moon Streak Counter (Elegant)
+    const CrescentStreak = () => {
+      const [streak, setStreak] = useState(0);
+      const [activities, setActivities] = useState({ dua: false, dhikr: false, reflection: false });
+
+      useEffect(() => {
+        const stored = localStorage.getItem('asma_streak');
+        const lastVisit = localStorage.getItem('asma_last_visit');
+        const today = new Date().toDateString();
+        const todayActivities = JSON.parse(localStorage.getItem('asma_activities_' + today) || '{}');
+
+        setActivities(todayActivities);
+
+        if (lastVisit === today) {
+          setStreak(parseInt(stored) || 1);
+        } else {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          if (lastVisit === yesterday.toDateString()) {
+            const newStreak = (parseInt(stored) || 0) + 1;
+            setStreak(newStreak);
+            localStorage.setItem('asma_streak', newStreak);
+          } else {
+            setStreak(1);
+            localStorage.setItem('asma_streak', 1);
+          }
+          localStorage.setItem('asma_last_visit', today);
+        }
+      }, []);
+
+      const completedCount = Object.values(activities).filter(Boolean).length;
+      const fillPercent = (completedCount / 3) * 100;
+
+      return (
+        <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-gradient-to-r from-amber-50 to-pink-50 border border-amber-200/50">
+          <div className="crescent-streak">
+            {/* Background crescent */}
+            <svg className="crescent-streak-bg w-6 h-6" fill="#fcd34d" viewBox="0 0 24 24">
+              <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+            </svg>
+            {/* Filled crescent */}
+            <svg
+              className="crescent-streak-fill w-6 h-6"
+              fill="#f59e0b"
+              viewBox="0 0 24 24"
+              style={{ clipPath: `inset(${100 - fillPercent}% 0 0 0)` }}
+            >
+              <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+            </svg>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold text-amber-700">{streak} Day Streak</span>
+            <span className="text-[10px] text-amber-500">{completedCount}/3 today</span>
+          </div>
+        </div>
+      );
+    };
+
+    // Audio Playback Button for Recitation
+    const AudioButton = ({ audioUrl, size = 'md' }) => {
+      const [isPlaying, setIsPlaying] = useState(false);
+      const audioRef = useRef(null);
+
+      const togglePlay = () => {
+        haptic.light();
+        if (isPlaying) {
+          audioRef.current?.pause();
+        } else {
+          // In real app, would play actual audio
+          // For now, simulate playback
+          setTimeout(() => setIsPlaying(false), 3000);
+        }
+        setIsPlaying(!isPlaying);
+      };
+
+      return (
+        <button
+          onClick={togglePlay}
+          className={`audio-btn ${isPlaying ? 'playing' : ''} ${size === 'sm' ? 'w-8 h-8' : ''}`}
+        >
+          {isPlaying ? (
+            <svg className="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          ) : (
+            <svg className="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          )}
+        </button>
+      );
+    };
+
+    // Bookmark Button with Animation
+    const BookmarkButton = ({ isSaved, onToggle, size = 'md' }) => {
+      const [animating, setAnimating] = useState(false);
+
+      const handleClick = () => {
+        haptic.medium();
+        setAnimating(true);
+        setTimeout(() => setAnimating(false), 400);
+        onToggle();
+      };
+
+      return (
+        <button
+          onClick={handleClick}
+          className={`audio-btn ${animating ? 'bookmark-saved' : ''} ${size === 'sm' ? 'w-8 h-8' : ''}`}
+        >
+          <svg
+            className={`w-4 h-4 transition-colors ${isSaved ? 'text-pink-500' : 'text-pink-300'}`}
+            fill={isSaved ? 'currentColor' : 'none'}
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+        </button>
+      );
+    };
+
+    // Premium Bottom Navigation
+    const BottomNavPremium = () => {
+      const { state, updateState } = useApp();
+      const [ripples, setRipples] = useState([]);
+
+      const navItems = [
+        { id: 'home', icon: 'home', label: 'Home' },
+        { id: 'hadith', icon: 'book', label: 'Hadith' },
+        { id: 'dhikr', icon: 'beads', label: 'Dhikr' },
+        { id: 'duas', icon: 'hands', label: 'Duas' },
+        { id: 'saved', icon: 'heart', label: 'Saved' },
+      ];
+
+      const handleNavClick = (e, id) => {
+        haptic.light();
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left - 10;
+        const y = e.clientY - rect.top - 10;
+
+        const ripple = { id: Date.now(), x, y };
+        setRipples(prev => [...prev, ripple]);
+        setTimeout(() => {
+          setRipples(prev => prev.filter(r => r.id !== ripple.id));
+        }, 600);
+
+        updateState({ view: id });
+      };
+
+      return (
+        <nav className="bottom-nav">
+          <div className="max-w-lg mx-auto flex items-center justify-around py-2 relative">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={(e) => handleNavClick(e, item.id)}
+                className={`nav-item-premium ${state.view === item.id || (state.view === 'home' && item.id === 'home') ? 'active' : ''}`}
+              >
+                {ripples.map(ripple => (
+                  <div
+                    key={ripple.id}
+                    className="nav-ripple"
+                    style={{ left: ripple.x, top: ripple.y }}
+                  />
+                ))}
+                <div className="nav-icon-wrapper">
+                  <Icon name={item.icon} className="w-6 h-6" />
+                </div>
+                <span className="nav-label text-[10px] mt-1 font-medium">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+      );
+    };
+
+    // ============================================
     // REUSABLE COMPONENTS
     // ============================================
 
@@ -1914,8 +2591,9 @@
     // ============================================
 
     const HomeScreen = () => {
-      const { state, updateState } = useApp();
+      const { state, updateState, toggleSave } = useApp();
       const [showPanic, setShowPanic] = useState(false);
+      const [showShare, setShowShare] = useState(false);
       const [time, setTime] = useState(new Date());
 
       useEffect(() => {
@@ -1923,16 +2601,17 @@
         return () => clearInterval(timer);
       }, []);
 
-      // Get greeting based on time
+      // Get greeting based on time - Now with Assalamu Alaikum
       const getGreeting = () => {
         const hour = time.getHours();
-        if (hour < 12) return { text: 'Good Morning', arabic: 'صباح الخير' };
-        if (hour < 17) return { text: 'Good Afternoon', arabic: 'مساء الخير' };
-        return { text: 'Good Evening', arabic: 'مساء النور' };
+        if (hour < 12) return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'صباح الخير' };
+        if (hour < 17) return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'مساء الخير' };
+        return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'مساء النور' };
       };
 
       const greeting = getGreeting();
       const dailyHadith = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
+      const isHadithSaved = state.savedItems?.some(item => item.id === dailyHadith.id && item.type === 'hadith');
 
       // Panic mode - Calculator disguise
       if (showPanic) {
@@ -1971,25 +2650,42 @@
           <FloatingParticles />
           <GeometricArabesque />
 
+          {/* Share Modal */}
+          <ShareCardModal
+            show={showShare}
+            onClose={() => setShowShare(false)}
+            content={dailyHadith}
+          />
+
+          {/* Floating Action Button */}
+          <FloatingActionButton onClick={(action) => {
+            if (action === 'dhikr') updateState({ view: 'dhikr' });
+            if (action === 'dua') updateState({ view: 'duas' });
+          }} />
+
           <div className="p-5 pt-8 max-w-lg mx-auto safe-top relative z-10">
-            {/* Top Bar - Date & Streak */}
+            {/* Top Bar - Date, Streak & Dark Mode */}
             <div className="flex items-center justify-between mb-4 animate-fade-in">
               <HijriDate />
-              <StreakCounter />
+              <div className="flex items-center gap-3">
+                <CrescentStreak />
+                <DarkModeToggle />
+              </div>
             </div>
 
-            {/* Header with Typewriter */}
+            {/* Premium Header with Assalamu Alaikum */}
             <div className="flex items-center justify-between mb-6 animate-fade-in" style={{animationDelay: '0.1s'}}>
               <div>
-                <p className="text-sm text-pink-400 font-medium">{greeting.text}</p>
+                <p className="text-sm text-pink-400 font-medium font-ruqaa">{greeting.arabic}</p>
                 <h1 className="text-2xl font-bold gradient-text">
-                  <TypewriterGreeting text={state.userName || 'Sister'} /> <span className="font-ruqaa text-pink-400">{greeting.arabic}</span>
+                  <TypewriterGreeting text={state.userName || 'Sister'} />
                 </h1>
+                <p className="text-xs text-pink-300 font-ruqaa mt-1">{greeting.period}</p>
               </div>
               <button
                 onClick={() => { haptic.heavy(); setShowPanic(true); }}
                 className="w-11 h-11 glass-ultra rounded-xl flex items-center justify-center active:scale-90 transition-transform shadow-multi"
-                title="Panic button"
+                title="Privacy mode"
               >
                 <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -2002,26 +2698,47 @@
               <PrayerCountdown />
             </div>
 
-            {/* Daily Hadith Card - INCREDIBLE with Shimmer */}
-            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden shadow-multi" style={{ animationDelay: '0.18s' }}>
+            {/* Daily Hadith Card - PREMIUM with Gradient Border */}
+            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden shadow-multi gradient-border inner-glow" style={{ animationDelay: '0.18s' }}>
               {/* Animated gradient background */}
               <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100 animate-pulse" style={{animationDuration: '4s'}}></div>
               <div className="absolute inset-0 backdrop-blur-xl bg-white/60"></div>
               {/* Shimmer overlay */}
               <div className="shimmer-overlay"></div>
 
-              {/* Decorative glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-300/30 rounded-full blur-3xl"></div>
+              {/* Decorative glow blobs */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl blob"></div>
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-300/30 rounded-full blur-3xl blob" style={{animationDelay: '-4s'}}></div>
 
               <div className="relative p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50">
-                    <Icon name={dailyHadith.icon} className="w-5 h-5 text-white" />
+                {/* Header with actions */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50 icon-glow">
+                      <Icon name={dailyHadith.icon} className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-xs font-bold text-pink-600 uppercase tracking-wider">Today's Reflection</span>
                   </div>
-                  <span className="text-xs font-bold text-pink-600 uppercase tracking-wider">Today's Reflection</span>
+                  {/* Audio, Bookmark, Share buttons */}
+                  <div className="flex items-center gap-2">
+                    <AudioButton size="sm" />
+                    <BookmarkButton
+                      size="sm"
+                      isSaved={isHadithSaved}
+                      onToggle={() => toggleSave({ ...dailyHadith, type: 'hadith' })}
+                    />
+                    <button
+                      onClick={() => { haptic.light(); setShowShare(true); }}
+                      className="audio-btn w-8 h-8"
+                    >
+                      <svg className="w-4 h-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <p className="arabic-verse mb-4 text-xl">{dailyHadith.arabic}</p>
+
+                <p className="arabic-verse arabic-elegant mb-4 text-xl">{dailyHadith.arabic}</p>
                 <p className="text-pink-800 leading-relaxed mb-3 italic">
                   "{dailyHadith.text}"
                 </p>
@@ -2041,7 +2758,7 @@
                 <FeatureCard
                   icon="book"
                   title="Hadith"
-                  subtitle="Authentic teachings"
+                  subtitle="Explore verified daily narrations"
                   gradient="from-pink-100 to-rose-200"
                   onClick={() => updateState({ view: 'hadith' })}
                   delay={0.2}
@@ -2051,7 +2768,7 @@
                 <FeatureCard
                   icon="hands"
                   title="Duas"
-                  subtitle="Beautiful prayers"
+                  subtitle="Prayers for every moment"
                   gradient="from-pink-50 to-pink-200"
                   onClick={() => updateState({ view: 'duas' })}
                   delay={0.25}
@@ -2061,7 +2778,7 @@
                 <FeatureCard
                   icon="moon"
                   title="Prayer Times"
-                  subtitle="Today's schedule"
+                  subtitle="Live local timings"
                   gradient="from-amber-50 to-pink-200"
                   onClick={() => updateState({ view: 'prayer' })}
                   delay={0.3}
@@ -2071,12 +2788,17 @@
                 <FeatureCard
                   icon="star"
                   title="Sahabiyat"
-                  subtitle="Inspiring women"
+                  subtitle="Stories of inspiring women"
                   gradient="from-pink-100 to-rose-200"
                   onClick={() => updateState({ view: 'sahabiyat' })}
                   delay={0.35}
                 />
               </TiltCard>
+            </div>
+
+            {/* Mini Reminders */}
+            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              <MiniReminders />
             </div>
 
             {/* More Features */}
@@ -3536,7 +4258,7 @@
       return (
         <>
           {renderView()}
-          <BottomNav />
+          <BottomNavPremium />
         </>
       );
     };
