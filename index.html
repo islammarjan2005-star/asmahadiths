@@ -553,7 +553,7 @@
         benefit: 'Start your day acknowledging Allah\'s sovereignty',
       },
       {
-        id: 2, category: 'anxiety', icon: '💜', color: 'from-purple-100 to-pink-100',
+        id: 2, category: 'anxiety', icon: '💗', color: 'from-pink-100 to-rose-100',
         arabic: 'لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',
         transliteration: 'La ilaha illa anta subhanaka inni kuntu minaz-zalimin',
         translation: 'There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.',
@@ -569,7 +569,7 @@
         benefit: 'For clarity, confidence, and ease in difficult tasks',
       },
       {
-        id: 4, category: 'protection', icon: '🛡️', color: 'from-blue-100 to-indigo-100',
+        id: 4, category: 'protection', icon: '🛡️', color: 'from-pink-100 to-rose-100',
         arabic: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ',
         transliteration: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un',
         translation: 'In the name of Allah with whose name nothing can harm.',
@@ -600,7 +600,7 @@
         lesson: 'A woman can be successful, propose marriage, and be remembered as the best of women.',
       },
       {
-        id: 2, color: 'from-violet-400 to-purple-500',
+        id: 2, color: 'from-pink-400 to-rose-500',
         name: 'Aisha bint Abi Bakr',
         nameArabic: 'عائشة بنت أبي بكر',
         title: 'The Scholar of Islam',
@@ -810,7 +810,15 @@
 
             {/* Content */}
             <div key={step} className="text-center animate-fade-in">
-              <div className="text-6xl mb-6 animate-float">{steps[step].icon}</div>
+              <div className="mb-6 animate-float flex justify-center">
+                {step === 0 ? (
+                  <svg className="w-16 h-16 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 4.74 13.6 5.39 13 5.73V7H14C17.31 7 20 9.69 20 13C20 16.31 17.31 19 14 19H13V20.27C13.6 20.61 14 21.26 14 22C14 23.1 13.1 24 12 24S10 23.1 10 22C10 21.26 10.4 20.61 11 20.27V19H10C6.69 19 4 16.31 4 13C4 9.69 6.69 7 10 7H11V5.73C10.4 5.39 10 4.74 10 4C10 2.9 10.9 2 12 2M10 9C7.79 9 6 10.79 6 13S7.79 17 10 17H14C16.21 17 18 15.21 18 13S16.21 9 14 9H10M12 11C13.1 11 14 11.9 14 13S13.1 15 12 15 10 14.1 10 13 10.9 11 12 11Z"/>
+                  </svg>
+                ) : (
+                  <span className="text-6xl">{steps[step].icon}</span>
+                )}
+              </div>
               <h1 className="text-3xl font-bold gradient-text mb-2">{steps[step].title}</h1>
               {steps[step].titleArabic && (
                 <p className="text-2xl font-ruqaa text-pink-400 mb-3">{steps[step].titleArabic}</p>
@@ -967,7 +975,7 @@
                 icon="🤲"
                 title="Duas"
                 subtitle="Beautiful prayers"
-                gradient="from-purple-100 to-pink-200"
+                gradient="from-pink-100 to-rose-200"
                 onClick={() => updateState({ view: 'duas' })}
                 delay={0.2}
               />
@@ -1015,7 +1023,7 @@
                 className="glass-card p-5 rounded-2xl w-full flex items-center gap-4 active:scale-[0.98] transition-transform animate-fade-in-up"
                 style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-xl">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white text-xl">
                   💖
                 </div>
                 <div className="flex-1 text-left">
