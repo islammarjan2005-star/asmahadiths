@@ -2029,14 +2029,22 @@
       const [currentDhikr, setCurrentDhikr] = useState(0);
       const [count, setCount] = useState(0);
       const [showComplete, setShowComplete] = useState(false);
+      const [showRoundComplete, setShowRoundComplete] = useState(false);
 
       const dhikr = dhikrList[currentDhikr];
-      const displayTarget = Math.min(dhikr.target, 33); // Cap at 33 for 3D display
 
       const handleTap = () => {
         haptic.light();
         if (count < dhikr.target) {
-          setCount(c => c + 1);
+          const newCount = count + 1;
+          setCount(newCount);
+
+          // Check for round completion (every 33)
+          if (newCount % 33 === 0 && newCount < dhikr.target) {
+            haptic.medium();
+            setShowRoundComplete(true);
+            setTimeout(() => setShowRoundComplete(false), 1000);
+          }
         }
         if (count + 1 >= dhikr.target) {
           haptic.success();
@@ -2098,8 +2106,8 @@
 
               <div className="relative w-full max-w-sm">
                 <Tasbeeh3D
-                  count={Math.min(count, 33)}
-                  target={displayTarget}
+                  count={count % 33 || (count > 0 && count % 33 === 0 ? 33 : 0)}
+                  target={33}
                   onTap={handleTap}
                 />
 
@@ -2112,7 +2120,18 @@
                 </div>
               </div>
 
-              <p className="text-pink-400 text-sm mt-4 animate-pulse">Tap the tasbeeh to count</p>
+              {/* Round indicator for targets > 33 */}
+              {dhikr.target > 33 && (
+                <div className="flex items-center justify-center gap-3 mt-4">
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm shadow-md">
+                    <span className="text-pink-500 text-sm font-medium">Round</span>
+                    <span className="text-pink-700 font-bold">{Math.floor(count / 33) + (count % 33 === 0 && count > 0 ? 0 : 1)}</span>
+                    <span className="text-pink-400 text-sm">of {Math.ceil(dhikr.target / 33)}</span>
+                  </div>
+                </div>
+              )}
+
+              <p className="text-pink-400 text-sm mt-3 animate-pulse">Tap the tasbeeh to count</p>
             </div>
 
             {/* Controls */}
@@ -2135,6 +2154,7 @@
 
             {/* Completion Toast */}
             <Toast message="Completed! MashaAllah!" show={showComplete} />
+            <Toast message="Round complete! Keep going..." show={showRoundComplete} />
           </div>
         </PageWrapper>
       );
