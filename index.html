@@ -3943,17 +3943,18 @@
       const animatingRef = useRef(false);
       const [isLoaded, setIsLoaded] = useState(false);
 
-      // Beautiful SVG Fallback Tasbeeh
+      // Beautiful SVG Fallback Tasbeeh with Fluid Animations
       const SVGTasbeeh = ({ count, target }) => {
         const beadCount = 33;
         const radius = 85;
         const centerX = 120;
         const centerY = 110;
+        const currentCount = count % 33 || (count > 0 && count % 33 === 0 ? 33 : 0);
 
         return (
-          <svg viewBox="0 0 240 260" className="w-full h-full">
+          <svg viewBox="0 0 240 280" className="w-full h-full tasbeeh-float">
             <defs>
-              {/* Pearl gradient */}
+              {/* Pearl gradient with animation */}
               <radialGradient id="pearlGrad" cx="30%" cy="30%">
                 <stop offset="0%" stopColor="#ffffff"/>
                 <stop offset="50%" stopColor="#fdf2f8"/>
@@ -3971,84 +3972,184 @@
                 <stop offset="50%" stopColor="#fbbf24"/>
                 <stop offset="100%" stopColor="#d97706"/>
               </radialGradient>
+              {/* Animated shimmer gradient */}
+              <linearGradient id="shimmerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="white" stopOpacity="0">
+                  <animate attributeName="offset" values="-0.5;1.5" dur="3s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="50%" stopColor="white" stopOpacity="0.6">
+                  <animate attributeName="offset" values="0;2" dur="3s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="100%" stopColor="white" stopOpacity="0">
+                  <animate attributeName="offset" values="0.5;2.5" dur="3s" repeatCount="indefinite"/>
+                </stop>
+              </linearGradient>
               {/* Glow filter */}
-              <filter id="beadGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2" result="blur"/>
+              <filter id="beadGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
                 <feMerge>
                   <feMergeNode in="blur"/>
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
-              {/* Shadow */}
+              {/* Soft shadow */}
               <filter id="tasbeehShadow" x="-20%" y="-20%" width="140%" height="140%">
                 <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#f9a8d4" floodOpacity="0.4"/>
               </filter>
+              {/* Pulse glow for active bead */}
+              <filter id="activeGlow" x="-150%" y="-150%" width="400%" height="400%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feFlood floodColor="#ec4899" floodOpacity="0.8"/>
+                <feComposite in2="blur" operator="in"/>
+                <feMerge>
+                  <feMergeNode/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
 
-            {/* Background glow */}
-            <circle cx={centerX} cy={centerY} r={radius + 20} fill="url(#countedGrad)" opacity="0.1"/>
+            {/* Animated background glow */}
+            <circle cx={centerX} cy={centerY} r={radius + 25} fill="url(#countedGrad)" opacity="0.08">
+              <animate attributeName="r" values={`${radius + 20};${radius + 30};${radius + 20}`} dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.08;0.15;0.08" dur="4s" repeatCount="indefinite"/>
+            </circle>
 
-            {/* String */}
+            {/* Rotating sparkle ring */}
+            <g style={{transformOrigin: `${centerX}px ${centerY}px`}} className="sparkle-rotate">
+              {[0, 60, 120, 180, 240, 300].map((deg, i) => {
+                const sparkleAngle = (deg * Math.PI) / 180;
+                const sx = centerX + Math.cos(sparkleAngle) * (radius + 15);
+                const sy = centerY + Math.sin(sparkleAngle) * (radius + 15);
+                return (
+                  <circle key={i} cx={sx} cy={sy} r="2" fill="white" opacity="0.4">
+                    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" begin={`${i * 0.3}s`} repeatCount="indefinite"/>
+                    <animate attributeName="r" values="1;3;1" dur="2s" begin={`${i * 0.3}s`} repeatCount="indefinite"/>
+                  </circle>
+                );
+              })}
+            </g>
+
+            {/* String with shimmer */}
             <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="url(#goldGrad)" strokeWidth="3" filter="url(#tasbeehShadow)"/>
+            <circle cx={centerX} cy={centerY} r={radius} fill="none" stroke="url(#shimmerGrad)" strokeWidth="4" opacity="0.5"/>
 
-            {/* Beads */}
+            {/* Beads with staggered animations */}
             {[...Array(beadCount)].map((_, i) => {
               const angle = (i / beadCount) * Math.PI * 2 - Math.PI / 2;
               const x = centerX + Math.cos(angle) * radius;
               const y = centerY + Math.sin(angle) * radius;
-              const isCounted = i < (count % 33 || (count > 0 && count % 33 === 0 ? 33 : 0));
+              const isCounted = i < currentCount;
+              const isActive = i === currentCount - 1 && currentCount > 0;
               const isGold = i % 11 === 10;
-              const beadRadius = isCounted ? 10 : 8;
+              const baseRadius = 8;
+              const delay = i * 0.05;
 
               return (
-                <g key={i}>
+                <g key={i} className="bead-group" style={{animationDelay: `${delay}s`}}>
+                  {/* Bead shadow */}
+                  <circle cx={x + 1} cy={y + 2} r={baseRadius} fill="#00000010"/>
+
+                  {/* Main bead */}
                   <circle
                     cx={x}
                     cy={y}
-                    r={beadRadius}
+                    r={baseRadius}
                     fill={isGold ? "url(#goldGrad)" : isCounted ? "url(#countedGrad)" : "url(#pearlGrad)"}
-                    filter={isCounted ? "url(#beadGlow)" : undefined}
-                    className={isCounted ? "animate-pulse" : ""}
-                  />
+                    filter={isActive ? "url(#activeGlow)" : isCounted ? "url(#beadGlow)" : undefined}
+                  >
+                    {isCounted && (
+                      <animate attributeName="r" values={`${baseRadius};${baseRadius + 2};${baseRadius}`} dur="0.6s" repeatCount={isActive ? "indefinite" : "1"}/>
+                    )}
+                  </circle>
+
                   {/* Highlight */}
-                  <circle cx={x - 2} cy={y - 2} r={beadRadius * 0.3} fill="white" opacity="0.6"/>
+                  <circle cx={x - 2} cy={y - 2} r={baseRadius * 0.35} fill="white" opacity={isCounted ? "0.8" : "0.5"}>
+                    {isCounted && (
+                      <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.5s" repeatCount="indefinite"/>
+                    )}
+                  </circle>
+
+                  {/* Secondary highlight for depth */}
+                  <circle cx={x + 1} cy={y + 2} r={baseRadius * 0.2} fill="white" opacity="0.2"/>
                 </g>
               );
             })}
 
-            {/* Tassel cap */}
-            <ellipse cx={centerX} cy={centerY + radius + 12} rx="12" ry="8" fill="url(#goldGrad)"/>
-            <rect x={centerX - 10} y={centerY + radius + 8} width="20" height="12" fill="url(#goldGrad)" rx="2"/>
+            {/* Tassel group with sway animation */}
+            <g className="tassel-sway">
+              {/* Tassel cap */}
+              <ellipse cx={centerX} cy={centerY + radius + 12} rx="12" ry="8" fill="url(#goldGrad)"/>
+              <rect x={centerX - 10} y={centerY + radius + 8} width="20" height="12" fill="url(#goldGrad)" rx="2"/>
 
-            {/* Tassel threads */}
-            {[...Array(8)].map((_, i) => {
-              const spread = (i - 3.5) * 3;
-              return (
-                <line
-                  key={i}
-                  x1={centerX + spread * 0.3}
-                  y1={centerY + radius + 18}
-                  x2={centerX + spread}
-                  y2={centerY + radius + 55}
-                  stroke="#ec4899"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  opacity={0.8 + (i % 2) * 0.2}
-                />
-              );
-            })}
+              {/* Cap highlight */}
+              <ellipse cx={centerX - 3} cy={centerY + radius + 10} rx="4" ry="2" fill="white" opacity="0.4"/>
 
-            {/* Tassel end beads */}
-            {[...Array(8)].map((_, i) => {
-              const spread = (i - 3.5) * 3;
+              {/* Tassel threads with individual sway */}
+              {[...Array(8)].map((_, i) => {
+                const baseSpread = (i - 3.5) * 3;
+                const swayOffset = (i % 2 === 0) ? 1 : -1;
+                return (
+                  <g key={i}>
+                    <line
+                      x1={centerX + baseSpread * 0.3}
+                      y1={centerY + radius + 18}
+                      x2={centerX + baseSpread}
+                      y2={centerY + radius + 55}
+                      stroke="url(#countedGrad)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      opacity={0.7 + (i % 3) * 0.1}
+                    >
+                      <animate
+                        attributeName="x2"
+                        values={`${centerX + baseSpread - swayOffset * 2};${centerX + baseSpread + swayOffset * 2};${centerX + baseSpread - swayOffset * 2}`}
+                        dur={`${1.5 + i * 0.1}s`}
+                        repeatCount="indefinite"
+                      />
+                    </line>
+                    {/* Thread end bead */}
+                    <circle
+                      cx={centerX + baseSpread}
+                      cy={centerY + radius + 57}
+                      r="3.5"
+                      fill="url(#countedGrad)"
+                    >
+                      <animate
+                        attributeName="cx"
+                        values={`${centerX + baseSpread - swayOffset * 2};${centerX + baseSpread + swayOffset * 2};${centerX + baseSpread - swayOffset * 2}`}
+                        dur={`${1.5 + i * 0.1}s`}
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    {/* End bead highlight */}
+                    <circle
+                      cx={centerX + baseSpread - 1}
+                      cy={centerY + radius + 56}
+                      r="1"
+                      fill="white"
+                      opacity="0.6"
+                    >
+                      <animate
+                        attributeName="cx"
+                        values={`${centerX + baseSpread - 1 - swayOffset * 2};${centerX + baseSpread - 1 + swayOffset * 2};${centerX + baseSpread - 1 - swayOffset * 2}`}
+                        dur={`${1.5 + i * 0.1}s`}
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </g>
+                );
+              })}
+            </g>
+
+            {/* Floating particles */}
+            {[...Array(5)].map((_, i) => {
+              const px = 40 + i * 40;
+              const py = 30 + (i % 3) * 20;
               return (
-                <circle
-                  key={i}
-                  cx={centerX + spread}
-                  cy={centerY + radius + 57}
-                  r="3"
-                  fill="url(#countedGrad)"
-                />
+                <circle key={i} cx={px} cy={py} r="1.5" fill="#f9a8d4" opacity="0.4">
+                  <animate attributeName="cy" values={`${py};${py - 15};${py}`} dur={`${3 + i * 0.5}s`} repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${3 + i * 0.5}s`} repeatCount="indefinite"/>
+                </circle>
               );
             })}
           </svg>
@@ -4208,29 +4309,102 @@
         scene.add(tasselGroup);
         sceneRef.current.tasselGroup = tasselGroup;
 
-        // Animation
+        // Enhanced Fluid Animation System
         let rotationY = 0;
         let targetRotation = 0;
+        let swingAngle = 0;
+        let swingVelocity = 0;
+        let breathScale = 1;
+
+        // Store original bead positions for animation
+        beads.forEach((bead, i) => {
+          bead.userData.originalY = bead.position.y;
+          bead.userData.originalX = bead.position.x;
+          bead.userData.phase = i * 0.2; // Staggered phase for wave effect
+        });
+
         const animate = () => {
           requestAnimationFrame(animate);
-
-          // Smooth rotation
-          rotationY += (targetRotation - rotationY) * 0.08;
-          scene.rotation.y = rotationY;
-
-          // Gentle floating animation
           const time = Date.now() * 0.001;
-          scene.position.y = Math.sin(time * 0.5) * 0.1;
-          tasselGroup.children.forEach((child, i) => {
-            if (i > 0) { // Skip cap
-              child.rotation.x = Math.sin(time * 2 + i) * 0.05;
-              child.rotation.z = Math.cos(time * 2 + i) * 0.05;
+
+          // Smooth rotation with momentum
+          rotationY += (targetRotation - rotationY) * 0.06;
+
+          // Gentle pendulum swing
+          swingVelocity += (-swingAngle * 0.02); // Spring force
+          swingVelocity *= 0.98; // Damping
+          swingAngle += swingVelocity;
+          swingAngle += Math.sin(time * 0.3) * 0.002; // Subtle continuous motion
+
+          scene.rotation.y = rotationY + swingAngle;
+          scene.rotation.z = Math.sin(time * 0.4) * 0.03; // Gentle tilt
+
+          // Breathing/pulsing effect
+          breathScale = 1 + Math.sin(time * 0.8) * 0.02;
+          scene.scale.setScalar(breathScale);
+
+          // Floating with figure-8 motion
+          scene.position.y = Math.sin(time * 0.5) * 0.15;
+          scene.position.x = Math.sin(time * 0.3) * 0.05;
+
+          // Individual bead animations - wave ripple effect
+          beads.forEach((bead, i) => {
+            const phase = bead.userData.phase;
+
+            // Subtle bobbing with wave propagation
+            const bobAmount = Math.sin(time * 1.5 + phase) * 0.03;
+            const waveX = Math.cos(time * 0.8 + phase) * 0.02;
+
+            bead.position.y = bead.userData.originalY + bobAmount;
+            bead.position.x = bead.userData.originalX + waveX;
+
+            // Subtle individual rotation
+            bead.rotation.x = Math.sin(time * 2 + phase) * 0.1;
+            bead.rotation.y = time * 0.5 + phase;
+
+            // Pulsing scale for counted beads
+            if (bead.material.emissive && bead.material.emissiveIntensity > 0) {
+              const pulse = 1 + Math.sin(time * 3 + phase) * 0.08;
+              bead.scale.setScalar(pulse * 1.15);
+              bead.material.emissiveIntensity = 0.1 + Math.sin(time * 2) * 0.05;
             }
           });
+
+          // Dynamic tassel physics
+          tasselGroup.children.forEach((child, i) => {
+            if (i === 0) {
+              // Cap follows main swing
+              child.rotation.z = swingAngle * 0.5;
+            } else {
+              // Threads have individual pendulum motion
+              const threadPhase = i * 0.5;
+              const swayAmount = 0.15 + Math.sin(time * 0.5) * 0.05;
+
+              // Pendulum swing influenced by main rotation
+              child.rotation.x = Math.sin(time * 2.5 + threadPhase) * swayAmount + swingAngle * 2;
+              child.rotation.z = Math.cos(time * 2 + threadPhase) * swayAmount * 0.7;
+
+              // Slight position sway
+              const originalX = Math.cos((i - 1) / 11 * Math.PI * 2) * 0.15;
+              const originalZ = Math.sin((i - 1) / 11 * Math.PI * 2) * 0.15;
+              child.position.x = originalX + Math.sin(time * 2 + threadPhase) * 0.03;
+              child.position.z = originalZ + Math.cos(time * 1.5 + threadPhase) * 0.02;
+            }
+          });
+
+          // Animate lights for shimmer effect
+          pinkLight.intensity = 0.8 + Math.sin(time * 1.5) * 0.2;
+          pinkLight.position.x = -5 + Math.sin(time * 0.7) * 1;
+          rimLight.intensity = 0.5 + Math.cos(time * 1.2) * 0.15;
 
           renderer.render(scene, camera);
         };
         animate();
+
+        // Add interaction response
+        sceneRef.current.addSwing = (amount) => {
+          swingVelocity += amount;
+        };
 
         sceneRef.current.setTargetRotation = (r) => { targetRotation = r; };
 
@@ -4276,19 +4450,51 @@
         }
       }, [count, target]);
 
-      const handleClick = () => {
+      const handleClick = (e) => {
         if (animatingRef.current) return;
         animatingRef.current = true;
 
-        // Pulse animation on current bead
+        // Add swing momentum based on tap position
+        if (sceneRef.current?.addSwing) {
+          const rect = e?.currentTarget?.getBoundingClientRect();
+          if (rect && e) {
+            const tapX = (e.clientX - rect.left) / rect.width - 0.5;
+            sceneRef.current.addSwing(tapX * 0.15);
+          } else {
+            sceneRef.current.addSwing((Math.random() - 0.5) * 0.1);
+          }
+        }
+
+        // Pulse animation on current bead with ripple effect
         if (count < beadsRef.current.length) {
-          const bead = beadsRef.current[count];
-          const originalScale = 1.15;
-          bead.scale.setScalar(1.4);
+          const currentBead = beadsRef.current[count];
+
+          // Main bead pop
+          currentBead.scale.setScalar(1.6);
+          if (currentBead.material.emissive) {
+            currentBead.material.emissiveIntensity = 0.4;
+          }
+
+          // Ripple to nearby beads
+          beadsRef.current.forEach((bead, i) => {
+            const distance = Math.abs(i - count);
+            if (distance > 0 && distance <= 3) {
+              const delay = distance * 50;
+              const rippleScale = 1.2 - distance * 0.05;
+              setTimeout(() => {
+                bead.scale.setScalar(rippleScale);
+                setTimeout(() => bead.scale.setScalar(1), 100);
+              }, delay);
+            }
+          });
+
           setTimeout(() => {
-            bead.scale.setScalar(originalScale);
+            currentBead.scale.setScalar(1.15);
+            if (currentBead.material.emissive) {
+              currentBead.material.emissiveIntensity = 0.1;
+            }
             animatingRef.current = false;
-          }, 150);
+          }, 200);
         } else {
           animatingRef.current = false;
         }
