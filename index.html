@@ -2107,61 +2107,177 @@
     // ISLAMIC DATA
     // ============================================
 
-    const hadithData = [
-      {
-        id: 1, topic: 'marriage', icon: 'ring',
-        arabic: 'لا تُنكَحُ الأيِّمُ حتى تُستأمَرَ',
-        text: 'A woman should not be married until she is consulted, and a virgin should not be married until her permission is sought.',
-        source: 'Sahih al-Bukhari 5136',
-        quranRef: 'An-Nisa 4:19', // "It is not lawful for you to inherit women by compulsion"
-        doesMean: 'You have the absolute right to accept or reject any marriage proposal. Your consent is essential and sacred in Islam.',
-        doesNotMean: 'This does not allow families to pressure or coerce. Silence from fear is not consent.',
-      },
-      {
-        id: 2, topic: 'worship', icon: 'flower',
-        arabic: 'إنَّ هذا أمرٌ كتَبَهُ اللهُ على بناتِ آدمَ',
-        text: 'This is something that Allah has ordained for the daughters of Adam.',
-        source: 'Sahih al-Bukhari 294',
-        quranRef: 'Al-Baqarah 2:185', // "Allah intends for you ease and does not intend for you hardship"
-        doesMean: 'Menstruation is natural, not shameful. The exemption from prayer during this time is a mercy and ease from Allah.',
-        doesNotMean: 'You are not spiritually impure or distant from Allah. You can still make dhikr, dua, and read Quran.',
-      },
-      {
-        id: 3, topic: 'self-worth', icon: 'sparkle',
-        arabic: 'إنَّ اللهَ لا ينظُرُ إلى صُوَرِكُم وأموالِكُم',
-        text: 'Allah does not look at your appearance or wealth, but He looks at your hearts and actions.',
-        source: 'Sahih Muslim 2564',
-        quranRef: 'Al-Hujurat 49:13', // "The most noble of you is the most righteous"
-        doesMean: 'Your value is defined by your character, sincerity, and good deeds—not by beauty standards or material wealth.',
-        doesNotMean: 'This doesn\'t mean neglect yourself. Self-care is also ibadah.',
-      },
-      {
-        id: 4, topic: 'balance', icon: 'moon',
-        arabic: 'إنَّ لِنَفسِكَ عليكَ حقًّا',
-        text: 'Your own self has a right over you.',
-        source: 'Sahih al-Bukhari 1975',
-        quranRef: 'Al-Baqarah 2:286', // "Allah does not burden a soul beyond that it can bear"
-        doesMean: 'Rest, self-care, and balance are part of faith. Taking care of your mental and physical health is a form of worship.',
-        doesNotMean: 'This is not an excuse to abandon obligations, but a reminder that burning out is not piety.',
-      },
-      {
-        id: 5, topic: 'divorce', icon: 'dove',
-        arabic: 'أبغَضُ الحلالِ إلى اللهِ الطَّلاقُ',
-        text: 'The most disliked of permissible things to Allah is divorce.',
-        source: 'Sunan Abu Dawud 2178',
-        quranRef: 'At-Talaq 65:1', // "When you divorce women, divorce them for their waiting period"
-        doesMean: 'Divorce is valid and permissible when necessary. Islam does not trap you in harmful or abusive marriages.',
-        doesNotMean: 'This hadith does not mean you must stay in an abusive or toxic marriage. Your safety comes first.',
-      },
-      {
-        id: 6, topic: 'knowledge', icon: 'book',
-        arabic: 'طَلَبُ العِلمِ فَريضَةٌ على كُلِّ مُسلِمٍ',
-        text: 'Seeking knowledge is an obligation upon every Muslim.',
-        source: 'Sunan Ibn Majah 224',
-        quranRef: 'Al-Alaq 96:1', // "Read in the name of your Lord who created"
-        doesMean: 'Education is your Islamic right. This includes religious AND worldly knowledge. Women scholars have always been part of Islamic tradition.',
-        doesNotMean: 'No one can deny you education based on gender. The Prophet ﷺ himself learned from women.',
-      },
+    // 150 Quran Verses organized by theme - with Arabic, translation, and audio reference
+    const quranVersesData = [
+      // === COMFORT & HOPE (1-15) ===
+      { id: 1, theme: 'comfort', icon: 'heart', arabic: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', translation: 'Indeed, with hardship comes ease.', reference: 'Ash-Sharh 94:6' },
+      { id: 2, theme: 'comfort', icon: 'heart', arabic: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', translation: 'For indeed, with hardship will be ease.', reference: 'Ash-Sharh 94:5' },
+      { id: 3, theme: 'comfort', icon: 'heart', arabic: 'لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا', translation: 'Allah does not burden a soul beyond that it can bear.', reference: 'Al-Baqarah 2:286' },
+      { id: 4, theme: 'comfort', icon: 'heart', arabic: 'وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ', translation: 'And He is with you wherever you are.', reference: 'Al-Hadid 57:4' },
+      { id: 5, theme: 'comfort', icon: 'heart', arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ', translation: 'Verily, in the remembrance of Allah do hearts find rest.', reference: 'Ar-Rad 13:28' },
+      { id: 6, theme: 'comfort', icon: 'heart', arabic: 'وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ', translation: 'And We are closer to him than his jugular vein.', reference: 'Qaf 50:16' },
+      { id: 7, theme: 'comfort', icon: 'heart', arabic: 'إِنَّ رَحْمَتَ اللَّهِ قَرِيبٌ مِّنَ الْمُحْسِنِينَ', translation: 'Indeed, the mercy of Allah is near to the doers of good.', reference: 'Al-Araf 7:56' },
+      { id: 8, theme: 'comfort', icon: 'heart', arabic: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ', translation: 'And whoever relies upon Allah - then He is sufficient for him.', reference: 'At-Talaq 65:3' },
+      { id: 9, theme: 'comfort', icon: 'heart', arabic: 'سَيَجْعَلُ اللَّهُ بَعْدَ عُسْرٍ يُسْرًا', translation: 'Allah will bring about, after hardship, ease.', reference: 'At-Talaq 65:7' },
+      { id: 10, theme: 'comfort', icon: 'heart', arabic: 'وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ', translation: 'And your Lord is going to give you, and you will be satisfied.', reference: 'Ad-Duhaa 93:5' },
+      { id: 11, theme: 'comfort', icon: 'heart', arabic: 'مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ', translation: 'Your Lord has not taken leave of you, nor has He detested you.', reference: 'Ad-Duhaa 93:3' },
+      { id: 12, theme: 'comfort', icon: 'heart', arabic: 'وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ', translation: 'And the Hereafter is better for you than the first life.', reference: 'Ad-Duhaa 93:4' },
+      { id: 13, theme: 'comfort', icon: 'heart', arabic: 'أَلَمْ يَجِدْكَ يَتِيمًا فَآوَىٰ', translation: 'Did He not find you an orphan and give you refuge?', reference: 'Ad-Duhaa 93:6' },
+      { id: 14, theme: 'comfort', icon: 'heart', arabic: 'وَوَجَدَكَ ضَالًّا فَهَدَىٰ', translation: 'And He found you lost and guided you.', reference: 'Ad-Duhaa 93:7' },
+      { id: 15, theme: 'comfort', icon: 'heart', arabic: 'وَوَجَدَكَ عَائِلًا فَأَغْنَىٰ', translation: 'And He found you poor and made you self-sufficient.', reference: 'Ad-Duhaa 93:8' },
+
+      // === TRUST IN ALLAH (16-30) ===
+      { id: 16, theme: 'tawakkul', icon: 'shield', arabic: 'وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ', translation: 'And rely upon the Ever-Living who does not die.', reference: 'Al-Furqan 25:58' },
+      { id: 17, theme: 'tawakkul', icon: 'shield', arabic: 'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ', translation: 'Sufficient for us is Allah, and He is the best Disposer of affairs.', reference: 'Al-Imran 3:173' },
+      { id: 18, theme: 'tawakkul', icon: 'shield', arabic: 'وَاللَّهُ خَيْرُ الْمَاكِرِينَ', translation: 'And Allah is the best of planners.', reference: 'Al-Anfal 8:30' },
+      { id: 19, theme: 'tawakkul', icon: 'shield', arabic: 'إِنَّ اللَّهَ مَعَ الصَّابِرِينَ', translation: 'Indeed, Allah is with the patient.', reference: 'Al-Baqarah 2:153' },
+      { id: 20, theme: 'tawakkul', icon: 'shield', arabic: 'وَمَا النَّصْرُ إِلَّا مِنْ عِندِ اللَّهِ', translation: 'And victory is not except from Allah.', reference: 'Al-Anfal 8:10' },
+      { id: 21, theme: 'tawakkul', icon: 'shield', arabic: 'إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ', translation: 'Indeed, Allah does not allow to be lost the reward of those who do good.', reference: 'At-Tawbah 9:120' },
+      { id: 22, theme: 'tawakkul', icon: 'shield', arabic: 'وَاللَّهُ يُحِبُّ الْمُتَوَكِّلِينَ', translation: 'And Allah loves those who rely upon Him.', reference: 'Al-Imran 3:159' },
+      { id: 23, theme: 'tawakkul', icon: 'shield', arabic: 'أَلَيْسَ اللَّهُ بِكَافٍ عَبْدَهُ', translation: 'Is not Allah sufficient for His servant?', reference: 'Az-Zumar 39:36' },
+      { id: 24, theme: 'tawakkul', icon: 'shield', arabic: 'وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ', translation: 'And upon Allah let the believers rely.', reference: 'Al-Imran 3:122' },
+      { id: 25, theme: 'tawakkul', icon: 'shield', arabic: 'إِنَّ رَبِّي عَلَىٰ كُلِّ شَيْءٍ حَفِيظٌ', translation: 'Indeed, my Lord is Guardian over all things.', reference: 'Hud 11:57' },
+      { id: 26, theme: 'tawakkul', icon: 'shield', arabic: 'وَكَفَىٰ بِاللَّهِ وَكِيلًا', translation: 'And sufficient is Allah as Disposer of affairs.', reference: 'An-Nisa 4:81' },
+      { id: 27, theme: 'tawakkul', icon: 'shield', arabic: 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', translation: 'And whoever fears Allah - He will make for him a way out.', reference: 'At-Talaq 65:2' },
+      { id: 28, theme: 'tawakkul', icon: 'shield', arabic: 'وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ', translation: 'And will provide for him from where he does not expect.', reference: 'At-Talaq 65:3' },
+      { id: 29, theme: 'tawakkul', icon: 'shield', arabic: 'إِنَّ اللَّهَ بَالِغُ أَمْرِهِ', translation: 'Indeed, Allah will accomplish His purpose.', reference: 'At-Talaq 65:3' },
+      { id: 30, theme: 'tawakkul', icon: 'shield', arabic: 'قَدْ جَعَلَ اللَّهُ لِكُلِّ شَيْءٍ قَدْرًا', translation: 'Allah has already set for everything a decreed extent.', reference: 'At-Talaq 65:3' },
+
+      // === FORGIVENESS & MERCY (31-45) ===
+      { id: 31, theme: 'mercy', icon: 'sparkle', arabic: 'لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ', translation: 'Do not despair of the mercy of Allah.', reference: 'Az-Zumar 39:53' },
+      { id: 32, theme: 'mercy', icon: 'sparkle', arabic: 'إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا', translation: 'Indeed, Allah forgives all sins.', reference: 'Az-Zumar 39:53' },
+      { id: 33, theme: 'mercy', icon: 'sparkle', arabic: 'وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ', translation: 'And My mercy encompasses all things.', reference: 'Al-Araf 7:156' },
+      { id: 34, theme: 'mercy', icon: 'sparkle', arabic: 'إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ', translation: 'Indeed, it is He who is the Forgiving, the Merciful.', reference: 'Az-Zumar 39:53' },
+      { id: 35, theme: 'mercy', icon: 'sparkle', arabic: 'وَهُوَ الَّذِي يَقْبَلُ التَّوْبَةَ عَنْ عِبَادِهِ', translation: 'And it is He who accepts repentance from His servants.', reference: 'Ash-Shura 42:25' },
+      { id: 36, theme: 'mercy', icon: 'sparkle', arabic: 'غَافِرِ الذَّنبِ وَقَابِلِ التَّوْبِ', translation: 'The Forgiver of sin, Acceptor of repentance.', reference: 'Ghafir 40:3' },
+      { id: 37, theme: 'mercy', icon: 'sparkle', arabic: 'وَاللَّهُ غَفُورٌ رَّحِيمٌ', translation: 'And Allah is Forgiving and Merciful.', reference: 'Al-Baqarah 2:173' },
+      { id: 38, theme: 'mercy', icon: 'sparkle', arabic: 'إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ', translation: 'Indeed, Allah loves those who are constantly repentant.', reference: 'Al-Baqarah 2:222' },
+      { id: 39, theme: 'mercy', icon: 'sparkle', arabic: 'وَيُحِبُّ الْمُتَطَهِّرِينَ', translation: 'And loves those who purify themselves.', reference: 'Al-Baqarah 2:222' },
+      { id: 40, theme: 'mercy', icon: 'sparkle', arabic: 'نَبِّئْ عِبَادِي أَنِّي أَنَا الْغَفُورُ الرَّحِيمُ', translation: 'Inform My servants that it is I who am the Forgiving, the Merciful.', reference: 'Al-Hijr 15:49' },
+      { id: 41, theme: 'mercy', icon: 'sparkle', arabic: 'كَتَبَ رَبُّكُمْ عَلَىٰ نَفْسِهِ الرَّحْمَةَ', translation: 'Your Lord has decreed upon Himself mercy.', reference: 'Al-Anam 6:54' },
+      { id: 42, theme: 'mercy', icon: 'sparkle', arabic: 'فَإِنَّ رَبَّكُمْ غَفُورٌ رَّحِيمٌ', translation: 'Indeed, your Lord is Forgiving and Merciful.', reference: 'Al-Anam 6:54' },
+      { id: 43, theme: 'mercy', icon: 'sparkle', arabic: 'وَاسْتَغْفِرُوا رَبَّكُمْ ثُمَّ تُوبُوا إِلَيْهِ', translation: 'And ask forgiveness of your Lord and then repent to Him.', reference: 'Hud 11:3' },
+      { id: 44, theme: 'mercy', icon: 'sparkle', arabic: 'إِنَّ رَبِّي رَحِيمٌ وَدُودٌ', translation: 'Indeed, my Lord is Merciful and Loving.', reference: 'Hud 11:90' },
+      { id: 45, theme: 'mercy', icon: 'sparkle', arabic: 'وَاسْتَغْفِرُوا اللَّهَ إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ', translation: 'And seek forgiveness of Allah. Indeed, Allah is Forgiving and Merciful.', reference: 'Al-Muzzammil 73:20' },
+
+      // === PATIENCE & PERSEVERANCE (46-60) ===
+      { id: 46, theme: 'sabr', icon: 'moon', arabic: 'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ', translation: 'O you who believe, seek help through patience and prayer.', reference: 'Al-Baqarah 2:153' },
+      { id: 47, theme: 'sabr', icon: 'moon', arabic: 'وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ', translation: 'And be patient, and your patience is not but through Allah.', reference: 'An-Nahl 16:127' },
+      { id: 48, theme: 'sabr', icon: 'moon', arabic: 'إِنَّمَا يُوَفَّى الصَّابِرُونَ أَجْرَهُم بِغَيْرِ حِسَابٍ', translation: 'Indeed, the patient will be given their reward without account.', reference: 'Az-Zumar 39:10' },
+      { id: 49, theme: 'sabr', icon: 'moon', arabic: 'وَبَشِّرِ الصَّابِرِينَ', translation: 'And give good tidings to the patient.', reference: 'Al-Baqarah 2:155' },
+      { id: 50, theme: 'sabr', icon: 'moon', arabic: 'فَاصْبِرْ صَبْرًا جَمِيلًا', translation: 'So be patient with gracious patience.', reference: 'Al-Maarij 70:5' },
+      { id: 51, theme: 'sabr', icon: 'moon', arabic: 'فَاصْبِرْ إِنَّ وَعْدَ اللَّهِ حَقٌّ', translation: 'So be patient. Indeed, the promise of Allah is truth.', reference: 'Ar-Rum 30:60' },
+      { id: 52, theme: 'sabr', icon: 'moon', arabic: 'الَّذِينَ إِذَا أَصَابَتْهُم مُّصِيبَةٌ قَالُوا إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ', translation: 'Who, when disaster strikes them, say, "Indeed we belong to Allah, and indeed to Him we will return."', reference: 'Al-Baqarah 2:156' },
+      { id: 53, theme: 'sabr', icon: 'moon', arabic: 'أُولَٰئِكَ عَلَيْهِمْ صَلَوَاتٌ مِّن رَّبِّهِمْ وَرَحْمَةٌ', translation: 'Those are the ones upon whom are blessings from their Lord and mercy.', reference: 'Al-Baqarah 2:157' },
+      { id: 54, theme: 'sabr', icon: 'moon', arabic: 'وَأُولَٰئِكَ هُمُ الْمُهْتَدُونَ', translation: 'And it is those who are the rightly guided.', reference: 'Al-Baqarah 2:157' },
+      { id: 55, theme: 'sabr', icon: 'moon', arabic: 'وَاصْبِرْ فَإِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ', translation: 'And be patient, for indeed, Allah does not allow to be lost the reward of those who do good.', reference: 'Hud 11:115' },
+      { id: 56, theme: 'sabr', icon: 'moon', arabic: 'وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا', translation: 'And be patient for the decision of your Lord, for indeed, you are in Our eyes.', reference: 'At-Tur 52:48' },
+      { id: 57, theme: 'sabr', icon: 'moon', arabic: 'وَلَنَجْزِيَنَّ الَّذِينَ صَبَرُوا أَجْرَهُم بِأَحْسَنِ مَا كَانُوا يَعْمَلُونَ', translation: 'And We will surely give those who were patient their reward according to the best of what they used to do.', reference: 'An-Nahl 16:96' },
+      { id: 58, theme: 'sabr', icon: 'moon', arabic: 'وَاللَّهُ مَعَ الصَّابِرِينَ', translation: 'And Allah is with the patient.', reference: 'Al-Baqarah 2:249' },
+      { id: 59, theme: 'sabr', icon: 'moon', arabic: 'إِنَّ اللَّهَ يُحِبُّ الصَّابِرِينَ', translation: 'Indeed, Allah loves the steadfast.', reference: 'Al-Imran 3:146' },
+      { id: 60, theme: 'sabr', icon: 'moon', arabic: 'وَلَنَبْلُوَنَّكُم حَتَّىٰ نَعْلَمَ الْمُجَاهِدِينَ مِنكُمْ وَالصَّابِرِينَ', translation: 'And We will surely test you until We make evident those who strive among you and the patient.', reference: 'Muhammad 47:31' },
+
+      // === DUA & SUPPLICATION (61-75) ===
+      { id: 61, theme: 'dua', icon: 'hands', arabic: 'ادْعُونِي أَسْتَجِبْ لَكُمْ', translation: 'Call upon Me; I will respond to you.', reference: 'Ghafir 40:60' },
+      { id: 62, theme: 'dua', icon: 'hands', arabic: 'وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ', translation: 'And when My servants ask you about Me - indeed I am near.', reference: 'Al-Baqarah 2:186' },
+      { id: 63, theme: 'dua', icon: 'hands', arabic: 'أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ', translation: 'I respond to the invocation of the supplicant when he calls upon Me.', reference: 'Al-Baqarah 2:186' },
+      { id: 64, theme: 'dua', icon: 'hands', arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي', translation: 'My Lord, expand for me my chest.', reference: 'Ta-Ha 20:25' },
+      { id: 65, theme: 'dua', icon: 'hands', arabic: 'وَيَسِّرْ لِي أَمْرِي', translation: 'And ease for me my task.', reference: 'Ta-Ha 20:26' },
+      { id: 66, theme: 'dua', icon: 'hands', arabic: 'رَبِّ زِدْنِي عِلْمًا', translation: 'My Lord, increase me in knowledge.', reference: 'Ta-Ha 20:114' },
+      { id: 67, theme: 'dua', icon: 'hands', arabic: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً', translation: 'Our Lord, give us in this world good and in the Hereafter good.', reference: 'Al-Baqarah 2:201' },
+      { id: 68, theme: 'dua', icon: 'hands', arabic: 'وَقِنَا عَذَابَ النَّارِ', translation: 'And protect us from the punishment of the Fire.', reference: 'Al-Baqarah 2:201' },
+      { id: 69, theme: 'dua', icon: 'hands', arabic: 'رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا', translation: 'Our Lord, do not impose blame upon us if we forget or make a mistake.', reference: 'Al-Baqarah 2:286' },
+      { id: 70, theme: 'dua', icon: 'hands', arabic: 'رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا', translation: 'Our Lord, and lay not upon us a burden like that which You laid upon those before us.', reference: 'Al-Baqarah 2:286' },
+      { id: 71, theme: 'dua', icon: 'hands', arabic: 'رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ', translation: 'Our Lord, and burden us not with that which we have no ability to bear.', reference: 'Al-Baqarah 2:286' },
+      { id: 72, theme: 'dua', icon: 'hands', arabic: 'وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا', translation: 'And pardon us; and forgive us; and have mercy upon us.', reference: 'Al-Baqarah 2:286' },
+      { id: 73, theme: 'dua', icon: 'hands', arabic: 'أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ', translation: 'You are our protector, so give us victory over the disbelieving people.', reference: 'Al-Baqarah 2:286' },
+      { id: 74, theme: 'dua', icon: 'hands', arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ', translation: 'Our Lord, grant us from among our wives and offspring comfort to our eyes.', reference: 'Al-Furqan 25:74' },
+      { id: 75, theme: 'dua', icon: 'hands', arabic: 'وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا', translation: 'And make us an example for the righteous.', reference: 'Al-Furqan 25:74' },
+
+      // === GRATITUDE (76-90) ===
+      { id: 76, theme: 'shukr', icon: 'star', arabic: 'لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ', translation: 'If you are grateful, I will surely increase you.', reference: 'Ibrahim 14:7' },
+      { id: 77, theme: 'shukr', icon: 'star', arabic: 'فَاذْكُرُونِي أَذْكُرْكُمْ', translation: 'So remember Me; I will remember you.', reference: 'Al-Baqarah 2:152' },
+      { id: 78, theme: 'shukr', icon: 'star', arabic: 'وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ', translation: 'And be grateful to Me and do not deny Me.', reference: 'Al-Baqarah 2:152' },
+      { id: 79, theme: 'shukr', icon: 'star', arabic: 'وَمَن شَكَرَ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ', translation: 'And whoever is grateful is grateful for the benefit of himself.', reference: 'Luqman 31:12' },
+      { id: 80, theme: 'shukr', icon: 'star', arabic: 'اعْمَلُوا آلَ دَاوُودَ شُكْرًا', translation: 'Work, O family of David, in gratitude.', reference: 'Saba 34:13' },
+      { id: 81, theme: 'shukr', icon: 'star', arabic: 'وَقَلِيلٌ مِّنْ عِبَادِيَ الشَّكُورُ', translation: 'And few of My servants are grateful.', reference: 'Saba 34:13' },
+      { id: 82, theme: 'shukr', icon: 'star', arabic: 'بَلِ اللَّهَ فَاعْبُدْ وَكُن مِّنَ الشَّاكِرِينَ', translation: 'Rather, worship Allah and be among the grateful.', reference: 'Az-Zumar 39:66' },
+      { id: 83, theme: 'shukr', icon: 'star', arabic: 'وَاشْكُرُوا لِلَّهِ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ', translation: 'And be grateful to Allah if it is Him that you worship.', reference: 'Al-Baqarah 2:172' },
+      { id: 84, theme: 'shukr', icon: 'star', arabic: 'أَنِ اشْكُرْ لِي وَلِوَالِدَيْكَ', translation: 'Be grateful to Me and to your parents.', reference: 'Luqman 31:14' },
+      { id: 85, theme: 'shukr', icon: 'star', arabic: 'إِلَيَّ الْمَصِيرُ', translation: 'To Me is the final destination.', reference: 'Luqman 31:14' },
+      { id: 86, theme: 'shukr', icon: 'star', arabic: 'وَسَيَجْزِي اللَّهُ الشَّاكِرِينَ', translation: 'And Allah will reward the grateful.', reference: 'Al-Imran 3:144' },
+      { id: 87, theme: 'shukr', icon: 'star', arabic: 'لَعَلَّكُمْ تَشْكُرُونَ', translation: 'That perhaps you will be grateful.', reference: 'Al-Baqarah 2:52' },
+      { id: 88, theme: 'shukr', icon: 'star', arabic: 'وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ', translation: 'And remember when your Lord proclaimed, "If you are grateful, I will surely increase you."', reference: 'Ibrahim 14:7' },
+      { id: 89, theme: 'shukr', icon: 'star', arabic: 'وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ', translation: 'But if you deny, indeed, My punishment is severe.', reference: 'Ibrahim 14:7' },
+      { id: 90, theme: 'shukr', icon: 'star', arabic: 'فَكُلُوا مِمَّا رَزَقَكُمُ اللَّهُ حَلَالًا طَيِّبًا وَاشْكُرُوا نِعْمَتَ اللَّهِ', translation: 'So eat of what Allah has provided for you, lawful and good, and be grateful for the favor of Allah.', reference: 'An-Nahl 16:114' },
+
+      // === STRENGTH & COURAGE (91-105) ===
+      { id: 91, theme: 'strength', icon: 'shield', arabic: 'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ', translation: 'So do not weaken and do not grieve, and you will be superior.', reference: 'Al-Imran 3:139' },
+      { id: 92, theme: 'strength', icon: 'shield', arabic: 'إِن كُنتُم مُّؤْمِنِينَ', translation: 'If you are truly believers.', reference: 'Al-Imran 3:139' },
+      { id: 93, theme: 'strength', icon: 'shield', arabic: 'لَا تَخَافُوا وَلَا تَحْزَنُوا', translation: 'Fear not and do not grieve.', reference: 'Fussilat 41:30' },
+      { id: 94, theme: 'strength', icon: 'shield', arabic: 'وَأَبْشِرُوا بِالْجَنَّةِ الَّتِي كُنتُمْ تُوعَدُونَ', translation: 'And receive good tidings of Paradise, which you were promised.', reference: 'Fussilat 41:30' },
+      { id: 95, theme: 'strength', icon: 'shield', arabic: 'كَم مِّن فِئَةٍ قَلِيلَةٍ غَلَبَتْ فِئَةً كَثِيرَةً بِإِذْنِ اللَّهِ', translation: 'How many a small company has overcome a large company by permission of Allah.', reference: 'Al-Baqarah 2:249' },
+      { id: 96, theme: 'strength', icon: 'shield', arabic: 'وَلَا تَيْأَسُوا مِن رَّوْحِ اللَّهِ', translation: 'And despair not of relief from Allah.', reference: 'Yusuf 12:87' },
+      { id: 97, theme: 'strength', icon: 'shield', arabic: 'إِنَّهُ لَا يَيْأَسُ مِن رَّوْحِ اللَّهِ إِلَّا الْقَوْمُ الْكَافِرُونَ', translation: 'Indeed, no one despairs of relief from Allah except the disbelieving people.', reference: 'Yusuf 12:87' },
+      { id: 98, theme: 'strength', icon: 'shield', arabic: 'فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى اللَّهِ', translation: 'And when you have decided, then rely upon Allah.', reference: 'Al-Imran 3:159' },
+      { id: 99, theme: 'strength', icon: 'shield', arabic: 'قُلْ لَن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا', translation: 'Say, "Never will we be struck except by what Allah has decreed for us."', reference: 'At-Tawbah 9:51' },
+      { id: 100, theme: 'strength', icon: 'shield', arabic: 'هُوَ مَوْلَانَا', translation: 'He is our protector.', reference: 'At-Tawbah 9:51' },
+      { id: 101, theme: 'strength', icon: 'shield', arabic: 'وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ', translation: 'And upon Allah let the believers rely.', reference: 'At-Tawbah 9:51' },
+      { id: 102, theme: 'strength', icon: 'shield', arabic: 'إِنَّ اللَّهَ يُدَافِعُ عَنِ الَّذِينَ آمَنُوا', translation: 'Indeed, Allah defends those who have believed.', reference: 'Al-Hajj 22:38' },
+      { id: 103, theme: 'strength', icon: 'shield', arabic: 'وَلَيَنصُرَنَّ اللَّهُ مَن يَنصُرُهُ', translation: 'And Allah will surely support those who support Him.', reference: 'Al-Hajj 22:40' },
+      { id: 104, theme: 'strength', icon: 'shield', arabic: 'إِنَّ اللَّهَ لَقَوِيٌّ عَزِيزٌ', translation: 'Indeed, Allah is Powerful and Exalted in Might.', reference: 'Al-Hajj 22:40' },
+      { id: 105, theme: 'strength', icon: 'shield', arabic: 'وَكَانَ حَقًّا عَلَيْنَا نَصْرُ الْمُؤْمِنِينَ', translation: 'And incumbent upon Us was support of the believers.', reference: 'Ar-Rum 30:47' },
+
+      // === KNOWLEDGE & WISDOM (106-120) ===
+      { id: 106, theme: 'ilm', icon: 'book', arabic: 'اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ', translation: 'Read in the name of your Lord who created.', reference: 'Al-Alaq 96:1' },
+      { id: 107, theme: 'ilm', icon: 'book', arabic: 'خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ', translation: 'Created man from a clinging substance.', reference: 'Al-Alaq 96:2' },
+      { id: 108, theme: 'ilm', icon: 'book', arabic: 'اقْرَأْ وَرَبُّكَ الْأَكْرَمُ', translation: 'Read, and your Lord is the most Generous.', reference: 'Al-Alaq 96:3' },
+      { id: 109, theme: 'ilm', icon: 'book', arabic: 'الَّذِي عَلَّمَ بِالْقَلَمِ', translation: 'Who taught by the pen.', reference: 'Al-Alaq 96:4' },
+      { id: 110, theme: 'ilm', icon: 'book', arabic: 'عَلَّمَ الْإِنسَانَ مَا لَمْ يَعْلَمْ', translation: 'Taught man that which he knew not.', reference: 'Al-Alaq 96:5' },
+      { id: 111, theme: 'ilm', icon: 'book', arabic: 'هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ', translation: 'Are those who know equal to those who do not know?', reference: 'Az-Zumar 39:9' },
+      { id: 112, theme: 'ilm', icon: 'book', arabic: 'يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ', translation: 'Allah will raise those who have believed among you and those who were given knowledge, by degrees.', reference: 'Al-Mujadila 58:11' },
+      { id: 113, theme: 'ilm', icon: 'book', arabic: 'وَقُل رَّبِّ زِدْنِي عِلْمًا', translation: 'And say, "My Lord, increase me in knowledge."', reference: 'Ta-Ha 20:114' },
+      { id: 114, theme: 'ilm', icon: 'book', arabic: 'يُؤْتِي الْحِكْمَةَ مَن يَشَاءُ', translation: 'He gives wisdom to whom He wills.', reference: 'Al-Baqarah 2:269' },
+      { id: 115, theme: 'ilm', icon: 'book', arabic: 'وَمَن يُؤْتَ الْحِكْمَةَ فَقَدْ أُوتِيَ خَيْرًا كَثِيرًا', translation: 'And whoever has been given wisdom has certainly been given much good.', reference: 'Al-Baqarah 2:269' },
+      { id: 116, theme: 'ilm', icon: 'book', arabic: 'وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ', translation: 'And above every possessor of knowledge is one more knowing.', reference: 'Yusuf 12:76' },
+      { id: 117, theme: 'ilm', icon: 'book', arabic: 'وَمَا أُوتِيتُم مِّنَ الْعِلْمِ إِلَّا قَلِيلًا', translation: 'And you have not been given of knowledge except a little.', reference: 'Al-Isra 17:85' },
+      { id: 118, theme: 'ilm', icon: 'book', arabic: 'إِنَّمَا يَخْشَى اللَّهَ مِنْ عِبَادِهِ الْعُلَمَاءُ', translation: 'Only those fear Allah, from among His servants, who have knowledge.', reference: 'Fatir 35:28' },
+      { id: 119, theme: 'ilm', icon: 'book', arabic: 'الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ', translation: 'The Most Merciful taught the Quran.', reference: 'Ar-Rahman 55:1-2' },
+      { id: 120, theme: 'ilm', icon: 'book', arabic: 'خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ', translation: 'Created man and taught him eloquence.', reference: 'Ar-Rahman 55:3-4' },
+
+      // === TAWHEED & ALLAH'S GREATNESS (121-135) ===
+      { id: 121, theme: 'tawheed', icon: 'star', arabic: 'قُلْ هُوَ اللَّهُ أَحَدٌ', translation: 'Say, "He is Allah, the One."', reference: 'Al-Ikhlas 112:1' },
+      { id: 122, theme: 'tawheed', icon: 'star', arabic: 'اللَّهُ الصَّمَدُ', translation: 'Allah, the Eternal Refuge.', reference: 'Al-Ikhlas 112:2' },
+      { id: 123, theme: 'tawheed', icon: 'star', arabic: 'لَمْ يَلِدْ وَلَمْ يُولَدْ', translation: 'He neither begets nor is born.', reference: 'Al-Ikhlas 112:3' },
+      { id: 124, theme: 'tawheed', icon: 'star', arabic: 'وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ', translation: 'Nor is there to Him any equivalent.', reference: 'Al-Ikhlas 112:4' },
+      { id: 125, theme: 'tawheed', icon: 'star', arabic: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ', translation: 'Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence.', reference: 'Al-Baqarah 2:255' },
+      { id: 126, theme: 'tawheed', icon: 'star', arabic: 'لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ', translation: 'Neither drowsiness overtakes Him nor sleep.', reference: 'Al-Baqarah 2:255' },
+      { id: 127, theme: 'tawheed', icon: 'star', arabic: 'لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ', translation: 'To Him belongs whatever is in the heavens and whatever is on the earth.', reference: 'Al-Baqarah 2:255' },
+      { id: 128, theme: 'tawheed', icon: 'star', arabic: 'وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ', translation: 'His Kursi extends over the heavens and the earth.', reference: 'Al-Baqarah 2:255' },
+      { id: 129, theme: 'tawheed', icon: 'star', arabic: 'وَهُوَ الْعَلِيُّ الْعَظِيمُ', translation: 'And He is the Most High, the Most Great.', reference: 'Al-Baqarah 2:255' },
+      { id: 130, theme: 'tawheed', icon: 'star', arabic: 'هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ', translation: 'He is the First and the Last, the Ascendant and the Intimate.', reference: 'Al-Hadid 57:3' },
+      { id: 131, theme: 'tawheed', icon: 'star', arabic: 'وَهُوَ بِكُلِّ شَيْءٍ عَلِيمٌ', translation: 'And He is, of all things, Knowing.', reference: 'Al-Hadid 57:3' },
+      { id: 132, theme: 'tawheed', icon: 'star', arabic: 'اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ', translation: 'Allah is the Light of the heavens and the earth.', reference: 'An-Nur 24:35' },
+      { id: 133, theme: 'tawheed', icon: 'star', arabic: 'هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ', translation: 'He is Allah, other than whom there is no deity.', reference: 'Al-Hashr 59:22' },
+      { id: 134, theme: 'tawheed', icon: 'star', arabic: 'عَالِمُ الْغَيْبِ وَالشَّهَادَةِ', translation: 'Knower of the unseen and the witnessed.', reference: 'Al-Hashr 59:22' },
+      { id: 135, theme: 'tawheed', icon: 'star', arabic: 'هُوَ الرَّحْمَٰنُ الرَّحِيمُ', translation: 'He is the Most Gracious, the Most Merciful.', reference: 'Al-Hashr 59:22' },
+
+      // === GUIDANCE & LIGHT (136-150) ===
+      { id: 136, theme: 'hidayah', icon: 'sparkle', arabic: 'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ', translation: 'Guide us to the straight path.', reference: 'Al-Fatiha 1:6' },
+      { id: 137, theme: 'hidayah', icon: 'sparkle', arabic: 'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ', translation: 'The path of those upon whom You have bestowed favor.', reference: 'Al-Fatiha 1:7' },
+      { id: 138, theme: 'hidayah', icon: 'sparkle', arabic: 'ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ', translation: 'This is the Book about which there is no doubt, a guidance for those conscious of Allah.', reference: 'Al-Baqarah 2:2' },
+      { id: 139, theme: 'hidayah', icon: 'sparkle', arabic: 'يَهْدِي اللَّهُ لِنُورِهِ مَن يَشَاءُ', translation: 'Allah guides to His light whom He wills.', reference: 'An-Nur 24:35' },
+      { id: 140, theme: 'hidayah', icon: 'sparkle', arabic: 'وَمَن يَهْدِ اللَّهُ فَهُوَ الْمُهْتَدِ', translation: 'And whoever Allah guides - he is the rightly guided.', reference: 'Al-Isra 17:97' },
+      { id: 141, theme: 'hidayah', icon: 'sparkle', arabic: 'قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ', translation: 'There has come to you from Allah a light and a clear Book.', reference: 'Al-Maidah 5:15' },
+      { id: 142, theme: 'hidayah', icon: 'sparkle', arabic: 'يَهْدِي بِهِ اللَّهُ مَنِ اتَّبَعَ رِضْوَانَهُ سُبُلَ السَّلَامِ', translation: 'By which Allah guides those who pursue His pleasure to the ways of peace.', reference: 'Al-Maidah 5:16' },
+      { id: 143, theme: 'hidayah', icon: 'sparkle', arabic: 'وَيُخْرِجُهُم مِّنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِهِ', translation: 'And brings them out from darknesses into the light, by His permission.', reference: 'Al-Maidah 5:16' },
+      { id: 144, theme: 'hidayah', icon: 'sparkle', arabic: 'وَيَهْدِيهِمْ إِلَىٰ صِرَاطٍ مُّسْتَقِيمٍ', translation: 'And guides them to a straight path.', reference: 'Al-Maidah 5:16' },
+      { id: 145, theme: 'hidayah', icon: 'sparkle', arabic: 'إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ', translation: 'Indeed, this Quran guides to that which is most suitable.', reference: 'Al-Isra 17:9' },
+      { id: 146, theme: 'hidayah', icon: 'sparkle', arabic: 'وَيُبَشِّرُ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ', translation: 'And gives good tidings to the believers who do righteous deeds.', reference: 'Al-Isra 17:9' },
+      { id: 147, theme: 'hidayah', icon: 'sparkle', arabic: 'أَنَّ لَهُمْ أَجْرًا كَبِيرًا', translation: 'That they will have a great reward.', reference: 'Al-Isra 17:9' },
+      { id: 148, theme: 'hidayah', icon: 'sparkle', arabic: 'فَمَن يُرِدِ اللَّهُ أَن يَهْدِيَهُ يَشْرَحْ صَدْرَهُ لِلْإِسْلَامِ', translation: 'So whoever Allah wants to guide - He expands his breast to contain Islam.', reference: 'Al-Anam 6:125' },
+      { id: 149, theme: 'hidayah', icon: 'sparkle', arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا', translation: 'Our Lord, let not our hearts deviate after You have guided us.', reference: 'Al-Imran 3:8' },
+      { id: 150, theme: 'hidayah', icon: 'sparkle', arabic: 'وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ', translation: 'And grant us from Yourself mercy. Indeed, You are the Bestower.', reference: 'Al-Imran 3:8' },
     ];
 
     const duasData = [
@@ -3050,20 +3166,24 @@
 
       if (!show || !content) return null;
 
+      // Support both verse format (translation/reference) and hadith format (text/source)
+      const displayText = content.translation || content.text;
+      const displaySource = content.reference || content.source;
+
       const handleShare = async () => {
         haptic.success();
         if (navigator.share) {
           try {
             await navigator.share({
-              title: 'Islamic Reflection',
-              text: `${content.arabic}\n\n"${content.text}"\n\n— ${content.source}`,
+              title: 'Quran Verse',
+              text: `${content.arabic}\n\n"${displayText}"\n\n— ${displaySource}`,
             });
           } catch (err) {
             console.log('Share cancelled');
           }
         } else {
           // Fallback - copy to clipboard
-          navigator.clipboard?.writeText(`${content.arabic}\n\n"${content.text}"\n\n— ${content.source}`);
+          navigator.clipboard?.writeText(`${content.arabic}\n\n"${displayText}"\n\n— ${displaySource}`);
         }
         onClose();
       };
@@ -3073,14 +3193,14 @@
           <div className="share-card animate-scale-in" onClick={e => e.stopPropagation()}>
             <div className="share-card-pattern"></div>
             <div className="relative z-10">
-              <p className="font-arabic text-xl text-pink-800 mb-4">{content.arabic}</p>
-              <p className="text-pink-700 italic mb-3">"{content.text}"</p>
-              <p className="text-sm text-pink-500 mb-6">— {content.source}</p>
+              <p className="font-arabic text-xl text-emerald-800 mb-4">{content.arabic}</p>
+              <p className="text-emerald-700 italic mb-3">"{displayText}"</p>
+              <p className="text-sm text-emerald-500 mb-6">— {displaySource}</p>
 
               <div className="flex justify-center gap-3">
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-medium shadow-lg"
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium shadow-lg"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -3089,7 +3209,7 @@
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-6 py-3 bg-pink-100 text-pink-600 rounded-xl font-medium"
+                  className="px-6 py-3 bg-emerald-100 text-emerald-600 rounded-xl font-medium"
                 >
                   Close
                 </button>
@@ -3965,8 +4085,8 @@
       };
 
       const greeting = getGreeting();
-      const dailyHadith = hadithData[Math.floor(Date.now() / 86400000) % hadithData.length];
-      const isHadithSaved = state.savedItems?.some(item => item.id === dailyHadith.id && item.type === 'hadith');
+      const dailyVerse = quranVersesData[Math.floor(Date.now() / 86400000) % quranVersesData.length];
+      const isVerseSaved = state.savedItems?.some(item => item.id === dailyVerse.id && item.type === 'verse');
 
       // Panic mode - Calculator disguise
       if (showPanic) {
@@ -4009,7 +4129,7 @@
           <ShareCardModal
             show={showShare}
             onClose={() => setShowShare(false)}
-            content={dailyHadith}
+            content={dailyVerse}
           />
 
           {/* Floating Action Button */}
@@ -4053,66 +4173,57 @@
               <PrayerCountdown />
             </div>
 
-            {/* Daily Hadith Card - PREMIUM with Gradient Border */}
+            {/* Daily Quran Verse Card - PREMIUM with Gradient Border */}
             <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden shadow-multi gradient-border inner-glow" style={{ animationDelay: '0.18s' }}>
               {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100 animate-pulse" style={{animationDuration: '4s'}}></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-50 animate-pulse" style={{animationDuration: '4s'}}></div>
               <div className="absolute inset-0 backdrop-blur-xl bg-white/60"></div>
               {/* Shimmer overlay */}
               <div className="shimmer-overlay"></div>
 
               {/* Decorative glow blobs */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl blob"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-300/30 rounded-full blur-3xl blob" style={{animationDelay: '-4s'}}></div>
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-300/30 rounded-full blur-3xl blob"></div>
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-300/30 rounded-full blur-3xl blob" style={{animationDelay: '-4s'}}></div>
 
               <div className="relative p-6">
                 {/* Header with actions */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/50 icon-glow">
-                      <Icon name={dailyHadith.icon} className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-300/50 icon-glow">
+                      <Icon name={dailyVerse.icon} className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-xs font-bold text-pink-600 uppercase tracking-wider">Today's Reflection</span>
+                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Today's Verse</span>
                   </div>
                   {/* Audio, Bookmark, Share buttons */}
                   <div className="flex items-center gap-2">
-                    <AudioButton quranRef={dailyHadith.quranRef} size="sm" />
+                    <AudioButton quranRef={dailyVerse.reference} size="sm" />
                     <BookmarkButton
                       size="sm"
-                      isSaved={isHadithSaved}
-                      onToggle={() => toggleSave({ ...dailyHadith, type: 'hadith' })}
+                      isSaved={isVerseSaved}
+                      onToggle={() => toggleSave({ ...dailyVerse, type: 'verse' })}
                     />
                     <button
                       onClick={() => { haptic.light(); setShowShare(true); }}
                       className="audio-btn w-8 h-8"
                     >
-                      <svg className="w-4 h-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                       </svg>
                     </button>
                   </div>
                 </div>
 
-                <p className="arabic-verse arabic-elegant mb-4 text-xl">{dailyHadith.arabic}</p>
-                <p className="text-pink-800 leading-relaxed mb-3 italic">
-                  "{dailyHadith.text}"
+                <p className="arabic-verse arabic-elegant mb-4 text-2xl">{dailyVerse.arabic}</p>
+                <p className="text-emerald-800 leading-relaxed mb-4 text-base">
+                  "{dailyVerse.translation}"
                 </p>
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-xs text-pink-500">{dailyHadith.source}</p>
-                  {dailyHadith.quranRef && (
-                    <p className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
-                      </svg>
-                      {dailyHadith.quranRef}
-                    </p>
-                  )}
-                </div>
-                <div className="pt-4 border-t border-pink-200/50">
-                  <div className="flex items-start gap-2">
-                    <Icon name="sparkle" className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm font-medium text-pink-700">{dailyHadith.doesMean}</p>
-                  </div>
+                <div className="flex items-center justify-center">
+                  <p className="text-sm text-emerald-600 font-semibold flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
+                    </svg>
+                    {dailyVerse.reference}
+                  </p>
                 </div>
               </div>
             </div>
