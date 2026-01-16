@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hadith Downloader for ChatGPT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-rose-100 min-h-screen p-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+      <h1 class="text-2xl font-bold text-pink-600 mb-2">Hadith Downloader</h1>
+      <p class="text-pink-400 mb-6">Download hadiths formatted for ChatGPT categorization</p>
+
+      <div class="space-y-3 mb-6">
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="bukhari" checked class="w-5 h-5 text-pink-500">
+          <label for="bukhari" class="text-gray-700">Sahih Bukhari (7,563 hadiths)</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="muslim" checked class="w-5 h-5 text-pink-500">
+          <label for="muslim" class="text-gray-700">Sahih Muslim (3,033 hadiths)</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="abudawud" checked class="w-5 h-5 text-pink-500">
+          <label for="abudawud" class="text-gray-700">Sunan Abu Dawud (3,999 hadiths)</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="tirmidhi" checked class="w-5 h-5 text-pink-500">
+          <label for="tirmidhi" class="text-gray-700">Jami at-Tirmidhi (3,956 hadiths)</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="ibnmajah" class="w-5 h-5 text-pink-500">
+          <label for="ibnmajah" class="text-gray-700">Sunan Ibn Majah (4,341 hadiths)</label>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="nasai" class="w-5 h-5 text-pink-500">
+          <label for="nasai" class="text-gray-700">Sunan an-Nasai (5,758 hadiths)</label>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label class="text-sm text-pink-500 mb-2 block">Batch Size (hadiths per file)</label>
+        <select id="batchSize" class="w-full p-3 border border-pink-200 rounded-xl">
+          <option value="250">250 - Smaller batches (more files)</option>
+          <option value="500" selected>500 - Recommended for ChatGPT</option>
+          <option value="1000">1000 - Larger batches</option>
+          <option value="0">Full collection (single file)</option>
+        </select>
+      </div>
+
+      <button onclick="startDownload()" id="downloadBtn"
+        class="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-bold text-lg hover:shadow-lg transition-all">
+        Download Selected Collections
+      </button>
+
+      <div id="progress" class="mt-6 hidden">
+        <div class="h-3 bg-pink-100 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-pink-500 to-rose-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <p id="status" class="text-sm text-pink-500 mt-2 text-center"></p>
+      </div>
+
+      <div id="downloads" class="mt-6 space-y-2 hidden">
+        <p class="text-sm font-medium text-pink-600">Ready to download:</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl p-8 mt-6">
+      <h2 class="text-lg font-bold text-pink-600 mb-4">How to Use with ChatGPT</h2>
+      <ol class="list-decimal list-inside space-y-3 text-gray-700">
+        <li>Download the batch files above</li>
+        <li>Open ChatGPT and upload a batch file</li>
+        <li>Use this prompt:
+          <div class="bg-pink-50 p-4 rounded-xl mt-2 text-sm">
+            <p class="font-mono">"Review these hadiths. Return ONLY the hadith numbers that specifically relate to women, grouped by these categories:</p>
+            <p class="font-mono mt-2">- marriage (marriage rights, husband-wife relations)</p>
+            <p class="font-mono">- motherhood (mothers, pregnancy, breastfeeding)</p>
+            <p class="font-mono">- daughters (raising daughters, girls)</p>
+            <p class="font-mono">- female_companions (Aisha, Khadijah, Fatimah, etc.)</p>
+            <p class="font-mono">- modesty (hijab, covering, lowering gaze)</p>
+            <p class="font-mono">- worship (women's prayer, fasting, pilgrimage)</p>
+            <p class="font-mono">- kindness (treatment of women, gentleness)</p>
+            <p class="font-mono">- inheritance (women's rights, property)</p>
+            <p class="font-mono mt-2">Format: category: [num1, num2, ...]"</p>
+          </div>
+        </li>
+        <li>Repeat for each batch file</li>
+        <li>Compile the numbers into your app</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    const collections = {
+      bukhari: { name: 'Sahih Bukhari', key: 'bukhari' },
+      muslim: { name: 'Sahih Muslim', key: 'muslim' },
+      abudawud: { name: 'Sunan Abu Dawud', key: 'abudawud' },
+      tirmidhi: { name: 'Jami at-Tirmidhi', key: 'tirmidhi' },
+      ibnmajah: { name: 'Sunan Ibn Majah', key: 'ibnmajah' },
+      nasai: { name: 'Sunan an-Nasai', key: 'nasai' },
+    };
+
+    let allFiles = [];
+
+    async function fetchCollection(key) {
+      const url = `https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-${key}.json`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data.hadiths || [];
+    }
+
+    function formatHadiths(hadiths, collectionName, batchInfo = '') {
+      let output = `# ${collectionName}${batchInfo}\n`;
+      output += `# Categorize: marriage, motherhood, daughters, female_companions, modesty, worship, kindness, inheritance\n`;
+      output += `# Return ONLY hadith numbers that relate to women\n\n`;
+
+      hadiths.forEach(h => {
+        const text = (h.text || '').replace(/\s+/g, ' ').trim();
+        if (text) {
+          output += `[${h.hadithnumber}] ${text}\n\n`;
+        }
+      });
+
+      return output;
+    }
+
+    function downloadFile(content, filename) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function createDownloadButton(content, filename) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+
+      const container = document.getElementById('downloads');
+      const btn = document.createElement('a');
+      btn.href = url;
+      btn.download = filename;
+      btn.className = 'block w-full py-2 px-4 bg-pink-100 text-pink-600 rounded-lg hover:bg-pink-200 transition-all text-sm';
+      btn.textContent = filename;
+      container.appendChild(btn);
+
+      return { content, filename, url };
+    }
+
+    async function startDownload() {
+      const btn = document.getElementById('downloadBtn');
+      const progress = document.getElementById('progress');
+      const progressBar = document.getElementById('progressBar');
+      const status = document.getElementById('status');
+      const downloads = document.getElementById('downloads');
+
+      const batchSize = parseInt(document.getElementById('batchSize').value);
+      const selected = Object.keys(collections).filter(k => document.getElementById(k).checked);
+
+      if (selected.length === 0) {
+        alert('Please select at least one collection');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Downloading...';
+      progress.classList.remove('hidden');
+      downloads.classList.remove('hidden');
+      downloads.innerHTML = '<p class="text-sm font-medium text-pink-600">Ready to download:</p>';
+      allFiles = [];
+
+      let totalSteps = selected.length;
+      let currentStep = 0;
+
+      for (const key of selected) {
+        const col = collections[key];
+        status.textContent = `Downloading ${col.name}...`;
+
+        try {
+          const hadiths = await fetchCollection(key);
+          status.textContent = `Processing ${col.name} (${hadiths.length} hadiths)...`;
+
+          if (batchSize === 0) {
+            // Full file
+            const content = formatHadiths(hadiths, col.name);
+            createDownloadButton(content, `${key}-full.txt`);
+          } else {
+            // Batched files
+            const batches = Math.ceil(hadiths.length / batchSize);
+            for (let i = 0; i < batches; i++) {
+              const start = i * batchSize;
+              const end = Math.min(start + batchSize, hadiths.length);
+              const batch = hadiths.slice(start, end);
+              const batchInfo = ` - Batch ${i + 1}/${batches} (${start + 1}-${end})`;
+              const content = formatHadiths(batch, col.name, batchInfo);
+              createDownloadButton(content, `${key}-batch-${String(i + 1).padStart(2, '0')}.txt`);
+            }
+          }
+
+        } catch (err) {
+          console.error(`Error downloading ${key}:`, err);
+          status.textContent = `Error downloading ${col.name}: ${err.message}`;
+        }
+
+        currentStep++;
+        progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+      }
+
+      status.textContent = 'Done! Click files below to download.';
+      btn.disabled = false;
+      btn.textContent = 'Download Selected Collections';
+
+      // Add download all button
+      const downloadAllBtn = document.createElement('button');
+      downloadAllBtn.className = 'mt-4 w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-bold hover:shadow-lg transition-all';
+      downloadAllBtn.textContent = 'Download All Files (one by one)';
+      downloadAllBtn.onclick = () => {
+        document.querySelectorAll('#downloads a').forEach((a, i) => {
+          setTimeout(() => a.click(), i * 500);
+        });
+      };
+      downloads.appendChild(downloadAllBtn);
+    }
+  </script>
+</body>
+</html>
