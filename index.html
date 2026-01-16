@@ -4808,93 +4808,121 @@
               </div>
             </div>
 
-            {/* Quick Access - Horizontal Scroll */}
-            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-5 px-5">
-                {[
-                  { icon: 'book', label: 'Hadith', view: 'hadith', color: 'from-pink-400 to-rose-500' },
-                  { icon: 'hands', label: 'Duas', view: 'duas', color: 'from-rose-400 to-pink-500' },
-                  { icon: 'moon', label: 'Prayer', view: 'prayer', color: 'from-amber-400 to-orange-500' },
-                  { icon: 'compass', label: 'Qibla', view: 'qibla', color: 'from-teal-400 to-emerald-500' },
-                  { icon: 'beads', label: 'Dhikr', view: 'dhikr', color: 'from-purple-400 to-pink-500' },
-                  { icon: 'star', label: 'Sahabiyat', view: 'sahabiyat', color: 'from-pink-400 to-rose-400' },
-                ].map((item, i) => (
-                  <button
-                    key={item.view}
-                    onClick={() => { haptic.light(); SoundEffects.tap(); updateState({ view: item.view }); }}
-                    className="flex flex-col items-center gap-2 min-w-[70px] group"
-                  >
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg group-active:scale-90 transition-transform`}>
-                      <Icon name={item.icon} className="w-6 h-6 text-white" />
-                    </div>
-                    <span className="text-xs font-medium text-pink-600">{item.label}</span>
-                  </button>
-                ))}
-              </div>
+            {/* Quick Actions Grid - INCREDIBLE 3D TILT CARDS */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <TiltCard>
+                <FeatureCard
+                  icon="book"
+                  title="Hadith"
+                  subtitle="Explore verified daily narrations"
+                  gradient="from-pink-100 to-rose-200"
+                  onClick={() => updateState({ view: 'hadith' })}
+                  delay={0.2}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="hands"
+                  title="Duas"
+                  subtitle="Prayers for every moment"
+                  gradient="from-pink-50 to-pink-200"
+                  onClick={() => updateState({ view: 'duas' })}
+                  delay={0.25}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="moon"
+                  title="Prayer Times"
+                  subtitle="Live local timings"
+                  gradient="from-amber-50 to-pink-200"
+                  onClick={() => updateState({ view: 'prayer' })}
+                  delay={0.3}
+                />
+              </TiltCard>
+              <TiltCard>
+                <FeatureCard
+                  icon="star"
+                  title="Sahabiyat"
+                  subtitle="Stories of inspiring women"
+                  gradient="from-pink-100 to-rose-200"
+                  onClick={() => updateState({ view: 'sahabiyat' })}
+                  delay={0.35}
+                />
+              </TiltCard>
             </div>
 
-            {/* Decorative Divider */}
-            <div className="flex items-center gap-4 my-6">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent"></div>
-              <svg className="w-5 h-5 text-pink-300" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
-              </svg>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent"></div>
+            {/* Mini Reminders */}
+            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              <MiniReminders />
             </div>
 
-            {/* Featured Section - Asymmetric Layout */}
-            <div className="grid grid-cols-3 gap-3 mb-6 animate-fade-in-up" style={{animationDelay: '0.25s'}}>
-              {/* Large Featured Card */}
-              <button
-                onClick={() => { haptic.light(); updateState({ view: 'sahabiyat' }); }}
-                className="col-span-2 row-span-2 relative rounded-3xl overflow-hidden group active:scale-[0.98] transition-transform"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-100 to-pink-200"></div>
-                <div className="absolute inset-0 bg-white/40 backdrop-blur-sm"></div>
-                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-pink-300/30 rounded-full blur-2xl"></div>
-                <div className="relative p-5 h-full flex flex-col justify-between min-h-[160px]">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
-                    <Icon name="star" className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-pink-900 text-lg">Inspiring Women</h3>
-                    <p className="text-xs text-pink-500">Stories of the Sahabiyat</p>
-                  </div>
-                </div>
-              </button>
+            {/* More Features */}
+            <SectionTitle subtitle="More to explore">Features</SectionTitle>
 
-              {/* Small Card 1 - Tasbeeh */}
+            <div className="space-y-3">
               <button
                 onClick={() => { haptic.light(); updateState({ view: 'dhikr' }); }}
-                className="relative rounded-2xl overflow-hidden group active:scale-95 transition-transform"
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: '0.35s', animationFillMode: 'both' }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-100"></div>
-                <div className="relative p-4 flex flex-col items-center justify-center h-full min-h-[76px]">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-md mb-2">
-                    <Icon name="beads" className="w-5 h-5 text-white" />
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="beads" className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-xs font-semibold text-pink-700">Tasbeeh</span>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Dhikr Counter</h3>
+                    <p className="text-xs text-pink-500 font-medium">Beautiful digital tasbeeh</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
               </button>
 
-              {/* Small Card 2 - Saved */}
               <button
                 onClick={() => { haptic.light(); updateState({ view: 'saved' }); }}
-                className="relative rounded-2xl overflow-hidden group active:scale-95 transition-transform"
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100"></div>
-                <div className="relative p-4 flex flex-col items-center justify-center h-full min-h-[76px]">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center shadow-md mb-2">
-                    <Icon name="heart" className="w-5 h-5 text-white" />
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="heart" className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-xs font-semibold text-pink-700">Saved</span>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Saved Items</h3>
+                    <p className="text-xs text-pink-500 font-medium">{state.savedItems?.length || 0} items saved</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
               </button>
-            </div>
 
-            {/* Mini Reminders - Horizontal Scroll */}
-            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-              <MiniReminders />
+              <button
+                onClick={() => { haptic.light(); updateState({ view: 'qibla' }); }}
+                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: '0.45s', animationFillMode: 'both' }}
+              >
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
+                <div className="relative p-5 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
+                    <Icon name="compass" className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-pink-900">Qibla Compass</h3>
+                    <p className="text-xs text-pink-500 font-medium">Find the direction to pray</p>
+                  </div>
+                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
             </div>
 
             {/* Verse Carousel - Auto-rotating Quran verses */}
