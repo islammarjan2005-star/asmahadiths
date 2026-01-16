@@ -22,7 +22,61 @@
       "purpose": "any"
     }
   ],
-  "categories": ["lifestyle", "education"],
+  "shortcuts": [
+    {
+      "name": "Daily Hadith",
+      "short_name": "Hadith",
+      "description": "Read today's hadith",
+      "url": "./index.html?view=hadith",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%238B4513' width='96' height='96' rx='20'/><text x='48' y='62' font-size='40' text-anchor='middle' fill='white'>📖</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Make Dua",
+      "short_name": "Duas",
+      "description": "Browse beautiful duas",
+      "url": "./index.html?view=duas",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%23ec4899' width='96' height='96' rx='20'/><text x='48' y='62' font-size='40' text-anchor='middle' fill='white'>🤲</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Dhikr Counter",
+      "short_name": "Dhikr",
+      "description": "Start your tasbeeh",
+      "url": "./index.html?view=dhikr",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%239333ea' width='96' height='96' rx='20'/><text x='48' y='62' font-size='40' text-anchor='middle' fill='white'>📿</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Qibla Direction",
+      "short_name": "Qibla",
+      "description": "Find Qibla direction",
+      "url": "./index.html?view=qibla",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%2314b8a6' width='96' height='96' rx='20'/><text x='48' y='62' font-size='40' text-anchor='middle' fill='white'>🧭</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "categories": ["lifestyle", "education", "religion"],
   "lang": "en",
   "dir": "ltr",
   "prefer_related_applications": false

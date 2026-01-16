@@ -1994,40 +1994,109 @@
     const TextToSpeech = {
       speaking: false,
       utterance: null,
+      cachedVoices: [],
 
       // Check if TTS is supported
       isSupported() {
         return 'speechSynthesis' in window;
       },
 
-      // Get available voices for a language
+      // Load and cache voices
+      loadVoices() {
+        return new Promise((resolve) => {
+          const voices = speechSynthesis.getVoices();
+          if (voices.length > 0) {
+            this.cachedVoices = voices;
+            resolve(voices);
+          } else {
+            speechSynthesis.onvoiceschanged = () => {
+              this.cachedVoices = speechSynthesis.getVoices();
+              resolve(this.cachedVoices);
+            };
+          }
+        });
+      },
+
+      // Get best available voice for a language
       getVoice(lang = 'en') {
-        const voices = speechSynthesis.getVoices();
+        const voices = this.cachedVoices.length > 0 ? this.cachedVoices : speechSynthesis.getVoices();
 
         if (lang === 'ar') {
           // Prefer Arabic voices
           const arabicVoices = voices.filter(v => v.lang.startsWith('ar'));
           if (arabicVoices.length > 0) {
             // Prefer female Arabic voices
-            const female = arabicVoices.find(v => v.name.toLowerCase().includes('female') || v.name.includes('Laila') || v.name.includes('Maged'));
+            const female = arabicVoices.find(v =>
+              v.name.toLowerCase().includes('female') ||
+              v.name.includes('Laila') ||
+              v.name.includes('Maged') ||
+              v.name.includes('Majed')
+            );
             return female || arabicVoices[0];
           }
           return null;
         }
 
-        // English voices - prefer female
-        const preferred = ['Samantha', 'Karen', 'Victoria', 'Google UK English Female', 'Microsoft Zira'];
-        for (const name of preferred) {
+        // English voices - prioritize natural/premium voices
+        // These are ranked by naturalness based on testing
+        const premiumVoices = [
+          // iOS/macOS premium voices (very natural)
+          'Samantha (Enhanced)', 'Samantha (Premium)', 'Samantha',
+          'Ava (Enhanced)', 'Ava (Premium)', 'Ava',
+          'Allison (Enhanced)', 'Allison',
+          'Susan (Enhanced)', 'Susan',
+          // Google premium voices
+          'Google UK English Female',
+          'Google US English',
+          // Microsoft Neural voices (Windows 11)
+          'Microsoft Aria Online (Natural)',
+          'Microsoft Jenny Online (Natural)',
+          'Microsoft Zira Online (Natural)',
+          'Microsoft Zira',
+          // Android voices
+          'English United States',
+          'en-US-Wavenet-F',
+          'en-US-Neural2-F',
+          // Fallback good voices
+          'Karen', 'Victoria', 'Fiona', 'Moira',
+          'Tessa', 'Veena'
+        ];
+
+        // Try to find premium/enhanced voices first
+        for (const name of premiumVoices) {
           const voice = voices.find(v => v.name.includes(name));
           if (voice) return voice;
         }
+
+        // Look for any "enhanced", "natural", or "neural" voice
+        const enhancedVoice = voices.find(v =>
+          v.lang.startsWith('en') && (
+            v.name.toLowerCase().includes('enhanced') ||
+            v.name.toLowerCase().includes('natural') ||
+            v.name.toLowerCase().includes('neural') ||
+            v.name.toLowerCase().includes('premium') ||
+            v.name.toLowerCase().includes('wavenet')
+          )
+        );
+        if (enhancedVoice) return enhancedVoice;
+
+        // Prefer female English voices (generally sound better for this content)
+        const femaleVoice = voices.find(v =>
+          v.lang.startsWith('en') && (
+            v.name.toLowerCase().includes('female') ||
+            v.name.toLowerCase().includes('woman')
+          )
+        );
+        if (femaleVoice) return femaleVoice;
+
+        // Any English voice
         return voices.find(v => v.lang.startsWith('en')) || voices[0];
       },
 
       // Check if Arabic is available
       hasArabic() {
         if (!this.isSupported()) return false;
-        const voices = speechSynthesis.getVoices();
+        const voices = this.cachedVoices.length > 0 ? this.cachedVoices : speechSynthesis.getVoices();
         return voices.some(v => v.lang.startsWith('ar'));
       },
 
@@ -2043,19 +2112,32 @@
 
         this.utterance = new SpeechSynthesisUtterance(text);
         this.utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
-        this.utterance.rate = lang === 'ar' ? 0.8 : 0.9; // Slower for Arabic
-        this.utterance.pitch = 1;
 
-        // Set voice after voices are loaded
-        const setVoice = () => {
+        // Optimized settings for more natural speech
+        if (lang === 'ar') {
+          this.utterance.rate = 0.85;  // Slightly slower for Arabic
+          this.utterance.pitch = 1.0;
+        } else {
+          this.utterance.rate = 0.92;  // Slightly slower than default for clarity
+          this.utterance.pitch = 1.02; // Tiny pitch increase for warmth
+          this.utterance.volume = 1.0;
+        }
+
+        // Set voice
+        const setVoiceAndSpeak = () => {
           const voice = this.getVoice(lang);
-          if (voice) this.utterance.voice = voice;
+          if (voice) {
+            this.utterance.voice = voice;
+            // Log which voice is being used (for debugging)
+            console.log('TTS using voice:', voice.name);
+          }
+          speechSynthesis.speak(this.utterance);
         };
 
-        if (speechSynthesis.getVoices().length > 0) {
-          setVoice();
+        if (this.cachedVoices.length > 0 || speechSynthesis.getVoices().length > 0) {
+          setVoiceAndSpeak();
         } else {
-          speechSynthesis.onvoiceschanged = setVoice;
+          this.loadVoices().then(setVoiceAndSpeak);
         }
 
         this.utterance.onstart = () => {
@@ -2068,13 +2150,12 @@
           onStateChange('stopped');
         };
 
-        this.utterance.onerror = () => {
+        this.utterance.onerror = (e) => {
           this.speaking = false;
+          console.warn('TTS error:', e);
           onStateChange('error');
         };
 
-        speechSynthesis.speak(this.utterance);
-        onStateChange('speaking');
         return true;
       },
 
@@ -3059,7 +3140,7 @@
     const AppProvider = ({ children }) => {
       const [state, setState] = useState(() => {
         const saved = localStorage.getItem('asma-app-state');
-        return saved ? JSON.parse(saved) : {
+        const baseState = saved ? JSON.parse(saved) : {
           view: 'home',
           savedItems: [],
           dhikrCounts: {},
@@ -3067,6 +3148,17 @@
           onboardingComplete: false,
           userName: '',
         };
+
+        // Handle URL parameters from PWA shortcuts
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewParam = urlParams.get('view');
+        if (viewParam && ['hadith', 'duas', 'dhikr', 'qibla', 'prayer', 'sahabiyat', 'saved'].includes(viewParam)) {
+          baseState.view = viewParam;
+          // Clean up URL without reloading
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+
+        return baseState;
       });
 
       useEffect(() => {
@@ -7307,6 +7399,15 @@
     const App = () => {
       const { state } = useApp();
       const [showSplash, setShowSplash] = useState(true);
+
+      // Preload TTS voices on app start for better performance
+      React.useEffect(() => {
+        if (TextToSpeech.isSupported()) {
+          TextToSpeech.loadVoices().then(voices => {
+            console.log('TTS voices loaded:', voices.length, 'voices available');
+          });
+        }
+      }, []);
 
       // Show splash screen on first load only
       if (showSplash && !state.onboardingComplete) {
