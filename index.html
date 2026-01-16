@@ -2113,6 +2113,7 @@
         arabic: 'لا تُنكَحُ الأيِّمُ حتى تُستأمَرَ',
         text: 'A woman should not be married until she is consulted, and a virgin should not be married until her permission is sought.',
         source: 'Sahih al-Bukhari 5136',
+        quranRef: 'An-Nisa 4:19', // "It is not lawful for you to inherit women by compulsion"
         doesMean: 'You have the absolute right to accept or reject any marriage proposal. Your consent is essential and sacred in Islam.',
         doesNotMean: 'This does not allow families to pressure or coerce. Silence from fear is not consent.',
       },
@@ -2121,6 +2122,7 @@
         arabic: 'إنَّ هذا أمرٌ كتَبَهُ اللهُ على بناتِ آدمَ',
         text: 'This is something that Allah has ordained for the daughters of Adam.',
         source: 'Sahih al-Bukhari 294',
+        quranRef: 'Al-Baqarah 2:185', // "Allah intends for you ease and does not intend for you hardship"
         doesMean: 'Menstruation is natural, not shameful. The exemption from prayer during this time is a mercy and ease from Allah.',
         doesNotMean: 'You are not spiritually impure or distant from Allah. You can still make dhikr, dua, and read Quran.',
       },
@@ -2129,6 +2131,7 @@
         arabic: 'إنَّ اللهَ لا ينظُرُ إلى صُوَرِكُم وأموالِكُم',
         text: 'Allah does not look at your appearance or wealth, but He looks at your hearts and actions.',
         source: 'Sahih Muslim 2564',
+        quranRef: 'Al-Hujurat 49:13', // "The most noble of you is the most righteous"
         doesMean: 'Your value is defined by your character, sincerity, and good deeds—not by beauty standards or material wealth.',
         doesNotMean: 'This doesn\'t mean neglect yourself. Self-care is also ibadah.',
       },
@@ -2137,6 +2140,7 @@
         arabic: 'إنَّ لِنَفسِكَ عليكَ حقًّا',
         text: 'Your own self has a right over you.',
         source: 'Sahih al-Bukhari 1975',
+        quranRef: 'Al-Baqarah 2:286', // "Allah does not burden a soul beyond that it can bear"
         doesMean: 'Rest, self-care, and balance are part of faith. Taking care of your mental and physical health is a form of worship.',
         doesNotMean: 'This is not an excuse to abandon obligations, but a reminder that burning out is not piety.',
       },
@@ -2145,6 +2149,7 @@
         arabic: 'أبغَضُ الحلالِ إلى اللهِ الطَّلاقُ',
         text: 'The most disliked of permissible things to Allah is divorce.',
         source: 'Sunan Abu Dawud 2178',
+        quranRef: 'At-Talaq 65:1', // "When you divorce women, divorce them for their waiting period"
         doesMean: 'Divorce is valid and permissible when necessary. Islam does not trap you in harmful or abusive marriages.',
         doesNotMean: 'This hadith does not mean you must stay in an abusive or toxic marriage. Your safety comes first.',
       },
@@ -2153,6 +2158,7 @@
         arabic: 'طَلَبُ العِلمِ فَريضَةٌ على كُلِّ مُسلِمٍ',
         text: 'Seeking knowledge is an obligation upon every Muslim.',
         source: 'Sunan Ibn Majah 224',
+        quranRef: 'Al-Alaq 96:1', // "Read in the name of your Lord who created"
         doesMean: 'Education is your Islamic right. This includes religious AND worldly knowledge. Women scholars have always been part of Islamic tradition.',
         doesNotMean: 'No one can deny you education based on gender. The Prophet ﷺ himself learned from women.',
       },
@@ -3196,30 +3202,33 @@
       );
     };
 
-    // Audio Playback Button for Recitation
-    const AudioButton = ({ audioUrl, size = 'md' }) => {
-      const [isPlaying, setIsPlaying] = useState(false);
-      const audioRef = useRef(null);
+    // Audio Playback Button for Quran Recitation
+    const AudioButton = ({ quranRef, size = 'md' }) => {
+      const [audioState, setAudioState] = useState('stopped'); // stopped, loading, playing
 
-      const togglePlay = () => {
+      const togglePlay = async () => {
         haptic.light();
-        if (isPlaying) {
-          audioRef.current?.pause();
-        } else {
-          // In real app, would play actual audio
-          // For now, simulate playback
-          setTimeout(() => setIsPlaying(false), 3000);
+        if (audioState === 'playing') {
+          QuranAudio.stop();
+          setAudioState('stopped');
+        } else if (quranRef) {
+          await QuranAudio.playFromReference(quranRef, setAudioState);
         }
-        setIsPlaying(!isPlaying);
       };
+
+      // Don't render if no Quran reference
+      if (!quranRef) return null;
 
       return (
         <button
           onClick={togglePlay}
-          className={`audio-btn ${isPlaying ? 'playing' : ''} ${size === 'sm' ? 'w-8 h-8' : ''}`}
+          className={`audio-btn ${audioState === 'playing' ? 'playing bg-emerald-100' : ''} ${size === 'sm' ? 'w-8 h-8' : ''}`}
+          title={`Listen to ${quranRef}`}
         >
-          {isPlaying ? (
-            <svg className="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+          {audioState === 'loading' ? (
+            <div className="w-4 h-4 border-2 border-pink-300 border-t-pink-600 rounded-full animate-spin"></div>
+          ) : audioState === 'playing' ? (
+            <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
             </svg>
           ) : (
@@ -4067,7 +4076,7 @@
                   </div>
                   {/* Audio, Bookmark, Share buttons */}
                   <div className="flex items-center gap-2">
-                    <AudioButton size="sm" />
+                    <AudioButton quranRef={dailyHadith.quranRef} size="sm" />
                     <BookmarkButton
                       size="sm"
                       isSaved={isHadithSaved}
@@ -4088,7 +4097,17 @@
                 <p className="text-pink-800 leading-relaxed mb-3 italic">
                   "{dailyHadith.text}"
                 </p>
-                <p className="text-xs text-pink-500 mb-4">{dailyHadith.source}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-xs text-pink-500">{dailyHadith.source}</p>
+                  {dailyHadith.quranRef && (
+                    <p className="text-xs text-emerald-600 font-medium flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
+                      </svg>
+                      {dailyHadith.quranRef}
+                    </p>
+                  )}
+                </div>
                 <div className="pt-4 border-t border-pink-200/50">
                   <div className="flex items-start gap-2">
                     <Icon name="sparkle" className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
