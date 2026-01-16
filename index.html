@@ -1604,21 +1604,39 @@
         return 'speechSynthesis' in window;
       },
 
-      // Get available voices (prefer female English voices)
-      getVoice() {
+      // Get available voices for a language
+      getVoice(lang = 'en') {
         const voices = speechSynthesis.getVoices();
-        // Prefer these high-quality voices
+
+        if (lang === 'ar') {
+          // Prefer Arabic voices
+          const arabicVoices = voices.filter(v => v.lang.startsWith('ar'));
+          if (arabicVoices.length > 0) {
+            // Prefer female Arabic voices
+            const female = arabicVoices.find(v => v.name.toLowerCase().includes('female') || v.name.includes('Laila') || v.name.includes('Maged'));
+            return female || arabicVoices[0];
+          }
+          return null;
+        }
+
+        // English voices - prefer female
         const preferred = ['Samantha', 'Karen', 'Victoria', 'Google UK English Female', 'Microsoft Zira'];
         for (const name of preferred) {
           const voice = voices.find(v => v.name.includes(name));
           if (voice) return voice;
         }
-        // Fallback to any English voice
         return voices.find(v => v.lang.startsWith('en')) || voices[0];
       },
 
-      // Speak text
-      speak(text, onStateChange = () => {}) {
+      // Check if Arabic is available
+      hasArabic() {
+        if (!this.isSupported()) return false;
+        const voices = speechSynthesis.getVoices();
+        return voices.some(v => v.lang.startsWith('ar'));
+      },
+
+      // Speak text (supports 'en' or 'ar' language)
+      speak(text, onStateChange = () => {}, lang = 'en') {
         if (!this.isSupported()) {
           console.warn('Text-to-speech not supported');
           return false;
@@ -1628,13 +1646,13 @@
         this.stop();
 
         this.utterance = new SpeechSynthesisUtterance(text);
-        this.utterance.lang = 'en-US';
-        this.utterance.rate = 0.9;
+        this.utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+        this.utterance.rate = lang === 'ar' ? 0.8 : 0.9; // Slower for Arabic
         this.utterance.pitch = 1;
 
         // Set voice after voices are loaded
         const setVoice = () => {
-          const voice = this.getVoice();
+          const voice = this.getVoice(lang);
           if (voice) this.utterance.voice = voice;
         };
 
@@ -3506,8 +3524,8 @@
       );
     };
 
-    // Speak Button - Text-to-Speech for English translations
-    const SpeakButton = ({ text, size = 'md', color = 'pink' }) => {
+    // Speak Button - Text-to-Speech for translations (English or Arabic)
+    const SpeakButton = ({ text, size = 'md', color = 'pink', lang = 'en' }) => {
       const [speakState, setSpeakState] = useState('stopped'); // stopped, speaking
 
       const toggleSpeak = () => {
@@ -3516,7 +3534,7 @@
           TextToSpeech.stop();
           setSpeakState('stopped');
         } else if (text) {
-          TextToSpeech.speak(text, setSpeakState);
+          TextToSpeech.speak(text, setSpeakState, lang);
         }
       };
 
@@ -3525,13 +3543,17 @@
 
       const colorClasses = color === 'emerald'
         ? 'text-emerald-500 hover:text-emerald-600'
+        : color === 'amber'
+        ? 'text-amber-500 hover:text-amber-600'
         : 'text-pink-400 hover:text-pink-500';
+
+      const title = lang === 'ar' ? 'Listen to Arabic' : 'Read aloud';
 
       return (
         <button
           onClick={toggleSpeak}
           className={`audio-btn ${speakState === 'speaking' ? 'speaking bg-blue-100' : ''} ${size === 'sm' ? 'w-8 h-8' : ''}`}
-          title="Read aloud"
+          title={title}
         >
           {speakState === 'speaking' ? (
             <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
@@ -4639,6 +4661,7 @@
                       <Icon name={selected.icon} className="w-7 h-7 text-white" />
                     </div>
                     <div className="flex items-center gap-2">
+                      <SpeakButton text={selected.arabic} size="md" lang="ar" color="amber" />
                       <SpeakButton text={selected.text} size="md" />
                       <button
                         onClick={() => toggleSave({ ...selected, type: 'hadith' })}
