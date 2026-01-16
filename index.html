@@ -5010,9 +5010,8 @@
     // ============================================
 
     const HomeScreen = () => {
-      const { state, updateState, toggleSave } = useApp();
+      const { state, updateState, toggleSave, isSaved } = useApp();
       const [showPanic, setShowPanic] = useState(false);
-      const [showShare, setShowShare] = useState(false);
       const [time, setTime] = useState(new Date());
 
       useEffect(() => {
@@ -5020,39 +5019,29 @@
         return () => clearInterval(timer);
       }, []);
 
-      // Get greeting based on time - Now with Assalamu Alaikum
+      // Get greeting based on time
       const getGreeting = () => {
         const hour = time.getHours();
-        if (hour < 12) return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'صباح الخير' };
-        if (hour < 17) return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'مساء الخير' };
-        return { text: 'Assalamu Alaikum', arabic: 'السلام عليكم', period: 'مساء النور' };
+        if (hour < 12) return { english: 'Good Morning,', arabic: 'صباح الخير' };
+        if (hour < 17) return { english: 'Good Afternoon,', arabic: 'مساء الخير' };
+        return { english: 'Good Evening,', arabic: 'مساء النور' };
       };
 
       const greeting = getGreeting();
-      const dailyVerse = quranVersesData[Math.floor(Date.now() / 86400000) % quranVersesData.length];
-      const isVerseSaved = state.savedItems?.some(item => item.id === dailyVerse.id && item.type === 'verse');
+
+      // Daily hadith for Today's Reflection
+      const dailyHadith = hadithData[2]; // The self-worth hadith from Sahih Muslim 2564
 
       // Panic mode - Calculator disguise
       if (showPanic) {
         return (
           <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-xs">
-              <div className="text-right text-4xl font-light text-gray-700 mb-4 h-14 flex items-center justify-end pr-2">
-                0
-              </div>
+              <div className="text-right text-4xl font-light text-gray-700 mb-4 h-14 flex items-center justify-end pr-2">0</div>
               <div className="grid grid-cols-4 gap-2">
                 {['C', '±', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '−', '1', '2', '3', '+', '0', '.', '='].map((btn) => (
-                  <button
-                    key={btn}
-                    onClick={() => { if (btn === 'C') { haptic.medium(); setShowPanic(false); }}}
-                    className={`p-4 rounded-2xl text-lg font-medium transition-all active:scale-95 ${
-                      ['÷', '×', '−', '+', '='].includes(btn)
-                        ? 'bg-amber-500 text-white'
-                        : ['C', '±', '%'].includes(btn)
-                        ? 'bg-gray-200 text-gray-700'
-                        : 'bg-gray-100 text-gray-700'
-                    } ${btn === '0' ? 'col-span-2' : ''}`}
-                  >
+                  <button key={btn} onClick={() => { if (btn === 'C') { haptic.medium(); setShowPanic(false); }}}
+                    className={`p-4 rounded-2xl text-lg font-medium transition-all active:scale-95 ${['÷', '×', '−', '+', '='].includes(btn) ? 'bg-amber-500 text-white' : ['C', '±', '%'].includes(btn) ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-700'} ${btn === '0' ? 'col-span-2' : ''}`}>
                     {btn}
                   </button>
                 ))}
@@ -5063,254 +5052,327 @@
         );
       }
 
+      // Mosque Silhouette SVG Component
+      const MosqueSilhouette = ({ className = "", opacity = 0.15 }) => (
+        <svg className={className} viewBox="0 0 400 120" fill="currentColor" style={{ opacity }}>
+          <path d="M0 120 L0 80 L20 80 L20 60 L25 60 L25 40 L30 40 L30 60 L35 60 L35 80 L50 80 L50 70 Q65 50 80 70 L80 80 L100 80 L100 120 Z" />
+          <path d="M120 120 L120 90 L125 90 L125 70 L130 50 L135 70 L135 90 L140 90 L140 120 Z" />
+          <path d="M160 120 L160 85 Q180 55 200 85 L200 120 Z" />
+          <path d="M200 120 L200 60 L205 60 L205 30 L210 10 L215 30 L215 60 L220 60 L220 120 Z" />
+          <path d="M240 120 L240 75 Q260 45 280 75 L280 120 Z" />
+          <path d="M300 120 L300 90 L305 90 L305 70 L310 70 L310 50 L315 30 L320 50 L320 70 L325 70 L325 90 L330 90 L330 120 Z" />
+          <path d="M350 120 L350 80 Q370 60 390 80 L390 120 Z" />
+          <path d="M390 120 L390 85 L395 85 L395 65 L400 45 L400 120 Z" />
+        </svg>
+      );
+
+      // Sparkle/Star component
+      const Sparkle = ({ size = 4, className = "" }) => (
+        <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z"/>
+        </svg>
+      );
+
       return (
-        <PageWrapper>
-          {/* Floating Particles & Geometric Patterns */}
-          <FloatingParticles />
-          <GeometricArabesque />
+        <div className="min-h-screen relative overflow-hidden" style={{
+          background: 'linear-gradient(180deg, #e8b4d4 0%, #d4a0c4 20%, #c98db8 40%, #d4a0c4 60%, #e0aaca 80%, #d4a0c4 100%)'
+        }}>
+          {/* Sparkles Background */}
+          <div className="fixed inset-0 pointer-events-none overflow-hidden">
+            {[...Array(60)].map((_, i) => (
+              <div key={i} className="absolute text-white" style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.6 + 0.2,
+                animation: `sparkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 5}s`
+              }}>
+                <Sparkle size={Math.random() * 6 + 2} />
+              </div>
+            ))}
+          </div>
 
-          {/* Share Modal */}
-          <ShareCardModal
-            show={showShare}
-            onClose={() => setShowShare(false)}
-            content={dailyVerse}
-          />
+          {/* Mosque Silhouette at Bottom */}
+          <div className="fixed bottom-0 left-0 right-0 text-pink-900 pointer-events-none">
+            <MosqueSilhouette className="w-full h-32" opacity={0.08} />
+          </div>
 
-          {/* Floating Action Button */}
-          <FloatingActionButton onClick={(action) => {
-            if (action === 'dhikr') updateState({ view: 'dhikr' });
-            if (action === 'dua') updateState({ view: 'duas' });
-          }} />
+          {/* Main Content */}
+          <div className="relative z-10 p-4 pb-24 max-w-lg mx-auto">
 
-          <div className="p-5 pt-8 max-w-lg mx-auto safe-top relative z-10">
-            {/* Top Bar - Date, Streak & Dark Mode */}
-            <div className="flex items-center justify-between mb-4 animate-fade-in">
-              <HijriDate />
-              <div className="flex items-center gap-3">
-                <CrescentStreak />
-                <DarkModeToggle />
+            {/* Header - Search, Notifications, Profile */}
+            <div className="flex items-center justify-between mb-5 pt-2">
+              {/* Search Bar */}
+              <div className="flex-1 mr-3">
+                <div className="flex items-center gap-2 px-4 py-2.5 rounded-full" style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.3)'
+                }}>
+                  <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <span className="text-gray-600 text-sm">Search</span>
+                </div>
+              </div>
+
+              {/* Right Icons */}
+              <div className="flex items-center gap-2">
+                <button className="w-10 h-10 rounded-full flex items-center justify-center" style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.3)'
+                }}>
+                  <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                  </svg>
+                </button>
+                <button className="w-10 h-10 rounded-full flex items-center justify-center relative" style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.3)'
+                }}>
+                  <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                  </svg>
+                  <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-pink-500 rounded-full border border-white"></div>
+                </button>
+                <button onClick={() => { haptic.heavy(); setShowPanic(true); }}
+                  className="w-11 h-11 rounded-full overflow-hidden border-2 border-white/50">
+                  <div className="w-full h-full bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center">
+                    <span className="text-2xl">👩</span>
+                  </div>
+                </button>
               </div>
             </div>
 
-            {/* Premium Header with Assalamu Alaikum */}
-            <div className="flex items-center justify-between mb-6 animate-fade-in" style={{animationDelay: '0.1s'}}>
-              <div>
-                <p className="text-sm text-pink-400 font-medium font-ruqaa">{greeting.arabic}</p>
-                <h1 className="text-2xl font-bold gradient-text">
-                  <TypewriterGreeting text={state.userName || 'Sister'} />
-                </h1>
-                <p className="text-xs text-pink-300 font-ruqaa mt-1">{greeting.period}</p>
+            {/* Greeting Card with Moon & Mosque */}
+            <div className="rounded-3xl p-5 mb-5 relative overflow-hidden" style={{
+              background: 'rgba(255,255,255,0.35)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.5)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
+            }}>
+              {/* Moon and Stars */}
+              <div className="absolute top-3 right-3">
+                <svg className="w-14 h-14 text-amber-300" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+                <Sparkle size={8} className="absolute -top-1 left-0 text-amber-200" />
+                <Sparkle size={5} className="absolute top-1 -right-2 text-amber-200" />
               </div>
-              <button
-                onClick={() => { haptic.heavy(); setShowPanic(true); }}
-                className="w-11 h-11 glass-ultra rounded-xl flex items-center justify-center active:scale-90 transition-transform shadow-multi"
-                title="Privacy mode"
-              >
-                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+
+              {/* Mosque decoration on right */}
+              <div className="absolute bottom-0 right-0 text-pink-300 opacity-40">
+                <svg className="w-24 h-20" viewBox="0 0 100 80" fill="currentColor">
+                  <path d="M60 80 L60 50 Q75 30 90 50 L90 80 Z" />
+                  <path d="M85 80 L85 40 L88 40 L88 20 L91 5 L94 20 L94 40 L97 40 L97 80 Z" />
+                </svg>
+              </div>
+
+              <p className="text-gray-600 text-sm mb-1">{greeting.english}</p>
+              <h1 className="text-3xl font-bold text-pink-700">
+                Sister <span className="font-arabic text-2xl text-pink-600">{greeting.arabic}</span>
+              </h1>
+            </div>
+
+            {/* Today's Reflection Card */}
+            <div className="rounded-3xl p-5 mb-5 relative overflow-hidden" style={{
+              background: 'rgba(255,255,255,0.4)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.5)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
+            }}>
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                  </svg>
+                </div>
+                <span className="text-sm font-bold text-pink-600 uppercase tracking-wide">Today's Reflection</span>
+              </div>
+
+              {/* Arabic Text */}
+              <p className="font-arabic text-xl text-pink-800 text-center leading-relaxed mb-4" dir="rtl">
+                إِنَّ اللهَ لا يَنظُرُ إِلى صُوَرِكُم وأَموالِكُم
+              </p>
+
+              {/* English Translation */}
+              <p className="text-gray-700 text-center leading-relaxed mb-3 text-sm">
+                "Allah does not look at your appearance or wealth,<br/>but He looks at your hearts and actions."
+              </p>
+
+              {/* Source */}
+              <p className="text-pink-500 text-sm mb-4">Sahih Muslim 2564</p>
+
+              {/* Reflection */}
+              <div className="flex items-start gap-2">
+                <span className="text-pink-500 text-base mt-0.5">★</span>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Your value is defined by your character, sincerity, good deeds—not by beauty standards or material wealth.
+                </p>
+              </div>
+            </div>
+
+            {/* Feature Cards - 4 in a row */}
+            <div className="grid grid-cols-4 gap-2 mb-5">
+              {/* Hadith */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'hadith' }); }}
+                className="rounded-2xl p-3 text-center relative overflow-hidden active:scale-95 transition-transform" style={{
+                  background: 'rgba(255,255,255,0.35)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}>
+                <div className="text-3xl mb-1">📖</div>
+                <h3 className="text-xs font-bold text-pink-800">Hadith</h3>
+                <p className="text-[9px] text-pink-600 leading-tight">Teachings of the Prophet ﷺ</p>
+              </button>
+
+              {/* Prayer Times */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'prayer' }); }}
+                className="rounded-2xl p-3 text-center relative overflow-hidden active:scale-95 transition-transform" style={{
+                  background: 'rgba(255,255,255,0.35)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}>
+                <div className="text-3xl mb-1">🌙</div>
+                <h3 className="text-xs font-bold text-pink-800">Prayer Times</h3>
+                <p className="text-[9px] text-pink-600 leading-tight">Fajr 6:15 am</p>
+                <p className="text-[8px] text-pink-500">Next: Dhuhr - 12:45 pm</p>
+              </button>
+
+              {/* Duas */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'duas' }); }}
+                className="rounded-2xl p-3 text-center relative overflow-hidden active:scale-95 transition-transform" style={{
+                  background: 'rgba(255,255,255,0.35)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}>
+                <div className="text-3xl mb-1">🤲</div>
+                <h3 className="text-xs font-bold text-pink-800">Duas</h3>
+                <p className="text-[9px] text-pink-600 leading-tight">Beautiful daily prayers</p>
+              </button>
+
+              {/* Sahabiyat */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'sahabiyat' }); }}
+                className="rounded-2xl p-3 text-center relative overflow-hidden active:scale-95 transition-transform" style={{
+                  background: 'rgba(255,255,255,0.35)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}>
+                <div className="absolute top-1 right-1">
+                  <span className="text-[8px] text-pink-500 font-medium">View All</span>
+                </div>
+                <div className="text-2xl mb-1">⭐</div>
+                <h3 className="text-xs font-bold text-pink-800">Sahabiyat</h3>
+                <p className="text-[9px] text-pink-600 leading-tight">Inspiring stories of great women</p>
+              </button>
+            </div>
+
+            {/* Features Section */}
+            <div className="rounded-3xl p-4 mb-5 relative overflow-hidden" style={{
+              background: 'rgba(255,255,255,0.35)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.5)'
+            }}>
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Sparkle size={14} className="text-pink-400" />
+                  <div>
+                    <h3 className="font-bold text-pink-800 text-base">Features</h3>
+                    <p className="text-xs text-pink-500">Remembrance & gratitude</p>
+                  </div>
+                </div>
+                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+
+              {/* Dhikr & Tasbih */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'dhikr' }); }}
+                className="w-full rounded-2xl p-4 mb-3 flex items-center gap-3 active:scale-98 transition-transform" style={{
+                  background: 'rgba(255,255,255,0.5)',
+                  border: '1px solid rgba(255,255,255,0.6)'
+                }}>
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center">
+                  <div className="relative">
+                    <span className="text-2xl">📿</span>
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-pink-500 flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-left">
+                  <h4 className="font-bold text-pink-800">Dhikr & Tasbih</h4>
+                  <p className="text-xs text-pink-500">Remembrance & gratitude</p>
+                </div>
+              </button>
+
+              {/* Daily Sunnah */}
+              <button onClick={() => { haptic.light(); updateState({ view: 'hadith' }); }}
+                className="w-full rounded-2xl p-4 relative overflow-hidden active:scale-98 transition-transform" style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(240,180,200,0.3) 100%)',
+                  border: '1px solid rgba(255,255,255,0.5)'
+                }}>
+                {/* Mosque silhouette background */}
+                <div className="absolute bottom-0 right-0 text-pink-300 opacity-30">
+                  <MosqueSilhouette className="w-40 h-16" opacity={0.4} />
+                </div>
+                <div className="relative z-10 text-left">
+                  <h4 className="font-bold text-pink-800 text-lg">Daily Sunnah</h4>
+                  <p className="text-xs text-pink-600">Follow the Prophet ﷺ advice each day</p>
+                </div>
+                <svg className="absolute bottom-4 right-4 w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
             </div>
 
-            {/* Prayer Countdown - Live Timer */}
-            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
-              <PrayerCountdown />
-            </div>
-
-            {/* Daily Quran Verse Card - PREMIUM with Gradient Border */}
-            <div className="relative rounded-3xl mb-6 animate-fade-in-up overflow-hidden shadow-multi gradient-border inner-glow" style={{ animationDelay: '0.18s' }}>
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-50 animate-pulse" style={{animationDuration: '4s'}}></div>
-              <div className="absolute inset-0 backdrop-blur-xl bg-white/60"></div>
-              {/* Shimmer overlay */}
-              <div className="shimmer-overlay"></div>
-
-              {/* Decorative glow blobs */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-300/30 rounded-full blur-3xl blob"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-300/30 rounded-full blur-3xl blob" style={{animationDelay: '-4s'}}></div>
-
-              <div className="relative p-6">
-                {/* Header with actions */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-300/50 icon-glow">
-                      <Icon name={dailyVerse.icon} className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Today's Verse</span>
-                  </div>
-                  {/* Audio, Speak, Bookmark, Share buttons */}
-                  <div className="flex items-center gap-2">
-                    <AudioButton quranRef={dailyVerse.reference} size="sm" />
-                    <SpeakButton text={dailyVerse.translation} size="sm" color="emerald" />
-                    <BookmarkButton
-                      size="sm"
-                      isSaved={isVerseSaved}
-                      onToggle={() => toggleSave({ ...dailyVerse, type: 'verse' })}
-                    />
-                    <button
-                      onClick={() => { haptic.light(); setShowShare(true); }}
-                      className="audio-btn w-8 h-8"
-                    >
-                      <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <p className="arabic-verse arabic-elegant mb-4 text-2xl">{dailyVerse.arabic}</p>
-                <p className="text-emerald-800 leading-relaxed mb-4 text-base">
-                  "{dailyVerse.translation}"
-                </p>
-                <div className="flex items-center justify-center">
-                  <p className="text-sm text-emerald-600 font-semibold flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2L13.5 9L20 6L14 12L20 18L13.5 15L12 22L10.5 15L4 18L10 12L4 6L10.5 9L12 2Z"/>
-                    </svg>
-                    {dailyVerse.reference}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Actions Grid - INCREDIBLE 3D TILT CARDS */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <TiltCard>
-                <FeatureCard
-                  icon="book"
-                  title="Hadith"
-                  subtitle="Explore verified daily narrations"
-                  gradient="from-pink-100 to-rose-200"
-                  onClick={() => updateState({ view: 'hadith' })}
-                  delay={0.2}
-                />
-              </TiltCard>
-              <TiltCard>
-                <FeatureCard
-                  icon="hands"
-                  title="Duas"
-                  subtitle="Prayers for every moment"
-                  gradient="from-pink-50 to-pink-200"
-                  onClick={() => updateState({ view: 'duas' })}
-                  delay={0.25}
-                />
-              </TiltCard>
-              <TiltCard>
-                <FeatureCard
-                  icon="moon"
-                  title="Prayer Times"
-                  subtitle="Live local timings"
-                  gradient="from-amber-50 to-pink-200"
-                  onClick={() => updateState({ view: 'prayer' })}
-                  delay={0.3}
-                />
-              </TiltCard>
-              <TiltCard>
-                <FeatureCard
-                  icon="star"
-                  title="Sahabiyat"
-                  subtitle="Stories of inspiring women"
-                  gradient="from-pink-100 to-rose-200"
-                  onClick={() => updateState({ view: 'sahabiyat' })}
-                  delay={0.35}
-                />
-              </TiltCard>
-            </div>
-
-            {/* Mini Reminders */}
-            <div className="mb-6 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              <MiniReminders />
-            </div>
-
-            {/* More Features */}
-            <SectionTitle subtitle="More to explore">Features</SectionTitle>
-
-            <div className="space-y-3">
-              <button
-                onClick={() => { haptic.light(); updateState({ view: 'dhikr' }); }}
-                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
-                style={{ animationDelay: '0.35s', animationFillMode: 'both' }}
-              >
-                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
-                <div className="relative p-5 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
-                    <Icon name="beads" className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h3 className="font-bold text-pink-900">Dhikr Counter</h3>
-                    <p className="text-xs text-pink-500 font-medium">Beautiful digital tasbeeh</p>
-                  </div>
-                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </button>
-
-              <button
-                onClick={() => { haptic.light(); updateState({ view: 'saved' }); }}
-                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
-                style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
-              >
-                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
-                <div className="relative p-5 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
-                    <Icon name="heart" className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h3 className="font-bold text-pink-900">Saved Items</h3>
-                    <p className="text-xs text-pink-500 font-medium">{state.savedItems?.length || 0} items saved</p>
-                  </div>
-                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </button>
-
-              <button
-                onClick={() => { haptic.light(); updateState({ view: 'qibla' }); }}
-                className="group relative rounded-2xl w-full overflow-hidden animate-fade-in-up"
-                style={{ animationDelay: '0.45s', animationFillMode: 'both' }}
-              >
-                <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-active:translate-x-full transition-transform duration-500"></div>
-                <div className="relative p-5 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-300/40 group-active:scale-95 transition-transform">
-                    <Icon name="compass" className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h3 className="font-bold text-pink-900">Qibla Compass</h3>
-                    <p className="text-xs text-pink-500 font-medium">Find the direction to pray</p>
-                  </div>
-                  <svg className="w-5 h-5 text-pink-400 group-active:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </button>
-            </div>
-
-            {/* Verse Carousel - Auto-rotating Quran verses */}
-            <div className="mt-8 animate-fade-in-up" style={{animationDelay: '0.5s'}}>
-              <VerseCarousel />
-            </div>
-
-            {/* Mood Journal - Daily check-in */}
-            <div className="mt-6 animate-fade-in-up" style={{animationDelay: '0.55s'}}>
-              <MoodJournal />
-            </div>
-
-            {/* Daily Progress - Goals tracking */}
-            <div className="mt-6 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-              <DailyProgress />
-            </div>
-
-            {/* Bismillah Footer */}
-            <div className="text-center mt-10 animate-fade-in" style={{ animationDelay: '0.65s' }}>
-              <p className="font-arabic text-3xl text-pink-300 arabic-elegant">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            </div>
           </div>
-        </PageWrapper>
+
+          {/* Bottom Navigation */}
+          <nav className="fixed bottom-0 left-0 right-0 z-50" style={{
+            background: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(20px)',
+            borderTop: '1px solid rgba(255,255,255,0.5)'
+          }}>
+            <div className="max-w-lg mx-auto flex items-center justify-around py-2 pb-safe">
+              {[
+                { id: 'home', icon: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', label: 'Home' },
+                { id: 'hadith', icon: 'M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z', label: 'Hadith' },
+                { id: 'dhikr', label: 'Dhikr', isBeads: true },
+                { id: 'duas', label: 'Duas', isHands: true },
+                { id: 'saved', icon: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z', label: 'Saved' },
+              ].map((item) => {
+                const isActive = state.view === item.id || (!state.view && item.id === 'home');
+                return (
+                  <button key={item.id} onClick={() => { haptic.light(); updateState({ view: item.id }); }}
+                    className={`flex flex-col items-center gap-1 px-3 py-1 ${isActive ? 'text-pink-600' : 'text-gray-400'}`}>
+                    {item.isBeads ? (
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <circle cx="12" cy="12" r="3"/>
+                        <circle cx="12" cy="12" r="8" strokeDasharray="4 2"/>
+                      </svg>
+                    ) : item.isHands ? (
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10.5 1.875a1.125 1.125 0 0 1 2.25 0v8.219c.517.162 1.02.382 1.5.659V3.375a1.125 1.125 0 0 1 2.25 0v10.937a4.505 4.505 0 0 0-3.25 2.373 8.963 8.963 0 0 1 4-.935A.75.75 0 0 0 18 15v-2.266a3.368 3.368 0 0 1 .988-2.37 1.125 1.125 0 0 1 1.591 1.59 1.118 1.118 0 0 0-.329.79v3.006h-.005a6 6 0 0 1-1.752 4.007l-1.736 1.736a6 6 0 0 1-4.242 1.757H10.5a7.5 7.5 0 0 1-7.5-7.5V6.375a1.125 1.125 0 0 1 2.25 0v5.519c.46-.452.965-.832 1.5-1.141V3.375a1.125 1.125 0 0 1 2.25 0v6.526c.495-.1.997-.151 1.5-.151V1.875Z"/>
+                      </svg>
+                    ) : (
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d={item.icon}/>
+                      </svg>
+                    )}
+                    <span className="text-[10px] font-medium">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+        </div>
       );
     };
 
