@@ -1300,6 +1300,110 @@
     };
 
     // ============================================
+    // HADITH API SERVICE (Free, No Auth Required)
+    // Source: https://github.com/fawazahmed0/hadith-api
+    // ============================================
+
+    const HadithAPI = {
+      baseUrl: 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1',
+
+      // Available collections
+      collections: {
+        bukhari: { name: 'Sahih al-Bukhari', key: 'eng-bukhari', total: 7563 },
+        muslim: { name: 'Sahih Muslim', key: 'eng-muslim', total: 3033 },
+        abudawud: { name: 'Sunan Abu Dawud', key: 'eng-abudawud', total: 5274 },
+        tirmidhi: { name: 'Jami at-Tirmidhi', key: 'eng-tirmidhi', total: 3956 },
+        nasai: { name: 'Sunan an-Nasai', key: 'eng-nasai', total: 5758 },
+        ibnmajah: { name: 'Sunan Ibn Majah', key: 'eng-ibnmajah', total: 4341 },
+        malik: { name: 'Muwatta Malik', key: 'eng-malik', total: 1858 },
+      },
+
+      // Fetch a specific hadith
+      async getHadith(collection, number) {
+        try {
+          const key = this.collections[collection]?.key || collection;
+          const res = await fetch(`${this.baseUrl}/editions/${key}/${number}.json`);
+          if (!res.ok) throw new Error('Hadith not found');
+          return await res.json();
+        } catch (err) {
+          console.error('Failed to fetch hadith:', err);
+          return null;
+        }
+      },
+
+      // Fetch random hadith from a collection
+      async getRandomHadith(collection = 'bukhari') {
+        const col = this.collections[collection];
+        if (!col) return null;
+        const randomNum = Math.floor(Math.random() * col.total) + 1;
+        return this.getHadith(collection, randomNum);
+      },
+
+      // Fetch multiple random hadiths
+      async getRandomHadiths(count = 10, collection = 'bukhari') {
+        const promises = [];
+        const col = this.collections[collection];
+        if (!col) return [];
+
+        const usedNums = new Set();
+        while (promises.length < count) {
+          const num = Math.floor(Math.random() * col.total) + 1;
+          if (!usedNums.has(num)) {
+            usedNums.add(num);
+            promises.push(this.getHadith(collection, num));
+          }
+        }
+        const results = await Promise.all(promises);
+        return results.filter(h => h !== null);
+      },
+
+      // Fetch a range of hadiths
+      async getHadithRange(collection, start, end) {
+        const promises = [];
+        for (let i = start; i <= end; i++) {
+          promises.push(this.getHadith(collection, i));
+        }
+        const results = await Promise.all(promises);
+        return results.filter(h => h !== null);
+      },
+
+      // Search hadiths (client-side after fetching)
+      async searchHadiths(collection, query, limit = 20) {
+        // For search, we'd need to fetch more data - this is a simplified version
+        const hadiths = await this.getRandomHadiths(50, collection);
+        const lowerQuery = query.toLowerCase();
+        return hadiths
+          .filter(h => h?.hadiths?.[0]?.text?.toLowerCase().includes(lowerQuery))
+          .slice(0, limit);
+      },
+
+      // Cache hadiths locally
+      cacheHadiths(key, hadiths) {
+        try {
+          localStorage.setItem(`hadith_cache_${key}`, JSON.stringify({
+            timestamp: Date.now(),
+            data: hadiths
+          }));
+        } catch (e) {
+          console.warn('Failed to cache hadiths:', e);
+        }
+      },
+
+      // Get cached hadiths (valid for 24 hours)
+      getCachedHadiths(key) {
+        try {
+          const cached = localStorage.getItem(`hadith_cache_${key}`);
+          if (!cached) return null;
+          const { timestamp, data } = JSON.parse(cached);
+          const isValid = Date.now() - timestamp < 24 * 60 * 60 * 1000;
+          return isValid ? data : null;
+        } catch (e) {
+          return null;
+        }
+      }
+    };
+
+    // ============================================
     // ISLAMIC DATA
     // ============================================
 
@@ -3388,9 +3492,49 @@
       const { updateState, toggleSave, isSaved } = useApp();
       const [selected, setSelected] = useState(null);
       const [filter, setFilter] = useState('all');
+      const [activeTab, setActiveTab] = useState('curated'); // 'curated' or 'explore'
+      const [apiHadiths, setApiHadiths] = useState([]);
+      const [loadingApi, setLoadingApi] = useState(false);
+      const [selectedCollection, setSelectedCollection] = useState('bukhari');
+      const [apiPage, setApiPage] = useState(1);
 
       const topics = ['all', ...new Set(hadithData.map(h => h.topic))];
       const filtered = filter === 'all' ? hadithData : hadithData.filter(h => h.topic === filter);
+
+      // Load hadiths from API
+      const loadApiHadiths = async (reset = false) => {
+        setLoadingApi(true);
+        try {
+          const cached = HadithAPI.getCachedHadiths(`${selectedCollection}_${apiPage}`);
+          if (cached && !reset) {
+            setApiHadiths(prev => reset ? cached : [...prev, ...cached]);
+          } else {
+            const newHadiths = await HadithAPI.getRandomHadiths(10, selectedCollection);
+            const formatted = newHadiths.map((h, idx) => ({
+              id: `api_${selectedCollection}_${Date.now()}_${idx}`,
+              text: h?.hadiths?.[0]?.text || 'Hadith text not available',
+              arabic: h?.hadiths?.[0]?.arabicText || '',
+              source: `${HadithAPI.collections[selectedCollection]?.name || selectedCollection} ${h?.hadiths?.[0]?.hadithNumber || ''}`,
+              grades: h?.hadiths?.[0]?.grades || [],
+              isApi: true,
+            })).filter(h => h.text && h.text !== 'Hadith text not available');
+            setApiHadiths(prev => reset ? formatted : [...prev, ...formatted]);
+            HadithAPI.cacheHadiths(`${selectedCollection}_${apiPage}`, formatted);
+          }
+        } catch (err) {
+          console.error('Failed to load hadiths:', err);
+        }
+        setLoadingApi(false);
+      };
+
+      // Load on collection change
+      useEffect(() => {
+        if (activeTab === 'explore') {
+          setApiHadiths([]);
+          setApiPage(1);
+          loadApiHadiths(true);
+        }
+      }, [selectedCollection, activeTab]);
 
       if (selected) {
         return (
@@ -3472,55 +3616,180 @@
           <div className="p-5 pt-8 max-w-lg mx-auto safe-top">
             <BackButton onClick={() => updateState({ view: 'home' })} label="Home" />
 
-            <div className="text-center mb-8 animate-fade-in">
+            <div className="text-center mb-6 animate-fade-in">
               <h1 className="text-3xl font-bold gradient-text mb-2">Hadith Collection</h1>
               <p className="font-ruqaa text-2xl text-pink-400">مجموعة الأحاديث</p>
-              <p className="text-sm text-pink-500 mt-2">Authentic teachings with context</p>
             </div>
 
-            {/* Filter Pills */}
-            <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-4 mb-6 animate-fade-in-up">
-              {topics.map((topic) => (
-                <button
-                  key={topic}
-                  onClick={() => { haptic.light(); setFilter(topic); }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                    filter === topic
-                      ? 'bg-pink-500 text-white shadow-lg shadow-pink-200'
-                      : 'bg-white/70 text-pink-600'
-                  }`}
-                >
-                  {topic.charAt(0).toUpperCase() + topic.slice(1)}
-                </button>
-              ))}
+            {/* Tabs: Curated vs Explore API */}
+            <div className="flex gap-2 mb-6 p-1 bg-pink-100/50 rounded-2xl">
+              <button
+                onClick={() => { haptic.light(); setActiveTab('curated'); }}
+                className={`flex-1 py-3 rounded-xl font-medium transition-all ${
+                  activeTab === 'curated'
+                    ? 'bg-white text-pink-600 shadow-md'
+                    : 'text-pink-400'
+                }`}
+              >
+                Curated
+              </button>
+              <button
+                onClick={() => { haptic.light(); setActiveTab('explore'); }}
+                className={`flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                  activeTab === 'explore'
+                    ? 'bg-white text-pink-600 shadow-md'
+                    : 'text-pink-400'
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+                Explore 40K+
+              </button>
             </div>
 
-            {/* Hadith Cards */}
-            <div className="space-y-4">
-              {filtered.map((hadith, i) => (
-                <button
-                  key={hadith.id}
-                  onClick={() => { haptic.light(); setSelected(hadith); }}
-                  className="glass-card p-5 rounded-2xl w-full text-left active:scale-[0.98] transition-transform animate-fade-in-up"
-                  style={{ animationDelay: `${i * 0.1}s`, animationFillMode: 'both' }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center text-pink-600">
-                      <Icon name={hadith.icon} className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-pink-800 leading-relaxed mb-2 line-clamp-2">
-                        "{hadith.text}"
-                      </p>
-                      <p className="text-xs text-pink-500">{hadith.source}</p>
-                    </div>
-                    <svg className="w-5 h-5 text-pink-300 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+            {activeTab === 'curated' ? (
+              <>
+                {/* Filter Pills */}
+                <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-4 mb-4 animate-fade-in-up">
+                  {topics.map((topic) => (
+                    <button
+                      key={topic}
+                      onClick={() => { haptic.light(); setFilter(topic); }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                        filter === topic
+                          ? 'bg-pink-500 text-white shadow-lg shadow-pink-200'
+                          : 'bg-white/70 text-pink-600'
+                      }`}
+                    >
+                      {topic.charAt(0).toUpperCase() + topic.slice(1)}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Curated Hadith Cards */}
+                <div className="space-y-4">
+                  {filtered.map((hadith, i) => (
+                    <button
+                      key={hadith.id}
+                      onClick={() => { haptic.light(); setSelected(hadith); }}
+                      className="glass-card p-5 rounded-2xl w-full text-left active:scale-[0.98] transition-transform animate-fade-in-up"
+                      style={{ animationDelay: `${i * 0.1}s`, animationFillMode: 'both' }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center text-pink-600">
+                          <Icon name={hadith.icon || 'book'} className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-pink-800 leading-relaxed mb-2 line-clamp-2">
+                            "{hadith.text}"
+                          </p>
+                          <p className="text-xs text-pink-500">{hadith.source}</p>
+                        </div>
+                        <svg className="w-5 h-5 text-pink-300 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Collection Selector */}
+                <div className="mb-4">
+                  <p className="text-xs text-pink-500 mb-2 font-medium">Select Collection</p>
+                  <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+                    {Object.entries(HadithAPI.collections).map(([key, col]) => (
+                      <button
+                        key={key}
+                        onClick={() => { haptic.light(); setSelectedCollection(key); }}
+                        className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                          selectedCollection === key
+                            ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-200'
+                            : 'bg-white/70 text-pink-600 border border-pink-200'
+                        }`}
+                      >
+                        {col.name}
+                      </button>
+                    ))}
                   </div>
-                </button>
-              ))}
-            </div>
+                </div>
+
+                {/* Stats */}
+                <div className="glass-card p-4 rounded-2xl mb-4 flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-pink-500">Total Hadiths Available</p>
+                    <p className="text-2xl font-bold text-pink-600">
+                      {HadithAPI.collections[selectedCollection]?.total.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center">
+                    <Icon name="book" className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+
+                {/* API Hadith Cards */}
+                <div className="space-y-4">
+                  {loadingApi && apiHadiths.length === 0 ? (
+                    <div className="text-center py-12">
+                      <div className="w-12 h-12 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-pink-500">Loading hadiths...</p>
+                    </div>
+                  ) : (
+                    <>
+                      {apiHadiths.map((hadith, i) => (
+                        <button
+                          key={hadith.id}
+                          onClick={() => { haptic.light(); setSelected(hadith); }}
+                          className="glass-card p-5 rounded-2xl w-full text-left active:scale-[0.98] transition-transform animate-fade-in-up"
+                          style={{ animationDelay: `${i * 0.05}s`, animationFillMode: 'both' }}
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center text-emerald-600">
+                              <Icon name="book" className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1">
+                              {hadith.arabic && (
+                                <p className="text-right font-arabic text-pink-700 mb-2 line-clamp-1 text-sm">{hadith.arabic}</p>
+                              )}
+                              <p className="text-pink-800 leading-relaxed mb-2 line-clamp-3">
+                                "{hadith.text}"
+                              </p>
+                              <p className="text-xs text-pink-500">{hadith.source}</p>
+                            </div>
+                            <svg className="w-5 h-5 text-pink-300 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </button>
+                      ))}
+
+                      {/* Load More Button */}
+                      <button
+                        onClick={() => { haptic.medium(); setApiPage(p => p + 1); loadApiHadiths(); }}
+                        disabled={loadingApi}
+                        className="w-full py-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold shadow-lg shadow-pink-300/50 active:scale-[0.98] transition-transform disabled:opacity-50 flex items-center justify-center gap-2"
+                      >
+                        {loadingApi ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Loading...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Load More Hadiths
+                          </>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </PageWrapper>
       );
