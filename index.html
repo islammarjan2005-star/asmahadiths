@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#be185d">
+  <meta name="theme-color" content="#ec4899">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Asma">
+  <meta name="description" content="Your peaceful Islamic companion - daily verses, duas, dhikr, prayer times and more">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ec4899' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>🌙</text></svg>">
   <title>Asma أسماء - Your Islamic Companion</title>
 
   <!-- React & Babel -->
@@ -1254,6 +1259,124 @@
     .warm-button:active {
       transform: translateY(0) scale(0.98);
     }
+
+    /* ============================================
+       SPLASH SCREEN ANIMATIONS
+       ============================================ */
+
+    @keyframes splash-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes splash-scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes splash-bismillah {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes splash-glow {
+      0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 40px rgba(236, 72, 153, 0.8));
+      }
+    }
+
+    @keyframes splash-exit {
+      to {
+        opacity: 0;
+        transform: scale(1.1);
+        filter: blur(10px);
+      }
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .splash-bismillah {
+      animation: splash-bismillah 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                 splash-glow 2s ease-in-out infinite 1.2s;
+    }
+
+    .splash-exit {
+      animation: splash-exit 0.6s ease-in-out forwards;
+    }
+
+    /* ============================================
+       ONBOARDING SWIPE & PROGRESS
+       ============================================ */
+
+    .onboarding-container {
+      touch-action: pan-y;
+      overflow: hidden;
+    }
+
+    .onboarding-slide {
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.4s ease;
+    }
+
+    .onboarding-slide.swiping {
+      transition: none;
+    }
+
+    /* Progress dots */
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(236, 72, 153, 0.3);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .progress-dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #f472b6, #ec4899);
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+    }
+
+    .progress-dot.completed {
+      background: #ec4899;
+    }
+
+    /* Slide indicators */
+    @keyframes dot-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .progress-dot.active {
+      animation: dot-pulse 1.5s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="gradient-bg">
@@ -1693,6 +1816,114 @@
       // Check if currently speaking
       isSpeaking() {
         return this.speaking;
+      }
+    };
+
+    // ============================================
+    // SOUND EFFECTS SERVICE (Web Audio API)
+    // Subtle, premium audio feedback
+    // ============================================
+
+    const SoundEffects = {
+      audioContext: null,
+
+      // Initialize audio context (must be called after user interaction)
+      init() {
+        if (!this.audioContext) {
+          this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        return this.audioContext;
+      },
+
+      // Play a soft chime/bell sound
+      chime(frequency = 800, duration = 0.3) {
+        try {
+          const ctx = this.init();
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(ctx.destination);
+
+          oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+          oscillator.type = 'sine';
+
+          // Soft envelope
+          gainNode.gain.setValueAtTime(0, ctx.currentTime);
+          gainNode.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+
+          oscillator.start(ctx.currentTime);
+          oscillator.stop(ctx.currentTime + duration);
+        } catch (e) {
+          console.log('Sound not available');
+        }
+      },
+
+      // Soft whoosh for transitions
+      whoosh() {
+        try {
+          const ctx = this.init();
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+          const filter = ctx.createBiquadFilter();
+
+          oscillator.connect(filter);
+          filter.connect(gainNode);
+          gainNode.connect(ctx.destination);
+
+          oscillator.type = 'sawtooth';
+          oscillator.frequency.setValueAtTime(150, ctx.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.2);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1000, ctx.currentTime);
+          filter.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.2);
+
+          gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+
+          oscillator.start(ctx.currentTime);
+          oscillator.stop(ctx.currentTime + 0.25);
+        } catch (e) {
+          console.log('Sound not available');
+        }
+      },
+
+      // Success/completion sound
+      success() {
+        this.chime(523, 0.15); // C5
+        setTimeout(() => this.chime(659, 0.15), 100); // E5
+        setTimeout(() => this.chime(784, 0.3), 200); // G5
+      },
+
+      // Soft tap sound
+      tap() {
+        this.chime(600, 0.08);
+      },
+
+      // Slide/swipe sound
+      slide() {
+        try {
+          const ctx = this.init();
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(ctx.destination);
+
+          oscillator.type = 'sine';
+          oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+
+          gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+
+          oscillator.start(ctx.currentTime);
+          oscillator.stop(ctx.currentTime + 0.12);
+        } catch (e) {
+          console.log('Sound not available');
+        }
       }
     };
 
@@ -3792,6 +4023,95 @@
     };
 
     // ============================================
+    // SPLASH SCREEN - FIRST IMPRESSION
+    // ============================================
+
+    const SplashScreen = ({ onComplete }) => {
+      const [phase, setPhase] = useState('enter'); // enter, display, exit
+
+      useEffect(() => {
+        // Display phase after entrance animation
+        const displayTimer = setTimeout(() => setPhase('display'), 1200);
+
+        // Exit phase
+        const exitTimer = setTimeout(() => {
+          setPhase('exit');
+          SoundEffects.whoosh();
+        }, 2800);
+
+        // Complete
+        const completeTimer = setTimeout(() => {
+          onComplete();
+        }, 3400);
+
+        return () => {
+          clearTimeout(displayTimer);
+          clearTimeout(exitTimer);
+          clearTimeout(completeTimer);
+        };
+      }, [onComplete]);
+
+      return (
+        <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center warm-gradient overflow-hidden ${phase === 'exit' ? 'splash-exit' : ''}`}>
+          {/* Animated background orbs */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-pink-300/40 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-rose-300/30 rounded-full blur-3xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-200/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          </div>
+
+          {/* Ripple effect */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-32 h-32 rounded-full bg-pink-400/20" style={{animation: 'ripple 2s ease-out infinite'}}></div>
+            <div className="absolute w-32 h-32 rounded-full bg-rose-400/20" style={{animation: 'ripple 2s ease-out infinite 0.5s'}}></div>
+            <div className="absolute w-32 h-32 rounded-full bg-pink-300/20" style={{animation: 'ripple 2s ease-out infinite 1s'}}></div>
+          </div>
+
+          {/* Main content */}
+          <div className="relative z-10 text-center px-8">
+            {/* Decorative crescent */}
+            <div className="mb-8 opacity-0" style={{animation: 'splash-scale-in 0.8s ease-out 0.3s forwards'}}>
+              <svg className="w-20 h-20 mx-auto text-pink-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+              </svg>
+            </div>
+
+            {/* Bismillah */}
+            <h1 className="font-arabic text-4xl md:text-5xl text-pink-800 mb-4 splash-bismillah">
+              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+            </h1>
+
+            {/* App name */}
+            <p className="text-pink-600 text-lg font-medium opacity-0" style={{animation: 'splash-fade-in 0.6s ease-out 1.5s forwards'}}>
+              Asma
+            </p>
+
+            {/* Subtitle */}
+            <p className="text-pink-400 text-sm mt-2 opacity-0" style={{animation: 'splash-fade-in 0.6s ease-out 1.8s forwards'}}>
+              Your peaceful companion
+            </p>
+          </div>
+
+          {/* Loading indicator */}
+          <div className="absolute bottom-20 left-1/2 -translate-x-1/2">
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map(i => (
+                <div
+                  key={i}
+                  className="w-2 h-2 rounded-full bg-pink-400"
+                  style={{
+                    animation: 'pulse 1s ease-in-out infinite',
+                    animationDelay: `${i * 0.15}s`
+                  }}
+                ></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ============================================
     // ONBOARDING - INCREDIBLE EXPERIENCE
     // ============================================
 
@@ -3983,6 +4303,13 @@
       const [name, setName] = useState('');
       const [showConfetti, setShowConfetti] = useState(false);
 
+      // Swipe gesture state
+      const [touchStart, setTouchStart] = useState(null);
+      const [touchEnd, setTouchEnd] = useState(null);
+      const [swiping, setSwiping] = useState(false);
+      const [swipeOffset, setSwipeOffset] = useState(0);
+      const minSwipeDistance = 50;
+
       // Warm, inviting onboarding steps
       const steps = [
         {
@@ -4034,8 +4361,57 @@
         },
       ];
 
+      // Swipe handlers
+      const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+        setSwiping(true);
+      };
+
+      const onTouchMove = (e) => {
+        if (!touchStart) return;
+        const currentTouch = e.targetTouches[0].clientX;
+        setTouchEnd(currentTouch);
+        const diff = currentTouch - touchStart;
+        setSwipeOffset(Math.max(-100, Math.min(100, diff * 0.3)));
+      };
+
+      const onTouchEnd = () => {
+        setSwiping(false);
+        setSwipeOffset(0);
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe && step < steps.length - 1) {
+          goNext();
+        } else if (isRightSwipe && step > 0) {
+          goPrev();
+        }
+      };
+
+      const goNext = () => {
+        haptic.medium();
+        SoundEffects.slide();
+        if (step < steps.length - 1) {
+          setStep(s => s + 1);
+        } else {
+          handleComplete();
+        }
+      };
+
+      const goPrev = () => {
+        haptic.light();
+        SoundEffects.slide();
+        if (step > 0) {
+          setStep(s => s - 1);
+        }
+      };
+
       const handleComplete = () => {
         haptic.success();
+        SoundEffects.success();
         setShowConfetti(true);
         setTimeout(() => {
           updateState({
@@ -4069,7 +4445,12 @@
       );
 
       return (
-        <div className="min-h-screen flex flex-col justify-center p-6 safe-top safe-bottom relative overflow-hidden warm-gradient">
+        <div
+          className="min-h-screen flex flex-col justify-center p-6 safe-top safe-bottom relative overflow-hidden warm-gradient onboarding-container"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {showConfetti && <Confetti />}
 
           {/* Warm floating elements */}
@@ -4109,32 +4490,29 @@
           </div>
 
           <div className="max-w-sm mx-auto w-full relative z-10">
-            {/* Progress indicators */}
-            <div className="flex gap-3 mb-8 justify-center">
+            {/* Premium Progress Dots */}
+            <div className="flex gap-2 mb-6 justify-center items-center">
               {steps.map((_, i) => (
                 <div
                   key={i}
-                  className={`transition-all duration-500 ease-out ${
-                    i === step
-                      ? 'w-8 h-8 transform scale-110'
-                      : i < step
-                        ? 'w-6 h-6 opacity-70'
-                        : 'w-6 h-6 opacity-30'
-                  }`}
-                >
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 21C12 21 4 14 4 8.5C4 5.5 6.5 3 9 3C10.5 3 12 4 12 4C12 4 13.5 3 15 3C17.5 3 20 5.5 20 8.5C20 14 12 21 12 21Z"
-                      fill={i <= step ? '#f472b6' : '#fce7f3'}
-                      stroke={i <= step ? '#ec4899' : '#fbcfe8'}
-                      strokeWidth="1.5"/>
-                    {i <= step && <circle cx="9" cy="8" r="2" fill="white" opacity="0.4"/>}
-                  </svg>
-                </div>
+                  className={`progress-dot ${i === step ? 'active' : ''} ${i < step ? 'completed' : ''}`}
+                />
               ))}
             </div>
 
-            {/* Main content */}
-            <div key={step} className="text-center animate-warm-embrace">
+            {/* Swipe hint */}
+            {step === 0 && (
+              <p className="text-center text-pink-400/60 text-xs mb-4 animate-pulse">
+                ← Swipe to navigate →
+              </p>
+            )}
+
+            {/* Main content with swipe offset */}
+            <div
+              key={step}
+              className={`text-center onboarding-slide ${swiping ? 'swiping' : ''}`}
+              style={{ transform: `translateX(${swipeOffset}px)` }}
+            >
 
               {/* SVG Icon with glow */}
               <div className="relative mb-6">
@@ -4230,21 +4608,14 @@
             <div className="flex gap-4 mt-8">
               {step > 0 && (
                 <button
-                  onClick={() => { haptic.light(); setStep(s => s - 1); }}
+                  onClick={goPrev}
                   className="flex-1 py-4 rounded-2xl bg-white/80 backdrop-blur-sm text-pink-500 font-semibold active:scale-95 transition-all border border-pink-200"
                 >
                   Back
                 </button>
               )}
               <button
-                onClick={() => {
-                  haptic.medium();
-                  if (step < steps.length - 1) {
-                    setStep(s => s + 1);
-                  } else {
-                    handleComplete();
-                  }
-                }}
+                onClick={goNext}
                 className="flex-1 py-4 rounded-2xl font-semibold text-white warm-button shadow-xl shadow-pink-400/30"
               >
                 {step === 0 && <span className="flex items-center justify-center gap-2">Let's begin <svg className="w-5 h-5 inline" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 14 4 8.5C4 5.5 6.5 3 9 3C10.5 3 12 4 12 4C12 4 13.5 3 15 3C17.5 3 20 5.5 20 8.5C20 14 12 21 12 21Z" fill="white" opacity="0.9"/><path d="M9 21C9 21 3 16 3 11C3 8.5 5 6.5 7 6.5" stroke="white" strokeWidth="1.5" opacity="0.5" fill="none" strokeLinecap="round"/></svg></span>}
@@ -4258,7 +4629,7 @@
             {/* Skip option for name */}
             {step === 1 && (
               <button
-                onClick={() => { haptic.light(); setStep(s => s + 1); }}
+                onClick={goNext}
                 className="w-full mt-4 text-pink-400 text-sm font-medium"
               >
                 Skip for now
@@ -6547,6 +6918,12 @@
 
     const App = () => {
       const { state } = useApp();
+      const [showSplash, setShowSplash] = useState(true);
+
+      // Show splash screen on first load only
+      if (showSplash && !state.onboardingComplete) {
+        return <SplashScreen onComplete={() => setShowSplash(false)} />;
+      }
 
       if (!state.onboardingComplete) {
         return <Onboarding />;
