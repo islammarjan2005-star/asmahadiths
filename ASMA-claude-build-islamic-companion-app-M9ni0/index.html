@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Restored to original state: January 14, 2026 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#e11d48">
+  <title>Asma - Your Islamic Companion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(180deg, #fff5f7 0%, #fdf2f4 50%, #faf0f2 100%);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 32px rgba(225, 29, 72, 0.08);
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-in { animation: slideUp 0.4s ease-out; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect, createContext, useContext, useMemo } = React;
+    
+    // ============================================
+    // DATA - Complete Database
+    // ============================================
+    
+    const hadithData = [
+      {
+        id: 1, topic: 'marriage',
+        text: 'A woman should not be married until she is consulted, and a virgin should not be married until her permission is sought.',
+        source: 'Sahih al-Bukhari 5136',
+        doesMean: 'You have the absolute right to accept or reject any marriage proposal.',
+      },
+      {
+        id: 2, topic: 'worship',
+        text: 'This is something that Allah has ordained for the daughters of Adam.',
+        source: 'Sahih al-Bukhari 294',
+        doesMean: 'Menstruation is natural, not shameful. The exemption from prayer is a mercy.',
+      },
+      {
+        id: 3, topic: 'self-worth',
+        text: 'Allah does not look at your appearance or wealth, but He looks at your hearts and actions.',
+        source: 'Sahih Muslim 2564',
+        doesMean: 'Your value is defined by your character and sincerity—not appearance or status.',
+      },
+      {
+        id: 4, topic: 'balance',
+        text: 'Your own self has a right over you.',
+        source: 'Sahih al-Bukhari 1975',
+        doesMean: 'Rest, self-care, and balance are part of faith. Taking care of yourself is worship.',
+      },
+      {
+        id: 5, topic: 'divorce',
+        text: 'The most disliked of permissible things to Allah is divorce.',
+        source: 'Sunan Abu Dawud 2178',
+        doesMean: 'Divorce is valid and permissible. Islam does not trap you in harmful marriages.',
+      },
+    ];
+    
+    const duasData = [
+      {
+        id: 1, category: 'morning',
+        arabic: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ',
+        translation: 'We have reached the morning and the kingdom belongs to Allah.',
+        source: 'Abu Dawud',
+      },
+      {
+        id: 2, category: 'anxiety',
+        arabic: 'لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',
+        translation: 'There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.',
+        source: 'Quran 21:87',
+      },
+      {
+        id: 3, category: 'guidance',
+        arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي',
+        translation: 'My Lord, expand for me my chest and ease for me my task.',
+        source: 'Quran 20:25-26',
+      },
+    ];
+    
+    const sahabiyatData = [
+      {
+        id: 1,
+        name: 'Khadijah bint Khuwaylid',
+        title: 'Mother of the Believers',
+        summary: 'The first Muslim, a successful businesswoman, and the Prophet\'s ﷺ greatest support.',
+        story: 'Khadijah was a wealthy merchant who proposed marriage to Muhammad ﷺ. She was 40; he was 25. When the first revelation came, it was Khadijah who calmed him and believed in him first.',
+      },
+      {
+        id: 2,
+        name: 'Aisha bint Abi Bakr',
+        title: 'Scholar of Islam',
+        summary: 'One of the greatest scholars, preserving prophetic knowledge.',
+        story: 'Aisha narrated over 2,200 hadith. She was consulted by senior scholars and taught both men and women.',
+      },
+      {
+        id: 3,
+        name: 'Nusaybah bint Ka\'b',
+        title: 'The Warrior',
+        summary: 'A woman who fought to protect the Prophet ﷺ himself.',
+        story: 'At Uhud, she fought directly in front of the Prophet ﷺ, shielding him with her own body. She sustained twelve wounds.',
+      },
+    ];
+    
+    // ============================================
+    // STATE MANAGEMENT
+    // ============================================
+    
+    const AppContext = createContext();
+    
+    const AppProvider = ({ children }) => {
+      const [state, setState] = useState({
+        view: 'home',
+        savedHadith: [],
+        dhikrCount: 0,
+        darkMode: false,
+      });
+      
+      const updateState = (updates) => {
+        setState(prev => ({ ...prev, ...updates }));
+      };
+      
+      return (
+        <AppContext.Provider value={{ state, updateState }}>
+          {children}
+        </AppContext.Provider>
+      );
+    };
+    
+    const useApp = () => useContext(AppContext);
+    
+    // ============================================
+    // COMPONENTS
+    // ============================================
+    
+    // Home Screen
+    const HomeScreen = () => {
+      const { updateState } = useApp();
+      
+      return (
+        <div className="min-h-screen pb-24 p-5 pt-8 max-w-lg mx-auto animate-in">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-5xl font-bold mb-2" style={{ color: '#881337' }}>Asma</h1>
+            <p className="text-2xl mb-2" style={{ color: '#fb7193' }}>أسماء</p>
+            <p className="text-sm" style={{ color: '#be123c' }}>Your safe space</p>
+          </div>
+          
+          {/* Quick Actions */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <button 
+              onClick={() => updateState({ view: 'hadith' })}
+              className="glass-card p-6 rounded-2xl text-left"
+              style={{ border: '2px solid rgba(225, 29, 72, 0.1)' }}
+            >
+              <div className="text-3xl mb-3">📖</div>
+              <div className="font-semibold" style={{ color: '#881337' }}>Hadith</div>
+              <div className="text-xs" style={{ color: '#fb7193' }}>Verified teachings</div>
+            </button>
+            
+            <button 
+              onClick={() => updateState({ view: 'duas' })}
+              className="glass-card p-6 rounded-2xl text-left"
+              style={{ border: '2px solid rgba(225, 29, 72, 0.1)' }}
+            >
+              <div className="text-3xl mb-3">🤲</div>
+              <div className="font-semibold" style={{ color: '#881337' }}>Duas</div>
+              <div className="text-xs" style={{ color: '#fb7193' }}>Daily prayers</div>
+            </button>
+            
+            <button 
+              onClick={() => updateState({ view: 'prayer' })}
+              className="glass-card p-6 rounded-2xl text-left"
+              style={{ border: '2px solid rgba(225, 29, 72, 0.1)' }}
+            >
+              <div className="text-3xl mb-3">🕌</div>
+              <div className="font-semibold" style={{ color: '#881337' }}>Prayer Times</div>
+              <div className="text-xs" style={{ color: '#fb7193' }}>Today's schedule</div>
+            </button>
+            
+            <button 
+              onClick={() => updateState({ view: 'sahabiyat' })}
+              className="glass-card p-6 rounded-2xl text-left"
+              style={{ border: '2px solid rgba(225, 29, 72, 0.1)' }}
+            >
+              <div className="text-3xl mb-3">👑</div>
+              <div className="font-semibold" style={{ color: '#881337' }}>Sahabiyat</div>
+              <div className="text-xs" style={{ color: '#fb7193' }}>Women of faith</div>
+            </button>
+          </div>
+          
+          {/* Daily Hadith */}
+          <div className="glass-card p-6 rounded-2xl mb-6">
+            <div className="text-xs font-semibold mb-3" style={{ color: '#fb7193' }}>HADITH OF THE DAY</div>
+            <p className="mb-4 leading-relaxed" style={{ color: '#881337' }}>
+              "{hadithData[0].text}"
+            </p>
+            <p className="text-xs mb-3" style={{ color: '#fb7193' }}>{hadithData[0].source}</p>
+            <p className="text-sm italic" style={{ color: '#be123c' }}>
+              {hadithData[0].doesMean}
+            </p>
+          </div>
+        </div>
+      );
+    };
+    
+    // Hadith View
+    const HadithView = () => {
+      const { updateState } = useApp();
+      const [selected, setSelected] = useState(null);
+      
+      if (selected) {
+        return (
+          <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+            <button 
+              onClick={() => setSelected(null)}
+              className="mb-6 text-sm font-medium"
+              style={{ color: '#e11d48' }}
+            >
+              ← Back
+            </button>
+            
+            <div className="glass-card p-6 rounded-2xl">
+              <p className="mb-6 text-lg leading-relaxed" style={{ color: '#881337' }}>
+                "{selected.text}"
+              </p>
+              <p className="text-sm mb-4" style={{ color: '#fb7193' }}>{selected.source}</p>
+              <div className="pt-4 border-t" style={{ borderColor: 'rgba(225, 29, 72, 0.1)' }}>
+                <p className="font-semibold mb-2" style={{ color: '#881337' }}>What this means:</p>
+                <p className="leading-relaxed" style={{ color: '#be123c' }}>{selected.doesMean}</p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      
+      return (
+        <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+          <button 
+            onClick={() => updateState({ view: 'home' })}
+            className="mb-6 text-sm font-medium"
+            style={{ color: '#e11d48' }}
+          >
+            ← Home
+          </button>
+          
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#881337' }}>Hadith Collection</h2>
+          
+          <div className="space-y-3">
+            {hadithData.map(hadith => (
+              <button
+                key={hadith.id}
+                onClick={() => setSelected(hadith)}
+                className="glass-card p-5 rounded-2xl w-full text-left"
+              >
+                <p className="mb-2 line-clamp-2" style={{ color: '#881337' }}>
+                  "{hadith.text}"
+                </p>
+                <p className="text-xs" style={{ color: '#fb7193' }}>{hadith.source}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    // Duas View
+    const DuasView = () => {
+      const { updateState } = useApp();
+      
+      return (
+        <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+          <button 
+            onClick={() => updateState({ view: 'home' })}
+            className="mb-6 text-sm font-medium"
+            style={{ color: '#e11d48' }}
+          >
+            ← Home
+          </button>
+          
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#881337' }}>Daily Duas</h2>
+          
+          <div className="space-y-4">
+            {duasData.map(dua => (
+              <div key={dua.id} className="glass-card p-6 rounded-2xl">
+                <p className="text-2xl mb-4 text-right font-serif" style={{ color: '#881337' }}>
+                  {dua.arabic}
+                </p>
+                <p className="mb-3 italic" style={{ color: '#be123c' }}>
+                  {dua.translation}
+                </p>
+                <p className="text-xs" style={{ color: '#fb7193' }}>{dua.source}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    // Prayer Times
+    const PrayerView = () => {
+      const { updateState } = useApp();
+      const [times, setTimes] = useState(null);
+      const [loading, setLoading] = useState(true);
+      
+      useEffect(() => {
+        // Get user location and fetch prayer times
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude } = pos.coords;
+              fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`)
+                .then(res => res.json())
+                .then(data => {
+                  setTimes(data.data.timings);
+                  setLoading(false);
+                })
+                .catch(() => setLoading(false));
+            },
+            () => setLoading(false)
+          );
+        }
+      }, []);
+      
+      return (
+        <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+          <button 
+            onClick={() => updateState({ view: 'home' })}
+            className="mb-6 text-sm font-medium"
+            style={{ color: '#e11d48' }}
+          >
+            ← Home
+          </button>
+          
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#881337' }}>Prayer Times</h2>
+          
+          {loading ? (
+            <div className="text-center py-12" style={{ color: '#fb7193' }}>Loading...</div>
+          ) : times ? (
+            <div className="space-y-3">
+              {['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(prayer => (
+                <div key={prayer} className="glass-card p-5 rounded-2xl flex justify-between items-center">
+                  <span className="font-semibold" style={{ color: '#881337' }}>{prayer}</span>
+                  <span className="text-xl" style={{ color: '#e11d48' }}>{times[prayer]}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12" style={{ color: '#fb7193' }}>
+              Unable to load prayer times. Please enable location access.
+            </div>
+          )}
+        </div>
+      );
+    };
+    
+    // Sahabiyat View
+    const SahabiyatView = () => {
+      const { updateState } = useApp();
+      const [selected, setSelected] = useState(null);
+      
+      if (selected) {
+        return (
+          <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+            <button 
+              onClick={() => setSelected(null)}
+              className="mb-6 text-sm font-medium"
+              style={{ color: '#e11d48' }}
+            >
+              ← Back
+            </button>
+            
+            <div className="glass-card p-6 rounded-2xl">
+              <h3 className="text-2xl font-bold mb-2" style={{ color: '#881337' }}>
+                {selected.name}
+              </h3>
+              <p className="text-sm mb-6" style={{ color: '#fb7193' }}>{selected.title}</p>
+              <p className="leading-relaxed mb-4" style={{ color: '#be123c' }}>
+                {selected.summary}
+              </p>
+              <p className="leading-relaxed" style={{ color: '#881337' }}>
+                {selected.story}
+              </p>
+            </div>
+          </div>
+        );
+      }
+      
+      return (
+        <div className="min-h-screen p-5 pt-12 max-w-lg mx-auto animate-in">
+          <button 
+            onClick={() => updateState({ view: 'home' })}
+            className="mb-6 text-sm font-medium"
+            style={{ color: '#e11d48' }}
+          >
+            ← Home
+          </button>
+          
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#881337' }}>
+            Women of Faith
+          </h2>
+          
+          <div className="space-y-4">
+            {sahabiyatData.map(woman => (
+              <button
+                key={woman.id}
+                onClick={() => setSelected(woman)}
+                className="glass-card p-6 rounded-2xl w-full text-left"
+              >
+                <h3 className="font-bold mb-1 text-lg" style={{ color: '#881337' }}>
+                  {woman.name}
+                </h3>
+                <p className="text-sm mb-3" style={{ color: '#fb7193' }}>{woman.title}</p>
+                <p className="text-sm line-clamp-2" style={{ color: '#be123c' }}>
+                  {woman.summary}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    // ============================================
+    // MAIN APP
+    // ============================================
+    
+    const App = () => {
+      const { state } = useApp();
+      
+      const renderView = () => {
+        switch(state.view) {
+          case 'hadith': return <HadithView />;
+          case 'duas': return <DuasView />;
+          case 'prayer': return <PrayerView />;
+          case 'sahabiyat': return <SahabiyatView />;
+          default: return <HomeScreen />;
+        }
+      };
+      
+      return renderView();
+    };
+    
+    // ============================================
+    // RENDER
+    // ============================================
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <AppProvider>
+        <App />
+      </AppProvider>
+    );
+  </script>
+</body>
+</html>
