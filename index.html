@@ -31,6 +31,19 @@
 
   <style>
     :root {
+      /* Default pink theme - will be overridden by JS */
+      --theme-50: #fdf2f8;
+      --theme-100: #fce7f3;
+      --theme-200: #fbcfe8;
+      --theme-300: #f9a8d4;
+      --theme-400: #f472b6;
+      --theme-500: #ec4899;
+      --theme-600: #db2777;
+      --theme-700: #be185d;
+      --theme-800: #9d174d;
+      --theme-900: #831843;
+
+      /* Static pink for backwards compatibility */
       --pink-50: #fdf2f8;
       --pink-100: #fce7f3;
       --pink-200: #fbcfe8;
@@ -43,6 +56,10 @@
       --pink-900: #831843;
       --gold: #d4af37;
       --gold-light: #f4e4ba;
+
+      /* Font settings */
+      --base-font-size: 16px;
+      --arabic-font: 'Scheherazade New', serif;
     }
 
     * {
@@ -55,20 +72,82 @@
       padding: 0;
       overscroll-behavior: none;
       -webkit-overflow-scrolling: touch;
+      font-size: var(--base-font-size);
     }
 
     body {
       font-family: 'Poppins', system-ui, sans-serif;
-      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #fdf2f8 75%, #fff1f2 100%);
+      background: linear-gradient(135deg, var(--theme-50) 0%, var(--theme-100) 25%, var(--theme-200) 50%, var(--theme-50) 75%, var(--theme-50) 100%);
       background-attachment: fixed;
       min-height: 100vh;
       min-height: -webkit-fill-available;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      color: var(--theme-900);
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Islamic Fonts */
-    .font-arabic { font-family: 'Scheherazade New', 'Amiri', serif; }
+    /* Dark Mode */
+    body.dark-mode {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #1a1a2e 100%);
+      color: #f8fafc;
+    }
+
+    body.dark-mode .glass-card {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(71, 85, 105, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark-mode .glass-card-pink {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.8) 100%);
+      border: 1px solid rgba(71, 85, 105, 0.5);
+    }
+
+    body.dark-mode .feature-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.8) 100%);
+      border: 1px solid rgba(71, 85, 105, 0.5);
+    }
+
+    body.dark-mode .bottom-nav {
+      background: rgba(30, 41, 59, 0.95);
+      border-top: 1px solid rgba(71, 85, 105, 0.5);
+    }
+
+    body.dark-mode .gradient-text {
+      background: linear-gradient(135deg, var(--theme-300), var(--theme-400), var(--theme-500));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea {
+      background: rgba(51, 65, 85, 0.8);
+      border-color: rgba(71, 85, 105, 0.5);
+      color: #f8fafc;
+    }
+
+    body.dark-mode .text-pink-50 { color: var(--theme-300) !important; }
+    body.dark-mode .text-pink-100 { color: var(--theme-300) !important; }
+    body.dark-mode .text-pink-200 { color: var(--theme-300) !important; }
+    body.dark-mode .text-pink-300 { color: var(--theme-400) !important; }
+    body.dark-mode .text-pink-400 { color: var(--theme-400) !important; }
+    body.dark-mode .text-pink-500 { color: var(--theme-400) !important; }
+    body.dark-mode .text-pink-600 { color: var(--theme-400) !important; }
+    body.dark-mode .text-pink-700 { color: var(--theme-300) !important; }
+    body.dark-mode .text-pink-800 { color: var(--theme-200) !important; }
+    body.dark-mode .text-pink-900 { color: var(--theme-100) !important; }
+
+    body.dark-mode .bg-pink-50 { background-color: rgba(51, 65, 85, 0.5) !important; }
+    body.dark-mode .bg-pink-100 { background-color: rgba(51, 65, 85, 0.6) !important; }
+    body.dark-mode .bg-pink-200 { background-color: rgba(51, 65, 85, 0.7) !important; }
+
+    body.dark-mode .border-pink-100 { border-color: rgba(71, 85, 105, 0.5) !important; }
+    body.dark-mode .border-pink-200 { border-color: rgba(71, 85, 105, 0.6) !important; }
+
+    /* Islamic Fonts - dynamic */
+    .font-arabic { font-family: var(--arabic-font); }
     .font-ruqaa { font-family: 'Aref Ruqaa', serif; }
     .font-amiri { font-family: 'Amiri', serif; }
     .font-lateef { font-family: 'Lateef', serif; }
@@ -1681,17 +1760,23 @@
     // HAPTIC FEEDBACK UTILITY
     // ============================================
     const haptic = {
+      isEnabled: () => {
+        try {
+          const settings = JSON.parse(localStorage.getItem('asma-settings') || '{}');
+          return settings.hapticFeedback !== false;
+        } catch { return true; }
+      },
       light: () => {
-        if (navigator.vibrate) navigator.vibrate(10);
+        if (haptic.isEnabled() && navigator.vibrate) navigator.vibrate(10);
       },
       medium: () => {
-        if (navigator.vibrate) navigator.vibrate(20);
+        if (haptic.isEnabled() && navigator.vibrate) navigator.vibrate(20);
       },
       heavy: () => {
-        if (navigator.vibrate) navigator.vibrate([30, 10, 30]);
+        if (haptic.isEnabled() && navigator.vibrate) navigator.vibrate([30, 10, 30]);
       },
       success: () => {
-        if (navigator.vibrate) navigator.vibrate([10, 50, 20]);
+        if (haptic.isEnabled() && navigator.vibrate) navigator.vibrate([10, 50, 20]);
       }
     };
 
@@ -3137,6 +3222,44 @@
 
     const AppContext = createContext();
 
+    // Default settings configuration
+    const defaultSettings = {
+      theme: 'pink',
+      fontSize: 'medium',
+      arabicFont: 'Scheherazade',
+      language: 'english',
+      prayerMethod: 'ISNA',
+      madhab: 'Shafi',
+      showTransliteration: true,
+      autoPlayAudio: false,
+      hapticFeedback: true,
+      darkMode: false,
+    };
+
+    // Theme color configurations
+    const themeColors = {
+      pink: {
+        50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8', 300: '#f9a8d4',
+        400: '#f472b6', 500: '#ec4899', 600: '#db2777', 700: '#be185d',
+        800: '#9d174d', 900: '#831843'
+      },
+      purple: {
+        50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe',
+        400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7c3aed',
+        800: '#6b21a8', 900: '#581c87'
+      },
+      teal: {
+        50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
+        400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
+        800: '#115e59', 900: '#134e4a'
+      },
+      gold: {
+        50: '#fefce8', 100: '#fef9c3', 200: '#fef08a', 300: '#fde047',
+        400: '#facc15', 500: '#eab308', 600: '#ca8a04', 700: '#a16207',
+        800: '#854d0e', 900: '#713f12'
+      }
+    };
+
     const AppProvider = ({ children }) => {
       const [state, setState] = useState(() => {
         const saved = localStorage.getItem('asma-app-state');
@@ -3161,16 +3284,69 @@
         return baseState;
       });
 
+      // Settings state with localStorage persistence
+      const [settings, setSettings] = useState(() => {
+        const saved = localStorage.getItem('asma-settings');
+        return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+      });
+
+      // Persist app state
       useEffect(() => {
         localStorage.setItem('asma-app-state', JSON.stringify(state));
       }, [state]);
+
+      // Persist settings and apply them
+      useEffect(() => {
+        localStorage.setItem('asma-settings', JSON.stringify(settings));
+        applySettings(settings);
+      }, [settings]);
+
+      // Apply settings to DOM
+      const applySettings = (s) => {
+        const root = document.documentElement;
+        const colors = themeColors[s.theme] || themeColors.pink;
+
+        // Apply theme colors as CSS variables
+        Object.entries(colors).forEach(([shade, value]) => {
+          root.style.setProperty(`--theme-${shade}`, value);
+        });
+
+        // Apply font size
+        const fontSizes = { small: '14px', medium: '16px', large: '18px' };
+        root.style.setProperty('--base-font-size', fontSizes[s.fontSize] || '16px');
+
+        // Apply Arabic font
+        const arabicFonts = {
+          'Scheherazade': "'Scheherazade New', serif",
+          'Amiri': "'Amiri', serif",
+          'Lateef': "'Lateef', serif",
+          'Noto Naskh': "'Noto Naskh Arabic', serif"
+        };
+        root.style.setProperty('--arabic-font', arabicFonts[s.arabicFont] || "'Scheherazade New', serif");
+
+        // Apply dark mode
+        if (s.darkMode) {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      };
+
+      // Apply settings on initial load
+      useEffect(() => {
+        applySettings(settings);
+      }, []);
 
       const updateState = (updates) => {
         setState(prev => ({ ...prev, ...updates }));
       };
 
+      const updateSettings = (updates) => {
+        setSettings(prev => ({ ...prev, ...updates }));
+      };
+
       const toggleSave = (item) => {
-        haptic.light();
+        if (settings.hapticFeedback) haptic.light();
         setState(prev => {
           const exists = prev.savedItems.find(s => s.id === item.id && s.type === item.type);
           return {
@@ -3187,7 +3363,7 @@
       };
 
       return (
-        <AppContext.Provider value={{ state, updateState, toggleSave, isSaved }}>
+        <AppContext.Provider value={{ state, updateState, toggleSave, isSaved, settings, updateSettings }}>
           {children}
         </AppContext.Provider>
       );
@@ -8057,23 +8233,16 @@
     // ============================================
 
     const SettingsView = () => {
-      const { state, updateState } = useApp();
-      const [settings, setSettings] = useState({
-        theme: 'pink',
-        fontSize: 'medium',
-        arabicFont: 'Scheherazade',
-        language: 'english',
-        prayerMethod: 'ISNA',
-        madhab: 'Shafi',
-        showTransliteration: true,
-        autoPlayAudio: false,
-        hapticFeedback: true,
-        darkMode: false,
-      });
+      const { state, updateState, settings, updateSettings } = useApp();
+      const [showSaved, setShowSaved] = useState(false);
 
       const updateSetting = (key, value) => {
-        haptic.light();
-        setSettings(prev => ({ ...prev, [key]: value }));
+        if (settings.hapticFeedback) haptic.light();
+        updateSettings({ [key]: value });
+
+        // Show saved toast
+        setShowSaved(true);
+        setTimeout(() => setShowSaved(false), 1500);
       };
 
       const settingSections = [
@@ -8118,24 +8287,36 @@
           <div className="p-5 pt-8 max-w-lg mx-auto safe-top pb-28">
             <BackButton onClick={() => updateState({ view: 'home' })} label="Home" />
 
+            {/* Saved Toast */}
+            {showSaved && (
+              <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
+                <div className="px-4 py-2 rounded-full glass-card shadow-lg flex items-center gap-2" style={{ backgroundColor: 'var(--theme-100)', borderColor: 'var(--theme-300)' }}>
+                  <svg className="w-4 h-4" style={{ color: 'var(--theme-600)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm font-medium" style={{ color: 'var(--theme-700)' }}>Saved!</span>
+                </div>
+              </div>
+            )}
+
             <div className="text-center mb-8 animate-fade-in">
               <h1 className="text-3xl font-bold gradient-text mb-2">Settings</h1>
-              <p className="font-ruqaa text-2xl text-pink-400">الإعدادات</p>
+              <p className="font-ruqaa text-2xl" style={{ color: 'var(--theme-400)' }}>الإعدادات</p>
             </div>
 
             {/* Profile Section */}
             <div className="glass-card rounded-2xl p-5 mb-6 animate-fade-in">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center border-2 border-white shadow-lg">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-white shadow-lg" style={{ background: `linear-gradient(to bottom right, var(--theme-200), var(--theme-300))` }}>
                   <span className="text-3xl">👩</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-pink-700 text-lg">Sister</h3>
-                  <p className="text-sm text-pink-500">Welcome back!</p>
+                  <h3 className="font-semibold text-lg" style={{ color: 'var(--theme-700)' }}>{state.userName || 'Sister'}</h3>
+                  <p className="text-sm" style={{ color: 'var(--theme-500)' }}>Settings auto-save</p>
                 </div>
-                <button className="px-4 py-2 rounded-full bg-pink-100 text-pink-600 text-sm font-medium active:scale-95 transition-transform">
-                  Edit
-                </button>
+                <div className="px-3 py-1.5 rounded-full text-xs font-medium" style={{ backgroundColor: 'var(--theme-100)', color: 'var(--theme-600)' }}>
+                  v1.0.0
+                </div>
               </div>
             </div>
 
@@ -8148,7 +8329,7 @@
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">{section.icon}</span>
-                  <h3 className="text-sm font-semibold text-pink-600 uppercase tracking-wide">{section.title}</h3>
+                  <h3 className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--theme-600)' }}>{section.title}</h3>
                 </div>
 
                 <div className="glass-card rounded-2xl overflow-hidden">
@@ -8156,17 +8337,17 @@
                     <div
                       key={setting.key}
                       className={`p-4 flex items-center justify-between ${
-                        idx !== section.settings.length - 1 ? 'border-b border-pink-100' : ''
+                        idx !== section.settings.length - 1 ? 'border-b' : ''
                       }`}
+                      style={{ borderColor: 'var(--theme-100)' }}
                     >
-                      <span className="text-pink-700 text-sm">{setting.label}</span>
+                      <span className="text-sm" style={{ color: 'var(--theme-700)' }}>{setting.label}</span>
 
                       {setting.type === 'toggle' ? (
                         <button
                           onClick={() => updateSetting(setting.key, !settings[setting.key])}
-                          className={`w-12 h-7 rounded-full transition-all relative ${
-                            settings[setting.key] ? 'bg-pink-500' : 'bg-gray-300'
-                          }`}
+                          className="w-12 h-7 rounded-full transition-all relative"
+                          style={{ backgroundColor: settings[setting.key] ? 'var(--theme-500)' : '#d1d5db' }}
                         >
                           <div className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md transition-all ${
                             settings[setting.key] ? 'left-5' : 'left-0.5'
@@ -8176,7 +8357,13 @@
                         <select
                           value={settings[setting.key]}
                           onChange={(e) => updateSetting(setting.key, e.target.value)}
-                          className="px-3 py-1.5 rounded-lg bg-pink-50 text-pink-600 text-sm border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2"
+                          style={{
+                            backgroundColor: 'var(--theme-50)',
+                            color: 'var(--theme-600)',
+                            borderColor: 'var(--theme-200)',
+                            borderWidth: '1px',
+                          }}
                         >
                           {setting.options.map(opt => (
                             <option key={opt} value={opt}>{opt.charAt(0).toUpperCase() + opt.slice(1)}</option>
@@ -8191,42 +8378,60 @@
 
             {/* Additional Options */}
             <div className="space-y-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform">
+              <button
+                onClick={() => {
+                  haptic.light();
+                  // Export data functionality
+                  const data = {
+                    settings: settings,
+                    appState: state,
+                    exportedAt: new Date().toISOString()
+                  };
+                  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'asma-backup.json';
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform"
+              >
                 <div className="flex items-center gap-3">
                   <span className="text-xl">📤</span>
-                  <span className="text-pink-700 text-sm">Export Data</span>
+                  <span className="text-sm" style={{ color: 'var(--theme-700)' }}>Export Data</span>
                 </div>
-                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" style={{ color: 'var(--theme-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
 
-              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform">
+              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform opacity-50 cursor-not-allowed">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">🔄</span>
-                  <span className="text-pink-700 text-sm">Sync with Cloud</span>
+                  <span className="text-sm" style={{ color: 'var(--theme-700)' }}>Sync with Cloud (Coming Soon)</span>
                 </div>
-                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" style={{ color: 'var(--theme-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
 
-              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform">
+              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform opacity-50 cursor-not-allowed">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">❓</span>
-                  <span className="text-pink-700 text-sm">Help & Support</span>
+                  <span className="text-sm" style={{ color: 'var(--theme-700)' }}>Help & Support (Coming Soon)</span>
                 </div>
-                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" style={{ color: 'var(--theme-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
 
-              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform">
+              <button className="w-full glass-card rounded-2xl p-4 flex items-center justify-between active:scale-98 transition-transform opacity-50 cursor-not-allowed">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">📜</span>
-                  <span className="text-pink-700 text-sm">Privacy Policy</span>
+                  <span className="text-sm" style={{ color: 'var(--theme-700)' }}>Privacy Policy (Coming Soon)</span>
                 </div>
-                <svg className="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" style={{ color: 'var(--theme-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -8234,7 +8439,7 @@
               <button
                 onClick={() => {
                   haptic.medium();
-                  if (confirm('Are you sure you want to reset the app?')) {
+                  if (confirm('Are you sure you want to reset the app? This will delete all your saved data and settings.')) {
                     localStorage.clear();
                     window.location.reload();
                   }
@@ -8250,8 +8455,8 @@
 
             {/* Version */}
             <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.5s' }}>
-              <p className="text-xs text-pink-400">Asma v1.0.0</p>
-              <p className="text-xs text-pink-300 mt-1">Made with love for Muslim women</p>
+              <p className="text-xs" style={{ color: 'var(--theme-400)' }}>Asma v1.0.0</p>
+              <p className="text-xs mt-1" style={{ color: 'var(--theme-300)' }}>Made with love for Muslim women</p>
             </div>
           </div>
         </PageWrapper>
