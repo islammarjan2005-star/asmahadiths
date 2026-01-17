@@ -332,6 +332,28 @@
       height: 300px;
     }
 
+    /* Tafsir content styling */
+    .tafsir-content {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .tafsir-content p {
+      margin-bottom: 1rem;
+    }
+    .tafsir-content h1, .tafsir-content h2, .tafsir-content h3, .tafsir-content h4 {
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: #be185d;
+    }
+    .tafsir-content sup {
+      color: #ec4899;
+      font-size: 0.7em;
+    }
+    .tafsir-content a {
+      color: #db2777;
+      text-decoration: underline;
+    }
+
     /* Button styles */
     .btn-primary {
       background: linear-gradient(135deg, var(--pink-500) 0%, var(--pink-600) 100%);
@@ -8592,6 +8614,7 @@
       const [isSearching, setIsSearching] = useState(false);
       const [selectedVerse, setSelectedVerse] = useState(null);
       const [audioState, setAudioState] = useState('stopped');
+      const [playingVerse, setPlayingVerse] = useState(null); // Track which verse is currently playing
       const [currentSurah, setCurrentSurah] = useState(null); // Track current surah being viewed
       const [showSurahBrowser, setShowSurahBrowser] = useState(false);
       // Tafsir state
@@ -8860,28 +8883,64 @@
 
       // Go back to Surah list from viewing a surah
       const closeSurahView = () => {
+        // Stop any playing audio
+        QuranAudio.stop();
+        setAudioState('stopped');
+        setPlayingVerse(null);
+
         setCurrentSurah(null);
         setSearchResults([]);
         setSearchQuery('');
       };
 
-      // Play verse audio
-      const playVerseAudio = async (surah, verse) => {
-        if (audioState === 'playing') {
+      // Play verse audio with auto-play to next verse
+      const playVerseAudio = async (surah, verse, totalVerses = null) => {
+        // If clicking the same verse that's playing, stop it
+        if (audioState === 'playing' && playingVerse && playingVerse.surah === surah && playingVerse.verse === verse) {
           QuranAudio.stop();
           setAudioState('stopped');
+          setPlayingVerse(null);
           return;
         }
 
+        // Stop any currently playing audio
+        QuranAudio.stop();
+
+        setPlayingVerse({ surah, verse });
         setAudioState('loading');
+
         try {
           await QuranAudio.playFromReference(`Quran ${surah}:${verse}`, (state) => {
             setAudioState(state);
+
+            // Auto-play next verse when current one ends
+            if (state === 'stopped' && totalVerses) {
+              const nextVerse = verse + 1;
+              if (nextVerse <= totalVerses) {
+                // Small delay before playing next verse
+                setTimeout(() => {
+                  playVerseAudio(surah, nextVerse, totalVerses);
+                }, 300);
+              } else {
+                // End of surah
+                setPlayingVerse(null);
+              }
+            } else if (state === 'stopped') {
+              setPlayingVerse(null);
+            }
           });
         } catch (error) {
           console.error('Audio error:', error);
           setAudioState('stopped');
+          setPlayingVerse(null);
         }
+      };
+
+      // Stop all audio playback
+      const stopAudio = () => {
+        QuranAudio.stop();
+        setAudioState('stopped');
+        setPlayingVerse(null);
       };
 
       // Load tafsir for a verse
@@ -8999,35 +9058,35 @@
               </div>
             )}
 
-            {/* Tafsir Modal */}
+            {/* Tafsir Modal - Centered */}
             {showTafsir && (
-              <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center animate-fade-in" onClick={() => setShowTafsir(false)}>
-                <div className="bg-white dark:bg-slate-800 w-full max-w-lg rounded-t-3xl max-h-[85vh] overflow-hidden animate-slide-up" onClick={(e) => e.stopPropagation()}>
+              <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowTafsir(false)}>
+                <div className="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
                   {/* Header */}
-                  <div className="sticky top-0 bg-white dark:bg-slate-800 p-4 border-b border-pink-100 dark:border-slate-700">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="sticky top-0 bg-gradient-to-r from-pink-500 to-pink-600 p-4 text-white">
+                    <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-pink-700 dark:text-pink-300">Tafsir</h3>
+                        <h3 className="text-lg font-bold">Tafsir</h3>
                         {tafsirVerse && (
-                          <p className="text-xs text-pink-500 dark:text-pink-400">{tafsirVerse.surahName} {tafsirVerse.verse}</p>
+                          <p className="text-pink-100 text-sm">{tafsirVerse.surahName} - Verse {tafsirVerse.verse}</p>
                         )}
                       </div>
-                      <button onClick={() => setShowTafsir(false)} className="w-8 h-8 rounded-full bg-pink-100 dark:bg-slate-700 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-pink-600 dark:text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <button onClick={() => setShowTafsir(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>
                     </div>
                     {/* Tafsir Selector */}
-                    <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+                    <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
                       {TafsirService.getAvailableTafsirs().map((tafsir) => (
                         <button
                           key={tafsir.id}
                           onClick={() => changeTafsir(tafsir.id)}
                           className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                             selectedTafsirId === tafsir.id
-                              ? 'bg-pink-500 text-white'
-                              : 'bg-pink-100 dark:bg-slate-700 text-pink-600 dark:text-pink-300'
+                              ? 'bg-white text-pink-600'
+                              : 'bg-white/20 text-white hover:bg-white/30'
                           }`}
                         >
                           {tafsir.name}
@@ -9036,7 +9095,7 @@
                     </div>
                   </div>
                   {/* Content */}
-                  <div className="overflow-y-auto max-h-[calc(85vh-120px)] p-4">
+                  <div className="overflow-y-auto max-h-[calc(80vh-130px)] p-5">
                     {tafsirLoading ? (
                       <div className="flex flex-col items-center justify-center py-12">
                         <div className="w-10 h-10 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4"></div>
@@ -9044,9 +9103,12 @@
                       </div>
                     ) : tafsirData ? (
                       <div>
-                        <div className="text-sm text-pink-500 mb-3 font-medium">{tafsirData.resourceName}</div>
+                        <div className="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs font-medium mb-4">
+                          {tafsirData.resourceName}
+                        </div>
                         <div
-                          className="text-pink-700 dark:text-pink-200 leading-relaxed text-sm prose prose-pink max-w-none"
+                          className="text-gray-700 dark:text-gray-200 leading-relaxed text-base tafsir-content"
+                          style={{ lineHeight: '1.8' }}
                           dangerouslySetInnerHTML={{ __html: tafsirData.text }}
                         />
                       </div>
@@ -9100,6 +9162,28 @@
                   <h2 className="text-xl font-bold text-pink-700">{currentSurah.name}</h2>
                   <p className="font-arabic text-2xl text-pink-500">{currentSurah.arabicName}</p>
                   <p className="text-xs text-pink-400 mt-1">{currentSurah.totalVerses} verses • {currentSurah.revelationType}</p>
+
+                  {/* Now Playing Indicator */}
+                  {playingVerse && audioState === 'playing' && (
+                    <div className="mt-3 flex items-center justify-center gap-2">
+                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-pink-500 text-white text-sm">
+                        <div className="flex gap-0.5">
+                          <span className="w-1 h-3 bg-white rounded-full animate-pulse"></span>
+                          <span className="w-1 h-4 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></span>
+                          <span className="w-1 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                        </div>
+                        <span>Playing verse {playingVerse.verse}</span>
+                        <button
+                          onClick={stopAudio}
+                          className="ml-1 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30"
+                        >
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                            <rect x="6" y="6" width="12" height="12" rx="1"/>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -9170,25 +9254,32 @@
                         <span className="text-pink-400 text-xs">Juz {result.juz}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => playVerseAudio(result.surah, result.verse)}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-                            audioState === 'playing' ? 'bg-pink-500 text-white' : 'bg-pink-100 text-pink-600'
-                          }`}
-                        >
-                          {audioState === 'loading' ? (
-                            <div className="w-4 h-4 border-2 border-pink-300 border-t-white rounded-full animate-spin"></div>
-                          ) : audioState === 'playing' ? (
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                              <rect x="6" y="4" width="4" height="16" rx="1"/>
-                              <rect x="14" y="4" width="4" height="16" rx="1"/>
-                            </svg>
-                          ) : (
-                            <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          )}
-                        </button>
+                        {(() => {
+                          const isThisVersePlaying = playingVerse && playingVerse.surah === result.surah && playingVerse.verse === result.verse;
+                          const isThisVerseLoading = isThisVersePlaying && audioState === 'loading';
+                          const isThisVerseActive = isThisVersePlaying && audioState === 'playing';
+                          return (
+                            <button
+                              onClick={() => playVerseAudio(result.surah, result.verse, currentSurah?.totalVerses)}
+                              className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+                                isThisVerseActive ? 'bg-pink-500 text-white' : 'bg-pink-100 text-pink-600'
+                              }`}
+                            >
+                              {isThisVerseLoading ? (
+                                <div className="w-4 h-4 border-2 border-pink-300 border-t-white rounded-full animate-spin"></div>
+                              ) : isThisVerseActive ? (
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                  <rect x="6" y="4" width="4" height="16" rx="1"/>
+                                  <rect x="14" y="4" width="4" height="16" rx="1"/>
+                                </svg>
+                              ) : (
+                                <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z"/>
+                                </svg>
+                              )}
+                            </button>
+                          );
+                        })()}
                         <SpeakButton text={result.english} size="sm" lang="en" />
                         <button
                           onClick={() => { haptic.light(); loadTafsir(result.surah, result.verse, result.surahName); }}
