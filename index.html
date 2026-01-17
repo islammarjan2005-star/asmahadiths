@@ -2629,6 +2629,85 @@
     };
 
     // ============================================
+    // TAFSIR SERVICE (Quran.com API)
+    // Provides Quranic commentary/exegesis
+    // ============================================
+
+    const TafsirService = {
+      apiBase: 'https://api.quran.com/api/v4',
+
+      // Available tafsirs with IDs from Quran.com API
+      availableTafsirs: [
+        { id: 169, name: 'Ibn Kathir', language: 'en', slug: 'en-tafisr-ibn-kathir' },
+        { id: 171, name: 'Tafsir al-Jalalayn', language: 'en', slug: 'en-tafsir-al-jalalayn' },
+        { id: 168, name: 'Al-Tabari', language: 'en', slug: 'en-tafsir-al-tabari' },
+        { id: 817, name: 'Maarif-ul-Quran', language: 'en', slug: 'en-tafsir-maarif-ul-quran' },
+      ],
+
+      // Default to Ibn Kathir
+      defaultTafsirId: 169,
+
+      // Cache for fetched tafsirs
+      tafsirCache: new Map(),
+
+      // Get tafsir for a specific verse
+      async getTafsir(surah, verse, tafsirId = this.defaultTafsirId) {
+        const cacheKey = `${tafsirId}:${surah}:${verse}`;
+
+        // Return cached if available
+        if (this.tafsirCache.has(cacheKey)) {
+          return this.tafsirCache.get(cacheKey);
+        }
+
+        try {
+          const verseKey = `${surah}:${verse}`;
+          const response = await fetch(
+            `${this.apiBase}/tafsirs/${tafsirId}/by_ayah/${verseKey}`
+          );
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch tafsir');
+          }
+
+          const data = await response.json();
+
+          if (data.tafsir) {
+            const tafsirData = {
+              text: data.tafsir.text,
+              verseKey: verseKey,
+              resourceName: data.tafsir.resource_name || this.getTafsirName(tafsirId),
+              languageName: data.tafsir.language_name || 'English',
+            };
+
+            this.tafsirCache.set(cacheKey, tafsirData);
+            return tafsirData;
+          }
+
+          return null;
+        } catch (error) {
+          console.error('Error fetching tafsir:', error);
+          return null;
+        }
+      },
+
+      // Get tafsir name by ID
+      getTafsirName(tafsirId) {
+        const tafsir = this.availableTafsirs.find(t => t.id === tafsirId);
+        return tafsir ? tafsir.name : 'Tafsir';
+      },
+
+      // Get all available tafsirs
+      getAvailableTafsirs() {
+        return this.availableTafsirs;
+      },
+
+      // Clear cache
+      clearCache() {
+        this.tafsirCache.clear();
+      }
+    };
+
+    // ============================================
     // TEXT-TO-SPEECH SERVICE (Web Speech API)
     // Free, no API key, works offline
     // ============================================
@@ -8515,6 +8594,12 @@
       const [audioState, setAudioState] = useState('stopped');
       const [currentSurah, setCurrentSurah] = useState(null); // Track current surah being viewed
       const [showSurahBrowser, setShowSurahBrowser] = useState(false);
+      // Tafsir state
+      const [showTafsir, setShowTafsir] = useState(false);
+      const [tafsirData, setTafsirData] = useState(null);
+      const [tafsirLoading, setTafsirLoading] = useState(false);
+      const [selectedTafsirId, setSelectedTafsirId] = useState(169); // Ibn Kathir default
+      const [tafsirVerse, setTafsirVerse] = useState(null);
       const [popularSurahs, setPopularSurahs] = useState([
         { number: 1, name: 'Al-Fatiha', arabicName: 'الفاتحة', verses: 7 },
         { number: 36, name: 'Ya-Sin', arabicName: 'يس', verses: 83 },
@@ -8799,6 +8884,37 @@
         }
       };
 
+      // Load tafsir for a verse
+      const loadTafsir = async (surah, verse, surahName) => {
+        setTafsirVerse({ surah, verse, surahName });
+        setShowTafsir(true);
+        setTafsirLoading(true);
+        setTafsirData(null);
+
+        try {
+          const data = await TafsirService.getTafsir(surah, verse, selectedTafsirId);
+          setTafsirData(data);
+        } catch (error) {
+          console.error('Tafsir error:', error);
+        }
+        setTafsirLoading(false);
+      };
+
+      // Change tafsir source
+      const changeTafsir = async (newTafsirId) => {
+        setSelectedTafsirId(newTafsirId);
+        if (tafsirVerse) {
+          setTafsirLoading(true);
+          try {
+            const data = await TafsirService.getTafsir(tafsirVerse.surah, tafsirVerse.verse, newTafsirId);
+            setTafsirData(data);
+          } catch (error) {
+            console.error('Tafsir error:', error);
+          }
+          setTafsirLoading(false);
+        }
+      };
+
       // Debounced search
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -8878,6 +8994,73 @@
                         </button>
                       ))}
                     </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tafsir Modal */}
+            {showTafsir && (
+              <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center animate-fade-in" onClick={() => setShowTafsir(false)}>
+                <div className="bg-white dark:bg-slate-800 w-full max-w-lg rounded-t-3xl max-h-[85vh] overflow-hidden animate-slide-up" onClick={(e) => e.stopPropagation()}>
+                  {/* Header */}
+                  <div className="sticky top-0 bg-white dark:bg-slate-800 p-4 border-b border-pink-100 dark:border-slate-700">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="text-lg font-bold text-pink-700 dark:text-pink-300">Tafsir</h3>
+                        {tafsirVerse && (
+                          <p className="text-xs text-pink-500 dark:text-pink-400">{tafsirVerse.surahName} {tafsirVerse.verse}</p>
+                        )}
+                      </div>
+                      <button onClick={() => setShowTafsir(false)} className="w-8 h-8 rounded-full bg-pink-100 dark:bg-slate-700 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-pink-600 dark:text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    {/* Tafsir Selector */}
+                    <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+                      {TafsirService.getAvailableTafsirs().map((tafsir) => (
+                        <button
+                          key={tafsir.id}
+                          onClick={() => changeTafsir(tafsir.id)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                            selectedTafsirId === tafsir.id
+                              ? 'bg-pink-500 text-white'
+                              : 'bg-pink-100 dark:bg-slate-700 text-pink-600 dark:text-pink-300'
+                          }`}
+                        >
+                          {tafsir.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="overflow-y-auto max-h-[calc(85vh-120px)] p-4">
+                    {tafsirLoading ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <div className="w-10 h-10 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4"></div>
+                        <p className="text-pink-500 text-sm">Loading tafsir...</p>
+                      </div>
+                    ) : tafsirData ? (
+                      <div>
+                        <div className="text-sm text-pink-500 mb-3 font-medium">{tafsirData.resourceName}</div>
+                        <div
+                          className="text-pink-700 dark:text-pink-200 leading-relaxed text-sm prose prose-pink max-w-none"
+                          dangerouslySetInnerHTML={{ __html: tafsirData.text }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-100 flex items-center justify-center">
+                          <svg className="w-8 h-8 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <p className="text-pink-600 font-medium">Tafsir not available</p>
+                        <p className="text-pink-400 text-sm mt-1">Try selecting a different tafsir source</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -9007,6 +9190,15 @@
                           )}
                         </button>
                         <SpeakButton text={result.english} size="sm" lang="en" />
+                        <button
+                          onClick={() => { haptic.light(); loadTafsir(result.surah, result.verse, result.surahName); }}
+                          className="w-9 h-9 rounded-full flex items-center justify-center bg-pink-100 text-pink-600"
+                          title="View Tafsir"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                        </button>
                         <button
                           onClick={() => toggleSave({ ...result, type: 'quran' })}
                           className={`w-9 h-9 rounded-full flex items-center justify-center ${
