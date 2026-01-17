@@ -190,8 +190,8 @@ export function HomeScreen({
         {/* Content Sections */}
         <div className="grid grid-cols-3 gap-3 mb-8">
           <Card className="p-4 text-center" onClick={onQuran}>
-            <div className="w-10 h-10 mx-auto bg-rose-50 dark:bg-rose-900/50 rounded-xl flex items-center justify-center mb-2">
-              <Book className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+            <div className="w-10 h-10 mx-auto bg-teal-50 dark:bg-teal-900/50 rounded-xl flex items-center justify-center mb-2">
+              <Book className="w-5 h-5 text-teal-600 dark:text-teal-400" />
             </div>
             <p className="text-xs font-medium text-neutral-600 dark:text-neutral-300">Quran</p>
           </Card>
@@ -204,8 +204,8 @@ export function HomeScreen({
           </Card>
 
           <Card className="p-4 text-center" onClick={onSahabiyat}>
-            <div className="w-10 h-10 mx-auto bg-pink-50 dark:bg-pink-900/50 rounded-xl flex items-center justify-center mb-2">
-              <Users className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+            <div className="w-10 h-10 mx-auto bg-purple-50 dark:bg-purple-900/50 rounded-xl flex items-center justify-center mb-2">
+              <Users className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             </div>
             <p className="text-xs font-medium text-neutral-600 dark:text-neutral-300">Sahabiyat</p>
           </Card>
