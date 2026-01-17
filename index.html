@@ -4261,26 +4261,37 @@
         fetchWords();
       }, [surah, verse, arabicText]);
 
-      // Update active word during playback - use interval for smoother updates
+      // Update active word during playback
       useEffect(() => {
-        if (!isPlaying || audioDuration <= 0 || words.length === 0) {
+        // Reset when not playing
+        if (!isPlaying) {
           setActiveWordIndex(-1);
           return;
         }
 
-        // Initial calculation
-        const calcIndex = () => {
-          const avgWordDuration = audioDuration / words.length;
-          const index = Math.floor(currentTime / avgWordDuration);
-          return Math.min(Math.max(0, index), words.length - 1);
-        };
-
-        const newIndex = calcIndex();
-        if (newIndex !== activeWordIndex) {
-          setActiveWordIndex(newIndex);
+        // Can't highlight without words
+        if (words.length === 0) {
+          return;
         }
 
-        return () => {};
+        // Calculate active word index based on current time
+        // If we don't have duration yet, keep first word highlighted
+        let newIndex = 0;
+        if (audioDuration > 0 && isFinite(audioDuration)) {
+          const avgWordDuration = audioDuration / words.length;
+          if (avgWordDuration > 0) {
+            newIndex = Math.floor(currentTime / avgWordDuration);
+            newIndex = Math.min(Math.max(0, newIndex), words.length - 1);
+          }
+        }
+
+        // Use functional update to avoid stale state issues
+        setActiveWordIndex(prevIndex => {
+          if (prevIndex !== newIndex) {
+            return newIndex;
+          }
+          return prevIndex;
+        });
       }, [isPlaying, currentTime, audioDuration, words.length]);
 
       // Handle word click - play individual word audio
@@ -4376,11 +4387,15 @@
           </div>
 
           {/* Progress bar during playback */}
-          {isPlaying && audioDuration > 0 && (
+          {isPlaying && (
             <div className="verse-progress">
               <div
                 className="verse-progress-bar"
-                style={{ width: `${(currentTime / audioDuration) * 100}%` }}
+                style={{
+                  width: audioDuration > 0
+                    ? `${Math.min(100, (currentTime / audioDuration) * 100)}%`
+                    : '5%'
+                }}
               />
             </div>
           )}
@@ -4445,10 +4460,46 @@
               const audioUrl = await QuranAudio.getAyahAudio(parsed.surah, parsed.ayahStart);
               if (audioUrl) {
                 QuranAudio.currentAudio = new Audio(audioUrl);
+                QuranAudio.currentAudio.preload = 'auto';
 
-                QuranAudio.currentAudio.onloadedmetadata = () => {
-                  setAudioDuration(QuranAudio.currentAudio.duration);
-                };
+                // Wait for audio to be ready with duration before playing
+                await new Promise((resolve, reject) => {
+                  const audio = QuranAudio.currentAudio;
+
+                  const onReady = () => {
+                    // Get duration - it should be available now
+                    if (audio.duration && isFinite(audio.duration) && audio.duration > 0) {
+                      setAudioDuration(audio.duration);
+                    }
+                    cleanup();
+                    resolve();
+                  };
+
+                  const onError = () => {
+                    cleanup();
+                    reject(new Error('Audio load failed'));
+                  };
+
+                  const cleanup = () => {
+                    audio.removeEventListener('canplaythrough', onReady);
+                    audio.removeEventListener('loadeddata', onReady);
+                    audio.removeEventListener('error', onError);
+                  };
+
+                  audio.addEventListener('canplaythrough', onReady);
+                  audio.addEventListener('loadeddata', onReady);
+                  audio.addEventListener('error', onError);
+
+                  // Start loading
+                  audio.load();
+
+                  // Timeout fallback after 5 seconds
+                  setTimeout(() => {
+                    if (audio.readyState >= 2) {
+                      onReady();
+                    }
+                  }, 5000);
+                });
 
                 QuranAudio.currentAudio.onended = () => {
                   QuranAudio.isPlaying = false;
@@ -4472,12 +4523,25 @@
                 QuranAudio.isPlaying = true;
                 setAudioState('playing');
 
-                // Use faster polling for smoother word highlighting (every 100ms)
+                // Double-check duration after play starts (some browsers only have it then)
+                if (!audioDuration || audioDuration <= 0) {
+                  const dur = QuranAudio.currentAudio.duration;
+                  if (dur && isFinite(dur) && dur > 0) {
+                    setAudioDuration(dur);
+                  }
+                }
+
+                // Use faster polling for smoother word highlighting (every 50ms for better sync)
                 timeUpdateRef.current = setInterval(() => {
                   if (QuranAudio.currentAudio && !QuranAudio.currentAudio.paused) {
                     setCurrentTime(QuranAudio.currentAudio.currentTime);
+                    // Also update duration if it wasn't available before
+                    const dur = QuranAudio.currentAudio.duration;
+                    if (dur && isFinite(dur) && dur > 0) {
+                      setAudioDuration(prev => prev > 0 ? prev : dur);
+                    }
                   }
-                }, 100);
+                }, 50);
               }
             } catch (err) {
               console.error('Playback error:', err);
