@@ -1,11 +1,16 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { useLocalStorage } from '../hooks';
+import { ACHIEVEMENTS } from '../data/spiritualJourney';
 
 const AppContext = createContext(null);
 
 const initialState = {
   // Onboarding
   onboardingComplete: false,
+
+  // Personalization
+  userName: '',
+  userInterests: [],
 
   // Theme
   darkMode: false,
@@ -25,7 +30,7 @@ const initialState = {
 
   // Smart Adhkar System
   adhkarProgress: {
-    morning: {}, // { dhikrId: completedCount }
+    morning: {},
     evening: {},
   },
   adhkarStreak: {
@@ -33,54 +38,117 @@ const initialState = {
     longest: 0,
     lastCompletedDate: null,
   },
-  adhkarHistory: [], // [{ date, type: 'morning'|'evening', completed: true }]
+  adhkarHistory: [],
 
   // Dua Coach
-  savedCoachDuas: [], // saved situational duas
-  duaJourney: [], // [{ date, concern, duaId, notes }]
+  savedCoachDuas: [],
+  duaJourney: [],
+
+  // Spiritual Journey (NEW)
+  spiritualXP: 0,
+  achievements: [],
+
+  // Daily Challenges (NEW)
+  completedChallenges: [],
+
+  // Mood Tracking (NEW)
+  moodHistory: [],
 
   // Settings
   notifications: true,
   hapticFeedback: true,
 };
 
+// Achievement checking logic
+function checkAchievements(state) {
+  const newAchievements = [];
+
+  const checks = {
+    first_dhikr: () => (state.dhikrHistory || []).length > 0,
+    streak_3: () => (state.adhkarStreak?.current || 0) >= 3,
+    streak_7: () => (state.adhkarStreak?.current || 0) >= 7,
+    streak_30: () => (state.adhkarStreak?.current || 0) >= 30,
+    hadiths_10: () => (state.savedHadith || []).length >= 10,
+    hadiths_40: () => (state.savedHadith || []).length >= 40,
+    duas_20: () => (state.savedDuas || []).length + (state.savedCoachDuas || []).length >= 20,
+    journal_5: () => (state.journal || []).length >= 5,
+    journal_30: () => (state.journal || []).length >= 30,
+    dhikr_1000: () => {
+      const total = (state.dhikrHistory || []).reduce((sum, h) => sum + (h.count || 0), 0);
+      return total >= 1000;
+    },
+    all_morning: () =>
+      (state.adhkarHistory || []).some((h) => h.type === 'morning' && h.completed),
+    all_evening: () =>
+      (state.adhkarHistory || []).some((h) => h.type === 'evening' && h.completed),
+    challenge_7: () => (state.completedChallenges || []).length >= 7,
+    mood_check_7: () => {
+      const uniqueDays = new Set(
+        (state.moodHistory || []).map((m) => new Date(m.date).toDateString())
+      );
+      return uniqueDays.size >= 7;
+    },
+  };
+
+  for (const [id, check] of Object.entries(checks)) {
+    if (!(state.achievements || []).includes(id) && check()) {
+      newAchievements.push(id);
+    }
+  }
+
+  return newAchievements;
+}
+
 function appReducer(state, action) {
+  let newState;
+
   switch (action.type) {
     case 'COMPLETE_ONBOARDING':
-      return { ...state, onboardingComplete: true };
+      newState = {
+        ...state,
+        onboardingComplete: true,
+        userName: action.payload?.name || state.userName,
+        userInterests: action.payload?.interests || state.userInterests,
+      };
+      break;
 
     case 'TOGGLE_DARK_MODE':
-      return { ...state, darkMode: !state.darkMode };
+      newState = { ...state, darkMode: !state.darkMode };
+      break;
 
     case 'SET_DARK_MODE':
-      return { ...state, darkMode: action.payload };
+      newState = { ...state, darkMode: action.payload };
+      break;
 
     case 'TOGGLE_SAVED_HADITH':
-      return {
+      newState = {
         ...state,
         savedHadith: state.savedHadith.includes(action.payload)
           ? state.savedHadith.filter((id) => id !== action.payload)
           : [...state.savedHadith, action.payload],
       };
+      break;
 
     case 'TOGGLE_SAVED_VERSE':
-      return {
+      newState = {
         ...state,
         savedVerses: state.savedVerses.includes(action.payload)
           ? state.savedVerses.filter((id) => id !== action.payload)
           : [...state.savedVerses, action.payload],
       };
+      break;
 
     case 'TOGGLE_SAVED_DUA':
-      return {
+      newState = {
         ...state,
         savedDuas: state.savedDuas.includes(action.payload)
           ? state.savedDuas.filter((id) => id !== action.payload)
           : [...state.savedDuas, action.payload],
       };
+      break;
 
     case 'ADD_JOURNAL_ENTRY':
-      return {
+      newState = {
         ...state,
         journal: [
           {
@@ -91,17 +159,19 @@ function appReducer(state, action) {
           ...state.journal,
         ],
       };
+      break;
 
     case 'DELETE_JOURNAL_ENTRY':
-      return {
+      newState = {
         ...state,
         journal: state.journal.filter((entry) => entry.id !== action.payload),
       };
+      break;
 
-    case 'INCREMENT_DHIKR':
+    case 'INCREMENT_DHIKR': {
       const newCount = state.dhikrCount + 1;
       const completedSet = newCount >= state.dhikrGoal;
-      return {
+      newState = {
         ...state,
         dhikrCount: completedSet ? 0 : newCount,
         dhikrHistory: completedSet
@@ -111,26 +181,33 @@ function appReducer(state, action) {
             ]
           : state.dhikrHistory,
       };
+      break;
+    }
 
     case 'RESET_DHIKR':
-      return { ...state, dhikrCount: 0 };
+      newState = { ...state, dhikrCount: 0 };
+      break;
 
     case 'SET_DHIKR_GOAL':
-      return { ...state, dhikrGoal: action.payload };
+      newState = { ...state, dhikrGoal: action.payload };
+      break;
 
     case 'TOGGLE_NOTIFICATIONS':
-      return { ...state, notifications: !state.notifications };
+      newState = { ...state, notifications: !state.notifications };
+      break;
 
     case 'TOGGLE_HAPTIC':
-      return { ...state, hapticFeedback: !state.hapticFeedback };
+      newState = { ...state, hapticFeedback: !state.hapticFeedback };
+      break;
 
     case 'LOAD_STATE':
-      return { ...state, ...action.payload };
+      newState = { ...state, ...action.payload };
+      break;
 
     // Smart Adhkar System Actions
     case 'UPDATE_ADHKAR_PROGRESS': {
       const { type, dhikrId, count } = action.payload;
-      return {
+      newState = {
         ...state,
         adhkarProgress: {
           ...state.adhkarProgress,
@@ -140,6 +217,7 @@ function appReducer(state, action) {
           },
         },
       };
+      break;
     }
 
     case 'COMPLETE_ADHKAR_SESSION': {
@@ -155,11 +233,11 @@ function appReducer(state, action) {
         newStreak = 1;
       }
 
-      return {
+      newState = {
         ...state,
         adhkarProgress: {
           ...state.adhkarProgress,
-          [type]: {}, // Reset progress for next session
+          [type]: {},
         },
         adhkarStreak: {
           current: newStreak,
@@ -171,30 +249,33 @@ function appReducer(state, action) {
           { date: new Date().toISOString(), type, completed: true },
         ],
       };
+      break;
     }
 
     case 'RESET_ADHKAR_PROGRESS': {
       const { type } = action.payload;
-      return {
+      newState = {
         ...state,
         adhkarProgress: {
           ...state.adhkarProgress,
           [type]: {},
         },
       };
+      break;
     }
 
     // Dua Coach Actions
     case 'TOGGLE_SAVED_COACH_DUA':
-      return {
+      newState = {
         ...state,
         savedCoachDuas: state.savedCoachDuas.includes(action.payload)
           ? state.savedCoachDuas.filter((id) => id !== action.payload)
           : [...state.savedCoachDuas, action.payload],
       };
+      break;
 
     case 'ADD_DUA_JOURNEY': {
-      return {
+      newState = {
         ...state,
         duaJourney: [
           {
@@ -205,10 +286,11 @@ function appReducer(state, action) {
           ...state.duaJourney,
         ],
       };
+      break;
     }
 
     case 'UPDATE_DUA_JOURNEY_NOTES': {
-      return {
+      newState = {
         ...state,
         duaJourney: state.duaJourney.map((entry) =>
           entry.id === action.payload.id
@@ -216,16 +298,87 @@ function appReducer(state, action) {
             : entry
         ),
       };
+      break;
+    }
+
+    // === NEW: Spiritual Journey Actions ===
+    case 'ADD_XP': {
+      const { amount } = action.payload;
+      newState = {
+        ...state,
+        spiritualXP: (state.spiritualXP || 0) + amount,
+      };
+      break;
+    }
+
+    case 'UNLOCK_ACHIEVEMENT': {
+      const achievementId = action.payload;
+      if ((state.achievements || []).includes(achievementId)) {
+        return state;
+      }
+      const achievement = ACHIEVEMENTS.find((a) => a.id === achievementId);
+      newState = {
+        ...state,
+        achievements: [...(state.achievements || []), achievementId],
+        spiritualXP: (state.spiritualXP || 0) + (achievement?.xp || 0),
+      };
+      break;
+    }
+
+    // === NEW: Daily Challenges ===
+    case 'COMPLETE_CHALLENGE': {
+      const { id, date } = action.payload;
+      const alreadyDone = (state.completedChallenges || []).some(
+        (c) => c.id === id && new Date(c.date).toDateString() === new Date(date).toDateString()
+      );
+      if (alreadyDone) return state;
+      newState = {
+        ...state,
+        completedChallenges: [
+          ...(state.completedChallenges || []),
+          { id, date },
+        ],
+      };
+      break;
+    }
+
+    // === NEW: Mood Tracking ===
+    case 'LOG_MOOD': {
+      newState = {
+        ...state,
+        moodHistory: [action.payload, ...(state.moodHistory || [])].slice(0, 100),
+      };
+      break;
     }
 
     default:
       return state;
   }
+
+  // After every state change, check for new achievements
+  const newAchievements = checkAchievements(newState);
+  if (newAchievements.length > 0) {
+    let xpGain = 0;
+    for (const id of newAchievements) {
+      const achievement = ACHIEVEMENTS.find((a) => a.id === id);
+      if (achievement) xpGain += achievement.xp;
+    }
+    newState = {
+      ...newState,
+      achievements: [...(newState.achievements || []), ...newAchievements],
+      spiritualXP: (newState.spiritualXP || 0) + xpGain,
+    };
+  }
+
+  return newState;
 }
 
 export function AppProvider({ children }) {
   const [persistedState, setPersistedState] = useLocalStorage('asma-app-state', initialState);
-  const [state, dispatch] = useReducer(appReducer, persistedState);
+
+  // Merge persisted state with initialState to handle new fields
+  const mergedInitial = { ...initialState, ...persistedState };
+  const [state, dispatch] = useReducer(appReducer, mergedInitial);
 
   // Persist state changes
   useEffect(() => {

@@ -19,6 +19,10 @@ import {
   ExplanationModal,
   SmartAdhkar,
   DuaCoach,
+  SpiritualJourney,
+  MoodGuidance,
+  QiblaCompass,
+  DailyChallenges,
 } from './components/features';
 
 function AppContent() {
@@ -30,7 +34,13 @@ function AppContent() {
 
   // Handle onboarding
   if (!state.onboardingComplete) {
-    return <Onboarding onComplete={() => dispatch({ type: 'COMPLETE_ONBOARDING' })} />;
+    return (
+      <Onboarding
+        onComplete={(data) =>
+          dispatch({ type: 'COMPLETE_ONBOARDING', payload: data })
+        }
+      />
+    );
   }
 
   // Handle tab navigation
@@ -61,6 +71,11 @@ function AppContent() {
             onPrayerTimes={() => setView('prayer')}
             onSmartAdhkar={() => setView('adhkar')}
             onDuaCoach={() => setView('coach')}
+            onJourney={() => setView('journey')}
+            onMood={() => setView('mood')}
+            onQibla={() => setView('qibla')}
+            onChallenges={() => setView('challenges')}
+            onJournal={() => setView('journal')}
           />
         );
 
@@ -102,6 +117,40 @@ function AppContent() {
 
       case 'journal':
         return <Journal onBack={() => setView('home')} />;
+
+      case 'journey':
+        return <SpiritualJourney onBack={() => setView('home')} />;
+
+      case 'mood':
+        return (
+          <MoodGuidance
+            onBack={() => setView('home')}
+            onDhikr={() => {
+              setView('dhikr');
+              setActiveTab('dhikr');
+            }}
+            onAdhkar={() => setView('adhkar')}
+            onJournal={() => setView('journal')}
+          />
+        );
+
+      case 'qibla':
+        return <QiblaCompass onBack={() => setView('home')} />;
+
+      case 'challenges':
+        return (
+          <DailyChallenges
+            onBack={() => setView('home')}
+            onNavigate={(target) => {
+              if (target === 'dhikr') {
+                setView('dhikr');
+                setActiveTab('dhikr');
+              } else {
+                setView(target);
+              }
+            }}
+          />
+        );
 
       case 'search':
         return (
@@ -157,7 +206,9 @@ function AppContent() {
 
   return (
     <div className="max-w-lg mx-auto">
-      {renderContent()}
+      <div className="view-enter" key={view}>
+        {renderContent()}
+      </div>
 
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />

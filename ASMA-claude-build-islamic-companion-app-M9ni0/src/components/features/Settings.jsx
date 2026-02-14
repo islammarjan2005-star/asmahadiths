@@ -183,7 +183,7 @@ export function Settings({ onBack }) {
             <Heart className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
           </div>
           <h3 className="font-medium text-neutral-800 dark:text-neutral-100 mb-1">Asma</h3>
-          <p className="text-sm text-neutral-400 mb-3">Version 1.0.0</p>
+          <p className="text-sm text-neutral-400 mb-3">Version 2.0.0</p>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
             Built with love for Muslim women seeking understanding, clarity, and connection with
             their faith.

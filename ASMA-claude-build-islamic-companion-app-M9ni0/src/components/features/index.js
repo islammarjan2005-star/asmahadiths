@@ -16,3 +16,8 @@ export { Search } from './Search';
 export { SavedView } from './SavedView';
 export { SmartAdhkar } from './SmartAdhkar';
 export { DuaCoach } from './DuaCoach';
+export { SpiritualJourney } from './SpiritualJourney';
+export { MoodGuidance } from './MoodGuidance';
+export { QiblaCompass } from './QiblaCompass';
+export { DailyChallenges } from './DailyChallenges';
+export { IslamicPattern, IslamicDivider } from './IslamicPattern';
