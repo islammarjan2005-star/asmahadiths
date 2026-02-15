@@ -13,14 +13,14 @@ import {
 
 // Level thresholds and names
 export const LEVELS = [
-  { name: 'Seedling', arabic: 'بذرة', minXP: 0, icon: '🌱', color: 'emerald' },
-  { name: 'Sprout', arabic: 'نبتة', minXP: 100, icon: '🌿', color: 'emerald' },
-  { name: 'Blossom', arabic: 'زهرة', minXP: 300, icon: '🌸', color: 'pink' },
-  { name: 'Tree', arabic: 'شجرة', minXP: 600, icon: '🌳', color: 'emerald' },
-  { name: 'Garden', arabic: 'حديقة', minXP: 1000, icon: '🌺', color: 'violet' },
-  { name: 'Oasis', arabic: 'واحة', minXP: 1500, icon: '🏝️', color: 'teal' },
-  { name: 'Light', arabic: 'نور', minXP: 2500, icon: '✨', color: 'amber' },
-  { name: 'Paradise Garden', arabic: 'جنة', minXP: 4000, icon: '🕌', color: 'emerald' },
+  { name: 'Seedling', arabic: 'بذرة', minXP: 0, color: 'emerald' },
+  { name: 'Sprout', arabic: 'نبتة', minXP: 100, color: 'emerald' },
+  { name: 'Blossom', arabic: 'زهرة', minXP: 300, color: 'pink' },
+  { name: 'Tree', arabic: 'شجرة', minXP: 600, color: 'emerald' },
+  { name: 'Garden', arabic: 'حديقة', minXP: 1000, color: 'violet' },
+  { name: 'Oasis', arabic: 'واحة', minXP: 1500, color: 'teal' },
+  { name: 'Light', arabic: 'نور', minXP: 2500, color: 'amber' },
+  { name: 'Paradise Garden', arabic: 'جنة', minXP: 4000, color: 'emerald' },
 ];
 
 // Achievement definitions

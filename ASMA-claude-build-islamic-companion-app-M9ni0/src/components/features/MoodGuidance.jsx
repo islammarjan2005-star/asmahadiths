@@ -6,10 +6,8 @@ import {
   Sparkles,
   MessageCircle,
   ArrowRight,
-  Bookmark,
-  Volume2,
 } from 'lucide-react';
-import { Card, Button } from '../ui';
+import { Card, Button, MoodIcon } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { moods, moodGuidanceContent } from '../../data/moodGuidance';
 
@@ -66,8 +64,10 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
                 className="animate-slide-up"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <Card className={`p-5 text-center hover:scale-[1.02] active:scale-[0.98] transition-all ${mood.bgLight} ${mood.bgDark} border-2 border-transparent hover:border-${mood.color}-300 dark:hover:border-${mood.color}-700`}>
-                  <span className="text-3xl mb-2 block">{mood.emoji}</span>
+                <Card className={`p-5 text-center hover:scale-[1.02] active:scale-[0.98] transition-all ${mood.bgLight} ${mood.bgDark} border-2 border-transparent`}>
+                  <div className="w-10 h-10 mx-auto mb-2">
+                    <MoodIcon mood={mood.id} className="w-10 h-10 text-neutral-600 dark:text-neutral-300" />
+                  </div>
                   <p className="font-medium text-neutral-700 dark:text-neutral-200 text-sm">
                     {mood.label}
                   </p>
@@ -91,7 +91,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
                       key={i}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs ${mood.bgLight} ${mood.bgDark}`}
                     >
-                      <span>{mood.emoji}</span>
+                      <MoodIcon mood={mood.id} className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
                       <span className="text-neutral-500 dark:text-neutral-400">
                         {new Date(entry.date).toLocaleDateString('en-US', { weekday: 'short' })}
                       </span>
@@ -133,7 +133,9 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             </svg>
           </div>
           <div className="relative text-center">
-            <span className="text-4xl mb-2 block">{selectedMood.emoji}</span>
+            <div className="w-14 h-14 mx-auto mb-3">
+              <MoodIcon mood={selectedMood.id} className="w-14 h-14 text-white" />
+            </div>
             <h2 className="text-xl font-semibold text-white mb-1">
               Feeling {selectedMood.label}
             </h2>
@@ -217,7 +219,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
 
             {/* Suggested Action */}
             <Card
-              className={`p-4 ${selectedMood.bgLight} ${selectedMood.bgDark} border-2 border-${selectedMood.color}-200 dark:border-${selectedMood.color}-800`}
+              className={`p-4 ${selectedMood.bgLight} ${selectedMood.bgDark}`}
               onClick={() => {
                 if (guidance.actionSuggestion.includes('dhikr') || guidance.actionSuggestion.includes('SubhanAllah') || guidance.actionSuggestion.includes('Astaghfirullah')) {
                   onDhikr?.();
@@ -230,7 +232,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Sparkles className={`w-5 h-5 text-${selectedMood.color}-500`} />
+                  <Sparkles className="w-5 h-5 text-neutral-500" />
                   <div>
                     <p className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
                       Suggested Action

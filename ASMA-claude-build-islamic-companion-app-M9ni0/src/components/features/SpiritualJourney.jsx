@@ -13,7 +13,7 @@ import {
   Calendar,
   Check,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, LevelIcon } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { LEVELS, ACHIEVEMENTS, getLevel, getNextLevel, getLevelProgress } from '../../data/spiritualJourney';
 
@@ -92,7 +92,7 @@ export function SpiritualJourney({ onBack }) {
               <div>
                 <p className="text-emerald-100 text-sm mb-1">Your Spiritual Level</p>
                 <div className="flex items-center gap-3">
-                  <span className="text-3xl">{currentLevel.icon}</span>
+                  <LevelIcon level={currentLevel.name} className="w-8 h-8 text-white" />
                   <div>
                     <h2 className="text-2xl font-semibold text-white">{currentLevel.name}</h2>
                     <p className="text-emerald-200 font-arabic text-lg">{currentLevel.arabic}</p>
@@ -240,13 +240,16 @@ export function SpiritualJourney({ onBack }) {
                   return (
                     <div key={level.name} className="flex items-center gap-3">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all ${
+                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                           reached
                             ? 'bg-emerald-100 dark:bg-emerald-900/30 scale-100'
                             : 'bg-neutral-100 dark:bg-neutral-800 scale-90 opacity-50'
                         } ${isCurrent ? 'ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-neutral-900' : ''}`}
                       >
-                        {level.icon}
+                        <LevelIcon
+                          level={level.name}
+                          className={`w-5 h-5 ${reached ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-400'}`}
+                        />
                       </div>
                       <div className="flex-1">
                         <p
