@@ -17,9 +17,6 @@ import {
   Compass,
   Star,
   Feather,
-  Moon,
-  Sunrise,
-  Sunset,
   Zap,
   TrendingUp,
 } from 'lucide-react';
@@ -35,69 +32,35 @@ import { IslamicPattern } from './IslamicPattern';
 // Module-level constant (computed once at import time, not during render)
 const DAY_OF_YEAR = Math.floor(Date.now() / 86400000);
 
-// Time-of-day configuration
-function getTimeOfDay() {
-  const hour = new Date().getHours();
-  if (hour >= 4 && hour < 7) return 'fajr';
-  if (hour >= 7 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 15) return 'dhuhr';
-  if (hour >= 15 && hour < 17) return 'asr';
-  if (hour >= 17 && hour < 19) return 'maghrib';
-  if (hour >= 19 && hour < 21) return 'isha';
-  return 'night';
+// Mosque silhouette SVG component
+function MosqueSilhouette() {
+  return (
+    <svg
+      viewBox="0 0 400 120"
+      className="w-full text-pink-300/30 dark:text-pink-900/20"
+      preserveAspectRatio="xMidYMax meet"
+    >
+      {/* Main dome */}
+      <ellipse cx="200" cy="60" rx="50" ry="45" fill="currentColor" />
+      {/* Left minaret */}
+      <rect x="110" y="20" width="12" height="100" fill="currentColor" rx="2" />
+      <circle cx="116" cy="18" r="8" fill="currentColor" />
+      {/* Right minaret */}
+      <rect x="278" y="20" width="12" height="100" fill="currentColor" rx="2" />
+      <circle cx="284" cy="18" r="8" fill="currentColor" />
+      {/* Dome finial */}
+      <ellipse cx="200" cy="20" rx="3" ry="8" fill="currentColor" />
+      {/* Base */}
+      <rect x="140" y="60" width="120" height="60" fill="currentColor" />
+      {/* Side structures */}
+      <rect x="60" y="70" width="80" height="50" fill="currentColor" rx="4" />
+      <rect x="260" y="70" width="80" height="50" fill="currentColor" rx="4" />
+      {/* Far left/right */}
+      <rect x="0" y="90" width="60" height="30" fill="currentColor" />
+      <rect x="340" y="90" width="60" height="30" fill="currentColor" />
+    </svg>
+  );
 }
-
-const timeThemes = {
-  fajr: {
-    greeting: 'Blessed Fajr',
-    gradient: 'from-indigo-900 via-purple-800 to-rose-700',
-    textColor: 'text-rose-100',
-    subColor: 'text-purple-200',
-    icon: Sunrise,
-  },
-  morning: {
-    greeting: 'Good Morning',
-    gradient: 'from-amber-400 via-orange-300 to-yellow-200',
-    textColor: 'text-amber-900',
-    subColor: 'text-amber-700',
-    icon: Sun,
-  },
-  dhuhr: {
-    greeting: 'Blessed Afternoon',
-    gradient: 'from-sky-400 via-blue-300 to-cyan-200',
-    textColor: 'text-sky-900',
-    subColor: 'text-sky-700',
-    icon: Sun,
-  },
-  asr: {
-    greeting: 'Good Afternoon',
-    gradient: 'from-orange-400 via-amber-300 to-yellow-200',
-    textColor: 'text-orange-900',
-    subColor: 'text-orange-700',
-    icon: Sun,
-  },
-  maghrib: {
-    greeting: 'Beautiful Maghrib',
-    gradient: 'from-orange-600 via-rose-500 to-purple-600',
-    textColor: 'text-orange-100',
-    subColor: 'text-rose-200',
-    icon: Sunset,
-  },
-  isha: {
-    greeting: 'Peaceful Evening',
-    gradient: 'from-indigo-800 via-purple-700 to-violet-600',
-    textColor: 'text-indigo-100',
-    subColor: 'text-purple-200',
-    icon: Moon,
-  },
-  night: {
-    greeting: 'Restful Night',
-    gradient: 'from-slate-900 via-indigo-900 to-purple-900',
-    textColor: 'text-slate-100',
-    subColor: 'text-indigo-300',
-    icon: Moon,
-  },
-};
 
 export function HomeScreen({
   onSelectTopic,
@@ -119,11 +82,6 @@ export function HomeScreen({
   const [showPanic, setShowPanic] = useState(false);
   const { prayerTimes, getNextPrayer } = usePrayerTimes();
   const nextPrayer = getNextPrayer();
-
-  // Time-based theme
-  const timeOfDay = getTimeOfDay();
-  const theme = timeThemes[timeOfDay];
-  const TimeIcon = theme.icon;
 
   // User name
   const userName = state.userName || '';
@@ -185,88 +143,101 @@ export function HomeScreen({
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-28">
-      {/* Header */}
-      <div className={`relative overflow-hidden bg-gradient-to-br ${theme.gradient} pt-14 pb-8 px-5`}>
-        <IslamicPattern opacity={0.06} />
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-white dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 pb-28">
+      {/* Pink Header with Islamic Pattern */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-pink-400 via-rose-400 to-fuchsia-500 dark:from-pink-800 dark:via-rose-800 dark:to-fuchsia-900 pt-14 pb-8 px-5">
+        <IslamicPattern opacity={0.08} />
+
+        {/* Floating sparkles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(12)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white/30 rounded-full animate-float"
+              style={{
+                left: `${10 + Math.random() * 80}%`,
+                top: `${10 + Math.random() * 80}%`,
+                animationDelay: `${i * 0.5}s`,
+                animationDuration: `${3 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="relative max-w-lg mx-auto">
           {/* Greeting */}
           <div className="flex items-start justify-between mb-5">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <TimeIcon className={`w-4 h-4 ${theme.subColor}`} />
-                <span className={`text-xs font-medium uppercase tracking-wide ${theme.subColor}`}>
-                  {theme.greeting}
-                </span>
-              </div>
-              <h1 className={`text-3xl font-semibold ${theme.textColor} tracking-tight`}>
-                Assalamu Alaikum{userName ? ',' : ''}
+              <span className="text-xs font-medium uppercase tracking-wide text-pink-100">
+                Assalamu Alaikum
+              </span>
+              <h1 className="text-3xl font-semibold text-white tracking-tight">
+                {userName || 'Welcome back'}
               </h1>
-              {userName && (
-                <h2 className={`text-2xl font-light ${theme.textColor} mt-0.5`}>
-                  {userName}
-                </h2>
-              )}
             </div>
             <button
               onClick={() => setShowPanic(true)}
-              className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center active:bg-white/20 transition-all"
+              className="w-10 h-10 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center active:bg-white/25 transition-all"
               title="Panic button"
             >
-              <EyeOff className="w-5 h-5 text-white/60" />
+              <EyeOff className="w-5 h-5 text-white/70" />
             </button>
           </div>
 
-          {/* Level Progress */}
+          {/* Level Progress - Glassmorphism */}
           <div
-            className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10 cursor-pointer active:bg-white/20 transition-all"
+            className="bg-white/15 backdrop-blur-md rounded-2xl p-4 border border-white/20 cursor-pointer active:bg-white/25 transition-all"
             onClick={onJourney}
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
-                  <LevelIcon level={currentLevel.name} className={`w-5 h-5 ${theme.textColor}`} />
+                <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
+                  <LevelIcon level={currentLevel.name} className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <span className={`text-sm font-semibold ${theme.textColor}`}>
+                  <span className="text-sm font-semibold text-white">
                     {currentLevel.name}
                   </span>
-                  <span className={`text-xs block ${theme.subColor} font-arabic`}>
+                  <span className="text-xs block text-pink-100 font-arabic">
                     {currentLevel.arabic}
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-lg">
-                <Zap className="w-3.5 h-3.5 text-amber-300" />
-                <span className={`text-sm font-bold ${theme.textColor}`}>{xp}</span>
-                <span className={`text-xs ${theme.subColor}`}>XP</span>
+              <div className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-lg">
+                <Zap className="w-3.5 h-3.5 text-amber-200" />
+                <span className="text-sm font-bold text-white">{xp}</span>
+                <span className="text-xs text-pink-100">XP</span>
               </div>
             </div>
-            <div className="h-1.5 bg-white/15 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
               <div
                 className="h-full bg-white/70 rounded-full transition-all duration-700"
                 style={{ width: `${levelProgress}%` }}
               />
             </div>
             {nextLevel && (
-              <p className={`text-xs ${theme.subColor} mt-1.5 text-right`}>
+              <p className="text-xs text-pink-100 mt-1.5 text-right">
                 {nextLevel.minXP - xp} XP to {nextLevel.name}
               </p>
             )}
           </div>
+        </div>
+
+        {/* Mosque silhouette at bottom of header */}
+        <div className="absolute bottom-0 left-0 right-0 translate-y-1">
+          <MosqueSilhouette />
         </div>
       </div>
 
       {/* Content */}
       <div className="px-5 max-w-lg mx-auto space-y-3 pt-5">
 
-        {/* Next Prayer */}
+        {/* Next Prayer - Glassmorphism card */}
         {nextPrayer && prayerTimes && (
-          <Card className="p-4" onClick={onPrayerTimes}>
+          <Card variant="glass" className="p-4" onClick={onPrayerTimes}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-violet-50 dark:bg-violet-900/30 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-violet-100 dark:bg-violet-900/30 rounded-xl flex items-center justify-center">
                   <Clock className="w-5 h-5 text-violet-600 dark:text-violet-400" />
                 </div>
                 <div>
@@ -276,7 +247,7 @@ export function HomeScreen({
                   </p>
                 </div>
               </div>
-              <p className="text-xl font-semibold text-violet-600 dark:text-violet-400 tabular-nums">
+              <p className="text-xl font-semibold text-rose-500 dark:text-rose-400 tabular-nums">
                 {nextPrayer.time}
               </p>
             </div>
@@ -284,10 +255,10 @@ export function HomeScreen({
         )}
 
         {/* Daily Challenges */}
-        <Card className="p-4" onClick={onChallenges}>
+        <Card variant="glass" className="p-4" onClick={onChallenges}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md shadow-amber-500/20">
                 <Target className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -304,7 +275,7 @@ export function HomeScreen({
                     key={i}
                     className={`w-2.5 h-2.5 rounded-full ${
                       completedToday.some((done) => done.id === c.id)
-                        ? 'bg-emerald-500'
+                        ? 'bg-rose-500'
                         : 'bg-neutral-200 dark:bg-neutral-600'
                     }`}
                   />
@@ -316,12 +287,12 @@ export function HomeScreen({
         </Card>
 
         {/* Daily Reflection */}
-        <Card className="p-5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-emerald-50 to-transparent dark:from-emerald-900/10 rounded-bl-3xl" />
+        <Card variant="glass" className="p-5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-pink-100/50 to-transparent dark:from-pink-900/10 rounded-bl-3xl" />
           <div className="relative">
             <div className="flex items-center gap-2 mb-3">
-              <Star className="w-4 h-4 text-emerald-500" />
-              <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+              <Star className="w-4 h-4 text-rose-500" />
+              <p className="text-xs font-semibold text-rose-500 dark:text-rose-400 uppercase tracking-wide">
                 Today's Reflection
               </p>
             </div>
@@ -334,8 +305,8 @@ export function HomeScreen({
 
         {/* Mood & Qibla */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onMood}>
-            <div className="w-10 h-10 bg-gradient-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center mb-3">
+          <Card variant="glass" className="p-4" onClick={onMood}>
+            <div className="w-10 h-10 bg-gradient-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center mb-3 shadow-md shadow-violet-500/20">
               <Heart className="w-5 h-5 text-white" />
             </div>
             <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
@@ -344,8 +315,8 @@ export function HomeScreen({
             <p className="text-xs text-neutral-400 mt-0.5">Mood-based guidance</p>
           </Card>
 
-          <Card className="p-4" onClick={onQibla}>
-            <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-xl flex items-center justify-center mb-3">
+          <Card variant="glass" className="p-4" onClick={onQibla}>
+            <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-xl flex items-center justify-center mb-3 shadow-md shadow-sky-500/20">
               <Compass className="w-5 h-5 text-white" />
             </div>
             <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
@@ -357,9 +328,9 @@ export function HomeScreen({
 
         {/* Adhkar & Dua Coach */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onSmartAdhkar}>
+          <Card variant="glass" className="p-4" onClick={onSmartAdhkar}>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md shadow-amber-500/20">
                 <Sun className="w-5 h-5 text-white" />
               </div>
               {streak > 0 && (
@@ -375,8 +346,8 @@ export function HomeScreen({
             <p className="text-xs text-neutral-400 mt-0.5">Morning & evening</p>
           </Card>
 
-          <Card className="p-4" onClick={onDuaCoach}>
-            <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-xl flex items-center justify-center mb-3">
+          <Card variant="glass" className="p-4" onClick={onDuaCoach}>
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-xl flex items-center justify-center mb-3 shadow-md shadow-emerald-500/20">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
@@ -388,9 +359,9 @@ export function HomeScreen({
 
         {/* Ask Safely & Culture vs Islam */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onAskSafely}>
-            <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center mb-3">
-              <Lock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <Card variant="glass" className="p-4" onClick={onAskSafely}>
+            <div className="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-xl flex items-center justify-center mb-3">
+              <Lock className="w-5 h-5 text-rose-500 dark:text-rose-400" />
             </div>
             <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
               Ask Safely
@@ -398,8 +369,8 @@ export function HomeScreen({
             <p className="text-xs text-neutral-400 mt-0.5">AI-powered guidance</p>
           </Card>
 
-          <Card className="p-4" onClick={onCultureVsIslam}>
-            <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-3">
+          <Card variant="glass" className="p-4" onClick={onCultureVsIslam}>
+            <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-3">
               <Scale className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
             <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
@@ -411,11 +382,12 @@ export function HomeScreen({
 
         {/* Spiritual Journey */}
         <Card
-          className="p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800"
+          variant="glass"
+          className="p-4 bg-gradient-to-r from-pink-50/80 to-rose-50/80 dark:from-pink-900/20 dark:to-rose-900/20 border-pink-200 dark:border-pink-800"
           onClick={onJourney}
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center shadow-md shadow-pink-500/20">
               <TrendingUp className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
@@ -423,7 +395,7 @@ export function HomeScreen({
                 Your Spiritual Journey
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                <LevelIcon level={currentLevel.name} className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <LevelIcon level={currentLevel.name} className="w-4 h-4 text-rose-500 dark:text-rose-400" />
                 <span className="text-xs text-neutral-500 dark:text-neutral-400">
                   Level {currentLevel.name} &middot; {xp} XP
                 </span>
@@ -435,22 +407,22 @@ export function HomeScreen({
 
         {/* Quran, Duas, Sahabiyat */}
         <div className="grid grid-cols-3 gap-3">
-          <Card className="p-4 text-center" onClick={onQuran}>
-            <div className="w-10 h-10 mx-auto bg-teal-50 dark:bg-teal-900/30 rounded-xl flex items-center justify-center mb-2">
+          <Card variant="glass" className="p-4 text-center" onClick={onQuran}>
+            <div className="w-10 h-10 mx-auto bg-teal-100 dark:bg-teal-900/30 rounded-xl flex items-center justify-center mb-2">
               <Book className="w-5 h-5 text-teal-600 dark:text-teal-400" />
             </div>
             <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">Quran</p>
           </Card>
 
-          <Card className="p-4 text-center" onClick={onDuas}>
-            <div className="w-10 h-10 mx-auto bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center mb-2">
+          <Card variant="glass" className="p-4 text-center" onClick={onDuas}>
+            <div className="w-10 h-10 mx-auto bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center mb-2">
               <Heart className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
             </div>
             <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">Duas</p>
           </Card>
 
-          <Card className="p-4 text-center" onClick={onSahabiyat}>
-            <div className="w-10 h-10 mx-auto bg-purple-50 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-2">
+          <Card variant="glass" className="p-4 text-center" onClick={onSahabiyat}>
+            <div className="w-10 h-10 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-2">
               <Users className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             </div>
             <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">Sahabiyat</p>
@@ -458,10 +430,10 @@ export function HomeScreen({
         </div>
 
         {/* Journal */}
-        <Card className="p-4" onClick={onJournal}>
+        <Card variant="glass" className="p-4" onClick={onJournal}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/30 rounded-xl flex items-center justify-center">
-              <Feather className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+            <div className="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-xl flex items-center justify-center">
+              <Feather className="w-5 h-5 text-rose-500 dark:text-rose-400" />
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
@@ -486,7 +458,7 @@ export function HomeScreen({
             const TopicIcon = Icons[topic.icon] || Icons.Circle;
             const count = hadithDatabase.filter((h) => h.topic === topic.id).length;
             return (
-              <Card key={topic.id} className="p-4" onClick={() => onSelectTopic(topic)}>
+              <Card variant="glass" key={topic.id} className="p-4" onClick={() => onSelectTopic(topic)}>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-700 rounded-xl flex items-center justify-center">
                     <TopicIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
@@ -510,7 +482,7 @@ export function HomeScreen({
         </div>
 
         {/* Disclaimer */}
-        <Card className="p-4 mt-4">
+        <Card variant="glass" className="p-4 mt-4">
           <div className="flex items-start gap-3">
             <Info className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
             <p className="text-xs text-neutral-400 leading-relaxed">

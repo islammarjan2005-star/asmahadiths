@@ -11,11 +11,13 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
+  background: linear-gradient(to bottom, #fdf2f8, #fff1f2, #ffffff);
+  min-height: 100vh;
 }
 
 .dark body {
   background-color: #171717;
+  background-image: none;
   color: #f5f5f5;
 }
 
@@ -73,8 +75,8 @@ body {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+  0%, 100% { box-shadow: 0 0 5px rgba(244, 114, 182, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(244, 114, 182, 0.4); }
 }
 
 @keyframes shimmer {
@@ -85,6 +87,11 @@ body {
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.03); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
 }
 
 .animate-fade-in {
@@ -116,7 +123,7 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
 }
@@ -125,22 +132,26 @@ body {
   animation: breathe 3s ease-in-out infinite;
 }
 
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
 /* View transition wrapper */
 .view-enter {
   animation: slideUp 0.25s ease-out;
 }
 
 /* Backdrop blur support */
-@supports (backdrop-filter: blur(8px)) {
+@supports (backdrop-filter: blur(12px)) {
   .glass {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 }
 
-/* Selection color */
+/* Selection color - pink theme */
 ::selection {
-  background-color: rgba(16, 185, 129, 0.2);
+  background-color: rgba(244, 114, 182, 0.2);
 }
 
 /* Smooth scrollbar for WebKit */
@@ -153,7 +164,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(244, 114, 182, 0.2);
   border-radius: 4px;
 }
 
