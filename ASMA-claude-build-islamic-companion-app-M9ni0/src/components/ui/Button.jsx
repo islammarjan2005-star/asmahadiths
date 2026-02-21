@@ -11,25 +11,25 @@ export function Button({
 }) {
   const variants = {
     primary:
-      'bg-stone-800 dark:bg-stone-100 text-white dark:text-stone-900 active:bg-stone-700 dark:active:bg-stone-200',
+      'bg-emerald-700 text-white active:bg-emerald-800',
     secondary:
-      'bg-stone-100 dark:bg-stone-700 text-stone-700 dark:text-stone-200 active:bg-stone-200',
+      'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 active:bg-slate-200',
     ghost:
-      'bg-transparent text-stone-600 dark:text-stone-300 active:bg-stone-100 dark:active:bg-stone-700',
+      'bg-transparent text-slate-600 dark:text-slate-300 active:bg-slate-100 dark:active:bg-slate-700',
     warm:
-      'bg-gradient-to-r from-orange-400 via-rose-500 to-fuchsia-500 text-white active:opacity-90 shadow-lg shadow-rose-500/20',
+      'bg-emerald-700 text-white active:bg-emerald-800',
     rose:
-      'bg-gradient-to-r from-rose-500 to-pink-500 text-white active:opacity-90 shadow-lg shadow-rose-500/20',
+      'bg-emerald-700 text-white active:bg-emerald-800',
     emerald:
-      'bg-emerald-600 text-white active:bg-emerald-700',
+      'bg-emerald-700 text-white active:bg-emerald-800',
     danger:
-      'bg-rose-600 text-white active:bg-rose-700',
+      'bg-red-600 text-white active:bg-red-700',
   };
 
   const sizes = {
-    sm: 'px-4 py-2.5 text-sm',
-    md: 'px-5 py-3.5 text-base',
-    lg: 'px-6 py-4 text-lg',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-5 py-3 text-base',
+    lg: 'px-6 py-3.5 text-base',
   };
 
   return (
@@ -38,7 +38,7 @@ export function Button({
       disabled={disabled}
       className={`
         inline-flex items-center justify-center gap-2
-        rounded-2xl font-semibold transition-all
+        rounded-xl font-medium transition-colors
         disabled:opacity-40 disabled:cursor-not-allowed
         ${variants[variant]}
         ${sizes[size]}
