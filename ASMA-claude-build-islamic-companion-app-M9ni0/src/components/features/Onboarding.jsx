@@ -11,18 +11,47 @@ import {
   Compass,
   ArrowRight,
   User,
+  Moon,
 } from 'lucide-react';
 import { Button } from '../ui';
 import { IslamicPattern } from './IslamicPattern';
 
 const interests = [
-  { id: 'adhkar', label: 'Daily Adhkar', icon: Sun, color: 'amber' },
-  { id: 'quran', label: 'Quran Study', icon: BookOpen, color: 'teal' },
-  { id: 'duas', label: 'Learn Duas', icon: Heart, color: 'rose' },
-  { id: 'knowledge', label: 'Islamic Knowledge', icon: Sparkles, color: 'violet' },
-  { id: 'mindfulness', label: 'Spiritual Growth', icon: Target, color: 'emerald' },
-  { id: 'community', label: 'Sahabiyat Stories', icon: Feather, color: 'purple' },
+  { id: 'adhkar', label: 'Daily Adhkar', icon: Sun, bg: 'bg-amber-100 dark:bg-amber-900/30', fg: 'text-amber-600 dark:text-amber-400' },
+  { id: 'quran', label: 'Quran Study', icon: BookOpen, bg: 'bg-teal-100 dark:bg-teal-900/30', fg: 'text-teal-600 dark:text-teal-400' },
+  { id: 'duas', label: 'Learn Duas', icon: Heart, bg: 'bg-rose-100 dark:bg-rose-900/30', fg: 'text-rose-500 dark:text-rose-400' },
+  { id: 'knowledge', label: 'Islamic Knowledge', icon: Sparkles, bg: 'bg-violet-100 dark:bg-violet-900/30', fg: 'text-violet-600 dark:text-violet-400' },
+  { id: 'mindfulness', label: 'Spiritual Growth', icon: Target, bg: 'bg-emerald-100 dark:bg-emerald-900/30', fg: 'text-emerald-600 dark:text-emerald-400' },
+  { id: 'community', label: 'Sahabiyat Stories', icon: Feather, bg: 'bg-orange-100 dark:bg-orange-900/30', fg: 'text-orange-600 dark:text-orange-400' },
 ];
+
+function CrescentMoon({ className = '' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="currentColor">
+      <path d="M28 4a20 20 0 1 0 0 40 20 20 0 0 1 0-40z" opacity="0.15" />
+      <path d="M30 6a18 18 0 1 0 0 36c-6 0-11.5-3-14.8-7.8A18 18 0 0 1 30 6z" />
+    </svg>
+  );
+}
+
+function StepDots({ current, total }) {
+  return (
+    <div className="flex justify-center gap-2.5 mt-10">
+      {Array.from({ length: total }).map((_, i) => (
+        <div
+          key={i}
+          className={`h-2 rounded-full transition-all duration-500 ${
+            i === current
+              ? 'w-8 bg-white shadow-md shadow-white/30'
+              : i < current
+              ? 'w-2 bg-white/50'
+              : 'w-2 bg-white/20'
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function Onboarding({ onComplete }) {
   const [step, setStep] = useState(0);
@@ -39,23 +68,26 @@ export function Onboarding({ onComplete }) {
     onComplete({ name: name.trim(), interests: selectedInterests });
   };
 
-  // Step 0: Welcome - Beautiful pink gradient
+  // Step 0: Welcome - Warm sunset gradient with crescent moon
   if (step === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-400 via-rose-400 to-fuchsia-500 flex flex-col items-center justify-center p-8 relative overflow-hidden">
-        <IslamicPattern opacity={0.08} />
+      <div className="min-h-screen bg-gradient-to-br from-orange-400 via-rose-400 to-fuchsia-500 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        <IslamicPattern opacity={0.06} />
 
-        {/* Floating sparkle particles */}
+        {/* Warm ambient particles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(25)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-white/40 rounded-full animate-float"
+              className="absolute rounded-full animate-float"
               style={{
+                width: `${2 + Math.random() * 4}px`,
+                height: `${2 + Math.random() * 4}px`,
+                background: `rgba(255,255,255,${0.15 + Math.random() * 0.25})`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 4}s`,
-                animationDuration: `${3 + Math.random() * 3}s`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${4 + Math.random() * 4}s`,
               }}
             />
           ))}
@@ -63,58 +95,56 @@ export function Onboarding({ onComplete }) {
 
         <div className="w-full max-w-sm animate-fade-in relative">
           <div className="text-center">
-            {/* Glowing circle with icon */}
-            <div className="w-28 h-28 mx-auto mb-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-pink-500/20 animate-breathe">
-              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
-                <Feather className="w-10 h-10 text-white" />
+            {/* Warm glowing icon with crescent */}
+            <div className="relative w-32 h-32 mx-auto mb-10">
+              <div className="absolute inset-0 rounded-full bg-white/10 animate-breathe" />
+              <div className="absolute inset-2 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                <CrescentMoon className="w-14 h-14 text-amber-100" />
+              </div>
+              {/* Decorative stars */}
+              <div className="absolute -top-2 -right-1 w-3 h-3 text-amber-200 animate-float" style={{ animationDelay: '0.5s' }}>
+                <Sparkles className="w-3 h-3" />
+              </div>
+              <div className="absolute top-2 -left-3 w-2 h-2 text-white/50 animate-float" style={{ animationDelay: '1.5s' }}>
+                <Sparkles className="w-2 h-2" />
               </div>
             </div>
-            <h1 className="text-5xl font-light text-white mb-2 tracking-tight">
+
+            <h1 className="text-5xl font-light text-white mb-3 tracking-tight">
               Asma
             </h1>
-            <p className="text-2xl text-pink-100 mb-3 font-arabic">أسماء</p>
-            <p className="text-pink-100 leading-relaxed mb-12 text-lg">
-              A safe space to understand your faith with clarity and compassion.
+            <p className="text-3xl text-white/70 mb-4 font-arabic leading-relaxed">أسماء</p>
+            <p className="text-white/80 leading-relaxed mb-14 text-lg max-w-xs mx-auto">
+              Your safe, warm companion on the journey to understanding your faith.
             </p>
           </div>
 
           <button
             onClick={() => setStep(1)}
-            className="w-full py-4 bg-white/90 backdrop-blur-sm text-rose-600 rounded-2xl font-semibold text-lg active:bg-white transition-all shadow-lg shadow-black/10"
+            className="w-full py-4.5 bg-white text-rose-600 rounded-2xl font-semibold text-lg active:scale-[0.98] transition-all shadow-xl shadow-black/10"
           >
             Begin Your Journey
           </button>
 
-          <div className="flex justify-center gap-2 mt-8">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === step
-                    ? 'w-8 bg-white'
-                    : 'w-1.5 bg-white/30'
-                }`}
-              />
-            ))}
-          </div>
+          <StepDots current={0} total={4} />
         </div>
       </div>
     );
   }
 
-  // Step 1: Name
+  // Step 1: Name - Warm cream background
   if (step === 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-white dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 flex flex-col items-center justify-center p-8">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-fuchsia-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-900 flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-sm animate-fade-in">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center">
-              <User className="w-8 h-8 text-rose-500 dark:text-rose-400" />
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-rose-100 to-orange-100 dark:from-rose-900/30 dark:to-orange-900/30 flex items-center justify-center shadow-md shadow-rose-200/30">
+              <User className="w-9 h-9 text-rose-500 dark:text-rose-400" />
             </div>
-            <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-100 mb-2 tracking-tight">
+            <h2 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-2">
               What should we call you?
             </h2>
-            <p className="text-neutral-500 dark:text-neutral-400 text-sm">
+            <p className="text-stone-500 dark:text-stone-400">
               This helps personalize your experience
             </p>
           </div>
@@ -124,39 +154,27 @@ export function Onboarding({ onComplete }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name (optional)"
-            className="w-full px-5 py-4 bg-white dark:bg-neutral-800 border-2 border-rose-200 dark:border-neutral-700 rounded-2xl text-neutral-800 dark:text-neutral-100 text-center text-lg placeholder-neutral-400 focus:outline-none focus:border-rose-400 transition-colors mb-8"
+            className="w-full px-6 py-4.5 warm-card text-stone-800 dark:text-stone-100 text-center text-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-rose-300 dark:focus:ring-rose-500 transition-all mb-8"
             autoFocus
           />
 
           <Button
             onClick={() => setStep(2)}
-            variant="rose"
-            className="w-full py-4 text-lg"
+            variant="warm"
+            className="w-full"
+            size="lg"
           >
             {name.trim() ? `Welcome, ${name.trim()}` : 'Continue'}
           </Button>
 
           <button
             onClick={() => setStep(2)}
-            className="w-full text-center text-sm text-neutral-400 mt-4 py-2"
+            className="w-full text-center text-sm text-stone-400 mt-5 py-2"
           >
             Skip for now
           </button>
 
-          <div className="flex justify-center gap-2 mt-8">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === step
-                    ? 'w-8 bg-rose-500'
-                    : i < step
-                    ? 'w-1.5 bg-rose-400'
-                    : 'w-1.5 bg-neutral-300 dark:bg-neutral-600'
-                }`}
-              />
-            ))}
-          </div>
+          <StepDots current={1} total={4} />
         </div>
       </div>
     );
@@ -165,18 +183,18 @@ export function Onboarding({ onComplete }) {
   // Step 2: Interests
   if (step === 2) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-white dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 flex flex-col items-center justify-center p-8">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-fuchsia-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-900 flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-sm animate-fade-in">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-100 mb-2 tracking-tight">
-              What interests you?
+            <h2 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-2">
+              What speaks to your heart?
             </h2>
-            <p className="text-neutral-500 dark:text-neutral-400 text-sm">
-              Select all that speak to your heart
+            <p className="text-stone-500 dark:text-stone-400">
+              Choose all that interest you
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-8">
+          <div className="grid grid-cols-2 gap-3 mb-10">
             {interests.map((interest, i) => {
               const Icon = interest.icon;
               const selected = selectedInterests.includes(interest.id);
@@ -184,59 +202,34 @@ export function Onboarding({ onComplete }) {
                 <button
                   key={interest.id}
                   onClick={() => toggleInterest(interest.id)}
-                  className={`p-4 rounded-2xl border-2 text-left transition-all animate-slide-up ${
+                  className={`p-5 rounded-2xl border-2 text-left transition-all animate-slide-up ${
                     selected
-                      ? 'border-rose-400 bg-rose-50 dark:bg-rose-900/20'
-                      : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800'
+                      ? 'border-rose-300 bg-rose-50/80 dark:bg-rose-900/20 dark:border-rose-600 shadow-md shadow-rose-200/30'
+                      : 'border-transparent warm-card active:scale-[0.97]'
                   }`}
-                  style={{ animationDelay: `${i * 60}ms` }}
+                  style={{ animationDelay: `${i * 70}ms` }}
                 >
-                  <Icon
-                    className={`w-6 h-6 mb-2 ${
-                      selected
-                        ? 'text-rose-500 dark:text-rose-400'
-                        : 'text-neutral-400'
-                    }`}
-                  />
-                  <p
-                    className={`text-sm font-medium ${
-                      selected
-                        ? 'text-rose-700 dark:text-rose-300'
-                        : 'text-neutral-600 dark:text-neutral-300'
-                    }`}
-                  >
+                  <div className={`w-10 h-10 ${interest.bg} rounded-xl flex items-center justify-center mb-3`}>
+                    <Icon className={`w-5 h-5 ${interest.fg}`} />
+                  </div>
+                  <p className={`text-sm font-semibold ${
+                    selected ? 'text-rose-700 dark:text-rose-300' : 'text-stone-700 dark:text-stone-300'
+                  }`}>
                     {interest.label}
                   </p>
                   {selected && (
-                    <CheckCircle className="w-4 h-4 text-rose-500 mt-1" />
+                    <CheckCircle className="w-4 h-4 text-rose-500 mt-1.5" />
                   )}
                 </button>
               );
             })}
           </div>
 
-          <Button
-            onClick={() => setStep(3)}
-            variant="rose"
-            className="w-full py-4 text-lg"
-          >
+          <Button onClick={() => setStep(3)} variant="warm" className="w-full" size="lg">
             Continue
           </Button>
 
-          <div className="flex justify-center gap-2 mt-8">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === step
-                    ? 'w-8 bg-rose-500'
-                    : i < step
-                    ? 'w-1.5 bg-rose-400'
-                    : 'w-1.5 bg-neutral-300 dark:bg-neutral-600'
-                }`}
-              />
-            ))}
-          </div>
+          <StepDots current={2} total={4} />
         </div>
       </div>
     );
@@ -244,53 +237,49 @@ export function Onboarding({ onComplete }) {
 
   // Step 3: Promises
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-white dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 flex flex-col items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-fuchsia-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-900 flex flex-col items-center justify-center p-8">
       <div className="w-full max-w-sm animate-fade-in">
-        <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-100 mb-8 text-center tracking-tight">
-          Our Promise to You
-        </h2>
-        <div className="space-y-3 mb-12">
+        <div className="text-center mb-8">
+          <Moon className="w-8 h-8 text-amber-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-1">
+            Our Promise to You
+          </h2>
+          <p className="text-stone-500 dark:text-stone-400 text-sm">
+            Built with love and authenticity
+          </p>
+        </div>
+
+        <div className="space-y-3 mb-10">
           {[
-            { icon: CheckCircle, text: 'All hadith verified for authenticity', color: 'text-rose-500' },
-            { icon: BookOpen, text: 'Female scholars cited throughout', color: 'text-violet-500' },
-            { icon: Sparkles, text: 'AI-powered guidance with real sources', color: 'text-amber-500' },
-            { icon: Lock, text: 'Your questions remain completely private', color: 'text-sky-500' },
-            { icon: Target, text: 'Track your spiritual growth with XP & levels', color: 'text-pink-500' },
-            { icon: Compass, text: 'Qibla direction and prayer times', color: 'text-teal-500' },
+            { icon: CheckCircle, text: 'All hadith verified for authenticity', color: 'text-emerald-500', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
+            { icon: BookOpen, text: 'Female scholars cited throughout', color: 'text-violet-500', bg: 'bg-violet-100 dark:bg-violet-900/30' },
+            { icon: Sparkles, text: 'AI-powered guidance with real sources', color: 'text-amber-500', bg: 'bg-amber-100 dark:bg-amber-900/30' },
+            { icon: Lock, text: 'Your questions remain completely private', color: 'text-sky-500', bg: 'bg-sky-100 dark:bg-sky-900/30' },
+            { icon: Target, text: 'Track your spiritual growth journey', color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/30' },
+            { icon: Compass, text: 'Qibla direction and prayer times', color: 'text-teal-500', bg: 'bg-teal-100 dark:bg-teal-900/30' },
           ].map((point, i) => (
             <div
               key={i}
-              className="flex items-start gap-4 p-4 bg-white/70 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border border-rose-100 dark:border-neutral-700 animate-slide-up"
+              className="flex items-center gap-4 p-4 warm-card animate-slide-up"
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <point.icon className={`w-5 h-5 ${point.color} flex-shrink-0 mt-0.5`} />
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm">{point.text}</p>
+              <div className={`w-10 h-10 ${point.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                <point.icon className={`w-5 h-5 ${point.color}`} />
+              </div>
+              <p className="text-stone-600 dark:text-stone-300 text-sm font-medium">{point.text}</p>
             </div>
           ))}
         </div>
 
         <button
           onClick={handleComplete}
-          className="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl font-semibold text-lg active:opacity-90 transition-opacity shadow-lg shadow-pink-500/20 flex items-center justify-center gap-2"
+          className="w-full py-4 bg-gradient-to-r from-orange-400 via-rose-500 to-fuchsia-500 text-white rounded-2xl font-semibold text-lg active:scale-[0.98] transition-all shadow-xl shadow-rose-500/20 flex items-center justify-center gap-2"
         >
           Start Exploring
           <ArrowRight className="w-5 h-5" />
         </button>
 
-        <div className="flex justify-center gap-2 mt-8">
-          {[0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === step
-                  ? 'w-8 bg-rose-500'
-                  : i < step
-                  ? 'w-1.5 bg-rose-400'
-                  : 'w-1.5 bg-neutral-300 dark:bg-neutral-600'
-              }`}
-            />
-          ))}
-        </div>
+        <StepDots current={3} total={4} />
       </div>
     </div>
   );
