@@ -1,5 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
+
+/* ===== LUMINOUS SANCTUARY DESIGN SYSTEM ===== */
+
+@theme {
+  /* === PRIMARY: Deep Teal (Sanctuary) === */
+  --color-sanctuary-50: #F2FAFA;
+  --color-sanctuary-100: #D5EFEF;
+  --color-sanctuary-200: #A8DEDE;
+  --color-sanctuary-300: #6DBFBF;
+  --color-sanctuary-400: #3A9E9E;
+  --color-sanctuary-500: #267A7B;
+  --color-sanctuary-600: #1B5E5F;
+  --color-sanctuary-700: #164D4E;
+  --color-sanctuary-800: #113B3C;
+  --color-sanctuary-900: #0C2A2B;
+  --color-sanctuary-950: #071A1B;
+
+  /* === ACCENT: Warm Gold === */
+  --color-gold-50: #FDF8F0;
+  --color-gold-100: #F9EDDA;
+  --color-gold-200: #F0D8B4;
+  --color-gold-300: #E5BD85;
+  --color-gold-400: #D4A574;
+  --color-gold-500: #C08B54;
+  --color-gold-600: #A5733F;
+  --color-gold-700: #875C33;
+  --color-gold-800: #6B4A2B;
+  --color-gold-900: #4F3720;
+
+  /* === BACKGROUND: Soft Cream === */
+  --color-cream-50: #FDFCF9;
+  --color-cream-100: #FAF8F3;
+  --color-cream-200: #F3EFE6;
+  --color-cream-300: #E8E2D5;
+  --color-cream-400: #D4CCC0;
+
+  /* === SECONDARY: Dusty Rose === */
+  --color-rose-50: #FDF5F5;
+  --color-rose-100: #F5E4E4;
+  --color-rose-200: #E8C8C8;
+  --color-rose-300: #D4A8A8;
+  --color-rose-400: #C99B9B;
+  --color-rose-500: #B38585;
+  --color-rose-600: #9A6F6F;
+
+  /* === TERTIARY: Muted Lavender === */
+  --color-lavender-50: #F8F5FD;
+  --color-lavender-100: #EDE5F7;
+  --color-lavender-200: #D6C5E8;
+  --color-lavender-300: #BEA5D8;
+  --color-lavender-400: #A688C5;
+
+  /* === DARK MODE: Warm Night === */
+  --color-night-50: #2A2520;
+  --color-night-100: #231F1B;
+  --color-night-200: #1C1916;
+  --color-night-300: #161311;
+  --color-night-400: #100E0C;
+  --color-night-500: #0A0908;
+
+  /* === TEXT === */
+  --color-text-primary: #2D2D2D;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary: #9B9B9B;
+
+  /* === TYPOGRAPHY === */
+  --font-sans: 'Tajawal', system-ui, -apple-system, sans-serif;
+  --font-arabic: 'Amiri', serif;
+
+  /* === ANIMATIONS === */
+  --animate-fade-in: fadeIn 0.3s ease-out forwards;
+  --animate-slide-up: slideUp 0.3s ease-out forwards;
+  --animate-slide-down: slideDown 0.25s ease-out forwards;
+  --animate-scale-in: scaleIn 0.3s ease-out forwards;
+  --animate-pulse-soft: pulseSoft 2s ease-in-out infinite;
+  --animate-gentle-reveal: gentleReveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-glow-pulse: glowPulse 3s ease-in-out infinite;
+}
+
+/* ===== GLOBAL STYLES ===== */
 
 html {
   -webkit-tap-highlight-color: transparent;
@@ -7,22 +87,24 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Tajawal', system-ui, -apple-system, sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #FAF8F3;
+  color: #2D2D2D;
 }
 
 .dark body {
-  background-color: #0f172a;
-  color: #e2e8f0;
+  background-color: #161311;
+  color: #F3EFE6;
 }
 
 .font-arabic {
   font-family: 'Amiri', serif;
 }
+
+/* ===== SAFE AREAS ===== */
 
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -31,6 +113,8 @@ body {
 .safe-top {
   padding-top: env(safe-area-inset-top, 0);
 }
+
+/* ===== SCROLLBAR ===== */
 
 .hide-scrollbar {
   -ms-overflow-style: none;
@@ -41,7 +125,30 @@ body {
   display: none;
 }
 
-/* ===== ANIMATIONS (functional only) ===== */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 165, 116, 0.2);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(212, 165, 116, 0.08);
+}
+
+/* ===== SELECTION ===== */
+
+::selection {
+  background-color: rgba(27, 94, 95, 0.12);
+}
+
+/* ===== ANIMATIONS ===== */
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -68,6 +175,26 @@ body {
   50% { opacity: 0.6; }
 }
 
+@keyframes gentleReveal {
+  from { opacity: 0; transform: scale(0.97) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(212, 165, 116, 0.15); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes textReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
@@ -88,27 +215,51 @@ body {
   animation: pulseSoft 2s ease-in-out infinite;
 }
 
+.animate-gentle-reveal {
+  animation: gentleReveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.08), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-text-reveal {
+  opacity: 0;
+  animation: textReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
 .view-enter {
-  animation: slideUp 0.25s ease-out;
+  animation: gentleReveal 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-::selection {
-  background-color: rgba(4, 120, 87, 0.12);
+/* ===== CUSTOM UTILITIES ===== */
+
+.gold-border {
+  border: 1px solid rgba(212, 165, 116, 0.25);
 }
 
-::-webkit-scrollbar {
-  width: 3px;
+.gold-border-left {
+  border-left: 2px solid #D4A574;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+.shadow-sanctuary {
+  box-shadow: 0 1px 3px rgba(27, 94, 95, 0.04), 0 1px 2px rgba(212, 165, 116, 0.03);
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.15);
-  border-radius: 4px;
+.shadow-sanctuary-hover {
+  box-shadow: 0 4px 12px rgba(27, 94, 95, 0.06), 0 2px 4px rgba(212, 165, 116, 0.04);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.06);
+.shadow-sanctuary-elevated {
+  box-shadow: 0 8px 24px rgba(27, 94, 95, 0.08), 0 4px 8px rgba(212, 165, 116, 0.05);
+}
+
+.text-balance {
+  text-wrap: balance;
 }

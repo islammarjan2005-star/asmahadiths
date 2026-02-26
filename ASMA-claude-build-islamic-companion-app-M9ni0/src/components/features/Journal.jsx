@@ -46,7 +46,7 @@ export function Journal({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-200 pb-24">
       {/* New Entry Modal */}
       <Modal
         isOpen={showNew}
@@ -62,7 +62,7 @@ export function Journal({ onBack }) {
         <div className="p-5">
           {/* Prompts */}
           <div className="mb-4">
-            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-2">
+            <p className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2">
               Or start with a prompt
             </p>
             <div className="flex flex-wrap gap-2">
@@ -72,8 +72,8 @@ export function Journal({ onBack }) {
                   onClick={() => setSelectedPrompt(prompt)}
                   className={`px-3 py-1.5 rounded-full text-xs transition-colors ${
                     selectedPrompt === prompt
-                      ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'
-                      : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
+                      ? 'bg-sanctuary-50 text-sanctuary-600 dark:bg-sanctuary-900/50 dark:text-sanctuary-300'
+                      : 'bg-cream-200 dark:bg-night-100 text-text-secondary dark:text-cream-300'
                   }`}
                 >
                   {prompt}
@@ -84,8 +84,8 @@ export function Journal({ onBack }) {
 
           {/* Selected Prompt Display */}
           {selectedPrompt && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl mb-4">
-              <p className="text-sm text-emerald-700 dark:text-emerald-300 italic">
+            <div className="p-3 bg-sanctuary-50 dark:bg-sanctuary-900/30 rounded-xl mb-4">
+              <p className="text-sm text-sanctuary-700 dark:text-sanctuary-300 italic">
                 {selectedPrompt}
               </p>
             </div>
@@ -111,7 +111,7 @@ export function Journal({ onBack }) {
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-neutral-400 active:text-neutral-600 transition-colors"
+            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             <span className="text-sm">Back</span>
@@ -120,17 +120,17 @@ export function Journal({ onBack }) {
 
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-violet-50 dark:bg-violet-900/50 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-lavender-200 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-violet-600 dark:text-violet-400" />
             </div>
             <div>
-              <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
+              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
                 Reflection Journal
               </h1>
-              <p className="text-sm text-neutral-400">Your private space</p>
+              <p className="text-sm text-text-tertiary">Your private space</p>
             </div>
           </div>
-          <p className="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed">
+          <p className="text-text-tertiary dark:text-text-tertiary text-sm leading-relaxed">
             Record your thoughts, gratitude, and spiritual reflections. Everything stays on your
             device.
           </p>
@@ -144,9 +144,9 @@ export function Journal({ onBack }) {
         {/* Entries List */}
         {state.journal.length === 0 ? (
           <Card className="p-8 text-center">
-            <BookOpen className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-            <p className="text-neutral-500 dark:text-neutral-400">No reflections yet.</p>
-            <p className="text-neutral-400 dark:text-neutral-500 text-sm mt-1">
+            <BookOpen className="w-12 h-12 text-cream-300 dark:text-night-50 mx-auto mb-4" />
+            <p className="text-text-tertiary dark:text-text-tertiary">No reflections yet.</p>
+            <p className="text-text-tertiary dark:text-text-tertiary text-sm mt-1">
               Start writing to see your entries here.
             </p>
           </Card>
@@ -155,20 +155,20 @@ export function Journal({ onBack }) {
             {state.journal.map((entry) => (
               <Card key={entry.id} className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                  <p className="text-xs text-neutral-400">{formatDate(entry.date)}</p>
+                  <p className="text-xs text-text-tertiary">{formatDate(entry.date)}</p>
                   <button
                     onClick={() => handleDelete(entry.id)}
-                    className="p-1 text-neutral-300 dark:text-neutral-600 hover:text-rose-500 transition-colors"
+                    className="p-1 text-cream-300 dark:text-night-50 hover:text-rose-500 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
                 {entry.prompt && (
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400 italic mb-2">
+                  <p className="text-xs text-sanctuary-600 dark:text-sanctuary-400 italic mb-2">
                     {entry.prompt}
                   </p>
                 )}
-                <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed whitespace-pre-line">
+                <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed whitespace-pre-line">
                   {entry.content}
                 </p>
               </Card>

@@ -48,11 +48,11 @@ const colorClasses = {
   pink: 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400',
   blue: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
   violet: 'bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400',
-  emerald: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
-  amber: 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400',
+  emerald: 'bg-sanctuary-100 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400',
+  amber: 'bg-gold-100 dark:bg-gold-900/30 text-gold-600 dark:text-gold-400',
   cyan: 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400',
-  slate: 'bg-slate-50 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400',
-  indigo: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400',
+  slate: 'bg-cream-200 dark:bg-night-200 text-text-secondary dark:text-cream-300',
+  indigo: 'bg-lavender-100 dark:bg-lavender-900/30 text-lavender-600 dark:text-lavender-400',
   teal: 'bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400',
   orange: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400',
   purple: 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
@@ -143,13 +143,13 @@ export function DuaCoach({ onBack }) {
       {/* Search Bar */}
       <div className="mb-6">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="What's on your heart? (e.g., anxious, marriage, exams)"
-            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl text-neutral-700 dark:text-neutral-200 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-cream-100 dark:bg-night-200 border border-cream-300 dark:border-night-50 rounded-xl text-text-secondary dark:text-cream-200 placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-sanctuary-500/20 focus:border-sanctuary-500 transition-all"
           />
           {searchQuery && (
             <button
@@ -158,9 +158,9 @@ export function DuaCoach({ onBack }) {
                 setSearchResults([]);
                 setView('home');
               }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-cream-200 dark:hover:bg-night-100"
             >
-              <X className="w-4 h-4 text-neutral-400" />
+              <X className="w-4 h-4 text-text-tertiary" />
             </button>
           )}
         </div>
@@ -172,7 +172,7 @@ export function DuaCoach({ onBack }) {
           <button
             key={suggestion}
             onClick={() => handleSearch(suggestion)}
-            className="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+            className="px-3 py-1.5 bg-cream-200 dark:bg-night-200 rounded-full text-xs text-text-secondary dark:text-cream-300 hover:bg-cream-300 dark:hover:bg-night-100 transition-colors"
           >
             {suggestion}
           </button>
@@ -180,7 +180,7 @@ export function DuaCoach({ onBack }) {
       </div>
 
       {/* Categories Grid */}
-      <h2 className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-4">
+      <h2 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-4">
         What do you need a dua for?
       </h2>
       <div className="grid grid-cols-2 gap-3">
@@ -197,10 +197,10 @@ export function DuaCoach({ onBack }) {
               >
                 <Icon className="w-5 h-5" />
               </div>
-              <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-sm">
+              <h3 className="font-medium text-text-secondary dark:text-cream-200 text-sm">
                 {category.name}
               </h3>
-              <p className="text-xs text-neutral-400 mt-0.5">{category.description}</p>
+              <p className="text-xs text-text-tertiary mt-0.5">{category.description}</p>
             </Card>
           );
         })}
@@ -209,7 +209,7 @@ export function DuaCoach({ onBack }) {
       {/* Recent Journey */}
       {state.duaJourney?.length > 0 && (
         <div className="mt-8">
-          <h2 className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-4">
+          <h2 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-4">
             Your Dua Journey
           </h2>
           <Card className="p-4">
@@ -221,18 +221,18 @@ export function DuaCoach({ onBack }) {
                   <button
                     key={entry.id}
                     onClick={() => handleDuaSelect(dua)}
-                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors text-left"
+                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-cream-100 dark:hover:bg-night-200 transition-colors text-left"
                   >
-                    <div className="w-8 h-8 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Book className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <div className="w-8 h-8 bg-sanctuary-100 dark:bg-sanctuary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Book className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-neutral-700 dark:text-neutral-200 truncate">
+                      <p className="text-sm font-medium text-text-secondary dark:text-cream-200 truncate">
                         {dua.title}
                       </p>
-                      <p className="text-xs text-neutral-400 truncate">{entry.concern}</p>
+                      <p className="text-xs text-text-tertiary truncate">{entry.concern}</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-neutral-300 flex-shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-cream-300 flex-shrink-0" />
                   </button>
                 );
               })}
@@ -252,16 +252,16 @@ export function DuaCoach({ onBack }) {
           setSearchResults([]);
           setView('home');
         }}
-        className="flex items-center gap-2 text-neutral-400 mb-4"
+        className="flex items-center gap-2 text-text-tertiary mb-4"
       >
         <ChevronLeft className="w-5 h-5" />
         <span className="text-sm">Back to categories</span>
       </button>
 
-      <h2 className="text-lg font-medium text-neutral-800 dark:text-neutral-100 mb-2">
+      <h2 className="text-lg font-medium text-text-primary dark:text-cream-200 mb-2">
         Duas for "{searchQuery}"
       </h2>
-      <p className="text-sm text-neutral-400 mb-6">
+      <p className="text-sm text-text-tertiary mb-6">
         {searchResults.length} matching duas found
       </p>
 
@@ -274,24 +274,24 @@ export function DuaCoach({ onBack }) {
                   <MessageCircle className="w-5 h-5" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-sm mb-1">
+                  <h3 className="font-medium text-text-secondary dark:text-cream-200 text-sm mb-1">
                     {dua.title}
                   </h3>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2">
+                  <p className="text-xs text-text-tertiary dark:text-cream-300 line-clamp-2">
                     {dua.translation}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     <Badge variant="default">{dua.source}</Badge>
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-neutral-300 flex-shrink-0" />
+                <ChevronRight className="w-5 h-5 text-cream-300 flex-shrink-0" />
               </div>
             </Card>
           ))}
         </div>
       ) : (
         <Card className="p-6 text-center">
-          <p className="text-neutral-500 dark:text-neutral-400">
+          <p className="text-text-tertiary dark:text-cream-300">
             No duas found for "{searchQuery}". Try different words like "anxiety", "marriage", or "guidance".
           </p>
         </Card>
@@ -308,7 +308,7 @@ export function DuaCoach({ onBack }) {
       <>
         <button
           onClick={() => setView('home')}
-          className="flex items-center gap-2 text-neutral-400 mb-4"
+          className="flex items-center gap-2 text-text-tertiary mb-4"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Back to categories</span>
@@ -321,10 +321,10 @@ export function DuaCoach({ onBack }) {
             <Icon className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-lg font-medium text-neutral-800 dark:text-neutral-100">
+            <h2 className="text-lg font-medium text-text-primary dark:text-cream-200">
               {selectedCategory?.name}
             </h2>
-            <p className="text-sm text-neutral-400">{categoryDuas.length} duas available</p>
+            <p className="text-sm text-text-tertiary">{categoryDuas.length} duas available</p>
           </div>
         </div>
 
@@ -333,10 +333,10 @@ export function DuaCoach({ onBack }) {
             <Card key={dua.id} className="p-4" onClick={() => handleDuaSelect(dua)}>
               <div className="flex items-start gap-3">
                 <div className="flex-1">
-                  <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-sm mb-1">
+                  <h3 className="font-medium text-text-secondary dark:text-cream-200 text-sm mb-1">
                     {dua.title}
                   </h3>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2 mb-2">
+                  <p className="text-xs text-text-tertiary dark:text-cream-300 line-clamp-2 mb-2">
                     {dua.translation}
                   </p>
                   <div className="flex items-center gap-2">
@@ -346,7 +346,7 @@ export function DuaCoach({ onBack }) {
                     )}
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-neutral-300 flex-shrink-0 mt-1" />
+                <ChevronRight className="w-5 h-5 text-cream-300 flex-shrink-0 mt-1" />
               </div>
             </Card>
           ))}
@@ -366,7 +366,7 @@ export function DuaCoach({ onBack }) {
       <>
         <button
           onClick={() => setView(selectedCategory ? 'category' : 'home')}
-          className="flex items-center gap-2 text-neutral-400 mb-4"
+          className="flex items-center gap-2 text-text-tertiary mb-4"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Back</span>
@@ -382,36 +382,36 @@ export function DuaCoach({ onBack }) {
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-medium text-neutral-800 dark:text-neutral-100">
+                <h2 className="font-medium text-text-primary dark:text-cream-200">
                   {selectedDua.title}
                 </h2>
-                <p className="text-xs text-neutral-400">{category?.name}</p>
+                <p className="text-xs text-text-tertiary">{category?.name}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleAudio}
-                className="p-2 rounded-lg text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                className="p-2 rounded-lg text-text-tertiary hover:bg-cream-200 dark:hover:bg-night-100 transition-colors"
               >
                 {isPlaying ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
               <button
                 onClick={() => toggleSaved(selectedDua.id)}
-                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                className="p-2 rounded-lg hover:bg-cream-200 dark:hover:bg-night-100 transition-colors"
               >
                 {isSaved(selectedDua.id) ? (
-                  <BookmarkCheck className="w-5 h-5 text-emerald-500" />
+                  <BookmarkCheck className="w-5 h-5 text-sanctuary-500" />
                 ) : (
-                  <Bookmark className="w-5 h-5 text-neutral-400" />
+                  <Bookmark className="w-5 h-5 text-text-tertiary" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Arabic */}
-          <div className="bg-neutral-50 dark:bg-neutral-800 rounded-xl p-4 mb-4">
+          <div className="bg-cream-100 dark:bg-night-200 rounded-xl p-4 mb-4">
             <p
-              className="text-xl leading-loose text-neutral-800 dark:text-neutral-100 font-arabic text-center"
+              className="text-xl leading-loose text-text-primary dark:text-cream-200 font-arabic text-center"
               dir="rtl"
             >
               {selectedDua.arabic}
@@ -419,21 +419,21 @@ export function DuaCoach({ onBack }) {
           </div>
 
           {/* Transliteration */}
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 italic text-center mb-4">
+          <p className="text-sm text-text-tertiary dark:text-cream-300 italic text-center mb-4">
             {selectedDua.transliteration}
           </p>
 
           {/* Translation */}
-          <div className="border-l-4 border-emerald-500 pl-4 mb-4">
-            <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">
+          <div className="border-l-4 border-gold-400 pl-4 mb-4">
+            <p className="text-text-secondary dark:text-cream-200 leading-relaxed">
               {selectedDua.translation}
             </p>
           </div>
 
           {/* Source */}
           <div className="flex items-center gap-2 mb-4">
-            <Book className="w-4 h-4 text-neutral-400" />
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+            <Book className="w-4 h-4 text-text-tertiary" />
+            <span className="text-sm text-text-tertiary dark:text-cream-300">
               {selectedDua.source}
             </span>
           </div>
@@ -441,11 +441,11 @@ export function DuaCoach({ onBack }) {
 
         {/* Context & Background */}
         <Card className="p-5 mb-4">
-          <h3 className="font-medium text-neutral-800 dark:text-neutral-100 mb-3 flex items-center gap-2">
-            <MessageCircle className="w-4 h-4 text-emerald-500" />
+          <h3 className="font-medium text-text-primary dark:text-cream-200 mb-3 flex items-center gap-2">
+            <MessageCircle className="w-4 h-4 text-sanctuary-500" />
             Context & Background
           </h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+          <p className="text-sm text-text-secondary dark:text-cream-300 leading-relaxed">
             {selectedDua.context}
           </p>
         </Card>
@@ -456,16 +456,16 @@ export function DuaCoach({ onBack }) {
             onClick={() => setShowTafsir(!showTafsir)}
             className="w-full flex items-center justify-between"
           >
-            <h3 className="font-medium text-neutral-800 dark:text-neutral-100 flex items-center gap-2">
+            <h3 className="font-medium text-text-primary dark:text-cream-200 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-violet-500" />
               Deep Understanding
             </h3>
             <ChevronRight
-              className={`w-5 h-5 text-neutral-400 transition-transform ${showTafsir ? 'rotate-90' : ''}`}
+              className={`w-5 h-5 text-text-tertiary transition-transform ${showTafsir ? 'rotate-90' : ''}`}
             />
           </button>
           {showTafsir && (
-            <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mt-3 animate-fade-in">
+            <p className="text-sm text-text-secondary dark:text-cream-300 leading-relaxed mt-3 animate-fade-in">
               {selectedDua.tafsir}
             </p>
           )}
@@ -475,20 +475,20 @@ export function DuaCoach({ onBack }) {
         <Card className="p-5">
           <div className="space-y-4">
             <div>
-              <h4 className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-2 flex items-center gap-2">
+              <h4 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2 flex items-center gap-2">
                 <Clock className="w-3 h-3" />
                 When to Read
               </h4>
-              <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              <p className="text-sm text-text-secondary dark:text-cream-300">
                 {selectedDua.whenToRead}
               </p>
             </div>
-            <div className="border-t border-neutral-100 dark:border-neutral-700 pt-4">
-              <h4 className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-2 flex items-center gap-2">
+            <div className="border-t border-cream-300 dark:border-night-50 pt-4">
+              <h4 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2 flex items-center gap-2">
                 <BookOpen className="w-3 h-3" />
                 How to Read
               </h4>
-              <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              <p className="text-sm text-text-secondary dark:text-cream-300">
                 {selectedDua.howToRead}
               </p>
             </div>
@@ -499,7 +499,7 @@ export function DuaCoach({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-50 dark:bg-night-300 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Main Header */}
         {view === 'home' && (
@@ -507,7 +507,7 @@ export function DuaCoach({ onBack }) {
             <div className="flex items-center justify-between mb-6">
               <button
                 onClick={onBack}
-                className="flex items-center gap-2 text-neutral-400 active:text-neutral-600 transition-colors"
+                className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
               >
                 <ChevronLeft className="w-5 h-5" />
                 <span className="text-sm">Back</span>
@@ -515,13 +515,13 @@ export function DuaCoach({ onBack }) {
             </div>
 
             <div className="text-center mb-8">
-              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/20">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-sanctuary-400 to-sanctuary-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-sanctuary-500/20">
                 <Heart className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-2xl font-medium text-neutral-800 dark:text-neutral-100 mb-2">
+              <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-2">
                 Dua Coach
               </h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              <p className="text-sm text-text-tertiary dark:text-cream-300">
                 Find the perfect dua for what you're going through
               </p>
             </div>

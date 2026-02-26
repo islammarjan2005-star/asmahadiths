@@ -12,13 +12,14 @@ export function Input({
 }) {
   const baseClasses = `
     w-full px-4 py-3
-    bg-neutral-50 dark:bg-neutral-900
-    border border-neutral-200 dark:border-neutral-700
+    bg-cream-50 dark:bg-night-200
+    border border-cream-300 dark:border-night-50
     rounded-xl text-sm
-    text-neutral-800 dark:text-neutral-100
-    placeholder:text-neutral-400 dark:placeholder:text-neutral-500
-    focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400
-    transition-colors
+    text-text-primary dark:text-cream-200
+    placeholder:text-text-tertiary dark:placeholder:text-cream-400
+    focus:outline-none focus:border-sanctuary-400 dark:focus:border-sanctuary-500
+    focus:ring-2 focus:ring-sanctuary-400/20
+    transition-all duration-200
   `;
 
   if (multiline) {

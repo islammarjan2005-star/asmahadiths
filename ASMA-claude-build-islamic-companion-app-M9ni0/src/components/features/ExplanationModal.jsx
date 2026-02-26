@@ -52,13 +52,13 @@ Keep it conversational and supportive, like an older sister explaining over tea.
       <div className="p-5">
         {loading ? (
           <div className="flex flex-col items-center py-8">
-            <div className="w-10 h-10 border-2 border-neutral-200 dark:border-neutral-600 border-t-emerald-600 dark:border-t-emerald-400 rounded-full animate-spin mb-4" />
-            <p className="text-neutral-400 dark:text-neutral-500 text-sm">
+            <div className="w-10 h-10 border-2 border-cream-300 dark:border-night-50 border-t-sanctuary-600 dark:border-t-sanctuary-400 rounded-full animate-spin mb-4" />
+            <p className="text-text-tertiary dark:text-text-tertiary text-sm">
               Preparing a thoughtful response...
             </p>
           </div>
         ) : (
-          <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed whitespace-pre-line">
+          <p className="text-text-secondary dark:text-cream-300 leading-relaxed whitespace-pre-line">
             {explanation}
           </p>
         )}

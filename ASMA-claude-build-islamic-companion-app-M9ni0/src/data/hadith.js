@@ -339,6 +339,6 @@ export const topics = [
   { id: 'balance', name: 'Rest & Balance', icon: 'Coffee', description: 'Self-care is faith', color: 'cyan' },
   { id: 'divorce', name: 'Divorce & Rights', icon: 'Scale', description: 'Permission to leave', color: 'orange' },
   { id: 'grief', name: 'Grief & Loss', icon: 'CloudRain', description: 'Feel without guilt', color: 'sky' },
-  { id: 'motherhood', name: 'Motherhood', icon: 'Heart', description: 'Honor without burden', color: 'pink' },
-  { id: 'dignity', name: 'Modesty & Dignity', icon: 'Shield', description: 'Inner strength', color: 'emerald' },
+  { id: 'motherhood', name: 'Motherhood', icon: 'Heart', description: 'Honor without burden', color: 'rose' },
+  { id: 'dignity', name: 'Modesty & Dignity', icon: 'Shield', description: 'Inner strength', color: 'sanctuary' },
 ];

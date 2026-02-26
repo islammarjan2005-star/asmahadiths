@@ -5,13 +5,13 @@
 
 export const lifeCategories = [
   { id: 'anxiety', name: 'Anxiety & Worry', icon: 'Heart', color: 'rose', description: 'When your heart feels heavy' },
-  { id: 'marriage', name: 'Marriage & Love', icon: 'Users', color: 'pink', description: 'Finding or nurturing a spouse' },
+  { id: 'marriage', name: 'Marriage & Love', icon: 'Users', color: 'rose', description: 'Finding or nurturing a spouse' },
   { id: 'exams', name: 'Exams & Studies', icon: 'BookOpen', color: 'blue', description: 'When you need to succeed' },
   { id: 'spirituality', name: 'Spiritual Growth', icon: 'Sparkles', color: 'violet', description: 'Getting closer to Allah' },
-  { id: 'health', name: 'Health & Healing', icon: 'Activity', color: 'emerald', description: 'For yourself or loved ones' },
+  { id: 'health', name: 'Health & Healing', icon: 'Activity', color: 'sanctuary', description: 'For yourself or loved ones' },
   { id: 'provision', name: 'Rizq & Career', icon: 'Briefcase', color: 'amber', description: 'Jobs, income, opportunities' },
   { id: 'family', name: 'Family & Children', icon: 'Home', color: 'cyan', description: 'Parenting and family bonds' },
-  { id: 'grief', name: 'Grief & Loss', icon: 'CloudRain', color: 'slate', description: 'When someone you love is gone' },
+  { id: 'grief', name: 'Grief & Loss', icon: 'CloudRain', color: 'blue', description: 'When someone you love is gone' },
   { id: 'protection', name: 'Protection & Safety', icon: 'Shield', color: 'indigo', description: 'From harm and evil' },
   { id: 'forgiveness', name: 'Seeking Forgiveness', icon: 'RefreshCcw', color: 'teal', description: 'When guilt weighs you down' },
   { id: 'guidance', name: 'Life Decisions', icon: 'Compass', color: 'orange', description: 'When you don\'t know what to do' },

@@ -75,12 +75,12 @@ export function DailyChallenges({ onBack, onNavigate }) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Header */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-neutral-400 mb-6 active:text-neutral-600 transition-colors"
+          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Back</span>
@@ -90,10 +90,10 @@ export function DailyChallenges({ onBack, onNavigate }) {
           <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-amber-500/20">
             <Target className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-medium text-neutral-800 dark:text-neutral-100 mb-1">
+          <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-1">
             Today's Challenges
           </h1>
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-text-tertiary">
             Small steps, great rewards
           </p>
         </div>
@@ -101,19 +101,19 @@ export function DailyChallenges({ onBack, onNavigate }) {
         {/* Progress */}
         <Card className="p-4 mb-6">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+            <span className="text-sm font-medium text-text-secondary dark:text-cream-300">
               Daily Progress
             </span>
-            <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+            <span className="text-sm font-bold text-sanctuary-600 dark:text-sanctuary-400">
               {completedCount}/{todayChallenges.length}
             </span>
           </div>
-          <div className="h-3 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+          <div className="h-3 bg-cream-200 dark:bg-night-100 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
                 allComplete
                   ? 'bg-gradient-to-r from-amber-400 to-orange-500'
-                  : 'bg-gradient-to-r from-emerald-400 to-teal-500'
+                  : 'bg-gradient-to-r from-sanctuary-400 to-sanctuary-500'
               }`}
               style={{ width: `${(completedCount / todayChallenges.length) * 100}%` }}
             />
@@ -150,32 +150,32 @@ export function DailyChallenges({ onBack, onNavigate }) {
                   <div
                     className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
                       isComplete
-                        ? 'bg-emerald-100 dark:bg-emerald-900/30'
-                        : 'bg-neutral-100 dark:bg-neutral-800'
+                        ? 'bg-sanctuary-100 dark:bg-sanctuary-900/30'
+                        : 'bg-cream-200 dark:bg-night-200'
                     }`}
                   >
                     {isComplete ? (
-                      <Check className="w-6 h-6 text-emerald-500" />
+                      <Check className="w-6 h-6 text-sanctuary-500" />
                     ) : (
-                      <Icon className="w-6 h-6 text-neutral-500 dark:text-neutral-400" />
+                      <Icon className="w-6 h-6 text-text-tertiary dark:text-cream-300" />
                     )}
                   </div>
                   <div className="flex-1">
                     <h3
                       className={`font-medium text-sm ${
                         isComplete
-                          ? 'text-neutral-500 dark:text-neutral-400 line-through'
-                          : 'text-neutral-800 dark:text-neutral-100'
+                          ? 'text-text-tertiary dark:text-cream-300 line-through'
+                          : 'text-text-primary dark:text-cream-200'
                       }`}
                     >
                       {challenge.title}
                     </h3>
-                    <p className="text-xs text-neutral-400">{challenge.description}</p>
+                    <p className="text-xs text-text-tertiary">{challenge.description}</p>
                   </div>
                   <div className="text-right">
                     <span
                       className={`text-xs font-bold ${
-                        isComplete ? 'text-emerald-500' : 'text-amber-500'
+                        isComplete ? 'text-sanctuary-500' : 'text-amber-500'
                       }`}
                     >
                       +{challenge.xp} XP
@@ -192,7 +192,7 @@ export function DailyChallenges({ onBack, onNavigate }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-amber-500" />
-              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              <span className="text-sm font-medium text-text-secondary dark:text-cream-200">
                 Today's XP from Challenges
               </span>
             </div>
@@ -211,10 +211,10 @@ export function DailyChallenges({ onBack, onNavigate }) {
 
         {/* Motivational card */}
         <Card className="p-5 mt-4 text-center">
-          <p className="text-neutral-600 dark:text-neutral-300 text-sm italic leading-relaxed">
+          <p className="text-text-secondary dark:text-cream-300 text-sm italic leading-relaxed">
             "Whoever treads a path seeking knowledge, Allah will make easy for them a path to Paradise."
           </p>
-          <p className="text-xs text-neutral-400 mt-2">— Sahih Muslim 2699</p>
+          <p className="text-xs text-text-tertiary mt-2">— Sahih Muslim 2699</p>
         </Card>
       </div>
     </div>

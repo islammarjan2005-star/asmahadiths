@@ -180,40 +180,40 @@ export function SmartAdhkar({ onBack }) {
   }, [sessionProgress]);
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-200 flex flex-col pb-24">
       {/* Header */}
       <div className="p-5 pt-12 max-w-lg mx-auto w-full">
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-neutral-400 active:text-neutral-600 transition-colors"
+            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             <span className="text-sm">Back</span>
           </button>
           <button
             onClick={handleReset}
-            className="p-2 rounded-lg text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-800 transition-colors"
+            className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
           >
             <RotateCcw className="w-5 h-5" />
           </button>
         </div>
 
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-medium text-neutral-800 dark:text-neutral-100 mb-1">
+          <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-1">
             Daily Adhkar
           </h1>
-          <p className="text-sm text-neutral-400">Guided morning & evening remembrance</p>
+          <p className="text-sm text-text-tertiary">Guided morning & evening remembrance</p>
         </div>
 
         {/* Morning/Evening Toggle */}
-        <div className="flex gap-2 mb-6 bg-neutral-100 dark:bg-neutral-800 p-1 rounded-xl">
+        <div className="flex gap-2 mb-6 bg-cream-200 dark:bg-night-100 p-1 rounded-xl">
           <button
             onClick={() => switchType('morning')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
               activeType === 'morning'
                 ? 'bg-amber-500 text-white shadow-sm'
-                : 'text-neutral-500 dark:text-neutral-400'
+                : 'text-text-tertiary dark:text-text-tertiary'
             }`}
           >
             <Sun className="w-4 h-4" />
@@ -224,7 +224,7 @@ export function SmartAdhkar({ onBack }) {
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
               activeType === 'evening'
                 ? 'bg-indigo-500 text-white shadow-sm'
-                : 'text-neutral-500 dark:text-neutral-400'
+                : 'text-text-tertiary dark:text-text-tertiary'
             }`}
           >
             <Moon className="w-4 h-4" />
@@ -239,10 +239,10 @@ export function SmartAdhkar({ onBack }) {
               <Flame className="w-4 h-4 text-orange-500" />
             </div>
             <div>
-              <p className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+              <p className="text-lg font-semibold text-text-primary dark:text-cream-200">
                 {state.adhkarStreak?.current || 0}
               </p>
-              <p className="text-xs text-neutral-400">Day Streak</p>
+              <p className="text-xs text-text-tertiary">Day Streak</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -250,10 +250,10 @@ export function SmartAdhkar({ onBack }) {
               <Trophy className="w-4 h-4 text-yellow-500" />
             </div>
             <div>
-              <p className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+              <p className="text-lg font-semibold text-text-primary dark:text-cream-200">
                 {state.adhkarStreak?.longest || 0}
               </p>
-              <p className="text-xs text-neutral-400">Best Streak</p>
+              <p className="text-xs text-text-tertiary">Best Streak</p>
             </div>
           </div>
         </div>
@@ -262,14 +262,14 @@ export function SmartAdhkar({ onBack }) {
       {/* Session Progress Bar */}
       <div className="px-5 max-w-lg mx-auto w-full mb-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-neutral-500 dark:text-neutral-400">
+          <span className="text-xs text-text-tertiary dark:text-text-tertiary">
             Session Progress
           </span>
-          <span className="text-xs font-medium text-neutral-600 dark:text-neutral-300">
+          <span className="text-xs font-medium text-text-secondary dark:text-cream-300">
             {Math.round(sessionProgress)}%
           </span>
         </div>
-        <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+        <div className="h-2 bg-cream-300 dark:bg-night-100 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-300 rounded-full ${
               activeType === 'morning' ? 'bg-amber-500' : 'bg-indigo-500'
@@ -278,10 +278,10 @@ export function SmartAdhkar({ onBack }) {
           />
         </div>
         <div className="flex justify-between mt-1">
-          <span className="text-xs text-neutral-400">
+          <span className="text-xs text-text-tertiary">
             {currentIndex + 1} of {adhkars.length} adhkar
           </span>
-          <span className="text-xs text-neutral-400">
+          <span className="text-xs text-text-tertiary">
             ~{stats.totalDhikr} total dhikr
           </span>
         </div>
@@ -291,11 +291,11 @@ export function SmartAdhkar({ onBack }) {
       {showComplete && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30 pointer-events-none">
           <div className="text-center animate-fade-in">
-            <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse-soft">
+            <div className="w-24 h-24 bg-sanctuary-500 rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse-soft">
               <Check className="w-12 h-12 text-white" />
             </div>
             <p className="text-xl font-medium text-white">Masha'Allah!</p>
-            <p className="text-neutral-200">Session Complete</p>
+            <p className="text-cream-200">Session Complete</p>
           </div>
         </div>
       )}
@@ -315,13 +315,13 @@ export function SmartAdhkar({ onBack }) {
               <div className="absolute top-4 right-4 flex items-center gap-2">
                 <button
                   onClick={() => setShowInfo(!showInfo)}
-                  className="p-2 rounded-lg text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                  className="p-2 rounded-lg text-text-tertiary hover:bg-cream-200 dark:hover:bg-night-100 transition-colors"
                 >
                   <Info className="w-4 h-4" />
                 </button>
                 <button
                   onClick={toggleAudio}
-                  className="p-2 rounded-lg text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                  className="p-2 rounded-lg text-text-tertiary hover:bg-cream-200 dark:hover:bg-night-100 transition-colors"
                 >
                   {isPlaying ? (
                     <VolumeX className="w-4 h-4" />
@@ -336,7 +336,7 @@ export function SmartAdhkar({ onBack }) {
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
                     isCurrentComplete
-                      ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
+                      ? 'bg-sanctuary-100 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400'
                       : activeType === 'morning'
                       ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
                       : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
@@ -355,11 +355,11 @@ export function SmartAdhkar({ onBack }) {
 
               {/* Info Panel */}
               {showInfo && (
-                <div className="mb-4 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-xl animate-fade-in">
-                  <p className="text-xs text-neutral-600 dark:text-neutral-300 mb-2">
+                <div className="mb-4 p-3 bg-cream-100 dark:bg-night-100 rounded-xl animate-fade-in">
+                  <p className="text-xs text-text-secondary dark:text-cream-300 mb-2">
                     <span className="font-medium">Source:</span> {currentAdhkar.source}
                   </p>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  <p className="text-xs text-text-tertiary dark:text-text-tertiary">
                     {currentAdhkar.benefit}
                   </p>
                 </div>
@@ -373,26 +373,26 @@ export function SmartAdhkar({ onBack }) {
                 }`}
               >
                 <p
-                  className="text-2xl leading-relaxed text-neutral-800 dark:text-neutral-100 font-arabic text-center mb-6"
+                  className="text-2xl leading-relaxed text-text-primary dark:text-cream-200 font-arabic text-center mb-6"
                   dir="rtl"
                 >
                   {currentAdhkar.arabic}
                 </p>
 
                 {/* Transliteration */}
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 text-center mb-4 italic">
+                <p className="text-sm text-text-tertiary dark:text-text-tertiary text-center mb-4 italic">
                   {currentAdhkar.transliteration}
                 </p>
 
                 {/* Translation */}
-                <p className="text-sm text-neutral-600 dark:text-neutral-300 text-center leading-relaxed">
+                <p className="text-sm text-text-secondary dark:text-cream-300 text-center leading-relaxed">
                   {currentAdhkar.translation}
                 </p>
               </div>
 
               {/* Tap instruction */}
               {!isCurrentComplete && (
-                <p className="text-center text-xs text-neutral-400 mt-4">
+                <p className="text-center text-xs text-text-tertiary mt-4">
                   Tap anywhere to count
                 </p>
               )}
@@ -406,8 +406,8 @@ export function SmartAdhkar({ onBack }) {
               disabled={currentIndex === 0}
               className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
                 currentIndex === 0
-                  ? 'text-neutral-300 dark:text-neutral-600'
-                  : 'text-neutral-600 dark:text-neutral-300 active:bg-neutral-100 dark:active:bg-neutral-800'
+                  ? 'text-cream-300 dark:text-night-50'
+                  : 'text-text-secondary dark:text-cream-300 active:bg-cream-200 dark:active:bg-night-100'
               }`}
             >
               <ChevronLeft className="w-5 h-5" />
@@ -428,8 +428,8 @@ export function SmartAdhkar({ onBack }) {
                           ? 'bg-amber-500 w-4'
                           : 'bg-indigo-500 w-4'
                         : isComplete
-                        ? 'bg-emerald-400'
-                        : 'bg-neutral-300 dark:bg-neutral-600'
+                        ? 'bg-sanctuary-400'
+                        : 'bg-cream-300 dark:bg-night-50'
                     }`}
                   />
                 );
@@ -441,8 +441,8 @@ export function SmartAdhkar({ onBack }) {
               disabled={currentIndex === adhkars.length - 1}
               className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
                 currentIndex === adhkars.length - 1
-                  ? 'text-neutral-300 dark:text-neutral-600'
-                  : 'text-neutral-600 dark:text-neutral-300 active:bg-neutral-100 dark:active:bg-neutral-800'
+                  ? 'text-cream-300 dark:text-night-50'
+                  : 'text-text-secondary dark:text-cream-300 active:bg-cream-200 dark:active:bg-night-100'
               }`}
             >
               <span className="text-sm">Next</span>
@@ -456,7 +456,7 @@ export function SmartAdhkar({ onBack }) {
       {state.adhkarHistory?.length > 0 && (
         <div className="px-5 max-w-lg mx-auto w-full mt-4">
           <Card className="p-4">
-            <h3 className="text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-3">
+            <h3 className="text-sm font-medium text-text-secondary dark:text-cream-300 mb-3">
               Recent Completions
             </h3>
             <div className="flex gap-2 flex-wrap">

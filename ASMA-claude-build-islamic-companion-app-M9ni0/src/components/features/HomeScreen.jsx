@@ -27,7 +27,7 @@ import { usePrayerTimes } from '../../hooks';
 import { useApp } from '../../context/AppContext';
 import { getTodayChallenges } from '../../data/challenges';
 import { getLevel, getNextLevel } from '../../data/spiritualJourney';
-import { IslamicPattern } from './IslamicPattern';
+import { IslamicPattern, IslamicDivider } from './IslamicPattern';
 
 const DAY_OF_YEAR = Math.floor(Date.now() / 86400000);
 
@@ -78,9 +78,9 @@ export function HomeScreen({
 
   if (showPanic) {
     return (
-      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 w-full max-w-xs">
-          <div className="text-right text-4xl font-light text-slate-700 dark:text-slate-200 mb-4 h-12 flex items-center justify-end">
+      <div className="min-h-screen bg-cream-200 dark:bg-night-300 flex items-center justify-center p-4">
+        <div className="bg-cream-50 dark:bg-night-100 rounded-2xl shadow-lg p-6 w-full max-w-xs">
+          <div className="text-right text-4xl font-light text-text-primary dark:text-cream-200 mb-4 h-12 flex items-center justify-end">
             0
           </div>
           <div className="grid grid-cols-4 gap-2">
@@ -90,73 +90,83 @@ export function HomeScreen({
                 onClick={() => btn === 'C' && setShowPanic(false)}
                 className={`p-3 rounded-lg text-lg font-medium transition-colors ${
                   ['÷','×','−','+','='].includes(btn)
-                    ? 'bg-amber-500 text-white'
+                    ? 'bg-gold-400 text-white'
                     : ['C','±','%'].includes(btn)
-                    ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 active:bg-slate-200'
+                    ? 'bg-cream-200 dark:bg-night-50 text-text-primary dark:text-cream-200'
+                    : 'bg-cream-100 dark:bg-night-200 text-text-primary dark:text-cream-200 active:bg-cream-200'
                 } ${btn === '0' ? 'col-span-2' : ''}`}
               >
                 {btn}
               </button>
             ))}
           </div>
-          <p className="text-center text-xs text-slate-400 mt-4">Tap C to return</p>
+          <p className="text-center text-xs text-text-tertiary mt-4">Tap C to return</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
       {/* Header */}
-      <div className="relative overflow-hidden bg-emerald-800 dark:bg-emerald-900 pt-14 pb-10 px-6">
-        <IslamicPattern opacity={0.03} />
+      <div className="relative overflow-hidden bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-12 px-6">
+        <IslamicPattern opacity={0.04} color="text-cream-200" />
 
         <div className="relative max-w-lg mx-auto">
           <div className="flex items-start justify-between mb-6">
             <div>
-              <p className="text-emerald-300/60 text-sm font-arabic mb-0.5">السلام عليكم</p>
-              <h1 className="text-2xl font-semibold text-white">
+              <p className="text-gold-300/60 text-sm font-arabic mb-0.5">السلام عليكم</p>
+              <h1 className="text-2xl font-semibold text-cream-100">
                 {greeting}{userName ? `, ${userName}` : ''}
               </h1>
             </div>
             <button
               onClick={() => setShowPanic(true)}
-              className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center active:bg-white/20 transition-colors"
+              className="w-10 h-10 bg-cream-100/10 rounded-xl flex items-center justify-center active:bg-cream-100/20 transition-colors"
             >
-              <EyeOff className="w-4.5 h-4.5 text-white/60" />
+              <EyeOff className="w-5 h-5 text-cream-200/40" />
             </button>
           </div>
 
+          {/* Next Prayer in header */}
+          {nextPrayer && prayerTimes && (
+            <div className="flex items-center gap-2 mb-5">
+              <Clock className="w-3.5 h-3.5 text-gold-400" />
+              <p className="text-sm text-cream-200/70">
+                {nextPrayer.name} at <span className="text-gold-400 font-medium">{nextPrayer.time}</span>
+              </p>
+            </div>
+          )}
+
           {/* Level */}
           <div
-            className="bg-white/10 rounded-2xl p-4 cursor-pointer active:bg-white/15 transition-colors"
+            className="bg-cream-100/10 rounded-2xl p-4 cursor-pointer active:bg-cream-100/15 transition-colors"
             onClick={onJourney}
           >
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center">
-                  <LevelIcon level={currentLevel.name} className="w-5 h-5 text-white" />
+                <div className="w-9 h-9 bg-cream-100/10 rounded-xl flex items-center justify-center">
+                  <LevelIcon level={currentLevel.name} className="w-5 h-5 text-cream-100" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">{currentLevel.name}</p>
-                  <p className="text-xs text-emerald-300/50 font-arabic">{currentLevel.arabic}</p>
+                  <p className="text-sm font-medium text-cream-100">{currentLevel.name}</p>
+                  <p className="text-xs text-gold-300/50 font-arabic">{currentLevel.arabic}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-1 text-emerald-200/70">
-                <Zap className="w-3.5 h-3.5" />
-                <span className="text-sm font-semibold text-white">{xp}</span>
+              <div className="flex items-center gap-1 text-gold-300/70">
+                <Zap className="w-3.5 h-3.5 text-gold-400" />
+                <span className="text-sm font-semibold text-cream-100">{xp}</span>
                 <span className="text-xs">XP</span>
               </div>
             </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-cream-100/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-400 rounded-full transition-all duration-500"
+                className="h-full bg-gold-400 rounded-full transition-all duration-500"
                 style={{ width: `${levelProgress}%` }}
               />
             </div>
             {nextLevel && (
-              <p className="text-xs text-emerald-300/40 mt-1.5 text-right">
+              <p className="text-xs text-gold-300/40 mt-1.5 text-right">
                 {nextLevel.minXP - xp} XP to {nextLevel.name}
               </p>
             )}
@@ -167,52 +177,30 @@ export function HomeScreen({
       {/* Content */}
       <div className="px-4 max-w-lg mx-auto -mt-2 space-y-3">
 
-        {/* Next Prayer */}
-        {nextPrayer && prayerTimes && (
-          <Card className="p-4" onClick={onPrayerTimes}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400 font-medium">Next prayer</p>
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">
-                    {nextPrayer.name}
-                  </p>
-                </div>
-              </div>
-              <p className="text-xl font-semibold text-emerald-700 dark:text-emerald-400 tabular-nums">
-                {nextPrayer.time}
-              </p>
-            </div>
-          </Card>
-        )}
-
-        {/* Reflection */}
-        <Card className="p-4">
+        {/* Daily Reflection */}
+        <Card className="p-4" variant="gold">
           <div className="flex items-center gap-1.5 mb-2.5">
-            <Star className="w-3.5 h-3.5 text-amber-500" />
-            <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+            <Star className="w-3.5 h-3.5 text-gold-400" />
+            <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider">
               Daily reflection
             </p>
           </div>
-          <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed italic mb-2">
+          <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed italic mb-2">
             &ldquo;{dailyHadith.text.substring(0, 150)}...&rdquo;
           </p>
-          <p className="text-xs text-slate-400">{dailyHadith.source}</p>
+          <p className="text-xs text-text-tertiary">{dailyHadith.source}</p>
         </Card>
 
         {/* Challenges */}
         <Card className="p-4" onClick={onChallenges}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center">
-                <Target className="w-5 h-5 text-emerald-700 dark:text-emerald-400" />
+              <div className="w-10 h-10 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
+                <Target className="w-5 h-5 text-sanctuary-600 dark:text-sanctuary-400" />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-medium">Daily challenges</p>
-                <p className="text-base font-semibold text-slate-900 dark:text-white">
+                <p className="text-xs text-text-tertiary font-medium">Daily challenges</p>
+                <p className="text-base font-semibold text-text-primary dark:text-cream-200">
                   {challengesCompleted}/{todayChallenges.length} complete
                 </p>
               </div>
@@ -224,13 +212,13 @@ export function HomeScreen({
                     key={i}
                     className={`w-2 h-2 rounded-full ${
                       completedToday.some((done) => done.id === c.id)
-                        ? 'bg-emerald-500'
-                        : 'bg-slate-200 dark:bg-slate-600'
+                        ? 'bg-sanctuary-500'
+                        : 'bg-cream-300 dark:bg-night-50'
                     }`}
                   />
                 ))}
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-300" />
+              <ChevronRight className="w-4 h-4 text-cream-400" />
             </div>
           </div>
         </Card>
@@ -238,102 +226,122 @@ export function HomeScreen({
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4" onClick={onMood}>
-            <Heart className="w-5 h-5 text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">How are you?</p>
-            <p className="text-xs text-slate-400 mt-0.5">Mood guidance</p>
+            <div className="w-9 h-9 bg-rose-50 dark:bg-rose-600/10 rounded-xl flex items-center justify-center mb-3">
+              <Heart className="w-5 h-5 text-rose-400" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">How are you?</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Mood guidance</p>
           </Card>
           <Card className="p-4" onClick={onQibla}>
-            <Compass className="w-5 h-5 text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">Qibla</p>
-            <p className="text-xs text-slate-400 mt-0.5">Find direction</p>
+            <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mb-3">
+              <Compass className="w-5 h-5 text-sanctuary-500" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Qibla</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Find direction</p>
           </Card>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4" onClick={onSmartAdhkar}>
             <div className="flex items-center gap-2 mb-3">
-              <Sun className="w-5 h-5 text-slate-400" />
+              <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center">
+                <Sun className="w-5 h-5 text-gold-500" />
+              </div>
               {streak > 0 && (
-                <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-1.5 py-0.5 rounded">
+                <span className="text-xs font-semibold text-gold-700 dark:text-gold-400 bg-gold-100 dark:bg-gold-900/20 px-1.5 py-0.5 rounded">
                   {streak}d
                 </span>
               )}
             </div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">Daily Adhkar</p>
-            <p className="text-xs text-slate-400 mt-0.5">Morning & evening</p>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Daily Adhkar</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Morning & evening</p>
           </Card>
           <Card className="p-4" onClick={onDuaCoach}>
-            <Sparkles className="w-5 h-5 text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">Dua Coach</p>
-            <p className="text-xs text-slate-400 mt-0.5">Find the right dua</p>
+            <div className="w-9 h-9 bg-lavender-50 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center mb-3">
+              <Sparkles className="w-5 h-5 text-lavender-300" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Dua Coach</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Find the right dua</p>
           </Card>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4" onClick={onAskSafely}>
-            <Lock className="w-5 h-5 text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">Ask Safely</p>
-            <p className="text-xs text-slate-400 mt-0.5">Private AI guidance</p>
+            <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mb-3">
+              <Lock className="w-5 h-5 text-sanctuary-600 dark:text-sanctuary-400" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Ask Safely</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Private AI guidance</p>
           </Card>
           <Card className="p-4" onClick={onCultureVsIslam}>
-            <Scale className="w-5 h-5 text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">Culture vs Islam</p>
-            <p className="text-xs text-slate-400 mt-0.5">Know the difference</p>
+            <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center mb-3">
+              <Scale className="w-5 h-5 text-gold-600 dark:text-gold-400" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Culture vs Islam</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Know the difference</p>
           </Card>
         </div>
 
         {/* Spiritual Journey */}
         <Card className="p-4" onClick={onJourney}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-emerald-700 dark:text-emerald-400" />
+            <div className="w-10 h-10 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-sanctuary-600 dark:text-sanctuary-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">Spiritual Journey</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Spiritual Journey</p>
+              <p className="text-xs text-text-tertiary">
                 {currentLevel.name} &middot; {xp} XP
               </p>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-300" />
+            <ChevronRight className="w-4 h-4 text-cream-400" />
           </div>
         </Card>
 
         {/* Explore */}
         <div className="grid grid-cols-3 gap-3">
           <Card className="p-4 text-center" onClick={onQuran}>
-            <Book className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Quran</p>
+            <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Book className="w-5 h-5 text-sanctuary-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Quran</p>
           </Card>
           <Card className="p-4 text-center" onClick={onDuas}>
-            <Heart className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Duas</p>
+            <div className="w-9 h-9 bg-rose-50 dark:bg-rose-600/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Heart className="w-5 h-5 text-rose-400" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Duas</p>
           </Card>
           <Card className="p-4 text-center" onClick={onSahabiyat}>
-            <Users className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Sahabiyat</p>
+            <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Users className="w-5 h-5 text-gold-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Sahabiyat</p>
           </Card>
         </div>
 
         {/* Journal */}
         <Card className="p-4" onClick={onJournal}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-slate-50 dark:bg-slate-700 rounded-xl flex items-center justify-center">
-              <Feather className="w-5 h-5 text-slate-400" />
+            <div className="w-10 h-10 bg-lavender-50 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center">
+              <Feather className="w-5 h-5 text-lavender-300" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">Journal</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Journal</p>
+              <p className="text-xs text-text-tertiary">
                 {(state.journal || []).length > 0
                   ? `${(state.journal || []).length} entries`
                   : 'Start reflecting'}
               </p>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-300" />
+            <ChevronRight className="w-4 h-4 text-cream-400" />
           </div>
         </Card>
 
-        {/* Topics */}
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wider pt-2 px-1">
+        {/* Topics Divider */}
+        <IslamicDivider />
+
+        <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider px-1">
           Topics
         </p>
         <div className="space-y-2">
@@ -343,12 +351,12 @@ export function HomeScreen({
             return (
               <Card key={topic.id} className="p-4" onClick={() => onSelectTopic(topic)}>
                 <div className="flex items-center gap-3">
-                  <TopicIcon className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                  <TopicIcon className="w-5 h-5 text-sanctuary-500 dark:text-sanctuary-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{topic.name}</p>
-                    <p className="text-xs text-slate-400 truncate">{topic.description}</p>
+                    <p className="text-sm font-semibold text-text-primary dark:text-cream-200">{topic.name}</p>
+                    <p className="text-xs text-text-tertiary truncate">{topic.description}</p>
                   </div>
-                  <span className="text-xs text-slate-400">{count}</span>
+                  <span className="text-xs text-text-tertiary">{count}</span>
                 </div>
               </Card>
             );
@@ -357,8 +365,8 @@ export function HomeScreen({
 
         {/* Disclaimer */}
         <div className="flex items-start gap-2.5 px-1 py-4">
-          <Info className="w-3.5 h-3.5 text-slate-300 flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <Info className="w-3.5 h-3.5 text-cream-400 flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-text-tertiary leading-relaxed">
             Asma provides educational guidance with Islamic sources. Not a substitute for scholarly advice.
           </p>
         </div>

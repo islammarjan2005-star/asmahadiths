@@ -20,4 +20,4 @@ export { SpiritualJourney } from './SpiritualJourney';
 export { MoodGuidance } from './MoodGuidance';
 export { QiblaCompass } from './QiblaCompass';
 export { DailyChallenges } from './DailyChallenges';
-export { IslamicPattern, IslamicDivider } from './IslamicPattern';
+export { IslamicPattern, IslamicDivider, LatticeBorder, LatticeFrame } from './IslamicPattern';

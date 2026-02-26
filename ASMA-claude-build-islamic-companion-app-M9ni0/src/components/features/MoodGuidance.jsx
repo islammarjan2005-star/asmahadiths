@@ -32,12 +32,12 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
   // Mood selector screen
   if (!showFullGuidance) {
     return (
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+      <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
         <div className="p-5 pt-12 max-w-lg mx-auto">
           {/* Header */}
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-neutral-400 mb-8 active:text-neutral-600 transition-colors"
+            className="flex items-center gap-2 text-text-tertiary mb-8 active:text-text-secondary transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             <span className="text-sm">Back</span>
@@ -47,10 +47,10 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 rounded-2xl flex items-center justify-center mb-4">
               <Heart className="w-8 h-8 text-violet-600 dark:text-violet-400" />
             </div>
-            <h1 className="text-2xl font-medium text-neutral-800 dark:text-neutral-100 mb-2">
+            <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-2">
               How are you feeling?
             </h1>
-            <p className="text-neutral-500 dark:text-neutral-400 text-sm">
+            <p className="text-text-tertiary dark:text-cream-300 text-sm">
               Let me find the right words for your heart today
             </p>
           </div>
@@ -66,12 +66,12 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
               >
                 <Card className={`p-5 text-center hover:scale-[1.02] active:scale-[0.98] transition-all ${mood.bgLight} ${mood.bgDark} border-2 border-transparent`}>
                   <div className="w-10 h-10 mx-auto mb-2">
-                    <MoodIcon mood={mood.id} className="w-10 h-10 text-neutral-600 dark:text-neutral-300" />
+                    <MoodIcon mood={mood.id} className="w-10 h-10 text-text-secondary dark:text-cream-300" />
                   </div>
-                  <p className="font-medium text-neutral-700 dark:text-neutral-200 text-sm">
+                  <p className="font-medium text-text-secondary dark:text-cream-200 text-sm">
                     {mood.label}
                   </p>
-                  <p className="text-xs text-neutral-400 font-arabic mt-1">{mood.arabic}</p>
+                  <p className="text-xs text-text-tertiary font-arabic mt-1">{mood.arabic}</p>
                 </Card>
               </button>
             ))}
@@ -80,7 +80,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
           {/* Recent moods */}
           {(state.moodHistory || []).length > 0 && (
             <div className="mt-8">
-              <h3 className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-3">
+              <h3 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-3">
                 Recent Check-ins
               </h3>
               <div className="flex gap-2 flex-wrap">
@@ -91,8 +91,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
                       key={i}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs ${mood.bgLight} ${mood.bgDark}`}
                     >
-                      <MoodIcon mood={mood.id} className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
-                      <span className="text-neutral-500 dark:text-neutral-400">
+                      <MoodIcon mood={mood.id} className="w-4 h-4 text-text-tertiary dark:text-cream-300" />
+                      <span className="text-text-tertiary dark:text-cream-300">
                         {new Date(entry.date).toLocaleDateString('en-US', { weekday: 'short' })}
                       </span>
                     </div>
@@ -108,7 +108,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
 
   // Full guidance screen
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Header */}
         <button
@@ -116,7 +116,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             setShowFullGuidance(false);
             setSelectedMood(null);
           }}
-          className="flex items-center gap-2 text-neutral-400 mb-6 active:text-neutral-600 transition-colors"
+          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Choose another mood</span>
@@ -148,71 +148,71 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
           <div className="space-y-4 animate-fade-in">
             <Card className="p-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/30 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
                 </div>
-                <h3 className="font-medium text-neutral-800 dark:text-neutral-100 text-sm">
+                <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   From the Quran
                 </h3>
               </div>
-              <p className="text-xl font-arabic text-neutral-800 dark:text-neutral-100 text-center leading-loose mb-4" dir="rtl">
+              <p className="text-xl font-arabic text-text-primary dark:text-cream-200 text-center leading-loose mb-4" dir="rtl">
                 {guidance.verse.arabic}
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-center text-sm italic mb-2">
+              <p className="text-text-secondary dark:text-cream-300 text-center text-sm italic mb-2">
                 "{guidance.verse.translation}"
               </p>
-              <p className="text-xs text-neutral-400 text-center">{guidance.verse.reference}</p>
+              <p className="text-xs text-text-tertiary text-center">{guidance.verse.reference}</p>
             </Card>
 
             {/* Hadith */}
             <Card className="p-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <div className="w-8 h-8 bg-gold-100 dark:bg-gold-900/30 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-400" />
                 </div>
-                <h3 className="font-medium text-neutral-800 dark:text-neutral-100 text-sm">
+                <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   From the Sunnah
                 </h3>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm italic leading-relaxed mb-2">
+              <p className="text-text-secondary dark:text-cream-300 text-sm italic leading-relaxed mb-2">
                 {guidance.hadith.text}
               </p>
-              <p className="text-xs text-neutral-400">{guidance.hadith.source}</p>
+              <p className="text-xs text-text-tertiary">{guidance.hadith.source}</p>
             </Card>
 
             {/* Dua */}
             <Card className="p-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center">
-                  <Heart className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+                <div className="w-8 h-8 bg-lavender-100 dark:bg-lavender-900/30 rounded-lg flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-lavender-400 dark:text-lavender-300" />
                 </div>
-                <h3 className="font-medium text-neutral-800 dark:text-neutral-100 text-sm">
+                <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   Make this Dua
                 </h3>
               </div>
-              <p className="text-lg font-arabic text-neutral-800 dark:text-neutral-100 text-center leading-loose mb-3" dir="rtl">
+              <p className="text-lg font-arabic text-text-primary dark:text-cream-200 text-center leading-loose mb-3" dir="rtl">
                 {guidance.dua.arabic}
               </p>
-              <p className="text-neutral-500 dark:text-neutral-400 text-center text-xs italic mb-2">
+              <p className="text-text-tertiary dark:text-cream-300 text-center text-xs italic mb-2">
                 {guidance.dua.transliteration}
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-center text-sm mb-2">
+              <p className="text-text-secondary dark:text-cream-300 text-center text-sm mb-2">
                 "{guidance.dua.translation}"
               </p>
-              <p className="text-xs text-neutral-400 text-center">{guidance.dua.source}</p>
+              <p className="text-xs text-text-tertiary text-center">{guidance.dua.source}</p>
             </Card>
 
             {/* Personal Advice */}
-            <Card className="p-5 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-800/50">
+            <Card className="p-5 bg-gradient-to-br from-cream-50 to-cream-200 dark:from-night-200 dark:to-night-200/50">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                 </div>
-                <h3 className="font-medium text-neutral-800 dark:text-neutral-100 text-sm">
+                <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   A Gentle Reminder
                 </h3>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+              <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                 {guidance.advice}
               </p>
             </Card>
@@ -232,17 +232,17 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Sparkles className="w-5 h-5 text-neutral-500" />
+                  <Sparkles className="w-5 h-5 text-text-tertiary" />
                   <div>
-                    <p className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+                    <p className="text-sm font-medium text-text-secondary dark:text-cream-200">
                       Suggested Action
                     </p>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    <p className="text-xs text-text-tertiary dark:text-cream-300">
                       {guidance.actionSuggestion}
                     </p>
                   </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-neutral-400" />
+                <ArrowRight className="w-5 h-5 text-text-tertiary" />
               </div>
             </Card>
           </div>

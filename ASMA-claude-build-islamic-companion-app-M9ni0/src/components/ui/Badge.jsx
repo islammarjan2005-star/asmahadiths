@@ -2,11 +2,14 @@ import React from 'react';
 
 export function Badge({ children, variant = 'default', icon: Icon }) {
   const variants = {
-    default: 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300',
-    emerald: 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300',
+    default: 'bg-cream-200 dark:bg-night-50 text-text-secondary dark:text-cream-300',
+    emerald: 'bg-sanctuary-50 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400',
+    sanctuary: 'bg-sanctuary-50 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400',
+    gold: 'bg-gold-100 dark:bg-gold-900/30 text-gold-700 dark:text-gold-300',
     amber: 'bg-amber-50 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300',
-    rose: 'bg-rose-50 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300',
-    violet: 'bg-violet-50 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300',
+    rose: 'bg-rose-100 dark:bg-rose-600/20 text-rose-600 dark:text-rose-300',
+    violet: 'bg-lavender-100 dark:bg-lavender-400/20 text-lavender-400 dark:text-lavender-300',
+    lavender: 'bg-lavender-100 dark:bg-lavender-400/20 text-lavender-400 dark:text-lavender-300',
     blue: 'bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300',
   };
 
@@ -15,7 +18,7 @@ export function Badge({ children, variant = 'default', icon: Icon }) {
       className={`
         inline-flex items-center gap-1.5 px-2.5 py-1
         rounded-full text-xs font-medium
-        ${variants[variant]}
+        ${variants[variant] || variants.default}
       `}
     >
       {Icon && <Icon className="w-3 h-3" />}

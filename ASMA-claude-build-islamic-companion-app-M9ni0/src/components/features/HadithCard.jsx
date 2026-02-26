@@ -52,8 +52,8 @@ export function HadithCard({ hadith, onExplain }) {
               onClick={() => setPlaying(!playing)}
               className={`p-2 rounded-lg transition-colors ${
                 playing
-                  ? 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400'
-                  : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
+                  ? 'bg-sanctuary-50 dark:bg-sanctuary-900/50 text-sanctuary-600 dark:text-sanctuary-400'
+                  : 'text-text-tertiary active:bg-cream-200 dark:active:bg-night-100'
               }`}
             >
               {playing ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -62,15 +62,15 @@ export function HadithCard({ hadith, onExplain }) {
               onClick={handleSave}
               className={`p-2 rounded-lg transition-colors ${
                 isSaved
-                  ? 'bg-emerald-50 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400'
-                  : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
+                  ? 'bg-sanctuary-50 dark:bg-sanctuary-900/50 text-sanctuary-600 dark:text-sanctuary-400'
+                  : 'text-text-tertiary active:bg-cream-200 dark:active:bg-night-100'
               }`}
             >
               <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
             </button>
             <button
               onClick={handleShare}
-              className="p-2 rounded-lg text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700 transition-colors"
+              className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
             >
               <Share2 className="w-4 h-4" />
             </button>
@@ -78,9 +78,9 @@ export function HadithCard({ hadith, onExplain }) {
         </div>
 
         {/* Arabic text */}
-        <div className="mb-4 py-4 border-y border-neutral-100 dark:border-neutral-700">
+        <div className="mb-4 py-4 border-y border-cream-300 dark:border-night-50">
           <p
-            className="text-xl text-neutral-700 dark:text-neutral-200 leading-loose text-right font-arabic"
+            className="text-xl text-text-primary dark:text-cream-200 leading-loose text-right font-arabic"
             dir="rtl"
           >
             {hadith.arabic}
@@ -88,12 +88,12 @@ export function HadithCard({ hadith, onExplain }) {
         </div>
 
         {/* Translation */}
-        <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4 italic">
+        <p className="text-text-secondary dark:text-cream-300 leading-relaxed mb-4 italic">
           "{hadith.text}"
         </p>
 
         {/* Source */}
-        <div className="flex items-center gap-2 text-sm text-neutral-400 dark:text-neutral-500">
+        <div className="flex items-center gap-2 text-sm text-text-tertiary dark:text-text-tertiary">
           <BookOpen className="w-4 h-4" />
           <span>{hadith.source}</span>
           <span>·</span>
@@ -102,10 +102,10 @@ export function HadithCard({ hadith, onExplain }) {
       </div>
 
       {/* Expandable section */}
-      <div className="border-t border-neutral-100 dark:border-neutral-700">
+      <div className="border-t border-cream-300 dark:border-night-50">
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full px-5 py-3 flex items-center justify-between text-neutral-500 dark:text-neutral-400 active:bg-neutral-50 dark:active:bg-neutral-700/50 transition-colors"
+          className="w-full px-5 py-3 flex items-center justify-between text-text-tertiary dark:text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
         >
           <span className="text-sm font-medium">Context & Understanding</span>
           <ChevronDown
@@ -118,21 +118,21 @@ export function HadithCard({ hadith, onExplain }) {
         {expanded && (
           <div className="px-5 pb-5 space-y-4 animate-fade-in">
             {/* Historical Context */}
-            <div className="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl">
-              <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-2">
+            <div className="p-4 bg-cream-200 dark:bg-night-300 rounded-xl">
+              <p className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2">
                 Historical Context
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+              <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                 {hadith.context}
               </p>
             </div>
 
             {/* What This Means */}
-            <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
-              <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wide mb-2 flex items-center gap-1">
+            <div className="p-4 bg-sanctuary-50 dark:bg-sanctuary-900/30 rounded-xl">
+              <p className="text-xs font-medium text-sanctuary-700 dark:text-sanctuary-400 uppercase tracking-wide mb-2 flex items-center gap-1">
                 <CheckCircle className="w-3 h-3" /> What This Means
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+              <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                 {hadith.doesMean}
               </p>
             </div>
@@ -142,17 +142,17 @@ export function HadithCard({ hadith, onExplain }) {
               <p className="text-xs font-medium text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-2 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" /> What This Does Not Mean
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+              <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                 {hadith.doesNotMean}
               </p>
             </div>
 
             {/* Scholarly Perspective */}
-            <div className="p-4 bg-violet-50 dark:bg-violet-900/30 rounded-xl">
-              <p className="text-xs font-medium text-violet-700 dark:text-violet-400 uppercase tracking-wide mb-2">
+            <div className="p-4 bg-lavender-50 dark:bg-lavender-900/30 rounded-xl">
+              <p className="text-xs font-medium text-lavender-700 dark:text-lavender-400 uppercase tracking-wide mb-2">
                 Scholarly Perspective
               </p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+              <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                 {hadith.scholarly}
               </p>
             </div>

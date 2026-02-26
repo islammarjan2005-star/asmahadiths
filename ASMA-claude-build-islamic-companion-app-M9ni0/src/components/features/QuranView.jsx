@@ -18,12 +18,12 @@ export function QuranView({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-50 dark:bg-night-300 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Header */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-neutral-400 mb-6 active:text-neutral-600 transition-colors"
+          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Back</span>
@@ -35,10 +35,10 @@ export function QuranView({ onBack }) {
               <BookOpen className="w-6 h-6 text-rose-600 dark:text-rose-400" />
             </div>
             <div>
-              <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
+              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
                 Quranic Verses
               </h1>
-              <p className="text-sm text-neutral-400">Words of comfort & guidance</p>
+              <p className="text-sm text-text-tertiary">Words of comfort & guidance</p>
             </div>
           </div>
         </Card>
@@ -49,8 +49,8 @@ export function QuranView({ onBack }) {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               !selectedCategory
-                ? 'bg-emerald-600 text-white'
-                : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
+                ? 'bg-sanctuary-600 text-white'
+                : 'bg-cream-100 dark:bg-night-200 text-text-secondary dark:text-cream-300 border border-cream-300 dark:border-night-50'
             }`}
           >
             All
@@ -61,8 +61,8 @@ export function QuranView({ onBack }) {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
+                  ? 'bg-sanctuary-600 text-white'
+                  : 'bg-cream-100 dark:bg-night-200 text-text-secondary dark:text-cream-300 border border-cream-300 dark:border-night-50'
               }`}
             >
               {cat.name}
@@ -86,32 +86,32 @@ export function QuranView({ onBack }) {
 
                   {/* Arabic */}
                   <p
-                    className="text-xl text-neutral-700 dark:text-neutral-200 leading-loose text-right font-arabic mb-4"
+                    className="text-xl text-text-secondary dark:text-cream-200 leading-loose text-right font-arabic mb-4"
                     dir="rtl"
                   >
                     {verse.arabic}
                   </p>
 
                   {/* Translation */}
-                  <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4 italic">
+                  <p className="text-text-secondary dark:text-cream-300 leading-relaxed mb-4 italic">
                     "{verse.translation}"
                   </p>
 
                   {/* Reference & Actions */}
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-neutral-400">{verse.reference}</p>
+                    <p className="text-sm text-text-tertiary">{verse.reference}</p>
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleSave(verse.id)}
                         className={`p-2 rounded-lg transition-colors ${
                           isSaved
                             ? 'bg-rose-50 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400'
-                            : 'text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700'
+                            : 'text-text-tertiary active:bg-cream-200 dark:active:bg-night-100'
                         }`}
                       >
                         <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
                       </button>
-                      <button className="p-2 rounded-lg text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-700 transition-colors">
+                      <button className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors">
                         <Share2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -119,10 +119,10 @@ export function QuranView({ onBack }) {
                 </div>
 
                 {/* Expandable Tafsir */}
-                <div className="border-t border-neutral-100 dark:border-neutral-700">
+                <div className="border-t border-cream-300 dark:border-night-50">
                   <button
                     onClick={() => setExpandedVerse(isExpanded ? null : verse.id)}
-                    className="w-full px-5 py-3 flex items-center justify-between text-neutral-500 dark:text-neutral-400 active:bg-neutral-50 dark:active:bg-neutral-700/50 transition-colors"
+                    className="w-full px-5 py-3 flex items-center justify-between text-text-tertiary dark:text-cream-300 active:bg-cream-100 dark:active:bg-night-100 transition-colors"
                   >
                     <span className="text-sm font-medium">Reflection & Tafsir</span>
                     <ChevronDown
@@ -134,11 +134,11 @@ export function QuranView({ onBack }) {
 
                   {isExpanded && (
                     <div className="px-5 pb-5 space-y-4 animate-fade-in">
-                      <div className="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl">
-                        <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-2">
+                      <div className="p-4 bg-cream-200 dark:bg-night-200 rounded-xl">
+                        <p className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2">
                           Understanding
                         </p>
-                        <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+                        <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                           {verse.tafsir}
                         </p>
                       </div>
@@ -147,7 +147,7 @@ export function QuranView({ onBack }) {
                         <p className="text-xs font-medium text-rose-700 dark:text-rose-400 uppercase tracking-wide mb-2">
                           Personal Reflection
                         </p>
-                        <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
+                        <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
                           {verse.reflection}
                         </p>
                       </div>

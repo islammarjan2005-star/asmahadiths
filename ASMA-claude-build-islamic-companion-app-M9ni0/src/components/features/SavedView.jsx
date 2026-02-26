@@ -22,12 +22,12 @@ export function SavedView({ onBack, onSelectHadith }) {
     savedHadithItems.length + savedVerseItems.length + savedDuaItems.length;
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-200 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Header */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-neutral-400 mb-6 active:text-neutral-600 transition-colors"
+          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Back</span>
@@ -35,14 +35,14 @@ export function SavedView({ onBack, onSelectHadith }) {
 
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/50 rounded-xl flex items-center justify-center">
-              <Bookmark className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+            <div className="w-12 h-12 bg-gold-100 dark:bg-gold-900/50 rounded-xl flex items-center justify-center">
+              <Bookmark className="w-6 h-6 text-gold-600 dark:text-gold-400" />
             </div>
             <div>
-              <h1 className="text-xl font-medium text-neutral-800 dark:text-neutral-100">
+              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
                 Saved
               </h1>
-              <p className="text-sm text-neutral-400">{totalSaved} items saved</p>
+              <p className="text-sm text-text-tertiary">{totalSaved} items saved</p>
             </div>
           </div>
         </Card>
@@ -57,8 +57,8 @@ export function SavedView({ onBack, onSelectHadith }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-neutral-800 dark:bg-emerald-600 text-white'
-                    : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
+                    ? 'bg-sanctuary-700 dark:bg-sanctuary-600 text-white'
+                    : 'bg-cream-50 dark:bg-night-100 text-text-secondary dark:text-cream-300 border border-cream-300 dark:border-night-50'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -73,8 +73,8 @@ export function SavedView({ onBack, onSelectHadith }) {
           <div className="space-y-3">
             {savedHadithItems.length === 0 ? (
               <Card className="p-8 text-center">
-                <BookOpen className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                <p className="text-neutral-500 dark:text-neutral-400">No saved hadith yet.</p>
+                <BookOpen className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
+                <p className="text-text-tertiary dark:text-text-tertiary">No saved hadith yet.</p>
               </Card>
             ) : (
               savedHadithItems.map((h) => (
@@ -85,10 +85,10 @@ export function SavedView({ onBack, onSelectHadith }) {
                   >
                     {h.authenticity}
                   </Badge>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2 italic">
+                  <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2 italic">
                     "{h.text}"
                   </p>
-                  <p className="text-xs text-neutral-400 mt-2">{h.source}</p>
+                  <p className="text-xs text-text-tertiary mt-2">{h.source}</p>
                 </Card>
               ))
             )}
@@ -99,8 +99,8 @@ export function SavedView({ onBack, onSelectHadith }) {
           <div className="space-y-3">
             {savedVerseItems.length === 0 ? (
               <Card className="p-8 text-center">
-                <Book className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                <p className="text-neutral-500 dark:text-neutral-400">No saved verses yet.</p>
+                <Book className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
+                <p className="text-text-tertiary dark:text-text-tertiary">No saved verses yet.</p>
               </Card>
             ) : (
               savedVerseItems.map((v) => (
@@ -108,10 +108,10 @@ export function SavedView({ onBack, onSelectHadith }) {
                   <Badge variant="rose" className="mb-2">
                     {v.theme}
                   </Badge>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2 italic">
+                  <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2 italic">
                     "{v.translation}"
                   </p>
-                  <p className="text-xs text-neutral-400 mt-2">{v.reference}</p>
+                  <p className="text-xs text-text-tertiary mt-2">{v.reference}</p>
                 </Card>
               ))
             )}
@@ -122,8 +122,8 @@ export function SavedView({ onBack, onSelectHadith }) {
           <div className="space-y-3">
             {savedDuaItems.length === 0 ? (
               <Card className="p-8 text-center">
-                <Heart className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                <p className="text-neutral-500 dark:text-neutral-400">No saved duas yet.</p>
+                <Heart className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
+                <p className="text-text-tertiary dark:text-text-tertiary">No saved duas yet.</p>
               </Card>
             ) : (
               savedDuaItems.map((d) => (
@@ -131,10 +131,10 @@ export function SavedView({ onBack, onSelectHadith }) {
                   <Badge variant="blue" className="mb-2">
                     {d.time}
                   </Badge>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2 italic">
+                  <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2 italic">
                     "{d.translation}"
                   </p>
-                  <p className="text-xs text-neutral-400 mt-2">{d.source}</p>
+                  <p className="text-xs text-text-tertiary mt-2">{d.source}</p>
                 </Card>
               ))
             )}

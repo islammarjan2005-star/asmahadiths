@@ -49,12 +49,12 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
     results.stories.length;
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-24">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-200 pb-24">
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Search Header */}
         <div className="flex items-center gap-3 mb-6">
           <div className="flex-1 relative">
-            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -65,7 +65,7 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
           </div>
           <button
             onClick={onClose}
-            className="p-3 text-neutral-400 active:text-neutral-600 transition-colors"
+            className="p-3 text-text-tertiary active:text-text-secondary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -74,7 +74,7 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
         {/* Results */}
         {query.trim() && (
           <div>
-            <p className="text-sm text-neutral-400 mb-4">
+            <p className="text-sm text-text-tertiary mb-4">
               {totalResults} result{totalResults !== 1 ? 's' : ''} found
             </p>
 
@@ -82,8 +82,8 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
             {results.hadith.length > 0 && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                  <BookOpen className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
+                  <p className="text-sm font-medium text-text-secondary dark:text-cream-300">
                     Hadith ({results.hadith.length})
                   </p>
                 </div>
@@ -94,10 +94,10 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
                       className="p-4"
                       onClick={() => onSelectHadith(h)}
                     >
-                      <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">
+                      <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2">
                         "{h.text}"
                       </p>
-                      <p className="text-xs text-neutral-400 mt-2">{h.source}</p>
+                      <p className="text-xs text-text-tertiary mt-2">{h.source}</p>
                     </Card>
                   ))}
                 </div>
@@ -109,7 +109,7 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
                   <Book className="w-4 h-4 text-rose-600 dark:text-rose-400" />
-                  <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                  <p className="text-sm font-medium text-text-secondary dark:text-cream-300">
                     Quranic Verses ({results.verses.length})
                   </p>
                 </div>
@@ -120,10 +120,10 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
                       className="p-4"
                       onClick={() => onSelectVerse(v)}
                     >
-                      <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">
+                      <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2">
                         "{v.translation}"
                       </p>
-                      <p className="text-xs text-neutral-400 mt-2">{v.reference}</p>
+                      <p className="text-xs text-text-tertiary mt-2">{v.reference}</p>
                     </Card>
                   ))}
                 </div>
@@ -134,8 +134,8 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
             {results.duas.length > 0 && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Heart className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                  <Heart className="w-4 h-4 text-lavender-600 dark:text-lavender-400" />
+                  <p className="text-sm font-medium text-text-secondary dark:text-cream-300">
                     Duas ({results.duas.length})
                   </p>
                 </div>
@@ -146,10 +146,10 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
                       className="p-4"
                       onClick={() => onSelectDua(d)}
                     >
-                      <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">
+                      <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2">
                         "{d.translation}"
                       </p>
-                      <p className="text-xs text-neutral-400 mt-2">{d.source}</p>
+                      <p className="text-xs text-text-tertiary mt-2">{d.source}</p>
                     </Card>
                   ))}
                 </div>
@@ -160,8 +160,8 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
             {results.stories.length > 0 && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Users className="w-4 h-4 text-pink-600 dark:text-pink-400" />
-                  <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                  <Users className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                  <p className="text-sm font-medium text-text-secondary dark:text-cream-300">
                     Sahabiyat ({results.stories.length})
                   </p>
                 </div>
@@ -172,10 +172,10 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
                       className="p-4"
                       onClick={() => onSelectStory(s)}
                     >
-                      <p className="font-medium text-neutral-700 dark:text-neutral-200 text-sm">
+                      <p className="font-medium text-text-primary dark:text-cream-200 text-sm">
                         {s.name}
                       </p>
-                      <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <p className="text-xs text-text-tertiary dark:text-text-tertiary">
                         {s.title}
                       </p>
                     </Card>
@@ -186,9 +186,9 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
 
             {totalResults === 0 && (
               <Card className="p-8 text-center">
-                <SearchIcon className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                <p className="text-neutral-500 dark:text-neutral-400">No results found.</p>
-                <p className="text-neutral-400 dark:text-neutral-500 text-sm mt-1">
+                <SearchIcon className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
+                <p className="text-text-tertiary dark:text-text-tertiary">No results found.</p>
+                <p className="text-text-tertiary dark:text-text-tertiary text-sm mt-1">
                   Try different keywords.
                 </p>
               </Card>
@@ -199,9 +199,9 @@ export function Search({ onSelectHadith, onSelectVerse, onSelectDua, onSelectSto
         {/* Empty State */}
         {!query.trim() && (
           <Card className="p-8 text-center">
-            <SearchIcon className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-            <p className="text-neutral-500 dark:text-neutral-400">Search across all content</p>
-            <p className="text-neutral-400 dark:text-neutral-500 text-sm mt-1">
+            <SearchIcon className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
+            <p className="text-text-tertiary dark:text-text-tertiary">Search across all content</p>
+            <p className="text-text-tertiary dark:text-text-tertiary text-sm mt-1">
               Hadith, Quranic verses, duas, and more
             </p>
           </Card>

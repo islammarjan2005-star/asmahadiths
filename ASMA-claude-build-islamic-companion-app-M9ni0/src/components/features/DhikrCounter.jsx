@@ -41,20 +41,20 @@ export function DhikrCounter({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col">
+    <div className="min-h-screen bg-cream-100 dark:bg-night-200 flex flex-col">
       {/* Header */}
       <div className="p-5 pt-12 max-w-lg mx-auto w-full">
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-neutral-400 active:text-neutral-600 transition-colors"
+            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             <span className="text-sm">Back</span>
           </button>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className="p-2 rounded-lg text-neutral-400 active:bg-neutral-100 dark:active:bg-neutral-800 transition-colors"
+            className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
           >
             <Settings className="w-5 h-5" />
           </button>
@@ -65,11 +65,11 @@ export function DhikrCounter({ onBack }) {
       {showSettings && (
         <div className="px-5 max-w-lg mx-auto w-full mb-6 animate-fade-in">
           <Card className="p-5">
-            <h3 className="font-medium text-neutral-800 dark:text-neutral-100 mb-4">Settings</h3>
+            <h3 className="font-medium text-text-primary dark:text-cream-200 mb-4">Settings</h3>
 
             {/* Goal Selection */}
             <div className="mb-4">
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">Goal</p>
+              <p className="text-sm text-text-tertiary dark:text-text-tertiary mb-2">Goal</p>
               <div className="flex flex-wrap gap-2">
                 {goalOptions.map((goal) => (
                   <button
@@ -77,8 +77,8 @@ export function DhikrCounter({ onBack }) {
                     onClick={() => dispatch({ type: 'SET_DHIKR_GOAL', payload: goal })}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       state.dhikrGoal === goal
-                        ? 'bg-emerald-600 text-white'
-                        : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
+                        ? 'bg-sanctuary-600 text-white'
+                        : 'bg-cream-200 dark:bg-night-100 text-text-secondary dark:text-cream-300'
                     }`}
                   >
                     {goal}
@@ -89,7 +89,7 @@ export function DhikrCounter({ onBack }) {
 
             {/* Dhikr Selection */}
             <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">Dhikr</p>
+              <p className="text-sm text-text-tertiary dark:text-text-tertiary mb-2">Dhikr</p>
               <div className="space-y-2">
                 {dhikrOptions.map((dhikr) => (
                   <button
@@ -97,14 +97,14 @@ export function DhikrCounter({ onBack }) {
                     onClick={() => setSelectedDhikr(dhikr)}
                     className={`w-full p-3 rounded-xl text-left transition-colors ${
                       selectedDhikr.name === dhikr.name
-                        ? 'bg-emerald-50 dark:bg-emerald-900/30 border-2 border-emerald-500'
-                        : 'bg-neutral-50 dark:bg-neutral-800 border-2 border-transparent'
+                        ? 'bg-sanctuary-50 dark:bg-sanctuary-900/30 border-2 border-sanctuary-500'
+                        : 'bg-cream-100 dark:bg-night-100 border-2 border-transparent'
                     }`}
                   >
-                    <p className="font-medium text-neutral-800 dark:text-neutral-100 text-sm">
+                    <p className="font-medium text-text-primary dark:text-cream-200 text-sm">
                       {dhikr.name}
                     </p>
-                    <p className="text-xs text-neutral-400">{dhikr.meaning}</p>
+                    <p className="text-xs text-text-tertiary">{dhikr.meaning}</p>
                   </button>
                 ))}
               </div>
@@ -118,17 +118,17 @@ export function DhikrCounter({ onBack }) {
         {/* Completion Animation */}
         {showComplete && (
           <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center animate-pulse">
+            <div className="w-24 h-24 bg-sanctuary-500 rounded-full flex items-center justify-center animate-pulse">
               <Check className="w-12 h-12 text-white" />
             </div>
           </div>
         )}
 
         {/* Arabic Text */}
-        <p className="text-3xl text-neutral-700 dark:text-neutral-200 font-arabic text-center mb-2" dir="rtl">
+        <p className="text-3xl text-text-secondary dark:text-cream-200 font-arabic text-center mb-2" dir="rtl">
           {selectedDhikr.arabic}
         </p>
-        <p className="text-neutral-500 dark:text-neutral-400 text-sm mb-8">{selectedDhikr.meaning}</p>
+        <p className="text-text-tertiary dark:text-text-tertiary text-sm mb-8">{selectedDhikr.meaning}</p>
 
         {/* Counter Circle */}
         <button
@@ -144,7 +144,7 @@ export function DhikrCounter({ onBack }) {
               fill="none"
               stroke="currentColor"
               strokeWidth="8"
-              className="text-neutral-200 dark:text-neutral-700"
+              className="text-cream-300 dark:text-night-100"
             />
             <circle
               cx="112"
@@ -156,23 +156,23 @@ export function DhikrCounter({ onBack }) {
               strokeLinecap="round"
               strokeDasharray={2 * Math.PI * 100}
               strokeDashoffset={2 * Math.PI * 100 * (1 - progress / 100)}
-              className="text-emerald-500 transition-all duration-200"
+              className="text-sanctuary-500 transition-all duration-200"
             />
           </svg>
 
           {/* Inner Circle */}
-          <div className="w-44 h-44 rounded-full bg-white dark:bg-neutral-800 shadow-lg flex flex-col items-center justify-center">
-            <span className="text-5xl font-light text-neutral-800 dark:text-neutral-100">
+          <div className="w-44 h-44 rounded-full bg-cream-50 dark:bg-night-100 shadow-lg flex flex-col items-center justify-center">
+            <span className="text-5xl font-light text-text-primary dark:text-cream-200">
               {state.dhikrCount}
             </span>
-            <span className="text-sm text-neutral-400">/ {state.dhikrGoal}</span>
+            <span className="text-sm text-text-tertiary">/ {state.dhikrGoal}</span>
           </div>
         </button>
 
         {/* Reset Button */}
         <button
           onClick={handleReset}
-          className="mt-8 flex items-center gap-2 px-4 py-2 text-neutral-400 active:text-neutral-600 transition-colors"
+          className="mt-8 flex items-center gap-2 px-4 py-2 text-text-tertiary active:text-text-secondary transition-colors"
         >
           <RotateCcw className="w-4 h-4" />
           <span className="text-sm">Reset</span>
@@ -183,16 +183,16 @@ export function DhikrCounter({ onBack }) {
       {state.dhikrHistory.length > 0 && (
         <div className="p-5 max-w-lg mx-auto w-full">
           <Card className="p-4">
-            <h3 className="text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-3">
+            <h3 className="text-sm font-medium text-text-secondary dark:text-cream-300 mb-3">
               Today's Progress
             </h3>
             <div className="flex gap-2 flex-wrap">
               {state.dhikrHistory.slice(-10).map((entry, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full bg-sanctuary-100 dark:bg-sanctuary-900/50 flex items-center justify-center"
                 >
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <Check className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
                 </div>
               ))}
             </div>
