@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Heart, Share2, BookOpen, ChevronDown, Volume2 } from 'lucide-react';
-import { Card, Badge } from '../ui';
+import { Heart, Share2, BookOpen, ChevronDown, Volume2 } from 'lucide-react';
+import { Card, Badge, ScreenHeader } from '../ui';
 import { duasDatabase, duaCategories } from '../../data';
 import { useApp } from '../../context/AppContext';
 
@@ -19,29 +19,8 @@ export function DuasView({ onBack }) {
 
   return (
     <div className="min-h-screen bg-cream-50 dark:bg-night-300 pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        {/* Header */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <Card className="p-5 mb-6">
-          <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-lavender-100 dark:bg-lavender-900/50 rounded-xl flex items-center justify-center">
-              <Heart className="w-6 h-6 text-lavender-400 dark:text-lavender-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
-                Daily Duas
-              </h1>
-              <p className="text-sm text-text-tertiary">Supplications for every moment</p>
-            </div>
-          </div>
-        </Card>
+      <ScreenHeader title="Daily Duas" subtitle="Supplications for every moment" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto">
 
         {/* Category Filter */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-6 hide-scrollbar">
@@ -81,7 +60,7 @@ export function DuasView({ onBack }) {
                 <div className="p-5">
                   {/* Time Badge */}
                   <div className="flex items-center justify-between mb-4">
-                    <Badge variant="blue">{dua.time}</Badge>
+                    <Badge variant="default">{dua.time}</Badge>
                     <div className="flex items-center gap-1">
                       <button className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors">
                         <Volume2 className="w-4 h-4" />
@@ -90,7 +69,7 @@ export function DuasView({ onBack }) {
                         onClick={() => handleSave(dua.id)}
                         className={`p-2 rounded-lg transition-colors ${
                           isSaved
-                            ? 'bg-lavender-100 dark:bg-lavender-900/50 text-lavender-400 dark:text-lavender-400'
+                            ? 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500'
                             : 'text-text-tertiary active:bg-cream-200 dark:active:bg-night-100'
                         }`}
                       >
@@ -137,8 +116,8 @@ export function DuasView({ onBack }) {
 
                   {isExpanded && (
                     <div className="px-5 pb-5 animate-fade-in">
-                      <div className="p-4 bg-lavender-100 dark:bg-lavender-900/30 rounded-xl">
-                        <p className="text-xs font-medium text-lavender-700 dark:text-lavender-400 uppercase tracking-wide mb-2">
+                      <div className="p-4 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl">
+                        <p className="text-xs font-medium text-sanctuary-500 uppercase tracking-wide mb-2">
                           Why This Dua
                         </p>
                         <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">

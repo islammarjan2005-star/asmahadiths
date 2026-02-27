@@ -56,7 +56,7 @@ export function PrayerTimes({ onBack }) {
         </div>
 
         {/* Date Card */}
-        <Card className="p-6 mb-6 text-center">
+        <Card padding={false} className="p-6 mb-6 text-center">
           <div className="flex items-center justify-center gap-2 text-text-tertiary mb-2">
             <Clock className="w-4 h-4" />
             <span className="text-sm">{prayerTimes?.date || 'Loading...'}</span>
@@ -74,7 +74,7 @@ export function PrayerTimes({ onBack }) {
 
         {/* Next Prayer Highlight */}
         {nextPrayer && (
-          <Card variant="sanctuary" className="p-5 mb-6">
+          <Card variant="default" padding={false} className="p-5 mb-6">
             <p className="text-xs font-medium text-sanctuary-600 dark:text-sanctuary-400 uppercase tracking-wide mb-1">
               Next Prayer
             </p>
@@ -95,7 +95,7 @@ export function PrayerTimes({ onBack }) {
             <div className="w-8 h-8 border-2 border-cream-300 dark:border-night-50 border-t-sanctuary-600 rounded-full animate-spin" />
           </div>
         ) : error ? (
-          <Card className="p-6 text-center">
+          <Card padding={false} className="p-6 text-center">
             <p className="text-text-secondary dark:text-cream-300">{error}</p>
             <button
               onClick={refresh}
@@ -111,7 +111,7 @@ export function PrayerTimes({ onBack }) {
               return (
                 <Card
                   key={prayer.key}
-                  className={`p-4 ${
+                  className={`${
                     prayer.isNext
                       ? 'ring-2 ring-sanctuary-500 dark:ring-gold-400'
                       : ''
@@ -161,7 +161,7 @@ export function PrayerTimes({ onBack }) {
         )}
 
         {/* Info Card */}
-        <Card className="p-4 mt-6">
+        <Card className="mt-6">
           <p className="text-xs text-text-secondary dark:text-cream-300 leading-relaxed">
             Prayer times are calculated using the Islamic Society of North America (ISNA) method.
             Times may vary slightly. For the most accurate times, consult your local mosque.

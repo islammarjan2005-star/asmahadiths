@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Plus, Trash2, BookOpen, X } from 'lucide-react';
-import { Card, Button, Input, Modal } from '../ui';
+import { Plus, Trash2, BookOpen, X } from 'lucide-react';
+import { Card, Button, Input, Modal, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 const prompts = [
@@ -107,33 +107,17 @@ export function Journal({ onBack }) {
       </Modal>
 
       {/* Header */}
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-        </div>
-
+      <ScreenHeader title="Reflection Journal" subtitle="Your private space" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto">
         <Card className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-lavender-200 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+            <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-sanctuary-500" />
             </div>
             <div>
-              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
-                Reflection Journal
-              </h1>
-              <p className="text-sm text-text-tertiary">Your private space</p>
+              <p className="text-sm text-text-tertiary">Record your thoughts, gratitude, and spiritual reflections.</p>
             </div>
           </div>
-          <p className="text-text-tertiary dark:text-text-tertiary text-sm leading-relaxed">
-            Record your thoughts, gratitude, and spiritual reflections. Everything stays on your
-            device.
-          </p>
         </Card>
 
         {/* New Entry Button */}
@@ -153,7 +137,7 @@ export function Journal({ onBack }) {
         ) : (
           <div className="space-y-4">
             {state.journal.map((entry) => (
-              <Card key={entry.id} className="p-4">
+              <Card key={entry.id}>
                 <div className="flex items-start justify-between mb-2">
                   <p className="text-xs text-text-tertiary">{formatDate(entry.date)}</p>
                   <button

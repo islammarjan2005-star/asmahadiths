@@ -295,7 +295,7 @@ export function Settings({ onBack }) {
               onClick={handleExportJournal}
               className="p-4 flex items-center gap-3 w-full text-left active:bg-cream-200 dark:active:bg-night-100 transition-colors"
             >
-              <FileText className="w-5 h-5 text-lavender-400" />
+              <FileText className="w-5 h-5 text-sanctuary-500" />
               <div>
                 <span className="text-text-primary dark:text-cream-200">Export Journal</span>
                 <p className="text-xs text-text-tertiary">Download as Markdown</p>

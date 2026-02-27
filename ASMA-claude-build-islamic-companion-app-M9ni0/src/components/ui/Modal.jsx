@@ -28,7 +28,7 @@ export function Modal({ isOpen, onClose, title, subtitle, icon: Icon, children }
       />
 
       {/* Modal content */}
-      <div className="relative bg-cream-50 dark:bg-night-200 rounded-t-2xl sm:rounded-2xl w-full max-w-lg max-h-[85vh] overflow-hidden animate-gentle-reveal shadow-sanctuary-elevated">
+      <div className="relative bg-cream-50 dark:bg-night-200 rounded-t-2xl sm:rounded-2xl w-full max-w-lg max-h-[85vh] overflow-hidden animate-scale-in shadow-elevated">
         {/* Header */}
         <div className="sticky top-0 z-10 p-5 border-b border-cream-300 dark:border-night-50 flex items-center justify-between bg-cream-50 dark:bg-night-200">
           <div className="flex items-center gap-3">

@@ -1,15 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import {
-  ChevronLeft,
   BookOpen,
   Check,
-  Lock,
-  Calendar,
   ChevronRight,
   Trophy,
-  Star,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 // Will be loaded from data file
@@ -56,30 +52,20 @@ export function StudyPlans({ onBack }) {
 
     return (
       <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-        <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-6 px-6">
-          <div className="max-w-lg mx-auto">
-            <button
-              onClick={() => setSelectedDay(null)}
-              className="flex items-center gap-2 text-cream-200/60 mb-4 active:text-cream-200 transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-              <span className="text-sm">Back to plan</span>
-            </button>
-            <p className="text-gold-300/60 text-xs uppercase tracking-wider mb-1">
-              Day {selectedDay + 1} of {plan.duration}
-            </p>
-            <h2 className="text-xl font-semibold text-cream-100">{day.title}</h2>
-          </div>
-        </div>
+        <ScreenHeader
+          title={day.title}
+          subtitle={`Day ${selectedDay + 1} of ${plan.duration}`}
+          onBack={() => setSelectedDay(null)}
+        />
 
-        <div className="px-4 max-w-lg mx-auto mt-4 space-y-4">
+        <div className="px-5 max-w-lg mx-auto space-y-4">
           {/* Content */}
-          <Card className="p-5">
+          <Card padding={false} className="p-5">
             <p className="text-text-secondary dark:text-cream-300 leading-relaxed">
               {day.content}
             </p>
             {day.hadithRef && (
-              <p className="text-xs text-gold-600 dark:text-gold-400 mt-3">
+              <p className="text-xs text-text-tertiary mt-3">
                 Source: {day.hadithRef}
               </p>
             )}
@@ -87,8 +73,8 @@ export function StudyPlans({ onBack }) {
 
           {/* Reflection */}
           {day.reflection && (
-            <Card className="p-5" variant="gold">
-              <p className="text-xs text-gold-600 dark:text-gold-400 uppercase tracking-wider mb-2 font-medium">
+            <Card padding={false} className="p-5" variant="default">
+              <p className="text-xs text-sanctuary-600 dark:text-sanctuary-400 uppercase tracking-wider mb-2 font-medium">
                 Reflection
               </p>
               <p className="text-text-secondary dark:text-cream-300 text-sm italic leading-relaxed">
@@ -99,7 +85,7 @@ export function StudyPlans({ onBack }) {
 
           {/* Action */}
           {day.action && (
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <p className="text-xs text-sanctuary-600 dark:text-sanctuary-400 uppercase tracking-wider mb-2 font-medium">
                 Today's Action
               </p>
@@ -147,40 +133,32 @@ export function StudyPlans({ onBack }) {
 
     return (
       <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-        <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-6 px-6">
-          <div className="max-w-lg mx-auto">
-            <button
-              onClick={() => setSelectedPlan(null)}
-              className="flex items-center gap-2 text-cream-200/60 mb-4 active:text-cream-200 transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-              <span className="text-sm">All Plans</span>
-            </button>
-            <h2 className="text-xl font-semibold text-cream-100">{plan.title}</h2>
-            <p className="text-cream-200/60 text-sm mt-1 font-arabic">{plan.arabic}</p>
+        <ScreenHeader
+          title={plan.title}
+          subtitle={plan.arabic}
+          onBack={() => setSelectedPlan(null)}
+        />
 
-            {/* Progress bar */}
-            <div className="mt-4">
-              <div className="flex justify-between text-xs text-cream-200/50 mb-1">
-                <span>{progress.completed} of {progress.total} days</span>
-                <span>{progress.percent}%</span>
-              </div>
-              <div className="h-2 bg-cream-100/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gold-400 rounded-full transition-all duration-500"
-                  style={{ width: `${progress.percent}%` }}
-                />
-              </div>
-            </div>
+        {/* Progress bar */}
+        <div className="px-5 max-w-lg mx-auto mb-4">
+          <div className="flex justify-between text-xs text-text-tertiary mb-1">
+            <span>{progress.completed} of {progress.total} days</span>
+            <span>{progress.percent}%</span>
+          </div>
+          <div className="h-2 bg-cream-200 dark:bg-night-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-sanctuary-500 rounded-full transition-all duration-500"
+              style={{ width: `${progress.percent}%` }}
+            />
           </div>
         </div>
 
-        <div className="px-4 max-w-lg mx-auto mt-4 space-y-2">
+        <div className="px-5 max-w-lg mx-auto space-y-2">
           {/* Completion celebration */}
           {progress.percent === 100 && (
-            <Card className="p-5 text-center bg-gold-50 dark:bg-gold-900/20 border-gold-200 dark:border-gold-800 mb-4">
-              <Trophy className="w-10 h-10 text-gold-500 mx-auto mb-2" />
-              <p className="font-semibold text-gold-700 dark:text-gold-400">MashaAllah!</p>
+            <Card padding={false} className="p-5 text-center bg-sanctuary-50 dark:bg-sanctuary-900/20 mb-4">
+              <Trophy className="w-10 h-10 text-sanctuary-500 mx-auto mb-2" />
+              <p className="font-semibold text-sanctuary-700 dark:text-sanctuary-400">MashaAllah!</p>
               <p className="text-sm text-text-tertiary">You completed this study plan</p>
             </Card>
           )}
@@ -194,7 +172,7 @@ export function StudyPlans({ onBack }) {
             return (
               <Card
                 key={i}
-                className={`p-4 card-interactive ${isNext ? 'ring-1 ring-gold-400/30' : ''}`}
+                className={`${isNext ? 'ring-1 ring-sanctuary-400/30' : ''}`}
                 onClick={() => setSelectedDay(i)}
               >
                 <div className="flex items-center gap-3">
@@ -202,7 +180,7 @@ export function StudyPlans({ onBack }) {
                     done
                       ? 'bg-sanctuary-500 text-white'
                       : isNext
-                      ? 'bg-gold-100 dark:bg-gold-900/20 text-gold-600'
+                      ? 'bg-sanctuary-100 dark:bg-sanctuary-900/20 text-sanctuary-600'
                       : 'bg-cream-200 dark:bg-night-100 text-text-tertiary'
                   }`}>
                     {done ? <Check className="w-4 h-4" /> : <span className="text-xs font-medium">{dayNum}</span>}
@@ -227,22 +205,7 @@ export function StudyPlans({ onBack }) {
   // Plan list view
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-6 px-6">
-        <div className="max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-200/60 mb-6 active:text-cream-200 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <Calendar className="w-6 h-6 text-gold-400" />
-            <h1 className="text-2xl font-semibold text-cream-100">Study Plans</h1>
-          </div>
-          <p className="text-cream-200/60 text-sm mt-1">Guided learning journeys</p>
-        </div>
-      </div>
+      <ScreenHeader title="Study Plans" subtitle="Guided learning journeys" onBack={onBack} />
 
       <div className="px-4 max-w-lg mx-auto mt-4 space-y-3">
         {allPlans.length === 0 ? (
@@ -256,25 +219,18 @@ export function StudyPlans({ onBack }) {
             return (
               <Card
                 key={plan.id}
-                className="p-5 card-interactive"
+                padding={false}
+                className="p-5"
                 onClick={() => setSelectedPlan(plan.id)}
               >
                 <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    plan.color === 'gold' ? 'bg-gold-50 dark:bg-gold-900/20' :
-                    plan.color === 'rose' ? 'bg-rose-50 dark:bg-rose-600/10' :
-                    'bg-sanctuary-50 dark:bg-sanctuary-900/20'
-                  }`}>
-                    <BookOpen className={`w-6 h-6 ${
-                      plan.color === 'gold' ? 'text-gold-500' :
-                      plan.color === 'rose' ? 'text-rose-400' :
-                      'text-sanctuary-500'
-                    }`} />
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-sanctuary-50 dark:bg-sanctuary-900/20">
+                    <BookOpen className="w-6 h-6 text-sanctuary-500" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-text-primary dark:text-cream-200">{plan.title}</h3>
                     <p className="text-xs text-text-tertiary mt-0.5">{plan.description}</p>
-                    <p className="text-xs text-gold-600 dark:text-gold-400 mt-1">{plan.duration} days</p>
+                    <p className="text-xs text-text-tertiary mt-1">{plan.duration} days</p>
                     {progress.started && (
                       <div className="mt-2">
                         <div className="h-1.5 bg-cream-200 dark:bg-night-100 rounded-full overflow-hidden">

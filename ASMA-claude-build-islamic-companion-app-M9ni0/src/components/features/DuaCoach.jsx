@@ -24,7 +24,7 @@ import {
   Book,
   MessageCircle,
 } from 'lucide-react';
-import { Card, Button, Badge } from '../ui';
+import { Card, Button, Badge, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { lifeCategories, situationalDuas, findDuasByKeyword, getDuasByCategory } from '../../data';
 
@@ -44,18 +44,18 @@ const iconMap = {
 };
 
 const colorClasses = {
-  rose: 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400',
-  pink: 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400',
-  blue: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
-  violet: 'bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400',
-  emerald: 'bg-sanctuary-100 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400',
-  amber: 'bg-gold-100 dark:bg-gold-900/30 text-gold-600 dark:text-gold-400',
-  cyan: 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400',
-  slate: 'bg-cream-200 dark:bg-night-200 text-text-secondary dark:text-cream-300',
-  indigo: 'bg-lavender-100 dark:bg-lavender-900/30 text-lavender-600 dark:text-lavender-400',
-  teal: 'bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400',
-  orange: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400',
-  purple: 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
+  rose: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  pink: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  blue: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  violet: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  emerald: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  amber: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  cyan: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  slate: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  indigo: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  teal: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  orange: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
+  purple: 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500',
 };
 
 export function DuaCoach({ onBack }) {
@@ -189,7 +189,6 @@ export function DuaCoach({ onBack }) {
           return (
             <Card
               key={category.id}
-              className="p-4"
               onClick={() => handleCategorySelect(category)}
             >
               <div
@@ -212,7 +211,7 @@ export function DuaCoach({ onBack }) {
           <h2 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-4">
             Your Dua Journey
           </h2>
-          <Card className="p-4">
+          <Card>
             <div className="space-y-3">
               {state.duaJourney.slice(0, 3).map((entry) => {
                 const dua = situationalDuas.find((d) => d.id === entry.duaId);
@@ -268,7 +267,7 @@ export function DuaCoach({ onBack }) {
       {searchResults.length > 0 ? (
         <div className="space-y-3">
           {searchResults.map((dua) => (
-            <Card key={dua.id} className="p-4" onClick={() => handleDuaSelect(dua)}>
+            <Card key={dua.id} onClick={() => handleDuaSelect(dua)}>
               <div className="flex items-start gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${getCategoryColor(dua.category)}`}>
                   <MessageCircle className="w-5 h-5" />
@@ -290,7 +289,7 @@ export function DuaCoach({ onBack }) {
           ))}
         </div>
       ) : (
-        <Card className="p-6 text-center">
+        <Card padding={false} className="p-6 text-center">
           <p className="text-text-tertiary dark:text-cream-300">
             No duas found for "{searchQuery}". Try different words like "anxiety", "marriage", or "guidance".
           </p>
@@ -330,7 +329,7 @@ export function DuaCoach({ onBack }) {
 
         <div className="space-y-3">
           {categoryDuas.map((dua) => (
-            <Card key={dua.id} className="p-4" onClick={() => handleDuaSelect(dua)}>
+            <Card key={dua.id} onClick={() => handleDuaSelect(dua)}>
               <div className="flex items-start gap-3">
                 <div className="flex-1">
                   <h3 className="font-medium text-text-secondary dark:text-cream-200 text-sm mb-1">
@@ -342,7 +341,7 @@ export function DuaCoach({ onBack }) {
                   <div className="flex items-center gap-2">
                     <Badge variant="default">{dua.source}</Badge>
                     {isSaved(dua.id) && (
-                      <Badge variant="emerald">Saved</Badge>
+                      <Badge variant="accent">Saved</Badge>
                     )}
                   </div>
                 </div>
@@ -372,7 +371,7 @@ export function DuaCoach({ onBack }) {
           <span className="text-sm">Back</span>
         </button>
 
-        <Card className="p-5 mb-4">
+        <Card padding={false} className="p-5 mb-4">
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -424,7 +423,7 @@ export function DuaCoach({ onBack }) {
           </p>
 
           {/* Translation */}
-          <div className="border-l-4 border-gold-400 pl-4 mb-4">
+          <div className="border-l-4 border-sanctuary-400 pl-4 mb-4">
             <p className="text-text-secondary dark:text-cream-200 leading-relaxed">
               {selectedDua.translation}
             </p>
@@ -440,7 +439,7 @@ export function DuaCoach({ onBack }) {
         </Card>
 
         {/* Context & Background */}
-        <Card className="p-5 mb-4">
+        <Card padding={false} className="p-5 mb-4">
           <h3 className="font-medium text-text-primary dark:text-cream-200 mb-3 flex items-center gap-2">
             <MessageCircle className="w-4 h-4 text-sanctuary-500" />
             Context & Background
@@ -451,13 +450,13 @@ export function DuaCoach({ onBack }) {
         </Card>
 
         {/* Tafsir / Deep Understanding */}
-        <Card className="p-5 mb-4">
+        <Card padding={false} className="p-5 mb-4">
           <button
             onClick={() => setShowTafsir(!showTafsir)}
             className="w-full flex items-center justify-between"
           >
             <h3 className="font-medium text-text-primary dark:text-cream-200 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-violet-500" />
+              <Sparkles className="w-4 h-4 text-sanctuary-500" />
               Deep Understanding
             </h3>
             <ChevronRight
@@ -472,7 +471,7 @@ export function DuaCoach({ onBack }) {
         </Card>
 
         {/* When & How */}
-        <Card className="p-5">
+        <Card padding={false} className="p-5">
           <div className="space-y-4">
             <div>
               <h4 className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2 flex items-center gap-2">
@@ -503,29 +502,9 @@ export function DuaCoach({ onBack }) {
       <div className="p-5 pt-12 max-w-lg mx-auto">
         {/* Main Header */}
         {view === 'home' && (
-          <>
-            <div className="flex items-center justify-between mb-6">
-              <button
-                onClick={onBack}
-                className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                <span className="text-sm">Back</span>
-              </button>
-            </div>
-
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-sanctuary-400 to-sanctuary-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-sanctuary-500/20">
-                <Heart className="w-8 h-8 text-white" />
-              </div>
-              <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-2">
-                Dua Coach
-              </h1>
-              <p className="text-sm text-text-tertiary dark:text-cream-300">
-                Find the perfect dua for what you're going through
-              </p>
-            </div>
-          </>
+          <div className="-mx-5 -mt-12">
+            <ScreenHeader title="Dua Coach" subtitle="Find the perfect dua for what you're going through" onBack={onBack} />
+          </div>
         )}
 
         {/* Content */}

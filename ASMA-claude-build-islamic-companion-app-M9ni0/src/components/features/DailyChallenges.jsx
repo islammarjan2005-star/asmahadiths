@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import {
-  ChevronLeft,
   Target,
   Check,
   Zap,
@@ -17,7 +16,7 @@ import {
   Smile,
   Star,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { getTodayChallenges } from '../../data/challenges';
 
@@ -76,30 +75,11 @@ export function DailyChallenges({ onBack, onNavigate }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        {/* Header */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-amber-500/20">
-            <Target className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-1">
-            Today's Challenges
-          </h1>
-          <p className="text-sm text-text-tertiary">
-            Small steps, great rewards
-          </p>
-        </div>
+      <ScreenHeader title="Today's Challenges" subtitle="Small steps, great rewards" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto">
 
         {/* Progress */}
-        <Card className="p-4 mb-6">
+        <Card className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium text-text-secondary dark:text-cream-300">
               Daily Progress
@@ -111,15 +91,13 @@ export function DailyChallenges({ onBack, onNavigate }) {
           <div className="h-3 bg-cream-200 dark:bg-night-100 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
-                allComplete
-                  ? 'bg-gradient-to-r from-amber-400 to-orange-500'
-                  : 'bg-gradient-to-r from-sanctuary-400 to-sanctuary-500'
+                'bg-sanctuary-500'
               }`}
               style={{ width: `${(completedCount / todayChallenges.length) * 100}%` }}
             />
           </div>
           {allComplete && (
-            <p className="text-center text-sm text-amber-600 dark:text-amber-400 mt-3 font-medium animate-fade-in">
+            <p className="text-center text-sm text-sanctuary-600 dark:text-sanctuary-400 mt-3 font-medium animate-fade-in">
               Masha'Allah! All challenges complete!
             </p>
           )}
@@ -175,7 +153,7 @@ export function DailyChallenges({ onBack, onNavigate }) {
                   <div className="text-right">
                     <span
                       className={`text-xs font-bold ${
-                        isComplete ? 'text-sanctuary-500' : 'text-amber-500'
+                        isComplete ? 'text-sanctuary-500' : 'text-sanctuary-600 dark:text-sanctuary-400'
                       }`}
                     >
                       +{challenge.xp} XP
@@ -188,15 +166,15 @@ export function DailyChallenges({ onBack, onNavigate }) {
         </div>
 
         {/* Total XP from challenges today */}
-        <Card className="p-4 mt-6 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10">
+        <Card className="mt-6 bg-sanctuary-50 dark:bg-sanctuary-900/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-amber-500" />
+              <Zap className="w-5 h-5 text-sanctuary-500" />
               <span className="text-sm font-medium text-text-secondary dark:text-cream-200">
                 Today's XP from Challenges
               </span>
             </div>
-            <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
+            <span className="text-lg font-bold text-sanctuary-600 dark:text-sanctuary-400">
               {todayChallenges
                 .filter((c) =>
                   completedToday.some(

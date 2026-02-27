@@ -10,7 +10,7 @@ import {
   ChevronDown,
   Loader2,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { fetchChapters, fetchVerses, getAudioUrl } from '../../utils/quranApi';
 
@@ -170,7 +170,7 @@ export function QuranBrowser({ onBack }) {
           )}
 
           {verses.map((verse) => (
-            <Card key={verse.verseKey} className="p-4">
+            <Card key={verse.verseKey}>
               {/* Verse number & controls */}
               <div className="flex items-center justify-between mb-3">
                 <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/30 rounded-full flex items-center justify-center">
@@ -181,12 +181,12 @@ export function QuranBrowser({ onBack }) {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handlePlayVerse(verse)}
-                    className="w-8 h-8 rounded-full bg-gold-50 dark:bg-gold-900/20 flex items-center justify-center"
+                    className="w-8 h-8 rounded-full bg-sanctuary-50 dark:bg-sanctuary-900/20 flex items-center justify-center"
                   >
                     {playingVerse === verse.verseKey ? (
-                      <Pause className="w-3.5 h-3.5 text-gold-600" />
+                      <Pause className="w-3.5 h-3.5 text-sanctuary-500" />
                     ) : (
-                      <Play className="w-3.5 h-3.5 text-gold-600" />
+                      <Play className="w-3.5 h-3.5 text-sanctuary-500" />
                     )}
                   </button>
                 </div>
@@ -265,31 +265,19 @@ export function QuranBrowser({ onBack }) {
   // Surah list view
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-6 px-6">
-        <div className="max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-200/60 mb-4 active:text-cream-200 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-          <div className="flex items-center gap-3 mb-4">
-            <Book className="w-6 h-6 text-gold-400" />
-            <h1 className="text-2xl font-semibold text-cream-100">Quran</h1>
-          </div>
+      <ScreenHeader title="Quran" onBack={onBack} />
 
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cream-200/40" />
-            <input
-              type="text"
-              placeholder="Search surahs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-cream-100/10 rounded-xl text-sm text-cream-100 placeholder-cream-200/40 border-none focus:ring-1 focus:ring-gold-400/30 outline-none"
-            />
-          </div>
+      {/* Search */}
+      <div className="px-5 max-w-lg mx-auto mb-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+          <input
+            type="text"
+            placeholder="Search surahs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-cream-200 dark:bg-night-200 rounded-xl text-sm text-text-primary dark:text-cream-200 placeholder-text-tertiary border-none focus:ring-1 focus:ring-sanctuary-500/30 outline-none"
+          />
         </div>
       </div>
 
@@ -297,8 +285,8 @@ export function QuranBrowser({ onBack }) {
         {/* Continue Reading */}
         {lastRead && (
           <Card
-            className="p-4 mb-3 card-interactive"
-            variant="gold"
+            className="mb-3"
+            variant="default"
             onClick={() => {
               const ch = chapters.find(c => c.id === lastRead.surahId);
               if (ch) handleSelectChapter(ch);
@@ -332,7 +320,6 @@ export function QuranBrowser({ onBack }) {
           filteredChapters.map((chapter) => (
             <Card
               key={chapter.id}
-              className="p-4 card-interactive"
               onClick={() => handleSelectChapter(chapter)}
             >
               <div className="flex items-center gap-4">

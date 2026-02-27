@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { ChevronLeft, Search, Star, ChevronDown, ChevronUp } from 'lucide-react';
-import { Card } from '../ui';
+import { Search, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Card, ScreenHeader } from '../ui';
 
 // Inline a subset of names — full list provided by data file
 const FALLBACK_NAMES = [
@@ -40,51 +40,37 @@ export function NamesOfAllah({ onBack }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      {/* Header */}
-      <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-8 px-6">
-        <div className="max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-200/60 mb-6 active:text-cream-200 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
+      <ScreenHeader title="99 Names of Allah" subtitle="أسماء الله الحسنى" onBack={onBack} />
 
-          <h1 className="text-2xl font-semibold text-cream-100 mb-1">
-            99 Names of Allah
-          </h1>
-          <p className="text-sm text-cream-200/60 font-arabic" dir="rtl">أسماء الله الحسنى</p>
-
-          {/* Daily Name Highlight */}
-          {dailyName && (
-            <div className="mt-5 bg-cream-100/10 rounded-2xl p-5 text-center">
-              <div className="flex items-center justify-center gap-1.5 mb-2">
-                <Star className="w-3.5 h-3.5 text-gold-400" />
-                <p className="text-xs text-gold-300/70 uppercase tracking-wider font-medium">Name of the Day</p>
-              </div>
-              <p className="font-arabic text-4xl text-cream-100 mb-2">{dailyName.arabic}</p>
-              <p className="text-gold-400 font-medium mb-1">{dailyName.name}</p>
-              <p className="text-cream-200/60 text-sm">{dailyName.meaning}</p>
-              {dailyName.reflection && (
-                <p className="text-cream-200/40 text-xs mt-3 italic leading-relaxed">
-                  {dailyName.reflection}
-                </p>
-              )}
+      {/* Daily Name Highlight & Search */}
+      <div className="px-4 max-w-lg mx-auto">
+        {dailyName && (
+          <div className="bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-2xl p-5 text-center mb-4">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <Star className="w-3.5 h-3.5 text-gold-400" />
+              <p className="text-xs text-gold-600 dark:text-gold-400 uppercase tracking-wider font-medium">Name of the Day</p>
             </div>
-          )}
-
-          {/* Search */}
-          <div className="relative mt-4">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cream-200/40" />
-            <input
-              type="text"
-              placeholder="Search names..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-cream-100/10 rounded-xl text-sm text-cream-100 placeholder-cream-200/40 border-none focus:ring-1 focus:ring-gold-400/30 outline-none"
-            />
+            <p className="font-arabic text-4xl text-text-primary dark:text-cream-200 mb-2">{dailyName.arabic}</p>
+            <p className="text-gold-600 dark:text-gold-400 font-medium mb-1">{dailyName.name}</p>
+            <p className="text-text-tertiary text-sm">{dailyName.meaning}</p>
+            {dailyName.reflection && (
+              <p className="text-text-tertiary text-xs mt-3 italic leading-relaxed">
+                {dailyName.reflection}
+              </p>
+            )}
           </div>
+        )}
+
+        {/* Search */}
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+          <input
+            type="text"
+            placeholder="Search names..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-cream-50 dark:bg-night-100 rounded-xl text-sm text-text-primary dark:text-cream-200 placeholder-text-tertiary border border-cream-300 dark:border-night-50 focus:ring-1 focus:ring-sanctuary-400/30 outline-none"
+          />
         </div>
       </div>
 
@@ -115,7 +101,7 @@ export function NamesOfAllah({ onBack }) {
                 className={`p-3 rounded-xl text-center transition-all ${
                   expandedId === name.id
                     ? 'bg-sanctuary-50 dark:bg-sanctuary-900/30 ring-1 ring-sanctuary-400'
-                    : 'bg-cream-50 dark:bg-night-100 card-interactive'
+                    : 'bg-cream-50 dark:bg-night-100'
                 }`}
               >
                 <p className="font-arabic text-lg text-text-primary dark:text-cream-200 mb-0.5">
@@ -150,7 +136,7 @@ function NameCard({ name, expanded, onToggle, elevated }) {
 
   return (
     <Card
-      className={`p-4 ${elevated ? 'shadow-sanctuary-elevated' : ''}`}
+      className={`${elevated ? 'shadow-elevated' : ''}`}
       onClick={onToggle}
     >
       <div className="flex items-center justify-between">

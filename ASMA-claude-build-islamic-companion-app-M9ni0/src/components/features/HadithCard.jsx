@@ -42,7 +42,7 @@ export function HadithCard({ hadith, onExplain }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <Badge
-            variant={hadith.authenticity === 'Sahih' ? 'emerald' : 'amber'}
+            variant={hadith.authenticity === 'Sahih' ? 'accent' : 'warm'}
             icon={CheckCircle}
           >
             {hadith.authenticity}
@@ -138,8 +138,8 @@ export function HadithCard({ hadith, onExplain }) {
             </div>
 
             {/* What This Does Not Mean */}
-            <div className="p-4 bg-amber-50 dark:bg-amber-900/30 rounded-xl">
-              <p className="text-xs font-medium text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-2 flex items-center gap-1">
+            <div className="p-4 bg-cream-100 dark:bg-night-100 rounded-xl">
+              <p className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" /> What This Does Not Mean
               </p>
               <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">
@@ -148,8 +148,8 @@ export function HadithCard({ hadith, onExplain }) {
             </div>
 
             {/* Scholarly Perspective */}
-            <div className="p-4 bg-lavender-50 dark:bg-lavender-900/30 rounded-xl">
-              <p className="text-xs font-medium text-lavender-700 dark:text-lavender-400 uppercase tracking-wide mb-2">
+            <div className="p-4 bg-cream-100 dark:bg-night-100 rounded-xl">
+              <p className="text-xs font-medium text-text-tertiary uppercase tracking-wide mb-2">
                 Scholarly Perspective
               </p>
               <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">

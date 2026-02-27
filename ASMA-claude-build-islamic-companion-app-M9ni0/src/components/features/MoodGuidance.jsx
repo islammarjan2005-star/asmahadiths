@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
-  ChevronLeft,
   BookOpen,
   Heart,
   Sparkles,
   MessageCircle,
   ArrowRight,
 } from 'lucide-react';
-import { Card, Button, MoodIcon } from '../ui';
+import { Card, Button, MoodIcon, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { moods, moodGuidanceContent } from '../../data/moodGuidance';
 
@@ -33,27 +32,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
   if (!showFullGuidance) {
     return (
       <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-        <div className="p-5 pt-12 max-w-lg mx-auto">
-          {/* Header */}
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-text-tertiary mb-8 active:text-text-secondary transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 rounded-2xl flex items-center justify-center mb-4">
-              <Heart className="w-8 h-8 text-violet-600 dark:text-violet-400" />
-            </div>
-            <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-2">
-              How are you feeling?
-            </h1>
-            <p className="text-text-tertiary dark:text-cream-300 text-sm">
-              Let me find the right words for your heart today
-            </p>
-          </div>
+        <ScreenHeader title="How are you feeling?" subtitle="Let me find the right words for your heart today" onBack={onBack} />
+        <div className="px-5 max-w-lg mx-auto">
 
           {/* Mood Grid */}
           <div className="grid grid-cols-2 gap-3">
@@ -109,18 +89,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
   // Full guidance screen
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        {/* Header */}
-        <button
-          onClick={() => {
-            setShowFullGuidance(false);
-            setSelectedMood(null);
-          }}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Choose another mood</span>
-        </button>
+      <ScreenHeader title="Mood Guidance" onBack={() => { setShowFullGuidance(false); setSelectedMood(null); }} />
+      <div className="px-5 max-w-lg mx-auto">
 
         {/* Mood Banner */}
         <div className={`rounded-2xl bg-gradient-to-br ${selectedMood.gradient} p-6 mb-6 relative overflow-hidden`}>
@@ -167,8 +137,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             {/* Hadith */}
             <Card className="p-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gold-100 dark:bg-gold-900/30 rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-400" />
+                <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-sanctuary-500" />
                 </div>
                 <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   From the Sunnah
@@ -183,8 +153,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             {/* Dua */}
             <Card className="p-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-lavender-100 dark:bg-lavender-900/30 rounded-lg flex items-center justify-center">
-                  <Heart className="w-4 h-4 text-lavender-400 dark:text-lavender-300" />
+                <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-sanctuary-500" />
                 </div>
                 <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   Make this Dua
@@ -205,8 +175,8 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             {/* Personal Advice */}
             <Card className="p-5 bg-gradient-to-br from-cream-50 to-cream-200 dark:from-night-200 dark:to-night-200/50">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
-                  <MessageCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 text-sanctuary-500" />
                 </div>
                 <h3 className="font-medium text-text-primary dark:text-cream-200 text-sm">
                   A Gentle Reminder

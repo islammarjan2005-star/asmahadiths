@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronLeft, BookOpen, Bookmark, Share2, Heart, ChevronDown } from 'lucide-react';
-import { Card, Badge } from '../ui';
+import { BookOpen, Bookmark, Share2, Heart, ChevronDown } from 'lucide-react';
+import { Card, Badge, ScreenHeader } from '../ui';
 import { quranicVerses, verseCategories } from '../../data';
 import { useApp } from '../../context/AppContext';
 
@@ -19,33 +19,12 @@ export function QuranView({ onBack, onBrowseQuran }) {
 
   return (
     <div className="min-h-screen bg-cream-50 dark:bg-night-300 pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        {/* Header */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <Card className="p-5 mb-4">
-          <div className="flex items-center gap-4 mb-3">
-            <div className="w-12 h-12 bg-rose-50 dark:bg-rose-900/50 rounded-xl flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-rose-600 dark:text-rose-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-medium text-text-primary dark:text-cream-200">
-                Quranic Verses
-              </h1>
-              <p className="text-sm text-text-tertiary">Words of comfort & guidance</p>
-            </div>
-          </div>
-        </Card>
+      <ScreenHeader title="Quranic Verses" subtitle="Words of comfort & guidance" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto">
 
         {/* Browse Full Quran */}
         {onBrowseQuran && (
-          <Card className="p-4 mb-6 card-interactive" variant="gold" onClick={onBrowseQuran}>
+          <Card className="mb-6" variant="default" onClick={onBrowseQuran}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gold-100 dark:bg-gold-900/30 rounded-xl flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-gold-600" />
@@ -96,7 +75,7 @@ export function QuranView({ onBack, onBrowseQuran }) {
               <Card key={verse.id} className="overflow-hidden">
                 <div className="p-5">
                   {/* Theme Badge */}
-                  <Badge variant="rose" className="mb-4">
+                  <Badge variant="default" className="mb-4">
                     {verse.theme}
                   </Badge>
 
@@ -121,7 +100,7 @@ export function QuranView({ onBack, onBrowseQuran }) {
                         onClick={() => handleSave(verse.id)}
                         className={`p-2 rounded-lg transition-colors ${
                           isSaved
-                            ? 'bg-rose-50 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400'
+                            ? 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-500'
                             : 'text-text-tertiary active:bg-cream-200 dark:active:bg-night-100'
                         }`}
                       >
@@ -159,8 +138,8 @@ export function QuranView({ onBack, onBrowseQuran }) {
                         </p>
                       </div>
 
-                      <div className="p-4 bg-rose-50 dark:bg-rose-900/30 rounded-xl">
-                        <p className="text-xs font-medium text-rose-700 dark:text-rose-400 uppercase tracking-wide mb-2">
+                      <div className="p-4 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl">
+                        <p className="text-xs font-medium text-sanctuary-500 uppercase tracking-wide mb-2">
                           Personal Reflection
                         </p>
                         <p className="text-text-secondary dark:text-cream-300 text-sm leading-relaxed">

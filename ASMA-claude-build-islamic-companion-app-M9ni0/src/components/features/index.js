@@ -20,7 +20,7 @@ export { SpiritualJourney } from './SpiritualJourney';
 export { MoodGuidance } from './MoodGuidance';
 export { QiblaCompass } from './QiblaCompass';
 export { DailyChallenges } from './DailyChallenges';
-export { IslamicPattern, IslamicDivider, LatticeBorder, LatticeFrame } from './IslamicPattern';
+export { IslamicPattern, LatticeFrame } from './IslamicPattern';
 // New features
 export { RamadanMode } from './RamadanMode';
 export { QuranBrowser } from './QuranBrowser';

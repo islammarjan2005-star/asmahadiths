@@ -12,7 +12,7 @@ import {
   Trophy,
   Info,
 } from 'lucide-react';
-import { Card, Button } from '../ui';
+import { Card, Button, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { adhkarDatabase, getAdhkarStats } from '../../data';
 import { useTextToSpeech } from '../../hooks/useTextToSpeech';
@@ -173,15 +173,9 @@ export function SmartAdhkar({ onBack }) {
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-200 flex flex-col pb-24">
       {/* Header */}
-      <div className="p-5 pt-12 max-w-lg mx-auto w-full">
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
+      <ScreenHeader title="Daily Adhkar" subtitle="Guided morning & evening remembrance" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto w-full">
+        <div className="flex justify-end -mt-2 mb-4">
           <button
             onClick={handleReset}
             className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
@@ -190,20 +184,13 @@ export function SmartAdhkar({ onBack }) {
           </button>
         </div>
 
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-medium text-text-primary dark:text-cream-200 mb-1">
-            Daily Adhkar
-          </h1>
-          <p className="text-sm text-text-tertiary">Guided morning & evening remembrance</p>
-        </div>
-
         {/* Morning/Evening Toggle */}
         <div className="flex gap-2 mb-6 bg-cream-200 dark:bg-night-100 p-1 rounded-xl">
           <button
             onClick={() => switchType('morning')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
               activeType === 'morning'
-                ? 'bg-amber-500 text-white shadow-sm'
+                ? 'bg-sanctuary-600 text-white shadow-sm'
                 : 'text-text-tertiary dark:text-text-tertiary'
             }`}
           >
@@ -214,7 +201,7 @@ export function SmartAdhkar({ onBack }) {
             onClick={() => switchType('evening')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
               activeType === 'evening'
-                ? 'bg-indigo-500 text-white shadow-sm'
+                ? 'bg-sanctuary-600 text-white shadow-sm'
                 : 'text-text-tertiary dark:text-text-tertiary'
             }`}
           >
@@ -226,8 +213,8 @@ export function SmartAdhkar({ onBack }) {
         {/* Streak Display */}
         <div className="flex items-center justify-center gap-6 mb-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
-              <Flame className="w-4 h-4 text-orange-500" />
+            <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-full flex items-center justify-center">
+              <Flame className="w-4 h-4 text-sanctuary-500" />
             </div>
             <div>
               <p className="text-lg font-semibold text-text-primary dark:text-cream-200">
@@ -237,8 +224,8 @@ export function SmartAdhkar({ onBack }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
-              <Trophy className="w-4 h-4 text-yellow-500" />
+            <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-full flex items-center justify-center">
+              <Trophy className="w-4 h-4 text-sanctuary-500" />
             </div>
             <div>
               <p className="text-lg font-semibold text-text-primary dark:text-cream-200">
@@ -263,7 +250,7 @@ export function SmartAdhkar({ onBack }) {
         <div className="h-2 bg-cream-300 dark:bg-night-100 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-300 rounded-full ${
-              activeType === 'morning' ? 'bg-amber-500' : 'bg-indigo-500'
+              'bg-sanctuary-500'
             }`}
             style={{ width: `${sessionProgress}%` }}
           />
@@ -329,8 +316,8 @@ export function SmartAdhkar({ onBack }) {
                     isCurrentComplete
                       ? 'bg-sanctuary-100 dark:bg-sanctuary-900/30 text-sanctuary-600 dark:text-sanctuary-400'
                       : activeType === 'morning'
-                      ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
-                      : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                      ? 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-600 dark:text-sanctuary-400'
+                      : 'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-600 dark:text-sanctuary-400'
                   }`}
                 >
                   {isCurrentComplete ? (
@@ -415,9 +402,7 @@ export function SmartAdhkar({ onBack }) {
                     key={actualIdx}
                     className={`w-2 h-2 rounded-full transition-all ${
                       actualIdx === currentIndex
-                        ? activeType === 'morning'
-                          ? 'bg-amber-500 w-4'
-                          : 'bg-indigo-500 w-4'
+                        ? 'bg-sanctuary-500 w-4'
                         : isComplete
                         ? 'bg-sanctuary-400'
                         : 'bg-cream-300 dark:bg-night-50'
@@ -446,7 +431,7 @@ export function SmartAdhkar({ onBack }) {
       {/* Today's History */}
       {state.adhkarHistory?.length > 0 && (
         <div className="px-5 max-w-lg mx-auto w-full mt-4">
-          <Card className="p-4">
+          <Card>
             <h3 className="text-sm font-medium text-text-secondary dark:text-cream-300 mb-3">
               Recent Completions
             </h3>
@@ -455,9 +440,7 @@ export function SmartAdhkar({ onBack }) {
                 <div
                   key={i}
                   className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs ${
-                    entry.type === 'morning'
-                      ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400'
-                      : 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
+                    'bg-sanctuary-50 dark:bg-sanctuary-900/20 text-sanctuary-600 dark:text-sanctuary-400'
                   }`}
                 >
                   {entry.type === 'morning' ? (

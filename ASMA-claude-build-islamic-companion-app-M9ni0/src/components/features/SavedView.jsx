@@ -33,7 +33,7 @@ export function SavedView({ onBack, onSelectHadith }) {
           <span className="text-sm">Back</span>
         </button>
 
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
             <div className="w-12 h-12 bg-gold-100 dark:bg-gold-900/50 rounded-xl flex items-center justify-center">
               <Bookmark className="w-6 h-6 text-gold-600 dark:text-gold-400" />
@@ -72,15 +72,15 @@ export function SavedView({ onBack, onSelectHadith }) {
         {activeTab === 'hadith' && (
           <div className="space-y-3">
             {savedHadithItems.length === 0 ? (
-              <Card className="p-8 text-center">
+              <Card padding={false} className="p-8 text-center">
                 <BookOpen className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
                 <p className="text-text-tertiary dark:text-text-tertiary">No saved hadith yet.</p>
               </Card>
             ) : (
               savedHadithItems.map((h) => (
-                <Card key={h.id} className="p-4" onClick={() => onSelectHadith(h)}>
+                <Card key={h.id} onClick={() => onSelectHadith(h)}>
                   <Badge
-                    variant={h.authenticity === 'Sahih' ? 'emerald' : 'amber'}
+                    variant={h.authenticity === 'Sahih' ? 'accent' : 'warm'}
                     className="mb-2"
                   >
                     {h.authenticity}
@@ -98,14 +98,14 @@ export function SavedView({ onBack, onSelectHadith }) {
         {activeTab === 'verses' && (
           <div className="space-y-3">
             {savedVerseItems.length === 0 ? (
-              <Card className="p-8 text-center">
+              <Card padding={false} className="p-8 text-center">
                 <Book className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
                 <p className="text-text-tertiary dark:text-text-tertiary">No saved verses yet.</p>
               </Card>
             ) : (
               savedVerseItems.map((v) => (
-                <Card key={v.id} className="p-4">
-                  <Badge variant="rose" className="mb-2">
+                <Card key={v.id}>
+                  <Badge variant="default" className="mb-2">
                     {v.theme}
                   </Badge>
                   <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2 italic">
@@ -121,14 +121,14 @@ export function SavedView({ onBack, onSelectHadith }) {
         {activeTab === 'duas' && (
           <div className="space-y-3">
             {savedDuaItems.length === 0 ? (
-              <Card className="p-8 text-center">
+              <Card padding={false} className="p-8 text-center">
                 <Heart className="w-12 h-12 text-cream-400 dark:text-night-50 mx-auto mb-4" />
                 <p className="text-text-tertiary dark:text-text-tertiary">No saved duas yet.</p>
               </Card>
             ) : (
               savedDuaItems.map((d) => (
-                <Card key={d.id} className="p-4">
-                  <Badge variant="blue" className="mb-2">
+                <Card key={d.id}>
+                  <Badge variant="default" className="mb-2">
                     {d.time}
                   </Badge>
                   <p className="text-sm text-text-secondary dark:text-cream-300 line-clamp-2 italic">

@@ -91,7 +91,7 @@ export function Onboarding({ onComplete }) {
   if (step === 0) {
     return (
       <div className="min-h-screen bg-sanctuary-800 flex flex-col items-center justify-center px-8 relative overflow-hidden">
-        <IslamicPattern opacity={0.03} color="text-cream-200" />
+        <IslamicPattern opacity={0.1} color="text-cream-200" />
 
         {/* Subtle golden glow behind calligraphy */}
         <div className="absolute w-48 h-48 bg-gold-400/10 rounded-full blur-3xl" />

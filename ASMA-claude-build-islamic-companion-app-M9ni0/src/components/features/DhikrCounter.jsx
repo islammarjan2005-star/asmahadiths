@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { ChevronLeft, RotateCcw, Settings, Check } from 'lucide-react';
-import { Card } from '../ui';
+import { RotateCcw, Settings, Check } from 'lucide-react';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 const dhikrOptions = [
@@ -73,22 +73,14 @@ export function DhikrCounter({ onBack }) {
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-200 flex flex-col">
       {/* Header */}
-      <div className="p-5 pt-12 max-w-lg mx-auto w-full">
-        <div className="flex items-center justify-between mb-6">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-text-tertiary active:text-text-secondary transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
-          >
-            <Settings className="w-5 h-5" />
-          </button>
-        </div>
+      <ScreenHeader title="Dhikr Counter" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto w-full flex justify-end -mt-2 mb-2">
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          className="p-2 rounded-lg text-text-tertiary active:bg-cream-200 dark:active:bg-night-100 transition-colors"
+        >
+          <Settings className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Settings Panel */}
@@ -234,7 +226,7 @@ export function DhikrCounter({ onBack }) {
       {/* History */}
       {state.dhikrHistory.length > 0 && (
         <div className="p-5 max-w-lg mx-auto w-full">
-          <Card className="p-4">
+          <Card>
             <h3 className="text-sm font-medium text-text-secondary dark:text-cream-300 mb-3">
               Today's Progress
             </h3>

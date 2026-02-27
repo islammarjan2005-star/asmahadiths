@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import {
-  ChevronLeft,
   Star,
   Trophy,
   BookOpen,
@@ -10,7 +9,7 @@ import {
   ChevronRight,
   Sparkles,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 // Will be loaded from data file
@@ -79,50 +78,37 @@ export function KidsMode({ onBack }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      {/* Header - brighter, friendlier */}
-      <div className="bg-gradient-to-br from-sanctuary-500 to-sanctuary-600 pt-14 pb-6 px-6">
-        <div className="max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-100/70 mb-4 active:text-cream-100 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-          <div className="flex items-center gap-3 mb-2">
-            <Sparkles className="w-6 h-6 text-gold-300" />
-            <h1 className="text-2xl font-bold text-cream-100">Kids Zone</h1>
-          </div>
+      <ScreenHeader title="Kids Zone" onBack={onBack} />
 
-          {/* Stars earned */}
-          <div className="flex items-center gap-2 mt-2">
-            <Star className="w-4 h-4 text-gold-300 fill-gold-300" />
-            <span className="text-sm text-gold-200 font-medium">
-              {kidsProgress.stickers || 0} stars earned
-            </span>
-          </div>
+      {/* Stars earned & Tab bar */}
+      <div className="px-4 max-w-lg mx-auto mb-4">
+        <div className="flex items-center gap-2 mb-4">
+          <Star className="w-4 h-4 text-gold-500 fill-gold-500" />
+          <span className="text-sm text-gold-600 dark:text-gold-400 font-medium">
+            {kidsProgress.stickers || 0} stars earned
+          </span>
+        </div>
 
-          {/* Tab bar */}
-          <div className="flex gap-2 mt-4">
-            {[
-              { id: 'trivia', label: 'Quiz', icon: Trophy },
-              { id: 'stories', label: 'Stories', icon: BookOpen },
-              { id: 'duas', label: 'Daily Dua', icon: Heart },
-            ].map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                onClick={() => setTab(id)}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium transition-colors ${
-                  tab === id
-                    ? 'bg-cream-100 text-sanctuary-700'
-                    : 'bg-cream-100/15 text-cream-100/70'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                {label}
-              </button>
-            ))}
-          </div>
+        {/* Tab bar */}
+        <div className="flex gap-2 bg-cream-200 dark:bg-night-200 p-1 rounded-xl">
+          {[
+            { id: 'trivia', label: 'Quiz', icon: Trophy },
+            { id: 'stories', label: 'Stories', icon: BookOpen },
+            { id: 'duas', label: 'Daily Dua', icon: Heart },
+          ].map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium transition-colors ${
+                tab === id
+                  ? 'bg-cream-50 dark:bg-night-100 text-sanctuary-700 dark:text-sanctuary-400 shadow-sm'
+                  : 'text-text-tertiary'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -130,7 +116,7 @@ export function KidsMode({ onBack }) {
         {/* Trivia Tab */}
         {tab === 'trivia' && data.trivia.length > 0 && (
           <div className="space-y-4">
-            <Card className="p-6">
+            <Card padding={false} className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xs text-text-tertiary">
                   Question {currentQuestion + 1} of {data.trivia.length}
@@ -211,7 +197,6 @@ export function KidsMode({ onBack }) {
               data.stories.map((story) => (
                 <Card
                   key={story.id}
-                  className="p-4 card-interactive"
                   onClick={() => setExpandedStory(expandedStory === story.id ? null : story.id)}
                 >
                   <div className="flex items-center gap-3">
@@ -250,7 +235,7 @@ export function KidsMode({ onBack }) {
         {tab === 'duas' && (
           <div className="space-y-3">
             {dailyDua && (
-              <Card className="p-5" variant="gold">
+              <Card padding={false} className="p-5" variant="default">
                 <div className="flex items-center gap-1.5 mb-3">
                   <Star className="w-3.5 h-3.5 text-gold-400" />
                   <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider">
@@ -280,7 +265,7 @@ export function KidsMode({ onBack }) {
               All Duas
             </p>
             {data.duas.map((dua, i) => (
-              <Card key={i} className="p-4">
+              <Card key={i}>
                 <p className="text-xs text-gold-600 dark:text-gold-400 font-medium mb-1">{dua.name}</p>
                 <p className="font-arabic text-lg text-text-primary dark:text-cream-200 text-right mb-1" dir="rtl">
                   {dua.arabic}

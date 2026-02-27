@@ -1,15 +1,13 @@
 import React, { useMemo } from 'react';
 import {
-  ChevronLeft,
   Moon,
   Sun,
   Star,
   Check,
   Flame,
-  Clock,
   Heart,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { usePrayerTimes } from '../../hooks';
 import { getRamadanDay, isLastTenNights } from '../../utils/hijriCalendar';
@@ -55,65 +53,33 @@ export function RamadanMode({ onBack, hijriData }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      {/* Ramadan Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-sanctuary-800 to-sanctuary-900 pt-14 pb-10 px-6">
-        {/* Crescent decoration */}
-        <div className="absolute top-4 right-6 opacity-10">
-          <Moon className="w-24 h-24 text-gold-300" />
-        </div>
-        <div className="absolute top-16 right-20 opacity-10">
-          <Star className="w-4 h-4 text-gold-300" />
-        </div>
-        <div className="absolute top-8 right-36 opacity-10">
-          <Star className="w-3 h-3 text-gold-300" />
-        </div>
+      <ScreenHeader
+        title="Ramadan"
+        subtitle={ramadanDay ? `Day ${ramadanDay} of 30${isLastTen ? ' — Last 10 Nights' : ''}` : 'Prepare for the blessed month'}
+        onBack={onBack}
+      />
 
-        <div className="relative max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-200/60 mb-6 active:text-cream-200 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-
-          <div className="flex items-center gap-2 mb-2">
-            <Moon className="w-5 h-5 text-gold-400" />
-            <h1 className="text-2xl font-semibold text-cream-100">Ramadan</h1>
+      <div className="px-4 max-w-lg mx-auto space-y-3">
+        {/* Suhoor / Iftar times */}
+        {prayerTimes && (
+          <div className="grid grid-cols-2 gap-3">
+            <Card className="p-3 text-center">
+              <Sun className="w-4 h-4 text-gold-400 mx-auto mb-1" />
+              <p className="text-xs text-text-tertiary">Suhoor ends</p>
+              <p className="text-lg font-semibold text-text-primary dark:text-cream-200">{suhoorTime}</p>
+            </Card>
+            <Card className="p-3 text-center">
+              <Moon className="w-4 h-4 text-gold-400 mx-auto mb-1" />
+              <p className="text-xs text-text-tertiary">Iftar</p>
+              <p className="text-lg font-semibold text-text-primary dark:text-cream-200">{iftarTime}</p>
+              {iftarCountdown && (
+                <p className="text-xs text-gold-600 dark:text-gold-400 mt-0.5">{iftarCountdown} left</p>
+              )}
+            </Card>
           </div>
-
-          {ramadanDay ? (
-            <p className="text-gold-300/70 mb-6">
-              Day {ramadanDay} of 30 {isLastTen && '— Last 10 Nights'}
-            </p>
-          ) : (
-            <p className="text-gold-300/70 mb-6">Prepare for the blessed month</p>
-          )}
-
-          {/* Suhoor / Iftar times */}
-          {prayerTimes && (
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-cream-100/10 rounded-xl p-3 text-center">
-                <Sun className="w-4 h-4 text-gold-400 mx-auto mb-1" />
-                <p className="text-xs text-cream-200/60">Suhoor ends</p>
-                <p className="text-lg font-semibold text-cream-100">{suhoorTime}</p>
-              </div>
-              <div className="bg-cream-100/10 rounded-xl p-3 text-center">
-                <Moon className="w-4 h-4 text-gold-400 mx-auto mb-1" />
-                <p className="text-xs text-cream-200/60">Iftar</p>
-                <p className="text-lg font-semibold text-cream-100">{iftarTime}</p>
-                {iftarCountdown && (
-                  <p className="text-xs text-gold-300/70 mt-0.5">{iftarCountdown} left</p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="px-4 max-w-lg mx-auto mt-4 space-y-3">
+        )}
         {/* Fasting Tracker */}
-        <Card className="p-4" variant="gold">
+        <Card variant="default">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Flame className="w-4 h-4 text-gold-500" />
@@ -145,7 +111,7 @@ export function RamadanMode({ onBack, hijriData }) {
 
         {/* Last 10 Nights Special */}
         {isLastTen && (
-          <Card className="p-4 bg-sanctuary-50 dark:bg-sanctuary-900/20 border-sanctuary-200 dark:border-sanctuary-800">
+          <Card className="bg-sanctuary-50 dark:bg-sanctuary-900/20 border-sanctuary-200 dark:border-sanctuary-800">
             <div className="flex items-center gap-2 mb-3">
               <Star className="w-4 h-4 text-gold-500" />
               <p className="text-sm font-semibold text-sanctuary-700 dark:text-sanctuary-300">
@@ -168,10 +134,10 @@ export function RamadanMode({ onBack, hijriData }) {
           Ramadan Duas
         </p>
         {ramadanDuas.map((dua, i) => (
-          <Card key={i} className="p-4">
+          <Card key={i}>
             <div className="flex items-center gap-1.5 mb-2">
-              <Heart className="w-3 h-3 text-rose-400" />
-              <p className="text-xs text-rose-500 font-medium">{dua.context}</p>
+              <Heart className="w-3 h-3 text-sanctuary-500" />
+              <p className="text-xs text-sanctuary-600 dark:text-sanctuary-400 font-medium">{dua.context}</p>
             </div>
             <p className="font-arabic text-xl text-text-primary dark:text-cream-200 text-right mb-2 leading-loose" dir="rtl">
               {dua.arabic}
@@ -185,7 +151,7 @@ export function RamadanMode({ onBack, hijriData }) {
         <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider px-1 mt-4">
           Fasting Calendar
         </p>
-        <Card className="p-4">
+        <Card>
           <div className="grid grid-cols-10 gap-1.5">
             {Array.from({ length: 30 }, (_, i) => {
               const dayNum = i + 1;

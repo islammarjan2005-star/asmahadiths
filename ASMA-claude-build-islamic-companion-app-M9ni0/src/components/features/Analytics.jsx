@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import {
-  ChevronLeft,
   TrendingUp,
   Flame,
   BookOpen,
@@ -10,7 +9,7 @@ import {
   Zap,
   Calendar,
 } from 'lucide-react';
-import { Card } from '../ui';
+import { Card, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -111,43 +110,27 @@ export function Analytics({ onBack }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      {/* Header */}
-      <div className="bg-sanctuary-700 dark:bg-sanctuary-900 pt-14 pb-6 px-6">
-        <div className="max-w-lg mx-auto">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-cream-200/60 mb-6 active:text-cream-200 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="text-sm">Back</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <TrendingUp className="w-6 h-6 text-gold-400" />
-            <h1 className="text-2xl font-semibold text-cream-100">Analytics</h1>
-          </div>
-          <p className="text-cream-200/60 text-sm mt-1">Your spiritual journey in numbers</p>
-        </div>
-      </div>
+      <ScreenHeader title="Analytics" subtitle="Your spiritual journey in numbers" onBack={onBack} />
 
       <div className="px-4 max-w-lg mx-auto mt-4 space-y-4">
         {/* Quick Stats */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4 text-center">
+          <Card className="text-center">
             <Zap className="w-5 h-5 text-gold-500 mx-auto mb-1" />
             <p className="text-2xl font-bold text-text-primary dark:text-cream-200">{analytics.xp}</p>
             <p className="text-xs text-text-tertiary">Total XP</p>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="text-center">
             <Flame className="w-5 h-5 text-gold-500 mx-auto mb-1" />
             <p className="text-2xl font-bold text-text-primary dark:text-cream-200">{analytics.longestStreak}</p>
             <p className="text-xs text-text-tertiary">Longest Streak</p>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="text-center">
             <Calendar className="w-5 h-5 text-sanctuary-500 mx-auto mb-1" />
             <p className="text-2xl font-bold text-text-primary dark:text-cream-200">{analytics.activeDays}</p>
             <p className="text-xs text-text-tertiary">Days Active</p>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="text-center">
             <Target className="w-5 h-5 text-sanctuary-500 mx-auto mb-1" />
             <p className="text-2xl font-bold text-text-primary dark:text-cream-200">{analytics.achievements}</p>
             <p className="text-xs text-text-tertiary">Achievements</p>
@@ -155,7 +138,7 @@ export function Analytics({ onBack }) {
         </div>
 
         {/* Activity Heatmap */}
-        <Card className="p-4">
+        <Card>
           <h3 className="text-sm font-medium text-text-primary dark:text-cream-200 mb-3">
             Activity (12 weeks)
           </h3>
@@ -195,7 +178,7 @@ export function Analytics({ onBack }) {
         </Card>
 
         {/* Weekly Report */}
-        <Card className="p-4">
+        <Card>
           <h3 className="text-sm font-medium text-text-primary dark:text-cream-200 mb-3">
             This Week
           </h3>
@@ -233,7 +216,7 @@ export function Analytics({ onBack }) {
 
         {/* Mood Trends */}
         {Object.keys(analytics.moodCounts).length > 0 && (
-          <Card className="p-4">
+          <Card>
             <h3 className="text-sm font-medium text-text-primary dark:text-cream-200 mb-3">
               Mood Patterns (30 days)
             </h3>
@@ -263,7 +246,7 @@ export function Analytics({ onBack }) {
         )}
 
         {/* Insights */}
-        <Card className="p-4" variant="gold">
+        <Card variant="default">
           <h3 className="text-sm font-medium text-gold-600 dark:text-gold-400 mb-3">
             Personal Insights
           </h3>

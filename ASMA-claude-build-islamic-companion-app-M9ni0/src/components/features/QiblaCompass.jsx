@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, Navigation, MapPin, AlertCircle, Loader } from 'lucide-react';
-import { Card } from '../ui';
+import { Navigation, MapPin, AlertCircle, Loader } from 'lucide-react';
+import { Card, ScreenHeader } from '../ui';
 
 // Kaaba coordinates
 const KAABA_LAT = 21.4225;
@@ -146,25 +146,11 @@ export function QiblaCompass({ onBack }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 flex flex-col pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto w-full">
-        {/* Header */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-medium text-text-primary mb-1">
-            Qibla Direction
-          </h1>
-          <p className="text-sm text-text-tertiary">Face the direction of the Kaaba</p>
-        </div>
+      <ScreenHeader title="Qibla Direction" subtitle="Face the direction of the Kaaba" onBack={onBack} />
+      <div className="px-5 max-w-lg mx-auto w-full">
 
         {error && (
-          <Card className="p-4 mb-4 bg-amber-50 dark:bg-amber-900/20">
+          <Card className="mb-4 bg-amber-50 dark:bg-amber-900/20">
             <div className="flex items-center gap-3">
               <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0" />
               <p className="text-sm text-amber-700 dark:text-amber-300">{error}</p>
@@ -287,7 +273,7 @@ export function QiblaCompass({ onBack }) {
 
           {/* Center dot */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-4 h-4 bg-sanctuary-500 rounded-full shadow-lg shadow-sanctuary-500/30" />
+            <div className="w-4 h-4 bg-sanctuary-500 rounded-full shadow-lg shadow-soft" />
           </div>
         </div>
 
@@ -312,7 +298,7 @@ export function QiblaCompass({ onBack }) {
         )}
 
         {distance !== null && (
-          <Card className="p-4 w-full max-w-xs">
+          <Card className="w-full max-w-xs">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-sanctuary-500" />

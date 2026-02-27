@@ -1,24 +1,19 @@
 import React from 'react';
 
-export function Card({ children, className = '', onClick, variant }) {
-  const variantClasses = {
-    default: '',
-    gold: 'gold-border-left',
-    elevated: 'shadow-sanctuary-hover',
+export function Card({ children, className = '', onClick, variant = 'default', padding = true }) {
+  const base = `rounded-2xl transition-all duration-150 ${onClick ? 'cursor-pointer active:scale-[0.98]' : ''}`;
+
+  const variants = {
+    default: 'bg-white dark:bg-night-100 shadow-soft dark:shadow-none',
+    featured: 'bg-sanctuary-600 dark:bg-sanctuary-800 text-white shadow-soft',
+    subtle: 'bg-cream-100 dark:bg-night-100',
+    ghost: 'bg-transparent',
   };
 
   return (
     <div
       onClick={onClick}
-      className={`
-        bg-cream-50 dark:bg-night-100 rounded-2xl
-        shadow-sanctuary dark:shadow-none
-        border border-gold-200/40 dark:border-sanctuary-800/30
-        transition-all duration-200
-        ${onClick ? 'cursor-pointer active:scale-[0.98]' : ''}
-        ${variantClasses[variant] || ''}
-        ${className}
-      `}
+      className={`${base} ${variants[variant] || variants.default} ${padding ? 'p-4' : ''} ${className}`}
     >
       {children}
     </div>

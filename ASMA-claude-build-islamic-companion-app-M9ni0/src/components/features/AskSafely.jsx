@@ -70,8 +70,8 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
       {showCrisis && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
           <Card className="p-6 max-w-sm w-full">
-            <div className="w-12 h-12 bg-rose-50 dark:bg-rose-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Heart className="w-6 h-6 text-rose-500" />
+            <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Heart className="w-6 h-6 text-sanctuary-500" />
             </div>
             <h3 className="text-xl font-medium text-center text-text-primary mb-2">
               You Are Not Alone

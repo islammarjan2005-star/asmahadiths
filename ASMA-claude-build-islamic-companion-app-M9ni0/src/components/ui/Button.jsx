@@ -13,21 +13,11 @@ export function Button({
     primary:
       'bg-sanctuary-600 text-white active:bg-sanctuary-700',
     secondary:
-      'bg-cream-200 dark:bg-night-100 text-sanctuary-700 dark:text-cream-200 active:bg-cream-300 dark:active:bg-night-50',
+      'bg-cream-200 dark:bg-night-100 text-text-primary dark:text-cream-200 active:bg-cream-300 dark:active:bg-night-50',
     ghost:
-      'bg-transparent text-text-secondary dark:text-cream-300 active:bg-cream-200 dark:active:bg-night-100',
-    gold:
-      'bg-gold-400 text-sanctuary-900 active:bg-gold-500',
-    warm:
-      'bg-sanctuary-600 text-white active:bg-sanctuary-700',
-    rose:
-      'bg-rose-400 text-white active:bg-rose-500',
-    outline:
-      'border border-sanctuary-300 dark:border-sanctuary-600 text-sanctuary-600 dark:text-sanctuary-400 active:bg-sanctuary-50 dark:active:bg-sanctuary-900/30',
-    emerald:
-      'bg-sanctuary-600 text-white active:bg-sanctuary-700',
+      'bg-transparent text-text-secondary dark:text-cream-300 active:bg-cream-100 dark:active:bg-night-100',
     danger:
-      'bg-red-600 text-white active:bg-red-700',
+      'bg-red-500/10 text-red-600 dark:text-red-400 active:bg-red-500/20',
   };
 
   const sizes = {

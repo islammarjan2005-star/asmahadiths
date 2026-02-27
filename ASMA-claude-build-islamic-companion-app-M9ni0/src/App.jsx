@@ -68,29 +68,14 @@ function AppContent() {
       case 'home':
         return (
           <HomeScreen
-            onSelectTopic={(topic) => {
-              setSelectedTopic(topic);
-              setView('topic');
-            }}
             onAskSafely={() => setView('ask')}
             onCultureVsIslam={() => setView('culture')}
-            onQuran={() => setView('quran')}
-            onDuas={() => setView('duas')}
-            onSahabiyat={() => setView('sahabiyat')}
-            onPrayerTimes={() => setView('prayer')}
             onSmartAdhkar={() => setView('adhkar')}
             onDuaCoach={() => setView('coach')}
-            onJourney={() => setView('journey')}
             onMood={() => setView('mood')}
             onQibla={() => setView('qibla')}
             onChallenges={() => setView('challenges')}
             onJournal={() => setView('journal')}
-            onNamesOfAllah={() => setView('names')}
-            onQuranBrowser={() => setView('quran-browser')}
-            onStudyPlans={() => setView('study-plans')}
-            onKidsMode={() => setView('kids')}
-            onAnalytics={() => setView('analytics')}
-            onRamadan={() => setView('ramadan')}
           />
         );
 
@@ -202,12 +187,25 @@ function AppContent() {
               setView('home');
               setActiveTab('home');
             }}
-            onSelectHadith={(h) => {
-              setExplainHadith(h);
-            }}
+            onSelectHadith={(h) => setExplainHadith(h)}
             onSelectVerse={() => setView('quran')}
             onSelectDua={() => setView('duas')}
             onSelectStory={() => setView('sahabiyat')}
+            onSelectTopic={(topic) => {
+              setSelectedTopic(topic);
+              setView('topic');
+            }}
+            onQuran={() => setView('quran')}
+            onDuas={() => setView('duas')}
+            onSahabiyat={() => setView('sahabiyat')}
+            onJourney={() => setView('journey')}
+            onNamesOfAllah={() => setView('names')}
+            onQuranBrowser={() => setView('quran-browser')}
+            onStudyPlans={() => setView('study-plans')}
+            onKidsMode={() => setView('kids')}
+            onAnalytics={() => setView('analytics')}
+            onRamadan={() => setView('ramadan')}
+            onJournal={() => setView('journal')}
           />
         );
 

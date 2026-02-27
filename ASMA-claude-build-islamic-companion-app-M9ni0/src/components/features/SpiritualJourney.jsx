@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import {
-  ChevronLeft,
   Star,
   Flame,
   Trophy,
@@ -13,7 +12,7 @@ import {
   Calendar,
   Check,
 } from 'lucide-react';
-import { Card, LevelIcon } from '../ui';
+import { Card, LevelIcon, ScreenHeader } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { LEVELS, ACHIEVEMENTS, getLevel, getNextLevel, getLevelProgress } from '../../data/spiritualJourney';
 
@@ -61,16 +60,9 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-night-300 pb-24">
-      <div className="p-5 pt-12 max-w-lg mx-auto">
-        {/* Header */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-text-tertiary mb-6 active:text-text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Back</span>
-        </button>
+      <ScreenHeader title="Spiritual Journey" onBack={onBack} />
 
+      <div className="px-5 max-w-lg mx-auto">
         {/* Level Banner */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sanctuary-600 via-sanctuary-500 to-sanctuary-400 dark:from-sanctuary-700 dark:via-sanctuary-600 dark:to-sanctuary-500 p-6 mb-6">
           {/* Decorative pattern */}
@@ -152,7 +144,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
         {activeTab === 'overview' && (
           <div className="space-y-4 animate-fade-in">
             {/* Weekly Activity */}
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-medium text-text-primary dark:text-cream-200 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-sanctuary-500" />
@@ -182,10 +174,10 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 gap-3">
-              <Card className="p-4">
+              <Card>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                    <Flame className="w-4 h-4 text-orange-500" />
+                  <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                    <Flame className="w-4 h-4 text-sanctuary-500" />
                   </div>
                   <span className="text-2xl font-bold text-text-primary dark:text-cream-200">
                     {state.adhkarStreak?.current || 0}
@@ -193,10 +185,10 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
                 </div>
                 <p className="text-xs text-text-tertiary">Day Streak</p>
               </Card>
-              <Card className="p-4">
+              <Card>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center">
-                    <Zap className="w-4 h-4 text-violet-500" />
+                  <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-sanctuary-500" />
                   </div>
                   <span className="text-2xl font-bold text-text-primary dark:text-cream-200">
                     {totalDhikr}
@@ -204,10 +196,10 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
                 </div>
                 <p className="text-xs text-text-tertiary">Total Dhikr</p>
               </Card>
-              <Card className="p-4">
+              <Card>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                    <BookOpen className="w-4 h-4 text-blue-500" />
+                  <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-4 h-4 text-sanctuary-500" />
                   </div>
                   <span className="text-2xl font-bold text-text-primary dark:text-cream-200">
                     {totalAdhkar}
@@ -215,10 +207,10 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
                 </div>
                 <p className="text-xs text-text-tertiary">Adhkar Sessions</p>
               </Card>
-              <Card className="p-4">
+              <Card>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center">
-                    <Heart className="w-4 h-4 text-rose-500" />
+                  <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
+                    <Heart className="w-4 h-4 text-sanctuary-500" />
                   </div>
                   <span className="text-2xl font-bold text-text-primary dark:text-cream-200">
                     {totalJournals}
@@ -229,7 +221,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
             </div>
 
             {/* Level roadmap */}
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <h3 className="font-medium text-text-primary dark:text-cream-200 mb-4">
                 Your Path
               </h3>
@@ -291,7 +283,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
               return (
                 <Card
                   key={achievement.id}
-                  className={`p-4 transition-all ${
+                  className={`transition-all ${
                     unlocked ? '' : 'opacity-50'
                   }`}
                 >
@@ -326,7 +318,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
                     <div className="text-right">
                       <span
                         className={`text-xs font-medium ${
-                          unlocked ? 'text-amber-500' : 'text-text-tertiary'
+                          unlocked ? 'text-sanctuary-500' : 'text-text-tertiary'
                         }`}
                       >
                         +{achievement.xp} XP
@@ -345,7 +337,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
         {/* Stats Tab */}
         {activeTab === 'stats' && (
           <div className="space-y-4 animate-fade-in">
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <h3 className="font-medium text-text-primary dark:text-cream-200 mb-4">
                 Lifetime Statistics
               </h3>
@@ -381,12 +373,11 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
             {/* Full Analytics Link */}
             {onAnalytics && (
               <Card
-                className="p-4 card-interactive"
                 onClick={onAnalytics}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-blue-500" />
+                  <div className="w-10 h-10 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-sanctuary-500" />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Full Analytics</p>
@@ -398,7 +389,7 @@ export function SpiritualJourney({ onBack, onAnalytics }) {
             )}
 
             {/* Inspirational quote */}
-            <Card className="p-5 bg-gradient-to-br from-sanctuary-50 to-sanctuary-100 dark:from-sanctuary-900/20 dark:to-sanctuary-800/20 border-sanctuary-200 dark:border-sanctuary-800">
+            <Card padding={false} className="p-5 bg-gradient-to-br from-sanctuary-50 to-sanctuary-100 dark:from-sanctuary-900/20 dark:to-sanctuary-800/20 border-sanctuary-200 dark:border-sanctuary-800">
               <p className="text-center text-text-secondary dark:text-cream-300 italic text-sm leading-relaxed">
                 "The most beloved deeds to Allah are those done consistently, even if they are small."
               </p>
