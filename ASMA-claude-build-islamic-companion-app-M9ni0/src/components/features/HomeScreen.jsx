@@ -11,6 +11,7 @@ import {
   EyeOff,
   Book,
   Sun,
+  Moon,
   Sparkles,
   Flame,
   Target,
@@ -20,6 +21,10 @@ import {
   Zap,
   TrendingUp,
   Calendar,
+  Baby,
+  BarChart3,
+  GraduationCap,
+  Layers,
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { Card, LevelIcon } from '../ui';
@@ -30,6 +35,7 @@ import { getTodayChallenges } from '../../data/challenges';
 import { getLevel, getNextLevel } from '../../data/spiritualJourney';
 import { IslamicPattern, IslamicDivider } from './IslamicPattern';
 import { getGreeting } from '../../utils/greetings';
+import { getRecommendations } from '../../utils/contentEngine';
 
 const DAY_OF_YEAR = Math.floor(Date.now() / 86400000);
 
@@ -87,6 +93,22 @@ export function HomeScreen({
     userName,
     streak,
   }), [userName, streak]);
+
+  // Content recommendations
+  const recommendations = useMemo(
+    () => getRecommendations({ state, limit: 2 }),
+    [state.moodHistory, state.adhkarStreak, state.journal, state.completedChallenges]
+  );
+
+  // Map recommendation actions to handlers
+  const actionMap = {
+    adhkar: onSmartAdhkar,
+    duas: onDuas,
+    quran: onQuran,
+    journal: onJournal,
+    challenges: onChallenges,
+    home: () => {},
+  };
 
   if (showPanic) {
     return (
@@ -273,6 +295,38 @@ export function HomeScreen({
           </div>
         </Card>
 
+        {/* For You - Smart Recommendations */}
+        {recommendations.length > 0 && (
+          <div>
+            <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider px-1 mb-2">
+              For you
+            </p>
+            <div className="space-y-2">
+              {recommendations.map((rec, i) => {
+                const RecIcon = Icons[rec.icon] || Icons.Sparkles;
+                return (
+                  <Card
+                    key={i}
+                    className="p-3 card-interactive"
+                    onClick={actionMap[rec.action]}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gold-50 dark:bg-gold-900/20 rounded-lg flex items-center justify-center">
+                        <RecIcon className="w-4 h-4 text-gold-500" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-text-primary dark:text-cream-200">{rec.title}</p>
+                        <p className="text-xs text-text-tertiary truncate">{rec.subtitle}</p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-cream-400 flex-shrink-0" />
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4 card-interactive" onClick={onMood}>
@@ -387,6 +441,55 @@ export function HomeScreen({
             <ChevronRight className="w-4 h-4 text-cream-400" />
           </div>
         </Card>
+
+        {/* New Features */}
+        <IslamicDivider />
+
+        <p className="text-xs font-medium text-gold-600 dark:text-gold-400 uppercase tracking-wider px-1">
+          Explore more
+        </p>
+
+        <div className="grid grid-cols-3 gap-3">
+          <Card className="p-4 text-center card-interactive" onClick={onNamesOfAllah}>
+            <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Layers className="w-5 h-5 text-gold-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">99 Names</p>
+          </Card>
+          <Card className="p-4 text-center card-interactive" onClick={onQuranBrowser}>
+            <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <BookOpen className="w-5 h-5 text-sanctuary-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Full Quran</p>
+          </Card>
+          <Card className="p-4 text-center card-interactive" onClick={onStudyPlans}>
+            <div className="w-9 h-9 bg-lavender-50 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <GraduationCap className="w-5 h-5 text-lavender-300" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Study Plans</p>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3">
+          <Card className="p-4 text-center card-interactive" onClick={onKidsMode}>
+            <div className="w-9 h-9 bg-rose-50 dark:bg-rose-600/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Baby className="w-5 h-5 text-rose-400" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Kids Zone</p>
+          </Card>
+          <Card className="p-4 text-center card-interactive" onClick={onRamadan}>
+            <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Moon className="w-5 h-5 text-sanctuary-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Ramadan</p>
+          </Card>
+          <Card className="p-4 text-center card-interactive" onClick={onAnalytics}>
+            <div className="w-9 h-9 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <BarChart3 className="w-5 h-5 text-blue-500" />
+            </div>
+            <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Analytics</p>
+          </Card>
+        </div>
 
         {/* Topics Divider */}
         <IslamicDivider />

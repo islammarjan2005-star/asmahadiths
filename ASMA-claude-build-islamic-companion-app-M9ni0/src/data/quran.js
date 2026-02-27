@@ -162,6 +162,320 @@ export const quranicVerses = [
     tafsir: 'Clothing provides warmth, beauty, protection, and intimacy. This metaphor describes the mutual nature of marriage—both partners clothe and protect each other equally.',
     reflection: 'Marriage is mutual covering—not one-sided. You are meant to be protected, not exposed.',
   },
+
+  // ============================================
+  // NEW VERSES (IDs 16+)
+  // ============================================
+
+  // MORE COMFORT & HOPE
+  {
+    id: 16,
+    category: 'comfort',
+    arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',
+    translation: 'Verily, in the remembrance of Allah do hearts find rest.',
+    reference: 'Surah Ar-Ra\'d (13:28)',
+    theme: 'Peace Through Remembrance',
+    tafsir: 'The word تَطْمَئِنُّ comes from tuma\'ninah—a deep, settled peace that goes beyond temporary calm. The hearts are designed to find rest only in one place: the remembrance of Allah.',
+    reflection: 'When your heart is restless, anxious, or searching—the cure is dhikr. Not distraction, not entertainment—remembrance.',
+  },
+  {
+    id: 17,
+    category: 'comfort',
+    arabic: 'سَيَجْعَلُ اللَّهُ بَعْدَ عُسْرٍ يُسْرًا',
+    translation: 'Allah will bring about, after hardship, ease.',
+    reference: 'Surah At-Talaq (65:7)',
+    theme: 'Guaranteed Relief',
+    tafsir: 'This is a categorical divine promise using the future tense—سَيَجْعَلُ (He will make). It is not a possibility but a certainty. Every hardship has an expiration date in Allah\'s plan.',
+    reflection: 'Your difficulty is temporary. The ease that follows is promised by the One who never breaks His promises.',
+  },
+
+  // MORE STRENGTH & PATIENCE
+  {
+    id: 18,
+    category: 'strength',
+    arabic: 'إِنَّ اللَّهَ مَعَ الصَّابِرِينَ',
+    translation: 'Indeed, Allah is with the patient.',
+    reference: 'Surah Al-Baqarah (2:153)',
+    theme: 'Divine Companionship',
+    tafsir: 'The ma\'iyyah (companionship) of Allah mentioned here is a special closeness—not the general knowledge of all things, but a specific support, help, and nearness reserved for those who are patient.',
+    reflection: 'Patience is not passive suffering. It earns you a companion no hardship can overcome—Allah Himself.',
+  },
+  {
+    id: 19,
+    category: 'strength',
+    arabic: 'وَلَنَبْلُوَنَّكُم بِشَيْءٍ مِّنَ الْخَوْفِ وَالْجُوعِ وَنَقْصٍ مِّنَ الْأَمْوَالِ وَالْأَنفُسِ وَالثَّمَرَاتِ ۗ وَبَشِّرِ الصَّابِرِينَ',
+    translation: 'And We will surely test you with something of fear, hunger, loss of wealth, lives, and fruits. But give good tidings to the patient.',
+    reference: 'Surah Al-Baqarah (2:155)',
+    theme: 'Tests Are Certain',
+    tafsir: 'Allah uses بِشَيْءٍ (something of)—the tests are measured, not total. You will face fear, but not be consumed. You will face loss, but not lose everything. And for the patient, there are glad tidings.',
+    reflection: 'The test is not the full story. The glad tidings that follow patience—that is the complete picture.',
+  },
+
+  // MORE MERCY & FORGIVENESS
+  {
+    id: 20,
+    category: 'mercy',
+    arabic: 'كَتَبَ رَبُّكُمْ عَلَىٰ نَفْسِهِ الرَّحْمَةَ',
+    translation: 'Your Lord has decreed upon Himself mercy.',
+    reference: 'Surah Al-An\'am (6:54)',
+    theme: 'Self-Imposed Mercy',
+    tafsir: 'Allah did not merely choose mercy—He made it binding upon Himself. كَتَبَ (decreed/wrote) indicates a firm commitment. Mercy is not just an attribute; it is a divine obligation He placed upon Himself.',
+    reflection: 'Allah has obligated mercy upon Himself for you. You are not hoping for mercy from a reluctant giver—it is guaranteed.',
+  },
+  {
+    id: 21,
+    category: 'mercy',
+    arabic: 'وَاللَّهُ يُرِيدُ أَن يَتُوبَ عَلَيْكُمْ',
+    translation: 'And Allah wants to accept your repentance.',
+    reference: 'Surah An-Nisa (4:27)',
+    theme: 'Allah Wants Your Return',
+    tafsir: 'The verb يُرِيدُ means "wants" or "desires." Allah actively desires your repentance and return. He is not waiting reluctantly—He is eager for you to come back.',
+    reflection: 'You are not bothering Allah when you repent. He wants you to turn back. The door is not just open—He is calling you through it.',
+  },
+
+  // MORE WOMEN IN QURAN
+  {
+    id: 22,
+    category: 'women',
+    arabic: 'فَاسْتَجَابَ لَهُمْ رَبُّهُمْ أَنِّي لَا أُضِيعُ عَمَلَ عَامِلٍ مِّنكُم مِّن ذَكَرٍ أَوْ أُنثَىٰ',
+    translation: 'And their Lord responded to them, "Never will I allow to be lost the work of any worker among you, whether male or female."',
+    reference: 'Surah Aal-Imran (3:195)',
+    theme: 'Equal Reward',
+    tafsir: 'This verse was revealed in response to Umm Salamah\'s question about women\'s reward. Allah explicitly guarantees that no deed—regardless of the doer\'s gender—will be wasted.',
+    reflection: 'Your deeds are never invisible to Allah. Every act of worship, every struggle, every good deed is recorded and rewarded.',
+  },
+
+  // MORE LOVE & RELATIONSHIPS
+  {
+    id: 23,
+    category: 'love',
+    arabic: 'وَالْوَالِدَاتُ يُرْضِعْنَ أَوْلَادَهُنَّ حَوْلَيْنِ كَامِلَيْنِ ۖ لِمَنْ أَرَادَ أَن يُتِمَّ الرَّضَاعَةَ',
+    translation: 'Mothers may breastfeed their children for two complete years, for whoever wishes to complete the nursing period.',
+    reference: 'Surah Al-Baqarah (2:233)',
+    theme: 'Honoring Motherhood',
+    tafsir: 'This verse establishes the sacred bond of nursing, and goes on to state that the father must provide for the mother during this period. Islam honors the physical sacrifice of motherhood with specific legal rights.',
+    reflection: 'The bond of motherhood is so sacred that Allah legislated provisions around it. A mother\'s sacrifice is never taken lightly.',
+  },
+
+  // ============================================
+  // SIGNS IN NATURE - NEW CATEGORY
+  // ============================================
+  {
+    id: 24,
+    category: 'nature',
+    arabic: 'إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِّأُولِي الْأَلْبَابِ',
+    translation: 'Indeed, in the creation of the heavens and the earth and the alternation of the night and day are signs for those of understanding.',
+    reference: 'Surah Aal-Imran (3:190)',
+    theme: 'Creation as Evidence',
+    tafsir: 'The word آيَاتٍ (signs) appears repeatedly in the Quran in connection with nature. The alternation of day and night, the vast heavens—these are not random. They are signs for those who reflect.',
+    reflection: 'Every sunrise, every starlit sky, every changing season is a letter from your Creator. Are you reading them?',
+  },
+  {
+    id: 25,
+    category: 'nature',
+    arabic: 'وَجَعَلْنَا مِنَ الْمَاءِ كُلَّ شَيْءٍ حَيٍّ ۖ أَفَلَا يُؤْمِنُونَ',
+    translation: 'And We made from water every living thing. Then will they not believe?',
+    reference: 'Surah Al-Anbiya (21:30)',
+    theme: 'Water as Life',
+    tafsir: 'Modern science confirms that all life depends on water. The Quran stated this 1400 years ago. كُلَّ شَيْءٍ حَيٍّ—every living thing, without exception, originates from water.',
+    reflection: 'Every drop of water is a sign of the Creator. The simplest substance sustains all of life—by divine design.',
+  },
+  {
+    id: 26,
+    category: 'nature',
+    arabic: 'أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ ۝ وَإِلَى السَّمَاءِ كَيْفَ رُفِعَتْ',
+    translation: 'Do they not look at the camels—how they are created? And at the sky—how it is raised?',
+    reference: 'Surah Al-Ghashiyah (88:17-18)',
+    theme: 'Observation as Worship',
+    tafsir: 'Allah invites us to observe creation with wonder. The camel, perfectly designed for desert life. The sky, held without pillars. Careful observation of nature is itself a form of worship and leads to faith.',
+    reflection: 'The next time you see an animal, a mountain, or a vast sky—pause. You are looking at the handiwork of your Creator.',
+  },
+  {
+    id: 27,
+    category: 'nature',
+    arabic: 'وَالشَّمْسُ تَجْرِي لِمُسْتَقَرٍّ لَّهَا ۚ ذَٰلِكَ تَقْدِيرُ الْعَزِيزِ الْعَلِيمِ',
+    translation: 'And the sun runs on its fixed course for a term appointed. That is the decree of the All-Mighty, the All-Knowing.',
+    reference: 'Surah Ya-Sin (36:38)',
+    theme: 'Cosmic Order',
+    tafsir: 'The sun\'s orbit, its precise distance from Earth, its consistent energy output—all are by تَقْدِيرُ (precise decree). The same God who calibrates the sun\'s course manages your affairs.',
+    reflection: 'The One who keeps the sun in its orbit has not lost track of your life. Everything is by precise design.',
+  },
+
+  // ============================================
+  // KNOWLEDGE & WISDOM - NEW CATEGORY
+  // ============================================
+  {
+    id: 28,
+    category: 'knowledge',
+    arabic: 'اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ',
+    translation: 'Read in the name of your Lord who created.',
+    reference: 'Surah Al-Alaq (96:1)',
+    theme: 'The First Revelation',
+    tafsir: 'The very first word revealed to the Prophet ﷺ was اقْرَأْ—Read. Not "fight," not "pray," not "fast," but "read." Islam begins with knowledge, with literacy, with learning.',
+    reflection: 'Your pursuit of knowledge is the most ancient Islamic practice. It is literally the first command from Allah.',
+  },
+  {
+    id: 29,
+    category: 'knowledge',
+    arabic: 'يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ',
+    translation: 'Allah will raise those who have believed among you and those who were given knowledge, by degrees.',
+    reference: 'Surah Al-Mujadilah (58:11)',
+    theme: 'Elevation Through Knowledge',
+    tafsir: 'Knowledge elevates a person in this life and the next. The word دَرَجَاتٍ (degrees/levels) indicates that knowledge does not just improve you slightly—it raises your entire station.',
+    reflection: 'Every moment spent learning is an investment in your elevation. Knowledge is the path that Allah uses to raise you.',
+  },
+  {
+    id: 30,
+    category: 'knowledge',
+    arabic: 'قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ',
+    translation: 'Say, "Are those who know equal to those who do not know?"',
+    reference: 'Surah Az-Zumar (39:9)',
+    theme: 'The Value of Knowledge',
+    tafsir: 'A rhetorical question with an obvious answer. Knowledge transforms a person fundamentally. Those who know and those who do not know occupy entirely different stations before Allah.',
+    reflection: 'Never belittle your pursuit of understanding. The distinction between knowing and not knowing is immense in Allah\'s sight.',
+  },
+  {
+    id: 31,
+    category: 'knowledge',
+    arabic: 'وَقُل رَّبِّ زِدْنِي عِلْمًا',
+    translation: 'And say, "My Lord, increase me in knowledge."',
+    reference: 'Surah Ta-Ha (20:114)',
+    theme: 'Seeking More Knowledge',
+    tafsir: 'Allah commanded the Prophet ﷺ—the most knowledgeable of creation—to ask for more knowledge. If the Prophet ﷺ needed more knowledge, then we certainly do.',
+    reflection: 'No matter how much you know, there is always more to learn. Humility before knowledge is a sign of true understanding.',
+  },
+
+  // ============================================
+  // GRATITUDE - NEW CATEGORY
+  // ============================================
+  {
+    id: 32,
+    category: 'gratitude',
+    arabic: 'وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ',
+    translation: 'And when your Lord proclaimed, "If you are grateful, I will surely increase you; but if you deny, indeed My punishment is severe."',
+    reference: 'Surah Ibrahim (14:7)',
+    theme: 'Gratitude Multiplies Blessings',
+    tafsir: 'This is a divine law: gratitude leads to increase. لَأَزِيدَنَّكُمْ is emphatic—"I will certainly increase you." The increase is not specified, meaning it could be in any form Allah deems best.',
+    reflection: 'Gratitude is not just good manners—it is the key to abundance. Every "alhamdulillah" opens a door to more.',
+  },
+  {
+    id: 33,
+    category: 'gratitude',
+    arabic: 'وَإِن تَعُدُّوا نِعْمَةَ اللَّهِ لَا تُحْصُوهَا',
+    translation: 'And if you should count the favors of Allah, you could not enumerate them.',
+    reference: 'Surah Ibrahim (14:34)',
+    theme: 'Countless Blessings',
+    tafsir: 'The blessings of Allah are literally uncountable. Every breath, every heartbeat, every moment of sight and hearing is a gift. لَا تُحْصُوهَا means you cannot even count them, let alone thank for each one.',
+    reflection: 'Start counting your blessings and you will never finish. That itself is a blessing worth thanking Allah for.',
+  },
+  {
+    id: 34,
+    category: 'gratitude',
+    arabic: 'وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ',
+    translation: 'But as for the favor of your Lord, proclaim it.',
+    reference: 'Surah Ad-Duha (93:11)',
+    theme: 'Sharing Blessings',
+    tafsir: 'Gratitude in Islam is not just internal—it includes speaking about Allah\'s blessings openly. فَحَدِّثْ means to talk about it, share it, make it known. Acknowledging blessings publicly is itself an act of worship.',
+    reflection: 'Do not hide the blessings Allah has given you out of false modesty. Speaking about them is gratitude made audible.',
+  },
+
+  // ============================================
+  // JUSTICE & FAIRNESS - NEW CATEGORY
+  // ============================================
+  {
+    id: 35,
+    category: 'justice',
+    arabic: 'يَا أَيُّهَا الَّذِينَ آمَنُوا كُونُوا قَوَّامِينَ بِالْقِسْطِ شُهَدَاءَ لِلَّهِ وَلَوْ عَلَىٰ أَنفُسِكُمْ',
+    translation: 'O you who believe, be persistently standing firm in justice, witnesses for Allah, even if it be against yourselves.',
+    reference: 'Surah An-Nisa (4:135)',
+    theme: 'Justice Above Self-Interest',
+    tafsir: 'Islam demands justice even when it costs you personally. قَوَّامِينَ (persistently standing) implies unwavering commitment, not occasional fairness. True justice may require testifying against your own interests.',
+    reflection: 'Justice is not justice if it only applies when convenient. The real test is standing for truth when it costs you something.',
+  },
+  {
+    id: 36,
+    category: 'justice',
+    arabic: 'إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ',
+    translation: 'Indeed, Allah commands justice, excellence, and giving to relatives.',
+    reference: 'Surah An-Nahl (16:90)',
+    theme: 'Three Pillars of Society',
+    tafsir: 'This verse is considered one of the most comprehensive in the Quran for social ethics. العَدْلِ is justice (giving what is due), الْإِحْسَانِ goes beyond justice to excellence and beauty in conduct, and giving to relatives ensures social bonds.',
+    reflection: 'Justice is the minimum. Excellence (ihsan) is the aspiration. Together with family care, they form the foundation of a just society.',
+  },
+  {
+    id: 37,
+    category: 'justice',
+    arabic: 'وَلَا يَجْرِمَنَّكُمْ شَنَآنُ قَوْمٍ عَلَىٰ أَلَّا تَعْدِلُوا ۚ اعْدِلُوا هُوَ أَقْرَبُ لِلتَّقْوَىٰ',
+    translation: 'And do not let the hatred of a people prevent you from being just. Be just; that is nearer to righteousness.',
+    reference: 'Surah Al-Ma\'idah (5:8)',
+    theme: 'Justice Even for Enemies',
+    tafsir: 'This is one of the most remarkable ethical principles in the Quran. Even hatred for an opposing group cannot justify injustice. اعْدِلُوا—be just—is a command that transcends personal feelings.',
+    reflection: 'Can you be fair to someone you dislike? That is the test of true justice—and true taqwa.',
+  },
+  {
+    id: 38,
+    category: 'justice',
+    arabic: 'وَإِذَا حَكَمْتُم بَيْنَ النَّاسِ أَن تَحْكُمُوا بِالْعَدْلِ',
+    translation: 'And when you judge between people, to judge with justice.',
+    reference: 'Surah An-Nisa (4:58)',
+    theme: 'Just Judgment',
+    tafsir: 'This command applies to every situation where one person makes a decision affecting others—from rulers to parents to employers. بِالْعَدْلِ (with justice) is non-negotiable.',
+    reflection: 'Every time you make a decision that affects someone else—at home, at work, in your community—you are called to be just.',
+  },
+
+  // ============================================
+  // FAMILY & CHILDREN - NEW CATEGORY
+  // ============================================
+  {
+    id: 39,
+    category: 'family',
+    arabic: 'وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حُسْنًا',
+    translation: 'And We have enjoined upon mankind goodness to parents.',
+    reference: 'Surah Al-Ankabut (29:8)',
+    theme: 'Duty to Parents',
+    tafsir: 'The word حُسْنًا encompasses the highest form of good treatment. Allah pairs this command with the command to worship Him alone, showing the immense weight of parental rights in Islam.',
+    reflection: 'Your parents\' rights are not suggestions—they are divine commandments. Even small acts of kindness to them carry immense reward.',
+  },
+  {
+    id: 40,
+    category: 'family',
+    arabic: 'وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا',
+    translation: 'And your Lord has decreed that you worship none but Him, and that you be dutiful to your parents.',
+    reference: 'Surah Al-Isra (17:23)',
+    theme: 'Parents After Allah',
+    tafsir: 'Allah places duty to parents immediately after worship of Him alone—no other human relationship receives this rank. إِحْسَانًا means the best, most beautiful form of treatment.',
+    reflection: 'The way you treat your parents is linked directly to your worship of Allah. They are not separate matters.',
+  },
+  {
+    id: 41,
+    category: 'family',
+    arabic: 'الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا ۖ وَالْبَاقِيَاتُ الصَّالِحَاتُ خَيْرٌ عِندَ رَبِّكَ ثَوَابًا',
+    translation: 'Wealth and children are the adornment of the life of this world. But the enduring good deeds are better to your Lord for reward.',
+    reference: 'Surah Al-Kahf (18:46)',
+    theme: 'Eternal vs. Temporary',
+    tafsir: 'Allah calls wealth and children زِينَةُ (adornment)—beautiful but temporary. The الْبَاقِيَاتُ الصَّالِحَاتُ (enduring good deeds) are what remain. This puts family in perspective: a blessing to enjoy, but not the ultimate purpose.',
+    reflection: 'Love your family, enjoy the blessing—but invest in the deeds that will outlast everything in this world.',
+  },
+  {
+    id: 42,
+    category: 'family',
+    arabic: 'يَا أَيُّهَا الَّذِينَ آمَنُوا قُوا أَنفُسَكُمْ وَأَهْلِيكُمْ نَارًا',
+    translation: 'O you who believe, protect yourselves and your families from a Fire.',
+    reference: 'Surah At-Tahrim (66:6)',
+    theme: 'Family as Responsibility',
+    tafsir: 'The responsibility extends beyond yourself to your family. قُوا (protect) is an active verb—it requires effort, teaching, nurturing, and guiding. Protecting your family spiritually is as important as providing for them materially.',
+    reflection: 'Caring for your family is not just about provision. It is about building their connection to Allah and protecting their hearts.',
+  },
+  {
+    id: 43,
+    category: 'family',
+    arabic: 'وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ',
+    translation: 'And We have enjoined upon mankind care for his parents. His mother carried him in weakness upon weakness.',
+    reference: 'Surah Luqman (31:14)',
+    theme: 'A Mother\'s Sacrifice',
+    tafsir: 'وَهْنًا عَلَىٰ وَهْنٍ—weakness upon weakness. Pregnancy, labor, nursing—each phase layers difficulty upon difficulty. Allah specifically mentions the mother\'s physical sacrifice as the reason for this commandment.',
+    reflection: 'Your mother bore weakness upon weakness for you. Every kindness to her is a small repayment for what can never fully be repaid.',
+  },
 ];
 
 export const verseCategories = [
@@ -170,4 +484,9 @@ export const verseCategories = [
   { id: 'mercy', name: 'Mercy & Forgiveness', icon: 'Sparkles', color: 'violet' },
   { id: 'women', name: 'Women in Quran', icon: 'Crown', color: 'rose' },
   { id: 'love', name: 'Love & Relationships', icon: 'Heart', color: 'red' },
+  { id: 'nature', name: 'Signs in Nature', icon: 'Leaf', color: 'green' },
+  { id: 'knowledge', name: 'Knowledge & Wisdom', icon: 'BookOpen', color: 'blue' },
+  { id: 'gratitude', name: 'Gratitude', icon: 'Star', color: 'yellow' },
+  { id: 'justice', name: 'Justice & Fairness', icon: 'Scale', color: 'indigo' },
+  { id: 'family', name: 'Family & Children', icon: 'Users', color: 'pink' },
 ];

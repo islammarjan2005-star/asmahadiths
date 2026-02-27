@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ChevronLeft,
   Moon,
   Sun,
   Bell,
+  BellRing,
   Vibrate,
   Trash2,
   Info,
@@ -14,9 +15,15 @@ import {
   Upload,
   FileText,
   Baby,
+  Check,
 } from 'lucide-react';
 import { Card } from '../ui';
 import { useApp } from '../../context/AppContext';
+import {
+  requestNotificationPermission,
+  isNotificationSupported,
+  getPermissionStatus,
+} from '../../utils/notifications';
 
 const fontSizes = [
   { value: 'small', label: 'Small', preview: 'Aa' },
@@ -28,6 +35,17 @@ const fontSizes = [
 export function Settings({ onBack }) {
   const { state, dispatch } = useApp();
   const fileInputRef = useRef(null);
+  const [notifStatus, setNotifStatus] = useState(
+    isNotificationSupported() ? getPermissionStatus() : 'unsupported'
+  );
+
+  const handleEnableNotifications = async () => {
+    const granted = await requestNotificationPermission();
+    setNotifStatus(granted ? 'granted' : 'denied');
+    if (granted) {
+      dispatch({ type: 'TOGGLE_NOTIFICATIONS' });
+    }
+  };
 
   const handleClearData = () => {
     if (window.confirm('This will clear all your saved content and journal entries. Continue?')) {
@@ -163,23 +181,48 @@ export function Settings({ onBack }) {
             Experience
           </p>
           <Card className="divide-y divide-cream-300 dark:divide-night-50">
-            <div className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Bell className="w-5 h-5 text-text-tertiary dark:text-text-tertiary" />
-                <span className="text-text-primary dark:text-cream-200">Notifications</span>
+            <div className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Bell className="w-5 h-5 text-text-tertiary dark:text-text-tertiary" />
+                  <span className="text-text-primary dark:text-cream-200">Notifications</span>
+                </div>
+                {notifStatus === 'granted' ? (
+                  <button
+                    onClick={() => dispatch({ type: 'TOGGLE_NOTIFICATIONS' })}
+                    className={`w-12 h-7 rounded-full p-1 transition-colors ${
+                      state.notifications ? 'bg-sanctuary-600' : 'bg-cream-300 dark:bg-night-100'
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                        state.notifications ? 'translate-x-5' : ''
+                      }`}
+                    />
+                  </button>
+                ) : notifStatus === 'unsupported' ? (
+                  <span className="text-xs text-text-tertiary">Not supported</span>
+                ) : (
+                  <button
+                    onClick={handleEnableNotifications}
+                    className="px-3 py-1.5 bg-sanctuary-600 text-white text-xs rounded-lg active:bg-sanctuary-700 transition-colors"
+                  >
+                    Enable
+                  </button>
+                )}
               </div>
-              <button
-                onClick={() => dispatch({ type: 'TOGGLE_NOTIFICATIONS' })}
-                className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                  state.notifications ? 'bg-sanctuary-600' : 'bg-cream-300 dark:bg-night-100'
-                }`}
-              >
-                <div
-                  className={`w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                    state.notifications ? 'translate-x-5' : ''
-                  }`}
-                />
-              </button>
+              {state.notifications && notifStatus === 'granted' && (
+                <div className="mt-3 ml-8 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <BellRing className="w-3.5 h-3.5 text-gold-500" />
+                    <span className="text-xs text-text-tertiary">Prayer reminders (15 min before)</span>
+                    <Check className="w-3 h-3 text-sanctuary-500 ml-auto" />
+                  </div>
+                  <p className="text-xs text-text-tertiary/70">
+                    Reminders work while the app is open. Add to home screen for best experience.
+                  </p>
+                </div>
+              )}
             </div>
             <div className="p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">

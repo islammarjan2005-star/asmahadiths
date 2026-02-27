@@ -1,6 +1,4 @@
 import { hadithDatabase } from '../data';
-import { quranicVerses } from '../data/quran';
-import { duas } from '../data/duas';
 
 // Content recommendation engine
 // Ranks content based on: time of day, mood, unseen content, Hijri calendar, streak

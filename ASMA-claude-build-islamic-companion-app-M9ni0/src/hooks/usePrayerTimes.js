@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { schedulePrayerReminders, clearAllScheduled } from '../utils/notifications';
 
 const CACHE_KEY = 'asma-prayer-times-cache';
 const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours
@@ -199,6 +200,14 @@ export function usePrayerTimes() {
       if (currentTime >= h * 60 + m) return prayers[i].name;
     }
     return 'Isha'; // After midnight before Fajr
+  }, [prayerTimes]);
+
+  // Schedule prayer reminders when times are available
+  useEffect(() => {
+    if (prayerTimes) {
+      schedulePrayerReminders(prayerTimes);
+    }
+    return () => clearAllScheduled();
   }, [prayerTimes]);
 
   return {

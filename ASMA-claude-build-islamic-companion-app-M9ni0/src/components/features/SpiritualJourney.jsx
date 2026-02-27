@@ -17,7 +17,7 @@ import { Card, LevelIcon } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { LEVELS, ACHIEVEMENTS, getLevel, getNextLevel, getLevelProgress } from '../../data/spiritualJourney';
 
-export function SpiritualJourney({ onBack }) {
+export function SpiritualJourney({ onBack, onAnalytics }) {
   const { state } = useApp();
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -377,6 +377,25 @@ export function SpiritualJourney({ onBack }) {
                 })}
               </div>
             </Card>
+
+            {/* Full Analytics Link */}
+            {onAnalytics && (
+              <Card
+                className="p-4 card-interactive"
+                onClick={onAnalytics}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Full Analytics</p>
+                    <p className="text-xs text-text-tertiary">Heatmap, insights & more</p>
+                  </div>
+                  <span className="text-xs text-sanctuary-500 font-medium">View</span>
+                </div>
+              </Card>
+            )}
 
             {/* Inspirational quote */}
             <Card className="p-5 bg-gradient-to-br from-sanctuary-50 to-sanctuary-100 dark:from-sanctuary-900/20 dark:to-sanctuary-800/20 border-sanctuary-200 dark:border-sanctuary-800">

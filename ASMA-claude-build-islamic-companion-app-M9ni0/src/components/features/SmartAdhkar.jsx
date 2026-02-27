@@ -10,21 +10,20 @@ import {
   VolumeX,
   Flame,
   Trophy,
-  Play,
-  Pause,
   Info,
 } from 'lucide-react';
 import { Card, Button } from '../ui';
 import { useApp } from '../../context/AppContext';
 import { adhkarDatabase, getAdhkarStats } from '../../data';
+import { useTextToSpeech } from '../../hooks/useTextToSpeech';
 
 export function SmartAdhkar({ onBack }) {
   const { state, dispatch } = useApp();
   const [activeType, setActiveType] = useState('morning');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showComplete, setShowComplete] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const { speak, stop, isSpeaking, isSupported: ttsSupported } = useTextToSpeech();
   const cardRef = useRef(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -150,27 +149,19 @@ export function SmartAdhkar({ onBack }) {
     setCurrentIndex(0);
   };
 
-  // Text-to-speech for Arabic
+  // Text-to-speech for Arabic using hook
   const toggleAudio = () => {
-    if (isPlaying) {
-      window.speechSynthesis.cancel();
-      setIsPlaying(false);
+    if (isSpeaking) {
+      stop();
     } else if (currentAdhkar) {
-      const utterance = new SpeechSynthesisUtterance(currentAdhkar.arabic);
-      utterance.lang = 'ar-SA';
-      utterance.rate = 0.8;
-      utterance.onend = () => setIsPlaying(false);
-      window.speechSynthesis.speak(utterance);
-      setIsPlaying(true);
+      speak(currentAdhkar.arabic, { lang: 'ar', rate: 0.8 });
     }
   };
 
-  // Cleanup on unmount
+  // Stop TTS on unmount
   useEffect(() => {
-    return () => {
-      window.speechSynthesis.cancel();
-    };
-  }, []);
+    return () => stop();
+  }, [stop]);
 
   // Check for completion
   useEffect(() => {
@@ -323,7 +314,7 @@ export function SmartAdhkar({ onBack }) {
                   onClick={toggleAudio}
                   className="p-2 rounded-lg text-text-tertiary hover:bg-cream-200 dark:hover:bg-night-100 transition-colors"
                 >
-                  {isPlaying ? (
+                  {isSpeaking ? (
                     <VolumeX className="w-4 h-4" />
                   ) : (
                     <Volume2 className="w-4 h-4" />

@@ -208,6 +208,430 @@ export const duasDatabase = [
     benefit: 'For healing relationships, family conflicts, or community division.',
     time: 'For relationship healing',
   },
+
+  // ============================================
+  // NEW DUAS (IDs 20+)
+  // ============================================
+
+  // MORE MORNING & EVENING
+  {
+    id: 20,
+    category: 'morning',
+    arabic: 'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا',
+    transliteration: 'Radheetu billahi rabba, wa bil-islami deena, wa bi Muhammadin sallallahu alayhi wa sallama nabiyya',
+    translation: 'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet.',
+    source: 'Abu Dawud',
+    benefit: 'The Prophet ﷺ said whoever recites this three times in the morning and evening, Allah will please them on the Day of Judgment.',
+    time: 'Morning and evening',
+  },
+  {
+    id: 21,
+    category: 'morning',
+    arabic: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ',
+    transliteration: 'SubhanAllahi wa bihamdihi, \'adada khalqihi, wa rida nafsihi, wa zinata \'arshihi, wa midada kalimatihi',
+    translation: 'Glory be to Allah and praise Him, as many times as the number of His creatures, in accordance with His pleasure, equal to the weight of His Throne, and as much as the ink of His words.',
+    source: 'Muslim',
+    benefit: 'The Prophet ﷺ told Juwayriyah that these words outweigh hours of other dhikr.',
+    time: 'After Fajr',
+  },
+  {
+    id: 22,
+    category: 'evening',
+    arabic: 'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ',
+    transliteration: 'Allahumma bika amsayna, wa bika asbahna, wa bika nahya, wa bika namootu, wa ilaykal maseer',
+    translation: 'O Allah, by Your will we have reached the evening, by Your will we reach the morning, by Your will we live, by Your will we die, and unto You is the return.',
+    source: 'Tirmidhi',
+    benefit: 'The evening counterpart to the morning dua, placing your entire existence in Allah\'s care as the day ends.',
+    time: 'After Maghrib',
+  },
+
+  // MORE ANXIETY & STRESS
+  {
+    id: 23,
+    category: 'anxiety',
+    arabic: 'اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ',
+    transliteration: 'Allahumma inni \'abduka, ibnu \'abdika, ibnu amatika, nasiyati biyadika, madin fiyya hukmuka, \'adlun fiyya qada\'uka',
+    translation: 'O Allah, I am Your servant, son of Your servant, son of Your maidservant. My forelock is in Your hand. Your command concerning me prevails, and Your decree concerning me is just.',
+    source: 'Ahmad',
+    benefit: 'One of the most comprehensive duas for removing sadness. The Prophet ﷺ said no one says it except that Allah removes their grief and replaces it with joy.',
+    time: 'When overwhelmed with sadness',
+  },
+  {
+    id: 24,
+    category: 'anxiety',
+    arabic: 'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',
+    transliteration: 'La hawla wa la quwwata illa billah',
+    translation: 'There is no power and no strength except with Allah.',
+    source: 'Bukhari & Muslim',
+    benefit: 'The Prophet ﷺ called it a treasure from the treasures of Paradise. It is the ultimate surrender of control to Allah.',
+    time: 'When feeling powerless',
+  },
+
+  // MORE PROTECTION
+  {
+    id: 25,
+    category: 'protection',
+    arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ، وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ',
+    transliteration: 'Allahumma inni a\'oodhu bika min sharri ma \'amiltu, wa min sharri ma lam a\'mal',
+    translation: 'O Allah, I seek refuge in You from the evil of what I have done and the evil of what I have not done.',
+    source: 'Muslim',
+    benefit: 'Seeking protection from the consequences of past deeds and from future harms you have not yet encountered.',
+    time: 'Morning and evening',
+  },
+  {
+    id: 26,
+    category: 'protection',
+    arabic: 'اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ، وَمِنْ خَلْفِي، وَعَنْ يَمِينِي، وَعَنْ شِمَالِي، وَمِنْ فَوْقِي',
+    transliteration: 'Allahummah-fadhni min bayni yadayya, wa min khalfi, wa \'an yameeni, wa \'an shimali, wa min fawqi',
+    translation: 'O Allah, protect me from in front of me and from behind me, from my right and from my left, and from above me.',
+    source: 'Abu Dawud & Ibn Majah',
+    benefit: 'Total encompassing protection from every direction. The Prophet ﷺ sought refuge from all sides.',
+    time: 'Morning and evening',
+  },
+
+  // MORE FORGIVENESS
+  {
+    id: 27,
+    category: 'forgiveness',
+    arabic: 'رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي',
+    transliteration: 'Rabbighfir li khatee\'ati wa jahli wa israfi fi amri wa ma anta a\'lamu bihi minni',
+    translation: 'My Lord, forgive me my sins, my ignorance, my excess in my affairs, and what You know better than I.',
+    source: 'Bukhari & Muslim',
+    benefit: 'Acknowledges that Allah knows our faults better than we know ourselves, covering even the sins we are unaware of.',
+    time: 'After salah',
+  },
+  {
+    id: 28,
+    category: 'forgiveness',
+    arabic: 'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ',
+    transliteration: 'Rabbana zalamna anfusana wa in lam taghfir lana wa tarhamna lanakoonanna minal khasireen',
+    translation: 'Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.',
+    source: 'Quran 7:23 - Dua of Adam and Hawa',
+    benefit: 'The first dua of repentance in human history. Adam and Hawa turned to Allah immediately after their mistake.',
+    time: 'When seeking forgiveness',
+  },
+
+  // MORE HARDSHIP
+  {
+    id: 29,
+    category: 'hardship',
+    arabic: 'اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ وَأَصْلِحْ لِي شَأْنِي كُلَّهُ لَا إِلَهَ إِلَّا أَنْتَ',
+    transliteration: 'Allahumma rahmataka arju fala takilni ila nafsi tarfata \'aynin wa aslih li sha\'ni kullahu la ilaha illa ant',
+    translation: 'O Allah, it is Your mercy that I hope for, so do not leave me to myself even for the blink of an eye. Rectify all of my affairs. There is no god but You.',
+    source: 'Abu Dawud',
+    benefit: 'A humble recognition that without Allah\'s mercy, we cannot manage even a moment on our own.',
+    time: 'When feeling helpless',
+  },
+
+  // MORE RELATIONSHIPS
+  {
+    id: 30,
+    category: 'relationships',
+    arabic: 'رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ',
+    transliteration: 'Rabbi hab li min ladunka dhurriyyatan tayyibah, innaka samee\'ud-du\'a',
+    translation: 'My Lord, grant me from Yourself righteous offspring. Indeed, You are the Hearer of supplication.',
+    source: 'Quran 3:38 - Dua of Zakariyya',
+    benefit: 'Zakariyya made this dua in old age when it seemed impossible. Allah granted him Yahya.',
+    time: 'When praying for children',
+  },
+
+  // MORE GUIDANCE
+  {
+    id: 31,
+    category: 'guidance',
+    arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى',
+    transliteration: 'Allahumma inni as\'alukal-huda wat-tuqa wal-\'afafa wal-ghina',
+    translation: 'O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.',
+    source: 'Muslim',
+    benefit: 'A concise dua covering the four essential needs of the soul: direction, consciousness of Allah, dignity, and independence.',
+    time: 'Daily',
+  },
+
+  // MORE GRATITUDE
+  {
+    id: 32,
+    category: 'gratitude',
+    arabic: 'اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ',
+    transliteration: 'Allahumma ma asbaha bi min ni\'matin aw bi ahadin min khalqika faminka wahdaka la shareeka laka falakal hamdu wa lakash-shukr',
+    translation: 'O Allah, whatever blessing I or any of Your creation has risen upon this morning is from You alone, without partner. So for You is all praise and to You is all thanks.',
+    source: 'Abu Dawud',
+    benefit: 'The Prophet ﷺ said whoever says this has fulfilled their gratitude for that day.',
+    time: 'Every morning',
+  },
+  {
+    id: 33,
+    category: 'gratitude',
+    arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ',
+    transliteration: 'Alhamdulillahil-ladhi at\'amani hadha wa razaqaneehi min ghayri hawlin minni wa la quwwah',
+    translation: 'Praise is to Allah Who has fed me this and provided it for me without any effort or power on my part.',
+    source: 'Tirmidhi',
+    benefit: 'Said after eating, it serves as a reminder that even our daily sustenance is a gift from Allah.',
+    time: 'After eating',
+  },
+
+  // ============================================
+  // SLEEP - NEW CATEGORY
+  // ============================================
+  {
+    id: 34,
+    category: 'sleep',
+    arabic: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',
+    transliteration: 'Bismika Allahumma amootu wa ahya',
+    translation: 'In Your name, O Allah, I die and I live.',
+    source: 'Bukhari',
+    benefit: 'The Prophet ﷺ said this before sleeping, acknowledging that sleep is a form of death and waking is rebirth by Allah\'s will.',
+    time: 'Before sleeping',
+  },
+  {
+    id: 35,
+    category: 'sleep',
+    arabic: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',
+    transliteration: 'Allahumma qini \'adhabaka yawma tab\'athu \'ibadak',
+    translation: 'O Allah, protect me from Your punishment on the Day You resurrect Your servants.',
+    source: 'Abu Dawud',
+    benefit: 'The Prophet ﷺ would place his right hand under his cheek and say this three times before sleeping.',
+    time: 'Before sleeping',
+  },
+  {
+    id: 36,
+    category: 'sleep',
+    arabic: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ',
+    transliteration: 'Allahumma aslamtu nafsi ilayk, wa fawwadtu amri ilayk, wa alja\'tu dhahri ilayk, raghbatan wa rahbatan ilayk',
+    translation: 'O Allah, I submit myself to You, entrust my affairs to You, and turn my back to You in hope and fear of You.',
+    source: 'Bukhari & Muslim',
+    benefit: 'A complete surrender to Allah before sleep, entrusting Him with your soul, your affairs, and your vulnerability.',
+    time: 'Before sleeping',
+  },
+  {
+    id: 37,
+    category: 'sleep',
+    arabic: 'الْحَمْدُ لِلَّهِ الَّذِي كَفَانِي وَآوَانِي وَأَطْعَمَنِي وَسَقَانِي وَالَّذِي مَنَّ عَلَيَّ فَأَفْضَلَ',
+    transliteration: 'Alhamdulillahil-ladhi kafani wa awani wa at\'amani wa saqani, walladhi manna \'alayya fa afdal',
+    translation: 'Praise is to Allah who has sufficed me, sheltered me, fed me, and given me drink, and who has been gracious to me and given abundantly.',
+    source: 'Muslim',
+    benefit: 'A comprehensive gratitude before sleep, reflecting on all the blessings of the day that has passed.',
+    time: 'Before sleeping',
+  },
+
+  // ============================================
+  // TRAVEL - NEW CATEGORY
+  // ============================================
+  {
+    id: 38,
+    category: 'travel',
+    arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ',
+    transliteration: 'Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrineen, wa inna ila rabbina lamunqaliboon',
+    translation: 'Glory to Him who has subjected this to us, and we could not have otherwise subdued it. And indeed, to our Lord we will return.',
+    source: 'Quran 43:13-14',
+    benefit: 'The dua of travel, said when mounting any mode of transport. It acknowledges Allah\'s blessing in making travel possible.',
+    time: 'When beginning a journey',
+  },
+  {
+    id: 39,
+    category: 'travel',
+    arabic: 'اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى',
+    transliteration: 'Allahumma inna nas\'aluka fi safarina hadhal-birra wat-taqwa, wa minal-\'amali ma tarda',
+    translation: 'O Allah, we ask You in this journey for righteousness, piety, and deeds that please You.',
+    source: 'Muslim',
+    benefit: 'The Prophet ﷺ would make this dua when setting out on a journey, asking for spiritual benefit alongside safe travel.',
+    time: 'When starting a journey',
+  },
+  {
+    id: 40,
+    category: 'travel',
+    arabic: 'اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ',
+    transliteration: 'Allahumma hawwin \'alayna safarana hadha watwi \'anna bu\'dahu',
+    translation: 'O Allah, make this journey easy for us and fold up its distance for us.',
+    source: 'Muslim',
+    benefit: 'Asking Allah to make long distances feel short and difficult journeys feel easy.',
+    time: 'During travel',
+  },
+  {
+    id: 41,
+    category: 'travel',
+    arabic: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+    transliteration: 'A\'oodhu bi kalimatillahit-tammati min sharri ma khalaq',
+    translation: 'I seek refuge in the perfect words of Allah from the evil of what He has created.',
+    source: 'Muslim',
+    benefit: 'The Prophet ﷺ said whoever stops at a place and says this, nothing will harm them until they leave that place.',
+    time: 'When stopping at a new place during travel',
+  },
+
+  // ============================================
+  // CHILDREN - NEW CATEGORY
+  // ============================================
+  {
+    id: 42,
+    category: 'children',
+    arabic: 'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ',
+    transliteration: 'Rabbij-\'alni muqeemas-salati wa min dhurriyyati, Rabbana wa taqabbal du\'a',
+    translation: 'My Lord, make me an establisher of prayer, and from my descendants. Our Lord, and accept my supplication.',
+    source: 'Quran 14:40 - Dua of Ibrahim',
+    benefit: 'Ibrahim prayed not just for himself but for his children to be among those who establish prayer.',
+    time: 'When praying for your children',
+  },
+  {
+    id: 43,
+    category: 'children',
+    arabic: 'أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ',
+    transliteration: 'U\'eedhukuma bi kalimatillahit-tammati min kulli shaytanin wa hammah, wa min kulli \'aynin lammah',
+    translation: 'I seek refuge for you both in the perfect words of Allah from every devil, every poisonous creature, and every envious eye.',
+    source: 'Bukhari',
+    benefit: 'The Prophet ﷺ used to seek protection for Hasan and Husayn with this dua. It was also the dua of Ibrahim for his children.',
+    time: 'For protecting children',
+  },
+  {
+    id: 44,
+    category: 'children',
+    arabic: 'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي',
+    transliteration: 'Rabbi awzi\'ni an ashkura ni\'matakal-lati an\'amta \'alayya wa \'ala walidayya wa an a\'mala salihan tardahu wa aslih li fi dhurriyyati',
+    translation: 'My Lord, enable me to be grateful for Your favor which You bestowed upon me and my parents, and to do righteousness that pleases You, and make righteous for me my offspring.',
+    source: 'Quran 46:15',
+    benefit: 'A comprehensive dua connecting gratitude for parents with hope for righteous children, linking generations of faith.',
+    time: 'For righteous offspring',
+  },
+  {
+    id: 45,
+    category: 'children',
+    arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ',
+    transliteration: 'Rabbana hab lana min azwajina wa dhurriyyatina qurrata a\'yun',
+    translation: 'Our Lord, grant us from our spouses and offspring comfort to our eyes.',
+    source: 'Quran 25:74',
+    benefit: 'Qurrat al-a\'yun means the coolness of the eyes—a deep, settled contentment that comes from seeing your family upon goodness.',
+    time: 'For family blessings',
+  },
+
+  // ============================================
+  // HEALING & HEALTH - NEW CATEGORY
+  // ============================================
+  {
+    id: 46,
+    category: 'healing',
+    arabic: 'اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِهِ وَأَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا',
+    transliteration: 'Allahumma Rabban-nas, adh-hibil-ba\'s, ishfihi wa antash-Shafi, la shifa\'a illa shifa\'uka, shifa\'an la yughadiru saqama',
+    translation: 'O Allah, Lord of mankind, remove the harm. Heal, for You are the Healer. There is no healing except Your healing, a healing that leaves no illness behind.',
+    source: 'Bukhari & Muslim',
+    benefit: 'The Prophet ﷺ would visit the sick and recite this dua while placing his hand on them. The ultimate dua for healing.',
+    time: 'When visiting or praying for the sick',
+  },
+  {
+    id: 47,
+    category: 'healing',
+    arabic: 'أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ',
+    transliteration: 'As\'alullaha al-\'Adheema Rabbal-\'Arshil-\'Adheemi an yashfiyak',
+    translation: 'I ask Allah, the Magnificent, Lord of the Magnificent Throne, to heal you.',
+    source: 'Abu Dawud & Tirmidhi',
+    benefit: 'The Prophet ﷺ said whoever says this seven times, Allah will cure the person unless their time of death has come.',
+    time: 'When praying for someone who is ill',
+  },
+  {
+    id: 48,
+    category: 'healing',
+    arabic: 'بِسْمِ اللَّهِ أَرْقِيكَ مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ اللَّهُ يَشْفِيكَ',
+    transliteration: 'Bismillahi arqeeka min kulli shay\'in yu\'dheeka, min sharri kulli nafsin aw \'ayni hasidin, Allahu yashfeek',
+    translation: 'In the name of Allah I perform ruqyah upon you, from everything that harms you, from the evil of every soul or envious eye, may Allah heal you.',
+    source: 'Muslim',
+    benefit: 'Jibreel came to the Prophet ﷺ and performed ruqyah on him with these words when he was ill.',
+    time: 'When performing ruqyah for healing',
+  },
+  {
+    id: 49,
+    category: 'healing',
+    arabic: 'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي',
+    transliteration: 'Allahumma \'afini fi badani, Allahumma \'afini fi sam\'i, Allahumma \'afini fi basari',
+    translation: 'O Allah, grant me well-being in my body. O Allah, grant me well-being in my hearing. O Allah, grant me well-being in my sight.',
+    source: 'Abu Dawud',
+    benefit: 'A daily dua for health and preservation of the body\'s faculties. The Prophet ﷺ said it three times each morning and evening.',
+    time: 'Morning and evening',
+  },
+
+  // ============================================
+  // SUCCESS & BARAKAH - NEW CATEGORY
+  // ============================================
+  {
+    id: 50,
+    category: 'success',
+    arabic: 'رَبِّ زِدْنِي عِلْمًا',
+    transliteration: 'Rabbi zidni \'ilma',
+    translation: 'My Lord, increase me in knowledge.',
+    source: 'Quran 20:114',
+    benefit: 'The only thing Allah commanded the Prophet ﷺ to ask for more of. Knowledge is the key to success in both worlds.',
+    time: 'When studying or seeking knowledge',
+  },
+  {
+    id: 51,
+    category: 'success',
+    arabic: 'اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا',
+    transliteration: 'Allahumma-nfa\'ni bima \'allamtani, wa \'allimni ma yanfa\'uni, wa zidni \'ilma',
+    translation: 'O Allah, benefit me with what You have taught me, teach me what will benefit me, and increase me in knowledge.',
+    source: 'Tirmidhi',
+    benefit: 'Asks for knowledge that is beneficial, not just information—and for the ability to apply it.',
+    time: 'After studying or before exams',
+  },
+  {
+    id: 52,
+    category: 'success',
+    arabic: 'اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ',
+    transliteration: 'Allahumma barik lana fima razaqtana wa qina \'adhaban-nar',
+    translation: 'O Allah, bless us in what You have provided for us and protect us from the punishment of the Fire.',
+    source: 'Muslim',
+    benefit: 'Seeking barakah (divine blessing) in provisions. Barakah means small amounts go far and bring lasting benefit.',
+    time: 'Before meals and for sustenance',
+  },
+  {
+    id: 53,
+    category: 'success',
+    arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا وَاسِعًا، وَعَمَلًا مُتَقَبَّلًا، وَشِفَاءً مِنْ كُلِّ دَاءٍ',
+    transliteration: 'Allahumma inni as\'aluka \'ilman nafi\'an, wa rizqan wasi\'an, wa \'amalan mutaqabbalan, wa shifa\'an min kulli da\'',
+    translation: 'O Allah, I ask You for beneficial knowledge, abundant provision, accepted deeds, and healing from every illness.',
+    source: 'Ibn Majah',
+    benefit: 'A comprehensive dua combining spiritual and worldly success with health.',
+    time: 'Daily',
+  },
+
+  // ============================================
+  // FOR PARENTS - NEW CATEGORY
+  // ============================================
+  {
+    id: 54,
+    category: 'parents',
+    arabic: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
+    transliteration: 'Rabbir-hamhuma kama rabbayanee sagheera',
+    translation: 'My Lord, have mercy upon them as they brought me up when I was small.',
+    source: 'Quran 17:24',
+    benefit: 'The most well-known dua for parents in the Quran. It asks Allah to repay them with mercy for the mercy they showed raising you.',
+    time: 'Daily for parents',
+  },
+  {
+    id: 55,
+    category: 'parents',
+    arabic: 'رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ',
+    transliteration: 'Rabbanagh-fir li wa liwalidayya wa lil-mu\'mineena yawma yaqoomul-hisab',
+    translation: 'Our Lord, forgive me and my parents and the believers the Day the account is established.',
+    source: 'Quran 14:41 - Dua of Ibrahim',
+    benefit: 'Ibrahim included his parents and all believers in this plea for forgiveness on the Day of Judgment.',
+    time: 'In prayer for parents',
+  },
+  {
+    id: 56,
+    category: 'parents',
+    arabic: 'اللَّهُمَّ اغْفِرْ لَهُمَا وَارْحَمْهُمَا وَعَافِهِمَا وَاعْفُ عَنْهُمَا',
+    transliteration: 'Allahummagh-fir lahuma war-hamhuma wa \'afihima wa\'fu \'anhuma',
+    translation: 'O Allah, forgive them, have mercy on them, grant them well-being, and pardon them.',
+    source: 'Muslim',
+    benefit: 'A comprehensive dua for parents covering forgiveness, mercy, health, and pardon—whether living or deceased.',
+    time: 'For parents, living or deceased',
+  },
+  {
+    id: 57,
+    category: 'parents',
+    arabic: 'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ',
+    transliteration: 'Rabbi awzi\'ni an ashkura ni\'matakal-lati an\'amta \'alayya wa \'ala walidayya wa an a\'mala salihan tardahu',
+    translation: 'My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents, and to do righteousness of which You approve.',
+    source: 'Quran 27:19 - Dua of Sulayman',
+    benefit: 'Sulayman linked gratitude for blessings to gratitude for parents, recognizing they are among the greatest gifts from Allah.',
+    time: 'When reflecting on blessings from parents',
+  },
 ];
 
 export const duaCategories = [
@@ -220,4 +644,10 @@ export const duaCategories = [
   { id: 'forgiveness', name: 'Forgiveness', icon: 'RefreshCw', color: 'violet' },
   { id: 'hardship', name: 'Hardship', icon: 'CloudRain', color: 'blue' },
   { id: 'relationships', name: 'Relationships', icon: 'Users', color: 'rose' },
+  { id: 'sleep', name: 'Before Sleep', icon: 'Moon', color: 'slate' },
+  { id: 'travel', name: 'Travel', icon: 'MapPin', color: 'green' },
+  { id: 'children', name: 'For Children', icon: 'Baby', color: 'pink' },
+  { id: 'healing', name: 'Healing & Health', icon: 'Stethoscope', color: 'emerald' },
+  { id: 'success', name: 'Success & Barakah', icon: 'Star', color: 'amber' },
+  { id: 'parents', name: 'For Parents', icon: 'HeartHandshake', color: 'purple' },
 ];
