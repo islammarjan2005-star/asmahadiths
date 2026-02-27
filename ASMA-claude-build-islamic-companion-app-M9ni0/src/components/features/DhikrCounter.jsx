@@ -86,7 +86,7 @@ export function DhikrCounter({ onBack }) {
       {/* Settings Panel */}
       {showSettings && (
         <div className="px-5 max-w-lg mx-auto w-full mb-6 animate-fade-in">
-          <Card className="p-5">
+          <Card padding={false} className="p-5">
             <h3 className="font-medium text-text-primary dark:text-cream-200 mb-4">Settings</h3>
 
             {/* Goal Selection */}

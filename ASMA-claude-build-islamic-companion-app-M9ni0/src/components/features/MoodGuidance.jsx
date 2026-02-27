@@ -116,7 +116,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
         {/* Quranic Verse */}
         {guidance && (
           <div className="space-y-4 animate-fade-in">
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/30 rounded-lg flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
@@ -135,7 +135,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             </Card>
 
             {/* Hadith */}
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-sanctuary-500" />
@@ -151,7 +151,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             </Card>
 
             {/* Dua */}
-            <Card className="p-5">
+            <Card padding={false} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
                   <Heart className="w-4 h-4 text-sanctuary-500" />
@@ -173,7 +173,7 @@ export function MoodGuidance({ onBack, onDhikr, onAdhkar, onJournal }) {
             </Card>
 
             {/* Personal Advice */}
-            <Card className="p-5 bg-gradient-to-br from-cream-50 to-cream-200 dark:from-night-200 dark:to-night-200/50">
+            <Card padding={false} className="p-5 bg-gradient-to-br from-cream-50 to-cream-200 dark:from-night-200 dark:to-night-200/50">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-lg flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-sanctuary-500" />

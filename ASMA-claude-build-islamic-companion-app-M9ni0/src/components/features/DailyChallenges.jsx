@@ -188,7 +188,7 @@ export function DailyChallenges({ onBack, onNavigate }) {
         </Card>
 
         {/* Motivational card */}
-        <Card className="p-5 mt-4 text-center">
+        <Card padding={false} className="p-5 mt-4 text-center">
           <p className="text-text-secondary dark:text-cream-300 text-sm italic leading-relaxed">
             "Whoever treads a path seeking knowledge, Allah will make easy for them a path to Paradise."
           </p>

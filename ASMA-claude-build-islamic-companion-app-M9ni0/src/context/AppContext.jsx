@@ -76,6 +76,10 @@ const initialState = {
   // Quran bookmarks
   quranBookmarks: {},
 
+  // Quranic Visual
+  visualNotes: {},
+  savedVisuals: [],
+
   // Notification settings
   notificationSettings: {
     prayer: true,
@@ -463,6 +467,28 @@ function appReducer(state, action) {
           [surahId]: verseId,
           lastRead: { surahId, verseId, date: new Date().toISOString() },
         },
+      };
+      break;
+    }
+
+    // === Quranic Visual ===
+    case 'SET_VISUAL_NOTE': {
+      const { reference, note } = action.payload;
+      newState = {
+        ...state,
+        visualNotes: { ...state.visualNotes, [reference]: note },
+      };
+      break;
+    }
+
+    case 'TOGGLE_SAVED_VISUAL': {
+      const ref = action.payload;
+      const exists = (state.savedVisuals || []).some(v => v.reference === ref);
+      newState = {
+        ...state,
+        savedVisuals: exists
+          ? state.savedVisuals.filter(v => v.reference !== ref)
+          : [...(state.savedVisuals || []), { reference: ref, savedAt: new Date().toISOString() }],
       };
       break;
     }

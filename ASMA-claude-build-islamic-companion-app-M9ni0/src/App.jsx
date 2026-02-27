@@ -29,6 +29,7 @@ import {
   StudyPlans,
   KidsMode,
   Analytics,
+  QuranicVisual,
 } from './components/features';
 import { usePrayerTimes } from './hooks';
 import { PageTransition } from './components/ui/PageTransition';
@@ -180,6 +181,9 @@ function AppContent() {
       case 'analytics':
         return <Analytics onBack={() => setView('home')} />;
 
+      case 'quran-visual':
+        return <QuranicVisual onBack={() => setView('home')} />;
+
       case 'search':
         return (
           <Search
@@ -206,6 +210,7 @@ function AppContent() {
             onAnalytics={() => setView('analytics')}
             onRamadan={() => setView('ramadan')}
             onJournal={() => setView('journal')}
+            onQuranVisual={() => setView('quran-visual')}
           />
         );
 

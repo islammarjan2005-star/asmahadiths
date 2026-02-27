@@ -28,3 +28,4 @@ export { NamesOfAllah } from './NamesOfAllah';
 export { StudyPlans } from './StudyPlans';
 export { KidsMode } from './KidsMode';
 export { Analytics } from './Analytics';
+export { QuranicVisual } from './QuranicVisual';

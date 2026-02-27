@@ -69,7 +69,7 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
       {/* Crisis Modal */}
       {showCrisis && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <Card className="p-6 max-w-sm w-full">
+          <Card padding={false} className="p-6 max-w-sm w-full">
             <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-6 h-6 text-sanctuary-500" />
             </div>
@@ -139,7 +139,7 @@ Remember: asking questions is a sign of engaged faith, not doubt. Please try aga
           <span className="text-sm">Back</span>
         </button>
 
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
             <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/50 rounded-xl flex items-center justify-center">
               <Lock className="w-6 h-6 text-sanctuary-600 dark:text-sanctuary-400" />

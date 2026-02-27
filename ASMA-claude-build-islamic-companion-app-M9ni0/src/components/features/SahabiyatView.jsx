@@ -16,7 +16,7 @@ export function SahabiyatView({ onBack }) {
     <div className="min-h-screen bg-cream-50 dark:bg-night-300 pb-24">
       <ScreenHeader title="Stories of Sahabiyat" subtitle="Women of the Prophet's era" onBack={onBack} />
       <div className="px-5 max-w-lg mx-auto">
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
             <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
               <Users className="w-6 h-6 text-sanctuary-500" />
@@ -35,7 +35,6 @@ export function SahabiyatView({ onBack }) {
           {sahabiyatDatabase.map((story) => (
             <Card
               key={story.id}
-              className="p-4"
               onClick={() => setSelectedStory(story)}
             >
               <div className="flex items-center gap-4">
@@ -69,7 +68,7 @@ function StoryDetail({ story, onBack }) {
       <ScreenHeader title={story.name} subtitle={story.title} onBack={onBack} />
       <div className="px-5 max-w-lg mx-auto">
         {/* Hero Card */}
-        <Card className="p-6 mb-6 text-center">
+        <Card padding={false} className="p-6 mb-6 text-center">
           <div className="w-20 h-20 mx-auto bg-gradient-to-br from-sanctuary-50 to-sanctuary-100 dark:from-sanctuary-900/30 dark:to-sanctuary-800/30 rounded-full flex items-center justify-center mb-4">
             <span className="text-3xl font-arabic text-sanctuary-500">
               {story.arabic.charAt(0)}
@@ -88,7 +87,7 @@ function StoryDetail({ story, onBack }) {
         </Card>
 
         {/* Story */}
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <h2 className="text-sm font-medium text-text-tertiary uppercase tracking-wide mb-4">
             Her Story
           </h2>
@@ -98,7 +97,7 @@ function StoryDetail({ story, onBack }) {
         </Card>
 
         {/* Lessons */}
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <h2 className="text-sm font-medium text-text-tertiary uppercase tracking-wide mb-4 flex items-center gap-2">
             <Star className="w-4 h-4 text-sanctuary-500" />
             Lessons from Her Life

@@ -365,7 +365,7 @@ export function Settings({ onBack }) {
         </div>
 
         {/* About */}
-        <Card className="p-5 text-center">
+        <Card padding={false} className="p-5 text-center">
           <div className="w-12 h-12 mx-auto bg-sanctuary-50 dark:bg-sanctuary-900/50 rounded-full flex items-center justify-center mb-3">
             <Heart className="w-6 h-6 text-sanctuary-600 dark:text-sanctuary-400" />
           </div>

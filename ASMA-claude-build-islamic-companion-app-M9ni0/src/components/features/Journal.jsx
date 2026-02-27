@@ -109,7 +109,7 @@ export function Journal({ onBack }) {
       {/* Header */}
       <ScreenHeader title="Reflection Journal" subtitle="Your private space" onBack={onBack} />
       <div className="px-5 max-w-lg mx-auto">
-        <Card className="p-5 mb-6">
+        <Card padding={false} className="p-5 mb-6">
           <div className="flex items-center gap-4 mb-3">
             <div className="w-12 h-12 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-sanctuary-500" />
@@ -127,7 +127,7 @@ export function Journal({ onBack }) {
 
         {/* Entries List */}
         {state.journal.length === 0 ? (
-          <Card className="p-8 text-center">
+          <Card padding={false} className="p-8 text-center">
             <BookOpen className="w-12 h-12 text-cream-300 dark:text-night-50 mx-auto mb-4" />
             <p className="text-text-tertiary dark:text-text-tertiary">No reflections yet.</p>
             <p className="text-text-tertiary dark:text-text-tertiary text-sm mt-1">

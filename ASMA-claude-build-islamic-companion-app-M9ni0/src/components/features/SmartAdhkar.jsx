@@ -288,7 +288,7 @@ export function SmartAdhkar({ onBack }) {
             onTouchEnd={handleTouchEnd}
             className="flex-1"
           >
-            <Card className="p-6 relative h-full flex flex-col">
+            <Card padding={false} className="p-6 relative h-full flex flex-col">
               {/* Progress indicator for this adhkar */}
               <div className="absolute top-4 right-4 flex items-center gap-2">
                 <button

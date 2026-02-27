@@ -23,7 +23,7 @@ export function CultureVsIslam({ onBack }) {
           <span className="text-sm">Back</span>
         </button>
 
-        <Card className="p-6 mb-6">
+        <Card padding={false} className="p-6 mb-6">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 bg-gold-100 dark:bg-gold-900/50 rounded-xl flex items-center justify-center">
               <Scale className="w-6 h-6 text-gold-600 dark:text-gold-400" />

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   Search as SearchIcon, Book, Heart, Users, BookOpen, Layers,
-  GraduationCap, Baby, Moon, BarChart3, TrendingUp, Feather, Info,
+  GraduationCap, Baby, Moon, BarChart3, TrendingUp, Feather, Info, Palette,
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { Card, Input } from '../ui';
@@ -11,7 +11,7 @@ export function Search({
   onSelectHadith, onSelectVerse, onSelectDua, onSelectStory, onClose,
   onSelectTopic, onQuran, onDuas, onSahabiyat, onJourney,
   onNamesOfAllah, onQuranBrowser, onStudyPlans, onKidsMode,
-  onAnalytics, onRamadan, onJournal,
+  onAnalytics, onRamadan, onJournal, onQuranVisual,
 }) {
   const [query, setQuery] = useState('');
 
@@ -42,6 +42,7 @@ export function Search({
     { icon: Users, label: 'Sahabiyat', action: onSahabiyat },
     { icon: Layers, label: '99 Names', action: onNamesOfAllah },
     { icon: BookOpen, label: 'Full Quran', action: onQuranBrowser },
+    { icon: Palette, label: 'Quran Visual', action: onQuranVisual },
     { icon: GraduationCap, label: 'Study Plans', action: onStudyPlans },
     { icon: Baby, label: 'Kids Zone', action: onKidsMode },
     { icon: Moon, label: 'Ramadan', action: onRamadan },

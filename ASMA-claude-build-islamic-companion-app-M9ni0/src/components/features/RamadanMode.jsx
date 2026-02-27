@@ -63,12 +63,12 @@ export function RamadanMode({ onBack, hijriData }) {
         {/* Suhoor / Iftar times */}
         {prayerTimes && (
           <div className="grid grid-cols-2 gap-3">
-            <Card className="p-3 text-center">
+            <Card padding={false} className="p-3 text-center">
               <Sun className="w-4 h-4 text-gold-400 mx-auto mb-1" />
               <p className="text-xs text-text-tertiary">Suhoor ends</p>
               <p className="text-lg font-semibold text-text-primary dark:text-cream-200">{suhoorTime}</p>
             </Card>
-            <Card className="p-3 text-center">
+            <Card padding={false} className="p-3 text-center">
               <Moon className="w-4 h-4 text-gold-400 mx-auto mb-1" />
               <p className="text-xs text-text-tertiary">Iftar</p>
               <p className="text-lg font-semibold text-text-primary dark:text-cream-200">{iftarTime}</p>

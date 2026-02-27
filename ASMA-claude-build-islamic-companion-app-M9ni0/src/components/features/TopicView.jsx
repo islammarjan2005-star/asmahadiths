@@ -44,7 +44,7 @@ export function TopicView({ topic, onBack, onExplain }) {
         ))}
 
         {relevantHadith.length === 0 && (
-          <Card className="p-8 text-center">
+          <Card padding={false} className="p-8 text-center">
             <Leaf className="w-8 h-8 text-cream-400 dark:text-night-50 mx-auto mb-3" />
             <p className="text-text-tertiary">More content coming soon.</p>
           </Card>
