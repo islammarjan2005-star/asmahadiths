@@ -1,0 +1,20 @@
+{
+  "name": "ASMA - Islamic Companion",
+  "short_name": "ASMA",
+  "description": "Your warm, intelligent Islamic companion for Muslim women",
+  "start_url": "/asmahadiths/",
+  "scope": "/asmahadiths/",
+  "display": "standalone",
+  "background_color": "#FAF8F3",
+  "theme_color": "#1B5E5F",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/asmahadiths/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "lifestyle"]
+}
