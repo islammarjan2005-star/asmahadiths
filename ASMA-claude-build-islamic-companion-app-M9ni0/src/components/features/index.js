@@ -21,3 +21,10 @@ export { MoodGuidance } from './MoodGuidance';
 export { QiblaCompass } from './QiblaCompass';
 export { DailyChallenges } from './DailyChallenges';
 export { IslamicPattern, IslamicDivider, LatticeBorder, LatticeFrame } from './IslamicPattern';
+// New features
+export { RamadanMode } from './RamadanMode';
+export { QuranBrowser } from './QuranBrowser';
+export { NamesOfAllah } from './NamesOfAllah';
+export { StudyPlans } from './StudyPlans';
+export { KidsMode } from './KidsMode';
+export { Analytics } from './Analytics';

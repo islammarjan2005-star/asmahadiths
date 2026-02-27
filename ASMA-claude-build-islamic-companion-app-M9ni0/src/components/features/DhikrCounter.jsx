@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ChevronLeft, RotateCcw, Settings, Check } from 'lucide-react';
-import { Card, Button } from '../ui';
+import { Card } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 const dhikrOptions = [
@@ -14,23 +14,53 @@ const dhikrOptions = [
 
 const goalOptions = [33, 99, 100, 1000];
 
+// Milestone thresholds for celebration
+const MILESTONES = new Set([33, 99, 100, 500, 1000]);
+
 export function DhikrCounter({ onBack }) {
   const { state, dispatch } = useApp();
   const [selectedDhikr, setSelectedDhikr] = useState(dhikrOptions[0]);
   const [showSettings, setShowSettings] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
+  const [isPop, setIsPop] = useState(false);
+  const [particles, setParticles] = useState([]);
+  const counterRef = useRef(null);
 
   const progress = (state.dhikrCount / state.dhikrGoal) * 100;
+  const circumference = 2 * Math.PI * 100;
+
+  const spawnParticles = () => {
+    const newParticles = Array.from({ length: 8 }, (_, i) => ({
+      id: Date.now() + i,
+      angle: (i / 8) * 360,
+      delay: Math.random() * 200,
+    }));
+    setParticles(newParticles);
+    setTimeout(() => setParticles([]), 1000);
+  };
 
   const handleTap = () => {
     if (state.hapticFeedback && navigator.vibrate) {
       navigator.vibrate(10);
     }
 
+    // Pop animation
+    setIsPop(true);
+    setTimeout(() => setIsPop(false), 250);
+
     const newCount = state.dhikrCount + 1;
+
+    // Milestone celebration
+    if (MILESTONES.has(newCount) || newCount >= state.dhikrGoal) {
+      if (state.hapticFeedback && navigator.vibrate) {
+        navigator.vibrate([30, 50, 30]);
+      }
+      spawnParticles();
+    }
+
     if (newCount >= state.dhikrGoal) {
       setShowComplete(true);
-      setTimeout(() => setShowComplete(false), 2000);
+      setTimeout(() => setShowComplete(false), 2500);
     }
 
     dispatch({ type: 'INCREMENT_DHIKR' });
@@ -115,11 +145,19 @@ export function DhikrCounter({ onBack }) {
 
       {/* Main Counter Area */}
       <div className="flex-1 flex flex-col items-center justify-center px-5 max-w-lg mx-auto w-full">
-        {/* Completion Animation */}
+        {/* Completion Celebration */}
         {showComplete && (
           <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="w-24 h-24 bg-sanctuary-500 rounded-full flex items-center justify-center animate-pulse">
-              <Check className="w-12 h-12 text-white" />
+            <div className="flex flex-col items-center animate-bounce-in">
+              <div className="w-24 h-24 bg-gold-400 rounded-full flex items-center justify-center animate-glow-complete">
+                <Check className="w-12 h-12 text-white" />
+              </div>
+              <p className="mt-4 text-lg font-semibold text-gold-600 dark:text-gold-400 animate-slide-up">
+                MashaAllah!
+              </p>
+              <p className="text-sm text-text-tertiary animate-slide-up" style={{ animationDelay: '100ms' }}>
+                Set complete
+              </p>
             </div>
           </div>
         )}
@@ -131,43 +169,57 @@ export function DhikrCounter({ onBack }) {
         <p className="text-text-tertiary dark:text-text-tertiary text-sm mb-8">{selectedDhikr.meaning}</p>
 
         {/* Counter Circle */}
-        <button
-          onClick={handleTap}
-          className="relative w-56 h-56 rounded-full flex items-center justify-center active:scale-95 transition-transform"
-        >
-          {/* Progress Ring */}
-          <svg className="absolute inset-0 w-full h-full -rotate-90">
-            <circle
-              cx="112"
-              cy="112"
-              r="100"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="8"
-              className="text-cream-300 dark:text-night-100"
+        <div className="relative" ref={counterRef}>
+          {/* Particles */}
+          {particles.map((p) => (
+            <div
+              key={p.id}
+              className="absolute left-1/2 top-1/2 w-2 h-2 rounded-full bg-gold-400 animate-float-up"
+              style={{
+                transform: `rotate(${p.angle}deg) translateY(-120px)`,
+                animationDelay: `${p.delay}ms`,
+              }}
             />
-            <circle
-              cx="112"
-              cy="112"
-              r="100"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="8"
-              strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 100}
-              strokeDashoffset={2 * Math.PI * 100 * (1 - progress / 100)}
-              className="text-sanctuary-500 transition-all duration-200"
-            />
-          </svg>
+          ))}
 
-          {/* Inner Circle */}
-          <div className="w-44 h-44 rounded-full bg-cream-50 dark:bg-night-100 shadow-lg flex flex-col items-center justify-center">
-            <span className="text-5xl font-light text-text-primary dark:text-cream-200">
-              {state.dhikrCount}
-            </span>
-            <span className="text-sm text-text-tertiary">/ {state.dhikrGoal}</span>
-          </div>
-        </button>
+          <button
+            onClick={handleTap}
+            className={`relative w-56 h-56 rounded-full flex items-center justify-center transition-transform ${
+              isPop ? 'animate-count-pop' : ''
+            }`}
+          >
+            {/* Progress Ring */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90">
+              <circle
+                cx="112"
+                cy="112"
+                r="100"
+                fill="none"
+                strokeWidth="8"
+                className="stroke-cream-300 dark:stroke-night-100"
+              />
+              <circle
+                cx="112"
+                cy="112"
+                r="100"
+                fill="none"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={circumference * (1 - progress / 100)}
+                className="stroke-sanctuary-500 transition-all duration-300 ease-out"
+              />
+            </svg>
+
+            {/* Inner Circle */}
+            <div className="w-44 h-44 rounded-full bg-cream-50 dark:bg-night-100 shadow-lg flex flex-col items-center justify-center">
+              <span className={`text-5xl font-light text-text-primary dark:text-cream-200 ${isPop ? 'animate-number-tick' : ''}`}>
+                {state.dhikrCount}
+              </span>
+              <span className="text-sm text-text-tertiary">/ {state.dhikrGoal}</span>
+            </div>
+          </button>
+        </div>
 
         {/* Reset Button */}
         <button
@@ -191,6 +243,7 @@ export function DhikrCounter({ onBack }) {
                 <div
                   key={i}
                   className="w-8 h-8 rounded-full bg-sanctuary-100 dark:bg-sanctuary-900/50 flex items-center justify-center"
+                  style={{ animationDelay: `${i * 50}ms` }}
                 >
                   <Check className="w-4 h-4 text-sanctuary-600 dark:text-sanctuary-400" />
                 </div>

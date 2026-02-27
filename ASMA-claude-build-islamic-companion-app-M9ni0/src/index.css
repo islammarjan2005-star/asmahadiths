@@ -195,6 +195,73 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes countPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkDraw {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes progressFill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes cardPress {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glowComplete {
+  0% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.5); }
+  70% { box-shadow: 0 0 0 16px rgba(212, 165, 116, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0); }
+}
+
+@keyframes skeletonPulse {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes numberTick {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes celebrateBurst {
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(16px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-16px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
@@ -234,8 +301,67 @@ body {
   animation: textReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
+.animate-count-pop {
+  animation: countPop 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-check-draw {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: checkDraw 400ms ease-out forwards;
+}
+
+.animate-glow-complete {
+  animation: glowComplete 600ms ease-out;
+}
+
+.animate-celebrate-burst {
+  animation: celebrateBurst 600ms ease-out forwards;
+}
+
+.animate-float-up {
+  animation: floatUp 800ms ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 300ms ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 300ms ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-number-tick {
+  animation: numberTick 300ms ease-out;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-cream-200) 25%, var(--color-cream-100) 50%, var(--color-cream-200) 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, var(--color-night-100) 25%, var(--color-night-200) 50%, var(--color-night-100) 75%);
+  background-size: 200% 100%;
+}
+
 .view-enter {
   animation: gentleReveal 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ===== CUSTOM UTILITIES ===== */
@@ -262,4 +388,49 @@ body {
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* === FONT SIZE ACCESSIBILITY === */
+[data-font-size="small"] { font-size: 14px; }
+[data-font-size="medium"] { font-size: 16px; }
+[data-font-size="large"] { font-size: 18px; }
+[data-font-size="xlarge"] { font-size: 20px; }
+
+/* === CALLIGRAPHIC UTILITIES === */
+.bismillah-ornament {
+  font-family: 'Amiri', serif;
+  color: var(--color-gold-500);
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+.arabic-verse {
+  font-family: 'Amiri', serif;
+  line-height: 2.2;
+  direction: rtl;
+  text-align: right;
+}
+
+.section-header-decorated {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-header-decorated::before,
+.section-header-decorated::after {
+  content: '◆';
+  font-size: 0.375rem;
+  color: var(--color-gold-300);
+}
+
+/* === CARD PRESS INTERACTION === */
+.card-interactive {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.card-interactive:active {
+  transform: scale(0.97);
 }

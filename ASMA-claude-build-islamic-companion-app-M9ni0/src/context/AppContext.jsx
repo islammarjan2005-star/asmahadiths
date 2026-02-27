@@ -57,6 +57,31 @@ const initialState = {
   // Settings
   notifications: true,
   hapticFeedback: true,
+  fontSize: 'medium',
+
+  // Content tracking
+  contentViews: [],
+
+  // Ramadan
+  ramadanMode: false,
+  ramadanFasting: [],
+
+  // Kids mode
+  kidsMode: false,
+  kidsProgress: { trivia: 0, stickers: 0, streak: 0 },
+
+  // Study plans
+  studyPlans: {},
+
+  // Quran bookmarks
+  quranBookmarks: {},
+
+  // Notification settings
+  notificationSettings: {
+    prayer: true,
+    adhkar: true,
+    challenges: true,
+  },
 };
 
 // Achievement checking logic
@@ -351,6 +376,108 @@ function appReducer(state, action) {
       break;
     }
 
+    // === Font Size ===
+    case 'SET_FONT_SIZE':
+      newState = { ...state, fontSize: action.payload };
+      break;
+
+    // === Content Tracking ===
+    case 'ADD_CONTENT_VIEW': {
+      const views = state.contentViews || [];
+      newState = {
+        ...state,
+        contentViews: [
+          { type: action.payload.type, id: action.payload.id, date: new Date().toISOString() },
+          ...views,
+        ].slice(0, 200),
+      };
+      break;
+    }
+
+    // === Ramadan ===
+    case 'TOGGLE_RAMADAN_MODE':
+      newState = { ...state, ramadanMode: !state.ramadanMode };
+      break;
+
+    case 'TOGGLE_FASTING_DAY': {
+      const dateStr = action.payload;
+      const fasting = state.ramadanFasting || [];
+      newState = {
+        ...state,
+        ramadanFasting: fasting.includes(dateStr)
+          ? fasting.filter(d => d !== dateStr)
+          : [...fasting, dateStr],
+      };
+      break;
+    }
+
+    // === Kids Mode ===
+    case 'TOGGLE_KIDS_MODE':
+      newState = { ...state, kidsMode: !state.kidsMode };
+      break;
+
+    case 'UPDATE_KIDS_PROGRESS':
+      newState = {
+        ...state,
+        kidsProgress: { ...(state.kidsProgress || {}), ...action.payload },
+      };
+      break;
+
+    // === Study Plans ===
+    case 'START_STUDY_PLAN': {
+      const { planId } = action.payload;
+      newState = {
+        ...state,
+        studyPlans: {
+          ...(state.studyPlans || {}),
+          [planId]: { startDate: new Date().toISOString(), completedDays: [], active: true },
+        },
+      };
+      break;
+    }
+
+    case 'COMPLETE_STUDY_DAY': {
+      const { planId, day } = action.payload;
+      const plan = (state.studyPlans || {})[planId];
+      if (!plan) return state;
+      newState = {
+        ...state,
+        studyPlans: {
+          ...state.studyPlans,
+          [planId]: {
+            ...plan,
+            completedDays: [...new Set([...plan.completedDays, day])],
+          },
+        },
+      };
+      break;
+    }
+
+    // === Quran Bookmarks ===
+    case 'SET_QURAN_BOOKMARK': {
+      const { surahId, verseId } = action.payload;
+      newState = {
+        ...state,
+        quranBookmarks: {
+          ...(state.quranBookmarks || {}),
+          [surahId]: verseId,
+          lastRead: { surahId, verseId, date: new Date().toISOString() },
+        },
+      };
+      break;
+    }
+
+    // === Notification Settings ===
+    case 'UPDATE_NOTIFICATION_SETTINGS':
+      newState = {
+        ...state,
+        notificationSettings: {
+          ...(state.notificationSettings || {}),
+          ...action.payload,
+        },
+      };
+      break;
+
     default:
       return state;
   }
@@ -393,6 +520,11 @@ export function AppProvider({ children }) {
       document.documentElement.classList.remove('dark');
     }
   }, [state.darkMode]);
+
+  // Apply font size
+  useEffect(() => {
+    document.documentElement.setAttribute('data-font-size', state.fontSize || 'medium');
+  }, [state.fontSize]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

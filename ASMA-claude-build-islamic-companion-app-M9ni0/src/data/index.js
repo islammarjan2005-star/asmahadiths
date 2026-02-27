@@ -9,6 +9,9 @@ export { sahabiyatDatabase } from './sahabiyat';
 export { cultureVsIslam, mythCategories } from './cultureVsIslam';
 export { adhkarDatabase, getAdhkarStats } from './adhkar';
 export { lifeCategories, situationalDuas, findDuasByKeyword, getDuasByCategory } from './duaCoach';
+export { asmaUlHusna } from './asmaUlHusna';
+export { studyPlans } from './studyPlans';
+export { kidsTrivia, kidsStories, kidsDailyDuas } from './kidsContent';
 
 // Crisis detection keywords
 export const crisisKeywords = [

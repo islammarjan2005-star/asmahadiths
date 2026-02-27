@@ -23,7 +23,15 @@ import {
   MoodGuidance,
   QiblaCompass,
   DailyChallenges,
+  RamadanMode,
+  QuranBrowser,
+  NamesOfAllah,
+  StudyPlans,
+  KidsMode,
+  Analytics,
 } from './components/features';
+import { usePrayerTimes } from './hooks';
+import { PageTransition } from './components/ui/PageTransition';
 
 function AppContent() {
   const { state, dispatch } = useApp();
@@ -31,6 +39,7 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [explainHadith, setExplainHadith] = useState(null);
+  const { hijriData } = usePrayerTimes();
 
   // Handle onboarding
   if (!state.onboardingComplete) {
@@ -76,6 +85,12 @@ function AppContent() {
             onQibla={() => setView('qibla')}
             onChallenges={() => setView('challenges')}
             onJournal={() => setView('journal')}
+            onNamesOfAllah={() => setView('names')}
+            onQuranBrowser={() => setView('quran-browser')}
+            onStudyPlans={() => setView('study-plans')}
+            onKidsMode={() => setView('kids')}
+            onAnalytics={() => setView('analytics')}
+            onRamadan={() => setView('ramadan')}
           />
         );
 
@@ -98,7 +113,15 @@ function AppContent() {
         return <CultureVsIslam onBack={() => setView('home')} />;
 
       case 'quran':
-        return <QuranView onBack={() => setView('home')} />;
+        return (
+          <QuranView
+            onBack={() => setView('home')}
+            onBrowseQuran={() => setView('quran-browser')}
+          />
+        );
+
+      case 'quran-browser':
+        return <QuranBrowser onBack={() => setView('quran')} />;
 
       case 'duas':
         return <DuasView onBack={() => setView('home')} />;
@@ -119,7 +142,12 @@ function AppContent() {
         return <Journal onBack={() => setView('home')} />;
 
       case 'journey':
-        return <SpiritualJourney onBack={() => setView('home')} />;
+        return (
+          <SpiritualJourney
+            onBack={() => setView('home')}
+            onAnalytics={() => setView('analytics')}
+          />
+        );
 
       case 'mood':
         return (
@@ -151,6 +179,21 @@ function AppContent() {
             }}
           />
         );
+
+      case 'names':
+        return <NamesOfAllah onBack={() => setView('home')} />;
+
+      case 'ramadan':
+        return <RamadanMode onBack={() => setView('home')} hijriData={hijriData} />;
+
+      case 'study-plans':
+        return <StudyPlans onBack={() => setView('home')} />;
+
+      case 'kids':
+        return <KidsMode onBack={() => setView('home')} />;
+
+      case 'analytics':
+        return <Analytics onBack={() => setView('home')} />;
 
       case 'search':
         return (
@@ -206,9 +249,9 @@ function AppContent() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <div className="view-enter" key={view}>
+      <PageTransition viewKey={view}>
         {renderContent()}
-      </div>
+      </PageTransition>
 
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />

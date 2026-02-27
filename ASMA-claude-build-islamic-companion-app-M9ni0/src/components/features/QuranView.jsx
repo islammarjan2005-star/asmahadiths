@@ -4,7 +4,7 @@ import { Card, Badge } from '../ui';
 import { quranicVerses, verseCategories } from '../../data';
 import { useApp } from '../../context/AppContext';
 
-export function QuranView({ onBack }) {
+export function QuranView({ onBack, onBrowseQuran }) {
   const { state, dispatch } = useApp();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [expandedVerse, setExpandedVerse] = useState(null);
@@ -29,7 +29,7 @@ export function QuranView({ onBack }) {
           <span className="text-sm">Back</span>
         </button>
 
-        <Card className="p-5 mb-6">
+        <Card className="p-5 mb-4">
           <div className="flex items-center gap-4 mb-3">
             <div className="w-12 h-12 bg-rose-50 dark:bg-rose-900/50 rounded-xl flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-rose-600 dark:text-rose-400" />
@@ -42,6 +42,22 @@ export function QuranView({ onBack }) {
             </div>
           </div>
         </Card>
+
+        {/* Browse Full Quran */}
+        {onBrowseQuran && (
+          <Card className="p-4 mb-6 card-interactive" variant="gold" onClick={onBrowseQuran}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gold-100 dark:bg-gold-900/30 rounded-xl flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-gold-600" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Browse Full Quran</p>
+                <p className="text-xs text-text-tertiary">114 Surahs · Word-by-word · Audio</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-gold-400 -rotate-90" />
+            </div>
+          </Card>
+        )}
 
         {/* Category Filter */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-6 hide-scrollbar">

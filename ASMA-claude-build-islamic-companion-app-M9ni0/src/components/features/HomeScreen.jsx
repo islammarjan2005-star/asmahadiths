@@ -19,6 +19,7 @@ import {
   Feather,
   Zap,
   TrendingUp,
+  Calendar,
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { Card, LevelIcon } from '../ui';
@@ -28,6 +29,7 @@ import { useApp } from '../../context/AppContext';
 import { getTodayChallenges } from '../../data/challenges';
 import { getLevel, getNextLevel } from '../../data/spiritualJourney';
 import { IslamicPattern, IslamicDivider } from './IslamicPattern';
+import { getGreeting } from '../../utils/greetings';
 
 const DAY_OF_YEAR = Math.floor(Date.now() / 86400000);
 
@@ -46,10 +48,16 @@ export function HomeScreen({
   onQibla,
   onChallenges,
   onJournal,
+  onNamesOfAllah,
+  onQuranBrowser,
+  onStudyPlans,
+  onKidsMode,
+  onAnalytics,
+  onRamadan,
 }) {
   const { state } = useApp();
   const [showPanic, setShowPanic] = useState(false);
-  const { prayerTimes, getNextPrayer } = usePrayerTimes();
+  const { prayerTimes, hijriData, countdown, getNextPrayer } = usePrayerTimes();
   const nextPrayer = getNextPrayer();
 
   const userName = state.userName || '';
@@ -73,8 +81,12 @@ export function HomeScreen({
   ).length;
 
   const streak = state.adhkarStreak?.current || 0;
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  // Context-aware greeting
+  const greeting = useMemo(() => getGreeting({
+    userName,
+    streak,
+  }), [userName, streak]);
 
   if (showPanic) {
     return (
@@ -113,12 +125,15 @@ export function HomeScreen({
         <IslamicPattern opacity={0.04} color="text-cream-200" />
 
         <div className="relative max-w-lg mx-auto">
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-4">
             <div>
               <p className="text-gold-300/60 text-sm font-arabic mb-0.5">السلام عليكم</p>
               <h1 className="text-2xl font-semibold text-cream-100">
-                {greeting}{userName ? `, ${userName}` : ''}
+                {greeting.primary}{userName ? `, ${userName}` : ''}
               </h1>
+              {greeting.secondary && (
+                <p className="text-sm text-cream-200/60 mt-0.5">{greeting.secondary}</p>
+              )}
             </div>
             <button
               onClick={() => setShowPanic(true)}
@@ -128,19 +143,54 @@ export function HomeScreen({
             </button>
           </div>
 
-          {/* Next Prayer in header */}
-          {nextPrayer && prayerTimes && (
+          {/* Hijri Date + Arabic Subtext */}
+          {(hijriData || greeting.arabicSubtext) && (
+            <div className="flex items-center justify-between mb-4">
+              {hijriData && (
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3 text-gold-400/60" />
+                  <p className="text-xs text-cream-200/50">{hijriData.formatted}</p>
+                </div>
+              )}
+              {greeting.arabicSubtext && (
+                <p className="text-xs font-arabic text-gold-300/40" dir="rtl">
+                  {greeting.arabicSubtext}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Next Prayer with Countdown */}
+          {countdown && (
             <div className="flex items-center gap-2 mb-5">
               <Clock className="w-3.5 h-3.5 text-gold-400" />
               <p className="text-sm text-cream-200/70">
-                {nextPrayer.name} at <span className="text-gold-400 font-medium">{nextPrayer.time}</span>
+                {countdown.prayer} {countdown.isSoon ? 'in' : 'at'}{' '}
+                <span className={`font-medium ${countdown.isSoon ? 'text-gold-300' : 'text-gold-400'}`}>
+                  {countdown.isSoon ? countdown.display : (nextPrayer && nextPrayer.time)}
+                </span>
+                {countdown.isSoon && (
+                  <span className="ml-1.5 inline-flex items-center">
+                    <span className="w-1.5 h-1.5 bg-gold-400 rounded-full animate-pulse-soft" />
+                  </span>
+                )}
+              </p>
+            </div>
+          )}
+
+          {/* Streak Note */}
+          {greeting.streakNote && streak > 0 && (
+            <div className="flex items-center gap-2 mb-4">
+              <Flame className="w-3.5 h-3.5 text-gold-400" />
+              <p className="text-xs text-gold-300/60">
+                {streak} day streak — {greeting.streakNote}
               </p>
             </div>
           )}
 
           {/* Level */}
           <div
-            className="bg-cream-100/10 rounded-2xl p-4 cursor-pointer active:bg-cream-100/15 transition-colors"
+            className="bg-cream-100/10 rounded-2xl p-4 cursor-pointer card-interactive"
             onClick={onJourney}
           >
             <div className="flex items-center justify-between mb-2.5">
@@ -192,7 +242,7 @@ export function HomeScreen({
         </Card>
 
         {/* Challenges */}
-        <Card className="p-4" onClick={onChallenges}>
+        <Card className="p-4 card-interactive" onClick={onChallenges}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
@@ -210,7 +260,7 @@ export function HomeScreen({
                 {todayChallenges.map((c, i) => (
                   <div
                     key={i}
-                    className={`w-2 h-2 rounded-full ${
+                    className={`w-2 h-2 rounded-full transition-colors duration-300 ${
                       completedToday.some((done) => done.id === c.id)
                         ? 'bg-sanctuary-500'
                         : 'bg-cream-300 dark:bg-night-50'
@@ -225,14 +275,14 @@ export function HomeScreen({
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onMood}>
+          <Card className="p-4 card-interactive" onClick={onMood}>
             <div className="w-9 h-9 bg-rose-50 dark:bg-rose-600/10 rounded-xl flex items-center justify-center mb-3">
               <Heart className="w-5 h-5 text-rose-400" />
             </div>
             <p className="text-sm font-semibold text-text-primary dark:text-cream-200">How are you?</p>
             <p className="text-xs text-text-tertiary mt-0.5">Mood guidance</p>
           </Card>
-          <Card className="p-4" onClick={onQibla}>
+          <Card className="p-4 card-interactive" onClick={onQibla}>
             <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mb-3">
               <Compass className="w-5 h-5 text-sanctuary-500" />
             </div>
@@ -242,7 +292,7 @@ export function HomeScreen({
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onSmartAdhkar}>
+          <Card className="p-4 card-interactive" onClick={onSmartAdhkar}>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center">
                 <Sun className="w-5 h-5 text-gold-500" />
@@ -256,7 +306,7 @@ export function HomeScreen({
             <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Daily Adhkar</p>
             <p className="text-xs text-text-tertiary mt-0.5">Morning & evening</p>
           </Card>
-          <Card className="p-4" onClick={onDuaCoach}>
+          <Card className="p-4 card-interactive" onClick={onDuaCoach}>
             <div className="w-9 h-9 bg-lavender-50 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center mb-3">
               <Sparkles className="w-5 h-5 text-lavender-300" />
             </div>
@@ -266,14 +316,14 @@ export function HomeScreen({
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4" onClick={onAskSafely}>
+          <Card className="p-4 card-interactive" onClick={onAskSafely}>
             <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mb-3">
               <Lock className="w-5 h-5 text-sanctuary-600 dark:text-sanctuary-400" />
             </div>
             <p className="text-sm font-semibold text-text-primary dark:text-cream-200">Ask Safely</p>
             <p className="text-xs text-text-tertiary mt-0.5">Private AI guidance</p>
           </Card>
-          <Card className="p-4" onClick={onCultureVsIslam}>
+          <Card className="p-4 card-interactive" onClick={onCultureVsIslam}>
             <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center mb-3">
               <Scale className="w-5 h-5 text-gold-600 dark:text-gold-400" />
             </div>
@@ -283,7 +333,7 @@ export function HomeScreen({
         </div>
 
         {/* Spiritual Journey */}
-        <Card className="p-4" onClick={onJourney}>
+        <Card className="p-4 card-interactive" onClick={onJourney}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-sanctuary-600 dark:text-sanctuary-400" />
@@ -300,19 +350,19 @@ export function HomeScreen({
 
         {/* Explore */}
         <div className="grid grid-cols-3 gap-3">
-          <Card className="p-4 text-center" onClick={onQuran}>
+          <Card className="p-4 text-center card-interactive" onClick={onQuran}>
             <div className="w-9 h-9 bg-sanctuary-50 dark:bg-sanctuary-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
               <Book className="w-5 h-5 text-sanctuary-500" />
             </div>
             <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Quran</p>
           </Card>
-          <Card className="p-4 text-center" onClick={onDuas}>
+          <Card className="p-4 text-center card-interactive" onClick={onDuas}>
             <div className="w-9 h-9 bg-rose-50 dark:bg-rose-600/10 rounded-xl flex items-center justify-center mx-auto mb-2">
               <Heart className="w-5 h-5 text-rose-400" />
             </div>
             <p className="text-xs font-semibold text-text-primary dark:text-cream-300">Duas</p>
           </Card>
-          <Card className="p-4 text-center" onClick={onSahabiyat}>
+          <Card className="p-4 text-center card-interactive" onClick={onSahabiyat}>
             <div className="w-9 h-9 bg-gold-50 dark:bg-gold-900/20 rounded-xl flex items-center justify-center mx-auto mb-2">
               <Users className="w-5 h-5 text-gold-500" />
             </div>
@@ -321,7 +371,7 @@ export function HomeScreen({
         </div>
 
         {/* Journal */}
-        <Card className="p-4" onClick={onJournal}>
+        <Card className="p-4 card-interactive" onClick={onJournal}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-lavender-50 dark:bg-lavender-400/10 rounded-xl flex items-center justify-center">
               <Feather className="w-5 h-5 text-lavender-300" />
@@ -349,7 +399,7 @@ export function HomeScreen({
             const TopicIcon = Icons[topic.icon] || Icons.Circle;
             const count = hadithDatabase.filter((h) => h.topic === topic.id).length;
             return (
-              <Card key={topic.id} className="p-4" onClick={() => onSelectTopic(topic)}>
+              <Card key={topic.id} className="p-4 card-interactive" onClick={() => onSelectTopic(topic)}>
                 <div className="flex items-center gap-3">
                   <TopicIcon className="w-5 h-5 text-sanctuary-500 dark:text-sanctuary-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
